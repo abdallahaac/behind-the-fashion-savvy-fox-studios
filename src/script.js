@@ -27,14 +27,18 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 const gltfLoader = new GLTFLoader();
+let gltfModel;
 
+// Load the GLTF model
 gltfLoader.load(
 	"/models/thread/scene.gltf",
 	(gltf) => {
 		console.log("success");
 
-		gltf.scene.scale.set(0.025, 0.025, 0.025);
+		gltf.scene.scale.set(0.045, 0.045, 0.045);
+		gltf.scene.position.set(2, 0.5, 0.3); // Set the position to the torus's previous position
 		scene.add(gltf.scene);
+		gltfModel = gltf.scene; // Store reference to the model for animation
 		console.log(gltf);
 	},
 	(progress) => {
@@ -61,26 +65,23 @@ const material = new THREE.MeshToonMaterial({
 	gradientMap: gradientTexture,
 });
 
-// Objects
+// Objects (keep the other meshes as they are)
 const objectsDistance = 4;
-const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
 const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
 const mesh3 = new THREE.Mesh(
 	new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
 	material
 );
 
-mesh1.position.x = 2;
 mesh2.position.x = -2;
 mesh3.position.x = 2;
 
-mesh1.position.y = -objectsDistance * 0;
 mesh2.position.y = -objectsDistance * 1;
 mesh3.position.y = -objectsDistance * 2;
 
-scene.add(mesh1, mesh2, mesh3);
+scene.add(mesh2, mesh3);
 
-const sectionMeshes = [mesh1, mesh2, mesh3];
+const sectionMeshes = [mesh2, mesh3];
 
 /**
  * Lights
@@ -230,6 +231,12 @@ const tick = () => {
 	for (const mesh of sectionMeshes) {
 		mesh.rotation.x += deltaTime * 0.1;
 		mesh.rotation.y += deltaTime * 0.12;
+	}
+
+	// Animate GLTF model rotation if loaded
+	if (gltfModel) {
+		gltfModel.rotation.x += deltaTime * 0.1;
+		gltfModel.rotation.y += deltaTime * 0.12;
 	}
 
 	// Render
