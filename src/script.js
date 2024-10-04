@@ -235,6 +235,12 @@ const tick = () => {
 		mesh.rotation.y += deltaTime * 0.12;
 	}
 
+	// Animate GLTF model rotation if loaded
+    if (gltfModel) {
+        gltfModel.rotation.x += deltaTime * 0.1;
+        gltfModel.rotation.y += deltaTime * 0.12;
+    }
+
 	// Render
 	renderer.render(scene, camera);
 
