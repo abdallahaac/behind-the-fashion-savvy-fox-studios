@@ -1,0 +1,11 @@
+Model Information:
+* title:	Thread or rope
+* source:	https://sketchfab.com/3d-models/thread-or-rope-33e0463907734648ade9016f833bca50
+* author:	Tedbend (https://sketchfab.com/Tedbend)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Thread or rope" (https://sketchfab.com/3d-models/thread-or-rope-33e0463907734648ade9016f833bca50) by Tedbend (https://sketchfab.com/Tedbend) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
