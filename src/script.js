@@ -86,8 +86,10 @@ const sectionMeshes = [mesh2, mesh3];
 /**
  * Lights
  */
-const directionalLight = new THREE.DirectionalLight("#ffffff", 3);
-directionalLight.position.set(1, 1, 0);
+const light = new THREE.AmbientLight(0xffffff);
+scene.add(light);
+const directionalLight = new THREE.DirectionalLight(0x00fffc, 1);
+directionalLight.position.set(1, 0.25, 0);
 scene.add(directionalLight);
 
 /**
