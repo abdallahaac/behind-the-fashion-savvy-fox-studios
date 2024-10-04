@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import GUI from "lil-gui";
 import gsap from "gsap";
 
@@ -24,6 +25,27 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+const gltfLoader = new GLTFLoader();
+
+gltfLoader.load(
+	"/models/thread/scene.gltf",
+	(gltf) => {
+		console.log("success");
+
+		gltf.scene.scale.set(0.025, 0.025, 0.025);
+		scene.add(gltf.scene);
+		console.log(gltf);
+	},
+	(progress) => {
+		console.log("progress");
+		console.log(progress);
+	},
+	(error) => {
+		console.log("error");
+		console.log(error);
+	}
+);
 
 /**
  * Objects
