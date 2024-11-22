@@ -241,3 +241,61 @@ a {
 .circle:nth-child(3) {
 	opacity: 1; /* Full opacity for the third circle */
 }
+
+.main-right {
+	display: flex;
+	align-items: baseline;
+	width: 40%;
+	flex-direction: column;
+}
+.brandname > h1,
+h3 {
+	font-weight: 600;
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 400px;
+}
+.tag {
+	margin: 10px;
+	border: 2px solid black;
+	padding: 10px;
+	border-radius: 18px;
+	min-width: 70px;
+	text-align: center;
+}
+.top-budget {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.top-budget > span:nth-of-type(2) {
+	background-color: rgba(128, 128, 128, 0.222);
+	padding: 10px;
+	border-radius: 8px;
+}
+.budget-output {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+}
+.budget-output > p > span:first-of-type {
+	font-size: 60px;
+	background-color: white;
+	color: black;
+}
+.budget-output > p > span {
+	font-size: 50px;
+	background-color: rgba(128, 128, 128, 0.269);
+	padding: 10px;
+	border-radius: 4px;
+	color: #bbb;
+}
+
+.block.comma {
+	background-color: white;
+	color: black;
+}
