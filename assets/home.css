@@ -12,8 +12,10 @@ body {
 .right {
 	display: flex;
 }
-.right > div {
+.right > a {
 	margin: 10px;
+	text-decoration: none;
+	color: black;
 }
 
 main {
@@ -47,6 +49,7 @@ main {
 	margin-right: 20px;
 	padding: 10px;
 	border-radius: 6px;
+	text-align: center;
 	background-color: rgba(128, 128, 128, 0.203);
 	color: black;
 	text-decoration: none;
