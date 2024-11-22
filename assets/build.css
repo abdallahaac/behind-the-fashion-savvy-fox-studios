@@ -127,6 +127,11 @@ a {
 	background-color: #ccc; /* Light gray for the base sliders */
 	width: 200px; /* Fixed size for each slider */
 	height: 200px;
+	text-align: center;
+	color: rgb(71, 71, 71);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin: 0 -50px; /* Overlap sliders */
 	border-radius: 6px;
 	position: relative;
@@ -158,4 +163,81 @@ a {
 	z-index: 4;
 	transform: translateX(-0px) scale(1); /* Push more and shrink more */
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+.main-container {
+	padding: 20px;
+}
+
+.main-content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.main-left {
+	flex: 0 0 auto; /* Fixed width for the sliders */
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	transform: translateX(100px);
+	align-items: center; /* Center child elements (sliders and slider-option) */
+}
+
+.main-right {
+	padding-left: 20px;
+}
+
+.sliders {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	width: 500px; /* Fixed width for all sliders */
+	justify-content: center;
+	align-items: center;
+	padding-left: 0; /* Remove unnecessary padding */
+}
+
+.slider {
+	background-color: #ccc; /* Light gray for the base sliders */
+	width: 200px; /* Fixed size for each slider */
+	height: 200px;
+	text-align: center;
+	color: rgb(71, 71, 71);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 -50px; /* Overlap sliders */
+	border-radius: 6px;
+	position: relative;
+	transition: all 0.3s ease-in-out;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-option {
+	display: flex;
+	justify-content: center; /* Center the content horizontally */
+	align-items: center; /* Center the circles and text vertically */
+	margin-top: 50px; /* Add some spacing below the sliders */
+	width: 500px; /* Match the width of the sliders */
+}
+
+.circle-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.circle {
+	width: 10px;
+	height: 10px;
+	background-color: gray;
+	border-radius: 50%;
+	margin: 5px;
+	opacity: 0.3; /* Default low opacity for all circles */
+}
+
+.circle:nth-child(3) {
+	opacity: 1; /* Full opacity for the third circle */
 }
