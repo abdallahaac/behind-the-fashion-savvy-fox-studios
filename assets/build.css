@@ -259,6 +259,7 @@ h3 {
 	max-width: 400px;
 }
 .tag {
+	cursor: pointer;
 	margin: 10px;
 	border: 2px solid black;
 	padding: 10px;
