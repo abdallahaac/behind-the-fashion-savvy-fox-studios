@@ -39,9 +39,9 @@ canvas {
 }
 
 .canvas-container {
-	flex: 0.3;
+	flex: 0.5;
 }
 
 .ui-container {
-	flex: 0.7;
+	flex: 0.5;
 }
