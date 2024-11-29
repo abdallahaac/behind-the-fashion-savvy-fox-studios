@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
 import * as THREE from "three";
+import PurchaseButton from "./components/PurchaseButton.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -24,10 +25,6 @@ root.render(
 				<Experience />
 			</Canvas>
 		</div>
-		<div className="ui-container">
-			<h1>React 2D UI</h1>
-			<p>Add your controls or content here.</p>
-			<button>Click Me</button>
-		</div>
+		<PurchaseButton />
 	</div>
 );
