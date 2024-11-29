@@ -128,13 +128,13 @@ scene.add(particles);
  * Sizes
  */
 const sizes = {
-	width: 300,
+	width: window.innerWidth,
 	height: window.innerHeight,
 };
 
 window.addEventListener("resize", () => {
 	// Update sizes
-	sizes.width = 300;
+	sizes.width = window.innerWidth;
 	sizes.height = window.innerHeight;
 
 	// Update camera
