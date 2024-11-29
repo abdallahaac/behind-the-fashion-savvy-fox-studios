@@ -35,6 +35,7 @@ canvas {
 	align-items: center;
 	background-color: #222;
 	padding: 20px;
+	width: 50% !important;
 }
 
 .canvas-container {
@@ -43,17 +44,4 @@ canvas {
 
 .ui-container {
 	flex: 0.7;
-}
-
-@media (max-width: 768px) {
-	.app {
-		flex-direction: column;
-	}
-
-	.canvas-container,
-	.ui-container {
-		flex: none;
-		width: 100%;
-		height: 50vh;
-	}
 }
