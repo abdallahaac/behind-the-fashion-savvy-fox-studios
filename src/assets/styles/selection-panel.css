@@ -1,0 +1,350 @@
+.selection-panel {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 24px 16px 16px;
+	gap: 16px;
+	width: 377px;
+	height: 608px;
+	right: 16px;
+	top: 16px;
+	background: #2e2e2e;
+	border-radius: 16px;
+}
+
+/* Header Section */
+.header-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 0px;
+	width: 345px;
+	height: 47px;
+	border-radius: 16px;
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+	gap: 16px;
+}
+
+/* Step Count Bar */
+.step-count-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 16px;
+	width: 152px;
+	height: 16px;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+}
+
+.step-count {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 4px;
+	width: 60px;
+	height: 16px;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+}
+
+.current-step {
+	width: 40px;
+	height: 16px;
+	font-family: "DM Sans", sans-serif;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 16px;
+	text-transform: uppercase;
+	color: #fffefd;
+}
+
+.total-step {
+	width: 16px;
+	height: 16px;
+	font-family: "DM Sans", sans-serif;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 16px;
+	text-transform: uppercase;
+	color: #9b9b9b;
+}
+
+.progress-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 4px;
+	width: 76px;
+	height: 4px;
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+}
+
+.progress {
+	width: 12px;
+	height: 4px;
+	background: #9b9b9b;
+	border-radius: 4px;
+}
+
+.progress.filled {
+	background: #c83c00;
+}
+
+.choose-outfit-designs {
+	width: 345px;
+	height: 31px;
+	font-family: "Kode Mono", monospace;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 31px;
+	text-transform: uppercase;
+	color: #ffffff;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+/* My Collection Block */
+.my-collection-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 8px;
+	width: 345px;
+	height: 173px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.my-collection {
+	width: 345px;
+	height: 20px;
+	font-family: "Kode Mono", monospace;
+	font-size: 16px;
+	line-height: 20px;
+	text-transform: uppercase;
+	color: #ffffff;
+}
+
+.thumbnail-list {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 8px;
+	width: 345px;
+	height: 145px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.thumbnail {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	width: 109.67px;
+	height: 145px;
+	background: #222222;
+	border: 1px dashed #9b9b9b;
+	border-radius: 4px;
+	flex: none;
+	flex-grow: 1;
+}
+
+.empty-state-text {
+	width: 39px;
+	height: 41px;
+	font-family: "Kode Mono", monospace;
+	font-size: 32px;
+	line-height: 41px;
+	text-align: right;
+	text-transform: uppercase;
+	color: #9b9b9b;
+}
+
+/* Collection Statistics Block */
+.collection-statistics-block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 8px;
+	width: 345px;
+	height: 248px;
+	border-radius: 32px;
+	flex: none;
+	order: 2;
+	align-self: stretch;
+	flex-grow: 1;
+}
+.collection-statistics-header {
+	width: 345px;
+	height: 20px;
+	font-family: "Kode Mono", monospace;
+	font-size: 16px;
+	line-height: 20px;
+	text-transform: uppercase;
+	color: #ffffff;
+}
+
+/* Info Widget */
+.info-widget {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 16px;
+	gap: 16px;
+	width: 345px;
+	height: 53px;
+	background: #3d3d3d;
+	border-radius: 8px;
+	flex: none;
+	order: 1;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.widget-header {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 8px;
+	width: 313px;
+	height: 21px;
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.widget-header-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 4px;
+	width: 313px;
+	height: 21px;
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.header-text {
+	font-family: "DM Sans", sans-serif;
+	font-size: 16px;
+	line-height: 21px;
+	display: flex;
+	align-items: center;
+	color: #fffefd;
+}
+
+/* Total Price Widget */
+.total-price-widget {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 16px 24px;
+	gap: 24px;
+	width: 345px;
+	height: 83px;
+	background: #3d3d3d;
+	border: 1px solid #222222;
+	border-radius: 16px;
+	flex: none;
+	order: 3;
+	align-self: stretch;
+	flex-grow: 0;
+}
+
+.price {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 4px;
+	width: 161px;
+	height: 51px;
+	flex: none;
+	order: 0;
+	flex-grow: 1;
+}
+
+.dollar-amount {
+	font-family: "Kode Mono", monospace;
+	font-size: 24px;
+	line-height: 31px;
+	text-transform: uppercase;
+	color: #9b9b9b;
+	width: 161px;
+	height: 31px;
+}
+
+.total-design-price {
+	font-family: "DM Sans", sans-serif;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 16px;
+	text-transform: uppercase;
+	color: #9b9b9b;
+	width: 161px;
+	height: 16px;
+}
+
+.button {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 8px 8px 16px;
+	gap: 4px;
+	width: 112px;
+	height: 40px;
+	background: #9b9b9b;
+	border-radius: 8px;
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+}
+
+.button-text {
+	width: 60px;
+	height: 18px;
+	font-family: "DM Sans", sans-serif;
+	font-size: 14px;
+	line-height: 18px;
+	text-align: right;
+	color: #fffefd;
+}
+
+.button-icon {
+	width: 24px;
+	height: 24px;
+	/* Add an icon if needed */
+}

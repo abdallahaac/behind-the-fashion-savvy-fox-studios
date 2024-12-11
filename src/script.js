@@ -35,7 +35,7 @@ gltfLoader.load(
 	(gltf) => {
 		console.log("success");
 
-		gltf.scene.scale.set(0.045, 0.045, 0.045);
+		gltf.scene.scale.set(0.045, 0.045, 0.45);
 		gltf.scene.position.set(2, 0.5, 0.3); // Set the position to the torus's previous position
 		scene.add(gltf.scene);
 		gltfModel = gltf.scene; // Store reference to the model for animation
