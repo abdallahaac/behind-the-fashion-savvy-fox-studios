@@ -1,4 +1,6 @@
 import React from "react";
+import CollectionOrigMetric from "./CollectionOrigMetric";
+import cracked_heart from "../assets/images/cracked-heart.png";
 
 const SelectionPanel = () => {
 	return (
@@ -47,27 +49,37 @@ const SelectionPanel = () => {
 				</div>
 
 				{/* Info Widget 1 */}
-				<div className="info-widget">
-					<div className="widget-header">
-						<div className="widget-header-row">
-							{/* Icon hidden by default */}
-							{/* <div className="icon"></div> */}
-							<div className="header-text">Statistic 1</div>
-						</div>
-						{/* Bar Chart, Chart Description, Caption hidden by default */}
-					</div>
+				<div className="collection-metric-container">
+					<CollectionOrigMetric
+						label="Collection Originality"
+						originalPercentage={50}
+						plagiarizedPercentage={50}
+						summaryText="Consumers need to resonate with your designs or your brand risks no sales."
+						icon = {
+							<img
+							src={cracked_heart}
+							alt="Originality Icon"
+							style={{ width: "20px", height: "20px" }}
+							/>
+						}
+						showBars={true}
+					/>	
 				</div>
 
 				{/* Info Widget 2 */}
-				<div className="info-widget">
-					<div className="widget-header">
-						<div className="widget-header-row">
-							{/* Icon hidden by default */}
-							{/* <div className="icon"></div> */}
-							<div className="header-text">Statistic 2</div>
-						</div>
-						{/* Bar Chart, Chart Description, Caption hidden by default */}
-					</div>
+				<div className="collection-metric-container">
+					<CollectionOrigMetric
+						label="Your Collection Lacks Interest"
+						summaryText="Consumers need to resonate with your designs or your brand risks no sales."
+						icon = {
+							<img
+							src={cracked_heart}
+							alt="Originality Icon"
+							style={{ width: "20px", height: "20px" }}
+							/>
+						}
+						showBars={false}
+					/>	
 				</div>
 			</div>
 
