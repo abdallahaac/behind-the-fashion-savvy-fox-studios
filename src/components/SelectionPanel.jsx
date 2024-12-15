@@ -1,4 +1,5 @@
 import React from "react";
+import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
 
@@ -8,19 +9,7 @@ const SelectionPanel = () => {
 			{/* Header Section */}
 			<div className="header-section">
 				{/* Step Count Bar */}
-				<div className="step-count-bar">
-					<div className="step-count">
-						<div className="current-step">Step</div>
-						<div className="total-step">/5</div>
-					</div>
-					<div className="progress-bar">
-						<div className="progress filled"></div>
-						<div className="progress filled"></div>
-						<div className="progress"></div>
-						<div className="progress"></div>
-						<div className="progress"></div>
-					</div>
-				</div>
+				<StepCountBar currentStep={2} totalSteps={5} />
 
 				{/* Choose Outfit Designs */}
 				<div className="choose-outfit-designs">Choose Outfit Designs</div>
@@ -55,15 +44,15 @@ const SelectionPanel = () => {
 						originalPercentage={50}
 						plagiarizedPercentage={50}
 						summaryText="Consumers need to resonate with your designs or your brand risks no sales."
-						icon = {
+						icon={
 							<img
-							src={cracked_heart}
-							alt="Originality Icon"
-							style={{ width: "20px", height: "20px" }}
+								src={cracked_heart}
+								alt="Originality Icon"
+								style={{ width: "20px", height: "20px" }}
 							/>
 						}
 						showBars={true}
-					/>	
+					/>
 				</div>
 
 				{/* Info Widget 2 */}
@@ -71,15 +60,15 @@ const SelectionPanel = () => {
 					<CollectionOrigMetric
 						label="Your Collection Lacks Interest"
 						summaryText="Consumers need to resonate with your designs or your brand risks no sales."
-						icon = {
+						icon={
 							<img
-							src={cracked_heart}
-							alt="Originality Icon"
-							style={{ width: "20px", height: "20px" }}
+								src={cracked_heart}
+								alt="Originality Icon"
+								style={{ width: "20px", height: "20px" }}
 							/>
 						}
 						showBars={false}
-					/>	
+					/>
 				</div>
 			</div>
 

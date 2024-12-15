@@ -44,8 +44,8 @@ body {
 
 	/* Instead of max-height alone, give it a fixed or min-height. */
 	width: 500px; /* or a responsive unit, like 50vw */
-	height: 640px;
-
+	height: 678px;
+	border-radius: 10px;
 	overflow: hidden; /* Hide overflow if needed */
 	border-radius: 10px;
 }
