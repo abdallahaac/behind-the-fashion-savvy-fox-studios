@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const StepCountBar = ({ currentStep, totalSteps }) => {
 	return (
@@ -18,11 +17,6 @@ const StepCountBar = ({ currentStep, totalSteps }) => {
 			</div>
 		</div>
 	);
-};
-
-StepCountBar.propTypes = {
-	currentStep: PropTypes.number.isRequired,
-	totalSteps: PropTypes.number.isRequired,
 };
 
 export default StepCountBar;
