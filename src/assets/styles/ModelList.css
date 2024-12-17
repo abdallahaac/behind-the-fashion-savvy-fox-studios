@@ -11,8 +11,8 @@
 	background: transparent;
 	color: #b93e22;
 	border-radius: 50%;
-	width: 40px;
-	height: 40px;
+	width: 70px;
+	height: 70px;
 	font-size: 18px;
 	cursor: pointer;
 	display: flex;
@@ -27,6 +27,9 @@
 .model-buttons {
 	display: flex;
 	gap: 10px;
+	border: 2px solid #b93e22;
+	padding: 15px;
+	border-radius: 50px;
 }
 
 .model-button {
@@ -34,12 +37,13 @@
 	color: #000;
 	border: none;
 	border-radius: 20px;
-	width: 50px;
+	width: 70px;
 	height: 50px;
 	font-size: 16px;
 	font-weight: bold;
 	cursor: pointer;
 	transition: all 0.3s ease;
+	text-align: center;
 }
 
 .model-button.active {
