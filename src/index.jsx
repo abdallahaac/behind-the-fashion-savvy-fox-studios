@@ -13,6 +13,7 @@ import leaf from "./assets/images/leaf.svg";
 import thumb from "./assets/images/thumb.svg";
 import heart from "./assets/images/heart.svg";
 import SelectionPanel from "./components/SelectionPanel.jsx";
+import OutfitDetails from "./components/OutfitDetails.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -130,8 +131,9 @@ root.render(
 			</div>
 			{/* to be replaced with the other widget */}
 			<div className="center-column">
-				<SelectionPanel />
+				<OutfitDetails />
 			</div>
+
 			<div className="right-column">
 				<SelectionPanel />
 			</div>

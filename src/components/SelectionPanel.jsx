@@ -9,7 +9,7 @@ const SelectionPanel = () => {
 			{/* Header Section */}
 			<div className="header-section">
 				{/* Step Count Bar */}
-				<StepCountBar currentStep={2} totalSteps={5} />
+				<StepCountBar currentStep={3} totalSteps={5} />
 
 				{/* Choose Outfit Designs */}
 				<div className="choose-outfit-designs">Choose Outfit Designs</div>
