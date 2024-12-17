@@ -1,34 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useModels } from "../utils/ModelsContext";
 import "../assets/styles/ModelList.css";
 
 const ModelList = () => {
-	const totalModels = 9; // Total number of models
-	const [selectedModel, setSelectedModel] = useState(1);
+	const models = useModels(); // Access models from context
+	const [selectedModel, setSelectedModel] = useState(models[0].id);
 
-	const handleModelClick = (modelNumber) => {
-		setSelectedModel(modelNumber);
-		console.log(`Selected Model: ${modelNumber}`);
+	// Log the selected model whenever it changes
+	useEffect(() => {
+		const model = models.find((m) => m.id === selectedModel);
+		if (model) {
+			console.log(`Selected Model: ${model.name} (ID: ${model.id})`);
+		}
+	}, [selectedModel, models]);
+
+	const handleModelClick = (model) => {
+		setSelectedModel(model.id);
 	};
 
 	return (
 		<div className="model-list-container">
 			<button
 				className="nav-button"
-				onClick={() => handleModelClick(Math.max(selectedModel - 1, 1))}
+				onClick={() => setSelectedModel((prev) => (prev > 1 ? prev - 1 : prev))}
 			>
 				&lt;
 			</button>
 
 			<div className="model-buttons">
-				{Array.from({ length: totalModels }, (_, i) => (
+				{models.map((model) => (
 					<button
-						key={i + 1}
+						key={model.id}
 						className={`model-button ${
-							selectedModel === i + 1 ? "active" : ""
+							selectedModel === model.id ? "active" : ""
 						}`}
-						onClick={() => handleModelClick(i + 1)}
+						onClick={() => handleModelClick(model)}
 					>
-						{String(i + 1).padStart(2, "0")}
+						{String(model.id).padStart(2, "0")}
 					</button>
 				))}
 			</div>
@@ -36,7 +44,7 @@ const ModelList = () => {
 			<button
 				className="nav-button"
 				onClick={() =>
-					handleModelClick(Math.min(selectedModel + 1, totalModels))
+					setSelectedModel((prev) => (prev < models.length ? prev + 1 : prev))
 				}
 			>
 				&gt;
