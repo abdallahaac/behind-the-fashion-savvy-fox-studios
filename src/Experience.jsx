@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 extend({ OrbitControls });
 
 export default function Experience() {
-	const gltf = useLoader(GLTFLoader, "./hamburger.glb");
+	const gltf = useLoader(GLTFLoader, "./models/cube-01.glb");
 	console.log(gltf);
 
 	const { camera, gl } = useThree();
@@ -54,6 +54,7 @@ export default function Experience() {
 				<planeGeometry />
 				<meshStandardMaterial color="greenyellow" />
 			</mesh>
+			<primitive object={gltf.scene} position={[0, 0, 0]} scale={[1, 1, 1]} />
 
 			<CustomObject />
 		</>
