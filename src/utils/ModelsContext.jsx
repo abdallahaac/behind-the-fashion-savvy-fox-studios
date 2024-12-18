@@ -11,7 +11,7 @@ const modelsData = {
 			ethics: 4.8,
 			popularity: 3.2,
 			description: "Affordable and ethical, but less trendy.",
-			model: "../assets/models/model1.gltf",
+			model: "/models/cube-01.glb",
 		},
 		{
 			id: 2,
@@ -22,7 +22,7 @@ const modelsData = {
 			ethics: 4.9,
 			popularity: 3.8,
 			description: "High-end ethical fashion.",
-			model: "../assets/models/model2.gltf",
+			model: "/models/cube-02.glb",
 		},
 		{
 			id: 3,
@@ -33,7 +33,7 @@ const modelsData = {
 			ethics: 4.6,
 			popularity: 3.5,
 			description: "A balanced, affordable, ethical choice.",
-			model: "../assets/models/model3.gltf",
+			model: "/models/cube-03.glb",
 		},
 	],
 	CapitalisticChoices: [
@@ -46,7 +46,7 @@ const modelsData = {
 			ethics: 1.8,
 			popularity: 5.0,
 			description: "Ultra-trendy but ethically low.",
-			model: "../assets/models/model4.gltf",
+			model: "/models/cube-04.glb",
 		},
 		{
 			id: 5,
@@ -57,7 +57,7 @@ const modelsData = {
 			ethics: 1.7,
 			popularity: 5.0,
 			description: "Expensive, low ethics, very popular.",
-			model: "../assets/models/model5.gltf",
+			model: "/models/cube-05.glb",
 		},
 		{
 			id: 6,
@@ -68,7 +68,7 @@ const modelsData = {
 			ethics: 3.0,
 			popularity: 4.9,
 			description: "Capitalistic but somewhat neutral.",
-			model: "../assets/models/model6.gltf",
+			model: "/models/cube-06.glb",
 		},
 	],
 	NeutralChoices: [
@@ -81,7 +81,7 @@ const modelsData = {
 			ethics: 3.2,
 			popularity: 4.0,
 			description: "A balanced option.",
-			model: "../assets/models/model7.gltf",
+			model: "/models/cube-07.glb",
 		},
 		{
 			id: 8,
@@ -92,7 +92,7 @@ const modelsData = {
 			ethics: 3.2,
 			popularity: 4.0,
 			description: "A balanced option.",
-			model: "../assets/models/model8.gltf",
+			model: "/models/cube-08.glb",
 		},
 		{
 			id: 9,
@@ -103,7 +103,7 @@ const modelsData = {
 			ethics: 2.8,
 			popularity: 4.0,
 			description: "Trendy with average ethics.",
-			model: "../assets/models/model9.gltf",
+			model: "/models/cube-09.glb",
 		},
 		{
 			id: 10,
@@ -114,7 +114,7 @@ const modelsData = {
 			ethics: 4.7,
 			popularity: 4.7,
 			description: "A balanced option.",
-			model: "../assets/models/model10.gltf",
+			model: "/models/cube-01.glb",
 		},
 	],
 };

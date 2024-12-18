@@ -3,7 +3,6 @@ import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
 import * as THREE from "three";
@@ -15,12 +14,25 @@ import heart from "./assets/images/heart.svg";
 import SelectionPanel from "./components/SelectionPanel.jsx";
 import OutfitDetails from "./components/OutfitDetails.jsx";
 import ModelList from "./components/ModelList.jsx";
-import { ModelsProvider } from "./utils/ModelsContext.jsx";
+import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
+import { useState, useEffect } from "react";
 
-const root = ReactDOM.createRoot(document.querySelector("#root"));
+const App = () => {
+	const modelsByCategory = useModels();
+	const allModels = [
+		...modelsByCategory.EthicallyStrongOptions,
+		...modelsByCategory.CapitalisticChoices,
+		...modelsByCategory.NeutralChoices,
+	];
 
-root.render(
-	<ModelsProvider>
+	// Set the initial model to the first model in the list
+	const [selectedModel, setSelectedModel] = useState(allModels[0]);
+
+	useEffect(() => {
+		console.log("Initial model set:", selectedModel);
+	}, []);
+
+	return (
 		<div className="app">
 			<div className="logo-container">
 				<Logo />
@@ -112,7 +124,7 @@ root.render(
 				/>
 			</div>
 
-			{/* New three-column layout container */}
+			{/* Three-column layout */}
 			<div className="three-column-layout">
 				<div className="left-column">
 					<div className="canvas-container">
@@ -128,7 +140,7 @@ root.render(
 								position: [3, 2, 6],
 							}}
 						>
-							<Experience />
+							<Experience selectedModel={selectedModel} />
 						</Canvas>
 					</div>
 				</div>
@@ -141,7 +153,18 @@ root.render(
 					<SelectionPanel />
 				</div>
 			</div>
-			<ModelList />
+			<ModelList
+				selectedModel={selectedModel}
+				onModelChange={setSelectedModel}
+			/>
 		</div>
+	);
+};
+
+const root = ReactDOM.createRoot(document.querySelector("#root"));
+
+root.render(
+	<ModelsProvider>
+		<App />
 	</ModelsProvider>
 );
