@@ -2,10 +2,15 @@ import { useThree, extend, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import CustomObject from "./CustomObject.jsx";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 extend({ OrbitControls });
 
 export default function Experience() {
+	const gltf = useLoader(GLTFLoader, "./hamburger.glb");
+	console.log(gltf);
+
 	const { camera, gl } = useThree();
 
 	const cubeRef = useRef();

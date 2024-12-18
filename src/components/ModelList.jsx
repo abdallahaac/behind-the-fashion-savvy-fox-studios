@@ -3,20 +3,39 @@ import { useModels } from "../utils/ModelsContext";
 import "../assets/styles/ModelList.css";
 
 const ModelList = () => {
-	const models = useModels(); // Access models from context
-	const [selectedModel, setSelectedModel] = useState(models[0].id);
+	// Access models from context
+	const modelsByCategory = useModels();
+
+	// Flatten models into a single array
+	const models = [
+		...modelsByCategory.EthicallyStrongOptions,
+		...modelsByCategory.CapitalisticChoices,
+		...modelsByCategory.NeutralChoices,
+	];
+
+	// Ensure models array is not empty
+	const [selectedModel, setSelectedModel] = useState(
+		models.length > 0 ? models[0].id : null
+	);
 
 	// Log the selected model whenever it changes
 	useEffect(() => {
-		const model = models.find((m) => m.id === selectedModel);
-		if (model) {
-			console.log(`Selected Model: ${model.name} (ID: ${model.id})`);
+		if (selectedModel !== null) {
+			const model = models.find((m) => m.id === selectedModel);
+			if (model) {
+				console.log(`Selected Model: ${model.name} (ID: ${model.id})`);
+			}
 		}
 	}, [selectedModel, models]);
 
 	const handleModelClick = (model) => {
 		setSelectedModel(model.id);
 	};
+
+	if (models.length === 0) {
+		// Handle the case when there are no models
+		return <div>No models available</div>;
+	}
 
 	return (
 		<div className="model-list-container">
