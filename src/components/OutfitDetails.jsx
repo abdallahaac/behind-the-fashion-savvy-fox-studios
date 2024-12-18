@@ -3,13 +3,20 @@ import "../assets/styles/outfit-details.css";
 import greenThumb from "../assets/images/green-thumb.svg";
 import redThumb from "../assets/images/red-thumb.svg";
 import greenHeart from "../assets/images/green-heart.svg";
-const OutfitDetails = () => {
+
+const OutfitDetails = ({ selectedModel }) => {
+	if (!selectedModel) {
+		return <div className="design-card">Select a model to see details</div>;
+	}
+
 	return (
 		<div className="design-card">
 			<div className="header">
-				<span className="look-number">LOOK #01</span>
+				<span className="look-number">
+					LOOK #{String(selectedModel.id).padStart(2, "0")}
+				</span>
 			</div>
-			<h1 className="title">SPACE GOTHIC CHROMATICA</h1>
+			<h1 className="title">{selectedModel.name.toUpperCase()}</h1>
 			<div className="feature">
 				<span className="icon thumbs-up">
 					<img
@@ -18,45 +25,51 @@ const OutfitDetails = () => {
 						style={{ width: "30px", height: "30px" }}
 					/>
 				</span>
-				<span className="feature-text">100% Original Design</span>
+				<span className="feature-text">
+					{selectedModel.sustainability * 20}% Sustainability
+				</span>
 			</div>
 			<div className="progress-bar-2">
-				<div className="progress-fill"></div>
+				<div
+					className="progress-fill"
+					style={{ width: `${selectedModel.sustainability * 20}%` }}
+				></div>
 			</div>
-			<p className="description">
-				Purchasing original designs promote fair compensation for artists’
-				skills and efforts.
-			</p>
+			<p className="description">{selectedModel.description}</p>
 
 			<div className="feature">
 				<span className="icon heart">
 					<img
 						src={greenHeart}
-						alt="Sustainability Icon"
+						alt="Popularity Icon"
 						style={{ width: "30px", height: "30px" }}
 					/>
 				</span>
-				<span className="feature-text">People Like Your Design</span>
+				<span className="feature-text">
+					{selectedModel.popularity * 20}% Popularity
+				</span>
 			</div>
 
 			<div className="feature">
 				<span className="icon thumbs-down">
 					<img
 						src={redThumb}
-						alt="Sustainability Icon"
+						alt="Ethics Icon"
 						style={{ width: "30px", height: "30px" }}
 					/>
 				</span>
-				<span className="feature-text">Limited Body Sizes Available</span>
+				<span className="feature-text">
+					{selectedModel.ethics * 20}% Ethics
+				</span>
 			</div>
 			<p className="description">
-				Having a wide option of clothing sizes ensure accessibility to a wider
-				range of consumers.
+				Considerations for ethics and sustainability can influence the broader
+				impact of your choices.
 			</p>
 
 			<div className="cost-row">
 				<div className="cost">
-					<h2>$4300</h2>
+					<h2>${selectedModel.cost}</h2>
 					<span>COST OF DESIGN</span>
 				</div>
 				<button className="add-button">+ Add to Collection</button>

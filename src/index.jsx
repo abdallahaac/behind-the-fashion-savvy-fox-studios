@@ -146,7 +146,7 @@ const App = () => {
 				</div>
 
 				<div className="center-column">
-					<OutfitDetails />
+					<OutfitDetails selectedModel={selectedModel} />
 				</div>
 
 				<div className="right-column">
