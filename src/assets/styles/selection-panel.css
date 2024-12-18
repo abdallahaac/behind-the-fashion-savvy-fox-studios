@@ -371,3 +371,6 @@
 	border: none;
 	cursor: pointer;
 }
+.model-name {
+	color: white;
+}
