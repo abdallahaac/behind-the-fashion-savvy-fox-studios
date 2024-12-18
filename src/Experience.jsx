@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 extend({ OrbitControls });
 
 export default function Experience() {
-	const gltf = useLoader(GLTFLoader, "./models/cube-01.glb");
+	const gltf = useLoader(GLTFLoader, "/models/cube-01.glb");
 	console.log(gltf);
 
 	const { camera, gl } = useThree();
