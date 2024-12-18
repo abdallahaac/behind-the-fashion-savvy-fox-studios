@@ -3,13 +3,13 @@ import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
 
-const SelectionPanel = () => {
+const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 	return (
 		<div className="selection-panel">
 			{/* Header Section */}
 			<div className="header-section">
 				{/* Step Count Bar */}
-				<StepCountBar currentStep={4} totalSteps={5} />
+				<StepCountBar currentStep={1} totalSteps={5} />
 
 				{/* Choose Outfit Designs */}
 				<div className="choose-outfit-designs">Choose Outfit Designs</div>
@@ -19,15 +19,26 @@ const SelectionPanel = () => {
 			<div className="my-collection-block">
 				<div className="my-collection">My Collection</div>
 				<div className="thumbnail-list">
-					<div className="thumbnail">
-						<div className="empty-state-text">XXX</div>
-					</div>
-					<div className="thumbnail">
-						<div className="empty-state-text">XXX</div>
-					</div>
-					<div className="thumbnail">
-						<div className="empty-state-text">XXX</div>
-					</div>
+					{[...Array(3)].map((_, index) => {
+						const model = collection[index];
+						return (
+							<div key={index} className="thumbnail">
+								{model ? (
+									<div className="thumbnail-content">
+										<div className="model-name">{model.name}</div>
+										<button
+											className="remove-button"
+											onClick={() => onRemoveFromCollection(model.id)}
+										>
+											Remove
+										</button>
+									</div>
+								) : (
+									<div className="empty-state-text">XXX</div>
+								)}
+							</div>
+						);
+					})}
 				</div>
 			</div>
 
@@ -54,28 +65,17 @@ const SelectionPanel = () => {
 						showBars={true}
 					/>
 				</div>
-
-				{/* Info Widget 2 */}
-				<div className="collection-metric-container">
-					<CollectionOrigMetric
-						label="Your Collection Lacks Interest"
-						summaryText="Consumers need to resonate with your designs or your brand risks no sales."
-						icon={
-							<img
-								src={cracked_heart}
-								alt="Originality Icon"
-								style={{ width: "20px", height: "20px" }}
-							/>
-						}
-						showBars={false}
-					/>
-				</div>
 			</div>
 
 			{/* Total Price Widget */}
 			<div className="total-price-widget">
 				<div className="price">
-					<div className="dollar-amount">$0.00</div>
+					<div className="dollar-amount">
+						$
+						{collection
+							.reduce((total, item) => total + item.cost, 0)
+							.toFixed(2)}
+					</div>
 					<div className="total-design-price">Total Design Price</div>
 				</div>
 				<div className="button">

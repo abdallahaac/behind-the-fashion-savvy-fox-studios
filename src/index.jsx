@@ -16,7 +16,6 @@ import OutfitDetails from "./components/OutfitDetails.jsx";
 import ModelList from "./components/ModelList.jsx";
 import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
 import { useState, useEffect } from "react";
-
 const App = () => {
 	const modelsByCategory = useModels();
 	const allModels = [
@@ -25,12 +24,31 @@ const App = () => {
 		...modelsByCategory.NeutralChoices,
 	];
 
-	// Set the initial model to the first model in the list
-	const [selectedModel, setSelectedModel] = useState(allModels[0]);
+	// Initialize `selectedModel` to the first model in the list
+	const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
+	const [collection, setCollection] = useState([]);
 
+	// Add a model to the collection
+	const addToCollection = (model) => {
+		if (
+			collection.length < 3 &&
+			!collection.find((item) => item.id === model.id)
+		) {
+			setCollection([...collection, model]);
+		}
+	};
+
+	// Remove a model from the collection
+	const removeFromCollection = (modelId) => {
+		setCollection(collection.filter((item) => item.id !== modelId));
+	};
+
+	// Update `selectedModel` if it's null on mount or when `allModels` changes
 	useEffect(() => {
-		console.log("Initial model set:", selectedModel);
-	}, []);
+		if (!selectedModel && allModels.length > 0) {
+			setSelectedModel(allModels[0]);
+		}
+	}, [selectedModel, allModels]);
 
 	return (
 		<div className="app">
@@ -146,11 +164,18 @@ const App = () => {
 				</div>
 
 				<div className="center-column">
-					<OutfitDetails selectedModel={selectedModel} />
+					<OutfitDetails
+						selectedModel={selectedModel}
+						onAddToCollection={addToCollection}
+						collection={collection} // Pass the collection
+					/>
 				</div>
 
 				<div className="right-column">
-					<SelectionPanel />
+					<SelectionPanel
+						collection={collection}
+						onRemoveFromCollection={removeFromCollection}
+					/>
 				</div>
 			</div>
 			<ModelList

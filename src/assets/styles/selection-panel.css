@@ -5,7 +5,7 @@
 	padding: 24px 16px 16px;
 	gap: 16px;
 	width: 377px;
-	height: 640px;/*we might want to get rid of the height*/
+	height: 640px; /*we might want to get rid of the height*/
 	right: 16px;
 	top: 16px;
 	background: #2e2e2e;
@@ -347,4 +347,27 @@
 	width: 24px;
 	height: 24px;
 	/* Add an icon if needed */
+}
+.thumbnail {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border: 1px dashed #ccc;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 10px;
+}
+
+.thumbnail-content {
+	text-align: center;
+}
+
+.remove-button {
+	top: 5px;
+	right: 5px;
+	background: red;
+	color: white;
+	border: none;
+	cursor: pointer;
 }

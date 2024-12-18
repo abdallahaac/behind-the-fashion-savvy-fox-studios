@@ -4,10 +4,13 @@ import greenThumb from "../assets/images/green-thumb.svg";
 import redThumb from "../assets/images/red-thumb.svg";
 import greenHeart from "../assets/images/green-heart.svg";
 
-const OutfitDetails = ({ selectedModel }) => {
+const OutfitDetails = ({ selectedModel, onAddToCollection, collection }) => {
 	if (!selectedModel) {
 		return <div className="design-card">Select a model to see details</div>;
 	}
+
+	// Disable the button if collection length is 3
+	const isAddDisabled = collection.length >= 3;
 
 	return (
 		<div className="design-card">
@@ -72,7 +75,13 @@ const OutfitDetails = ({ selectedModel }) => {
 					<h2>${selectedModel.cost}</h2>
 					<span>COST OF DESIGN</span>
 				</div>
-				<button className="add-button">+ Add to Collection</button>
+				<button
+					className="add-button"
+					onClick={() => onAddToCollection(selectedModel)}
+					disabled={isAddDisabled} // Disable the button
+				>
+					{isAddDisabled ? "Max Limit Reached" : "+ Add to Collection"}
+				</button>
 			</div>
 		</div>
 	);
