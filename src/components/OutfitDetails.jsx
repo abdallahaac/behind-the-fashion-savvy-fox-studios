@@ -14,41 +14,44 @@ const OutfitDetails = ({ selectedModel, onAddToCollection, collection }) => {
 
 	return (
 		<div className="design-card">
-			<div className="header">
-				<span className="look-number">
+			<div>
+				<span className="look-number label-large">
 					LOOK #{String(selectedModel.id).padStart(2, "0")}
 				</span>
 			</div>
-			<h1 className="title">{selectedModel.name.toUpperCase()}</h1>
+			<h1 className="title accent-2">{selectedModel.name.toUpperCase()}</h1>
 			<div className="feature">
 				<span className="icon thumbs-up">
 					<img
 						src={greenThumb}
 						alt="Sustainability Icon"
-						style={{ width: "30px", height: "30px" }}
+						style={{ width: "24px", height: "24px" }}
 					/>
 				</span>
-				<span className="feature-text">
+				<span className="feature-text body-text-medium">
 					{selectedModel.sustainability * 20}% Sustainability
 				</span>
 			</div>
-			<div className="progress-bar-2">
-				<div
-					className="progress-fill"
-					style={{ width: `${selectedModel.sustainability * 20}%` }}
-				></div>
+			<div className="p_bar-description">
+				<div className="progress-bar-2">
+					<div
+						className="progress-fill"
+						style={{ width: `${selectedModel.sustainability * 20}%` }}
+					></div>
+				</div>
+				<p className="description body-text-small">{selectedModel.description}</p>
 			</div>
-			<p className="description">{selectedModel.description}</p>
+			
 
 			<div className="feature">
 				<span className="icon heart">
 					<img
 						src={greenHeart}
 						alt="Popularity Icon"
-						style={{ width: "30px", height: "30px" }}
+						style={{ width: "24px", height: "24px" }}
 					/>
 				</span>
-				<span className="feature-text">
+				<span className="feature-text body-text-medium">
 					{selectedModel.popularity * 20}% Popularity
 				</span>
 			</div>
@@ -58,25 +61,28 @@ const OutfitDetails = ({ selectedModel, onAddToCollection, collection }) => {
 					<img
 						src={redThumb}
 						alt="Ethics Icon"
-						style={{ width: "30px", height: "30px" }}
+						style={{ width: "24px", height: "24px" }}
 					/>
 				</span>
-				<span className="feature-text">
+				<span className="feature-text body-text-medium">
 					{selectedModel.ethics * 20}% Ethics
 				</span>
 			</div>
-			<p className="description">
-				Considerations for ethics and sustainability can influence the broader
-				impact of your choices.
-			</p>
+			<div className="p_bar-description">
+				<p className="description body-text-small">
+					Considerations for ethics and sustainability can influence the broader
+					impact of your choices.
+				</p>	
+			</div>
+			
 
 			<div className="cost-row">
 				<div className="cost">
-					<h2>${selectedModel.cost}</h2>
-					<span>COST OF DESIGN</span>
+					<h2 className="accent-3">${selectedModel.cost}</h2>
+					<span className="label-large">COST OF DESIGN</span>
 				</div>
 				<button
-					className="add-button"
+					className="add-button body-text-medium"
 					onClick={() => onAddToCollection(selectedModel)}
 					disabled={isAddDisabled} // Disable the button
 				>

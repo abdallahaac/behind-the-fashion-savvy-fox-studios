@@ -1,45 +1,43 @@
+@import 'font-vars.css';
+
+/* .body{
+	background-color: #515151;
+} */
+
 .design-card {
-	font-family: Arial, sans-serif;
 	width: 350px;
 	height: 640px; /* Adjust this as needed */
-	padding: 30px; /* Increased padding */
+	padding: 20px 30px; /* Increased padding */
 	background-color: #fff;
 	border-radius: 8px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 }
 
 .look-number {
 	display: inline-block;
 	background-color: #fee7e2;
 	color: #d35f3d;
-	font-size: 16px; /* Scaled up */
-	font-weight: bold;
 	padding: 6px 10px; /* Increased padding */
-	border-radius: 6px;
+	margin-bottom: 15px;
+	border-radius: 32px;
+
 }
 
 .title {
-	font-family: "Courier New", Courier, monospace;
-	font-size: 28px; /* Increased font size */
 	margin: 0 0 30px;
 }
 
 .feature {
 	display: flex;
 	align-items: center;
-	margin: 20px 0; /* More spacing */
+	margin: 10px 0; /* More spacing */
 }
 
 .icon {
 	font-size: 24px; /* Larger icon size */
 	margin-right: 12px;
-}
-
-.feature-text {
-	font-size: 18px; /* Larger text */
-	font-weight: bold;
 }
 
 .progress-bar-2 {
@@ -48,7 +46,7 @@
 	background-color: #f5f5f5;
 	border-radius: 6px;
 	overflow: hidden;
-	margin: 20px 0;
+	margin: 0;
 }
 
 .progress-fill {
@@ -58,9 +56,14 @@
 }
 
 .description {
-	font-size: 16px; /* Larger font size */
-	color: #666;
 	margin-bottom: 20px;
+}
+.header{
+	flex-grow: 0;
+}
+
+.p_bar-description{
+	margin-left: 2.5em;
 }
 
 .cost-row {
@@ -72,13 +75,10 @@
 
 .cost h2 {
 	margin: 0;
-	font-size: 32px; /* Larger font size */
 }
 
 .cost span {
 	color: #999;
-	font-size: 14px; /* Slightly larger */
-	font-weight: bold;
 }
 
 .add-button {
@@ -86,7 +86,6 @@
 	width: auto;
 	background-color: #b93e22;
 	color: #fff;
-	font-size: 18px; /* Larger button text */
 	border: none;
 	border-radius: 6px;
 	padding: 12px 20px; /* Increased padding */

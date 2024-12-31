@@ -142,46 +142,50 @@ const App = () => {
 				/>
 			</div>
 
-			{/* Three-column layout */}
-			<div className="three-column-layout">
-				<div className="left-column">
-					<div className="canvas-container">
-						<Canvas
-							gl={{
-								antialias: true,
-								toneMapping: THREE.ACESFilmicToneMapping,
-							}}
-							camera={{
-								fov: 45,
-								near: 0.1,
-								far: 200,
-								position: [3, 2, 6],
-							}}
-						>
-							<Experience selectedModel={selectedModel} />
-						</Canvas>
+			<div className="main-page-content">
+				{/* Three-column layout */}
+				<div className="three-column-layout">
+					<div className="left-column">
+						<div className="canvas-container">
+							<Canvas
+								gl={{
+									antialias: true,
+									toneMapping: THREE.ACESFilmicToneMapping,
+								}}
+								camera={{
+									fov: 45,
+									near: 0.1,
+									far: 200,
+									position: [3, 2, 6],
+								}}
+							>
+								<Experience selectedModel={selectedModel} />
+							</Canvas>
+						</div>
+					</div>
+
+					<div className="center-column">
+						<OutfitDetails
+							selectedModel={selectedModel}
+							onAddToCollection={addToCollection}
+							collection={collection} // Pass the collection
+						/>
+					</div>
+
+					<div className="right-column">
+						<SelectionPanel
+							collection={collection}
+							onRemoveFromCollection={removeFromCollection}
+						/>
 					</div>
 				</div>
+				<ModelList
+					selectedModel={selectedModel}
+					onModelChange={setSelectedModel}
+				/>
 
-				<div className="center-column">
-					<OutfitDetails
-						selectedModel={selectedModel}
-						onAddToCollection={addToCollection}
-						collection={collection} // Pass the collection
-					/>
-				</div>
-
-				<div className="right-column">
-					<SelectionPanel
-						collection={collection}
-						onRemoveFromCollection={removeFromCollection}
-					/>
-				</div>
 			</div>
-			<ModelList
-				selectedModel={selectedModel}
-				onModelChange={setSelectedModel}
-			/>
+
 		</div>
 	);
 };

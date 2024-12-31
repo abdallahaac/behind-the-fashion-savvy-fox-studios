@@ -1,6 +1,7 @@
 body {
 	margin: 20px;
 	padding: 0px;
+	background-color: #515151;
 }
 
 .app {
@@ -24,6 +25,11 @@ body {
 	width: fit-content;
 	/* Center it under the metrics */
 	margin: 20px auto;
+
+}
+.main-page-content{
+	background-color: white;
+	border-radius: 20px;
 }
 
 .left-column,
