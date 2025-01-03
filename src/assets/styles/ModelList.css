@@ -30,6 +30,7 @@
 	border: 2px solid #b93e22;
 	padding: 15px;
 	border-radius: 50px;
+	background: white;
 }
 
 .model-button {
@@ -39,8 +40,6 @@
 	border-radius: 20px;
 	width: 40px;
 	height: 24px;
-	font-size: 16px;
-	font-weight: bold;
 	cursor: pointer;
 	transition: all 0.3s ease;
 	text-align: center;

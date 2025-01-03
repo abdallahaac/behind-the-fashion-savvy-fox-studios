@@ -52,143 +52,146 @@ const App = () => {
 
 	return (
 		<div className="app">
-			<div className="logo-container">
-				<Logo />
-				<Metric
-					label="Budget"
-					value="$ 45,123"
-					percentChange="-XX%"
-					indicatorColor="#fffff"
-					percentChangeStyles={{
-						backgroundColor: "none",
-						padding: "3px 6px",
-						borderRadius: "5px",
-						color: "#ffffff",
-						fontWeight: "bold",
-					}}
+		  <div className="logo-container">
+			<Logo />
+			<Metric
+			  label="Budget"
+			  value="$ 45,123"
+			  percentChange="-XX%"
+			  indicatorColor="#fffff"
+			  percentChangeStyles={{
+				backgroundColor: "none",
+				padding: "3px 6px",
+				borderRadius: "5px",
+				color: "#ffffff",
+				fontWeight: "bold",
+			  }}
+			/>
+			<Metric
+			  label="Sustainability"
+			  value="4.7 / 5"
+			  percentChange="-XX%"
+			  indicatorColor="#1d7b18"
+			  percentChangeStyles={{
+				backgroundColor: "#1d7b18",
+				padding: "5px",
+				borderRadius: "7px",
+				color: "#ffffff",
+				fontSize: "13px",
+			  }}
+			  icon={
+				<img
+				  src={leaf}
+				  alt="Sustainability Icon"
+				  style={{ width: "20px", height: "20px" }}
 				/>
-				<Metric
-					label="Sustainability"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#1d7b18"
-					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#ffffff",
-						fontSize: "13px",
-					}}
-					icon={
-						<img
-							src={leaf}
-							alt="Sustainability Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
+			  }
+			/>
+			<Metric
+			  label="Ethics"
+			  value="4.7 / 5"
+			  percentChange="-XX%"
+			  indicatorColor="#1d7b18"
+			  percentChangeStyles={{
+				backgroundColor: "#1d7b18",
+				padding: "3px 6px",
+				borderRadius: "5px",
+				color: "#ffffff",
+				fontWeight: "bold",
+			  }}
+			  icon={
+				<img
+				  src={thumb}
+				  alt="Ethics Icon"
+				  style={{ width: "20px", height: "20px" }}
 				/>
-				<Metric
-					label="Ethics"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#1d7b18"
-					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
-						padding: "3px 6px",
-						borderRadius: "5px",
-						color: "#ffffff",
-						fontWeight: "bold",
-					}}
-					icon={
-						<img
-							src={thumb}
-							alt="Ethics Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
+			  }
+			/>
+			<Metric
+			  label="Popularity"
+			  value="4.7 / 5"
+			  percentChange="-XX%"
+			  indicatorColor="#C83C00"
+			  percentChangeStyles={{
+				backgroundColor: "#C83C00",
+				padding: "5px",
+				borderRadius: "7px",
+				color: "#fffefd",
+				fontSize: "13px",
+			  }}
+			  icon={
+				<img
+				  src={heart}
+				  alt="Popularity Icon"
+				  style={{ width: "20px", height: "20px" }}
 				/>
-				<Metric
-					label="Popularity"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#C83C00"
-					percentChangeStyles={{
-						backgroundColor: "#C83C00",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#fffefd",
-						fontSize: "13px",
-					}}
-					icon={
-						<img
-							src={heart}
-							alt="Popularity Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
-				/>
-				<Metric
-					label="Projected Revenue"
-					value="$ 45,123"
-					percentChange="-XX%"
-					indicatorColor="#C83C00"
-					percentChangeStyles={{
-						backgroundColor: "#C83C00",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#fffefd",
-						fontSize: "13px",
-					}}
-				/>
-			</div>
-
-			<div className="main-page-content">
-				{/* Three-column layout */}
-				<div className="three-column-layout">
-					<div className="left-column">
-						<div className="canvas-container">
-							<Canvas
-								gl={{
-									antialias: true,
-									toneMapping: THREE.ACESFilmicToneMapping,
-								}}
-								camera={{
-									fov: 45,
-									near: 0.1,
-									far: 200,
-									position: [3, 2, 6],
-								}}
-							>
-								<Experience selectedModel={selectedModel} />
-							</Canvas>
-						</div>
-					</div>
-
-					<div className="center-column">
-						<OutfitDetails
-							selectedModel={selectedModel}
-							onAddToCollection={addToCollection}
-							collection={collection} // Pass the collection
-						/>
-					</div>
-
-					<div className="right-column">
-						<SelectionPanel
-							collection={collection}
-							onRemoveFromCollection={removeFromCollection}
-						/>
-					</div>
+			  }
+			/>
+			<Metric
+			  label="Projected Revenue"
+			  value="$ 45,123"
+			  percentChange="-XX%"
+			  indicatorColor="#C83C00"
+			  percentChangeStyles={{
+				backgroundColor: "#C83C00",
+				padding: "5px",
+				borderRadius: "7px",
+				color: "#fffefd",
+				fontSize: "13px",
+			  }}
+			/>
+		  </div>
+	  
+		  <div className="main-page-content">
+			{/* Three-column layout */}
+			<div className="three-column-layout">
+			  <div className="left-center-group">
+				<div className="left-column">
+				  <div className="canvas-container">
+					<Canvas
+					  gl={{
+						antialias: true,
+						toneMapping: THREE.ACESFilmicToneMapping,
+					  }}
+					  camera={{
+						fov: 45,
+						near: 0.1,
+						far: 200,
+						position: [3, 2, 6],
+					  }}
+					>
+					  <Experience selectedModel={selectedModel} />
+					</Canvas>
+				  </div>
 				</div>
-				<ModelList
+	  
+				<div className="center-column">
+				  <OutfitDetails
+					selectedModel={selectedModel}
+					onAddToCollection={addToCollection}
+					collection={collection} // Pass the collection
+				  />
+				</div>
+	  
+				<div className="model-list-container">
+				  <ModelList
 					selectedModel={selectedModel}
 					onModelChange={setSelectedModel}
+				  />
+				</div>
+			  </div>
+	  
+			  <div className="right-column">
+				<SelectionPanel
+				  collection={collection}
+				  onRemoveFromCollection={removeFromCollection}
 				/>
-
+			  </div>
 			</div>
-
+		  </div>
 		</div>
-	);
-};
+	  );
+};  
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 

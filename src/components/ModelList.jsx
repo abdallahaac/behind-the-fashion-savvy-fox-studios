@@ -43,7 +43,7 @@ const ModelList = ({ selectedModel, onModelChange }) => {
 				{models.map((model) => (
 					<button
 						key={model.id}
-						className={`model-button ${
+						className={`accent-6 model-button ${
 							selectedModel && selectedModel.id === model.id ? "active" : ""
 						}`}
 						onClick={() => handleModelClick(model)}

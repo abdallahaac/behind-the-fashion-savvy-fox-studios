@@ -13,36 +13,59 @@ body {
 /* The metrics container remains centered */
 .logo-container {
 	display: flex;
+	width:100%;
 	gap: 10px;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+	margin-bottom:1em;
 }
 
 .three-column-layout {
 	display: flex;
-	margin-top: 20px;
-	/* Allow the layout to size based on content */
-	width: fit-content;
-	/* Center it under the metrics */
-	margin: 20px auto;
+	justify-content: space-between;
+	gap: 20px; 
+	height:85vh; /*TEMP FIX: why does 100vh extend it so far down??*/
+	width: 100%; 
+	padding: 16px;
+	box-sizing: border-box; 
+  }
+  
+.left-center-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	flex: 1; /* Ensure it takes up space in the row */
+  }
+  
+  
+.model-list-container {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%; 
+	display: flex;
+	 /* center pagniation */
+	justify-content: center;
+  }
+  
 
-}
-.main-page-content{
+.main-page-content {
 	background-color: white;
 	border-radius: 20px;
-}
+	width:100%;
+  }
 
 .left-column,
 .center-column,
 .right-column {
-	/* Remove flex:1 so columns don't stretch */
 	padding: 10px;
 }
 
 .right-column {
 	display: flex;
-	justify-content: center;
-}
+  }
 
 .center-column {
 	display: flex;
