@@ -2,6 +2,7 @@ import React from "react";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
+import shopping_bag from "../assets/images/shopping_bag.svg";
 
 const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 	return (
@@ -12,12 +13,12 @@ const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 				<StepCountBar currentStep={1} totalSteps={5} />
 
 				{/* Choose Outfit Designs */}
-				<div className="choose-outfit-designs">Choose Outfit Designs</div>
+				<div className="choose-outfit-designs accent-2">Choose Outfit Designs</div>
 			</div>
 
 			{/* My Collection Block */}
 			<div className="my-collection-block">
-				<div className="my-collection">My Collection</div>
+				<div className="my-collection accent-4">My Collection</div>
 				<div className="thumbnail-list">
 					{[...Array(3)].map((_, index) => {
 						const model = collection[index];
@@ -34,7 +35,7 @@ const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 										</button>
 									</div>
 								) : (
-									<div className="empty-state-text">XXX</div>
+									<div className="empty-state-text accent-1">XXX</div>
 								)}
 							</div>
 						);
@@ -44,7 +45,7 @@ const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 
 			{/* Collection Statistics Block */}
 			<div className="collection-statistics-block">
-				<div className="collection-statistics-header">
+				<div className="collection-statistics-header accent-4">
 					Collection Statistics
 				</div>
 
@@ -70,17 +71,19 @@ const SelectionPanel = ({ collection, onRemoveFromCollection }) => {
 			{/* Total Price Widget */}
 			<div className="total-price-widget">
 				<div className="price">
-					<div className="dollar-amount">
+					<div className="dollar-amount accent-2">
 						$
 						{collection
 							.reduce((total, item) => total + item.cost, 0)
 							.toFixed(2)}
 					</div>
-					<div className="total-design-price">Total Design Price</div>
+					<div className="total-design-price label-large">Total Design Price</div>
 				</div>
 				<div className="button">
-					<div className="button-text">Buy</div>
-					<div className="button-icon"></div>
+					<div className="button-text body-text-medium">Purchase</div>
+					<div className="button-icon">
+					    <img src={shopping_bag} alt="Shopping Bag Icon" />
+					</div>
 				</div>
 			</div>
 		</div>

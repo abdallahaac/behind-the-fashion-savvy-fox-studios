@@ -12,7 +12,7 @@ const CollectionOriginalityMetric = ({
 }) => {
 	return (
 		<div className="collection-originality-metric">
-			<div className="metric-label">
+			<div className="metric-label body-text-large">
 				{icon && <div className="icon">{icon}</div>}
 				{label}
 			</div>
@@ -32,14 +32,14 @@ const CollectionOriginalityMetric = ({
 					</div>
 
 					<div className="metric-stats">
-						<span className="original-percentage">
+						<span className="original-percentage body-text-small">
 							<span
 								className="color-circle"
 								style={{ backgroundColor: "#85E780" }}
 							></span>
 							Original Design {originalPercentage}%
 						</span>
-						<span className="plagiarized-percentage">
+						<span className="plagiarized-percentage body-text-small">
 							<span
 								className="color-circle"
 								style={{ backgroundColor: "#FFC4B1" }}
@@ -50,7 +50,7 @@ const CollectionOriginalityMetric = ({
 				</>
 			)}
 
-			<div className="summary-text">{summaryText}</div>
+			<div className="summary-text body-text-small">{summaryText}</div>
 		</div>
 	);
 };

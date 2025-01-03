@@ -63,10 +63,6 @@
 
 /* Widget Label */
 .widget-label {
-    font-family: "DM Sans", sans-serif;
-    font-style: normal;
-    font-weight: 100 !important;
-    font-size: 10px;
     line-height: 13px;
     text-transform: uppercase;
     color: #fffefd;
@@ -141,10 +137,6 @@
 
 /* Stat Content */
 .stat-content {
-    font-family: "Kode Mono", monospace;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
     line-height: 20px;
     text-transform: uppercase;
     color: #fffefd;

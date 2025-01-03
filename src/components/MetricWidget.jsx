@@ -16,7 +16,7 @@ const Metric = ({
 						className="indicator"
 						style={{ background: indicatorColor }}
 					></div>
-					<div className="widget-label">{label}</div>
+					<div className="widget-label label-small">{label}</div>
 					<div className="change-tag">
 						<div className="percent-change" style={percentChangeStyles}>
 							{percentChange}
@@ -27,7 +27,7 @@ const Metric = ({
 					<div className="stat-info">
 						{icon && <div className="icon">{icon}</div>}{" "}
 						{/* Render icon if provided */}
-						<div className="stat-content">{value}</div>
+						<div className="stat-content accent-4">{value}</div>
 					</div>
 				</div>
 			</div>
