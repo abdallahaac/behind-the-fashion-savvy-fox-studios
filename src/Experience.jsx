@@ -22,6 +22,7 @@ export default function Experience({ selectedModel }) {
 	const {
 		cameraFov,
 		cameraPosition,
+		cameraRotation,
 		ambientLightIntensity,
 		directionalLightIntensity,
 	} = useControls("Debug - Camera & Lights", {
@@ -38,6 +39,14 @@ export default function Experience({ selectedModel }) {
 				z: camera.position.z,
 			},
 			step: 0.1,
+		},
+		cameraRotation: {
+			value: {
+				x: camera.rotation.x,
+				y: camera.rotation.y,
+				z: camera.rotation.z,
+			},
+			step: 0.01,
 		},
 		ambientLightIntensity: {
 			value: 1.5,
@@ -103,9 +112,10 @@ export default function Experience({ selectedModel }) {
 	// Apply camera & lights updates
 	// ─────────────────────────────────────────────
 	useFrame(() => {
-		// Camera updates
+		// Camera position and rotation updates
 		camera.fov = cameraFov;
 		camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+		camera.rotation.set(cameraRotation.x, cameraRotation.y, cameraRotation.z);
 		camera.updateProjectionMatrix();
 	});
 
