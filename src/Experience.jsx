@@ -2,8 +2,13 @@ import { useThree, useFrame } from "@react-three/fiber";
 import { useRef, useEffect, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
+// 1) Import Leva & Perf
+import { useControls } from "leva";
+import { Perf } from "r3f-perf";
+
 export default function Experience({ selectedModel }) {
-	const { gl } = useThree();
+	// Access the THREE.js WebGL context & camera
+	const { gl, camera } = useThree();
 	const [modelScene, setModelScene] = useState(null);
 	const groupRef = useRef();
 
@@ -11,21 +16,63 @@ export default function Experience({ selectedModel }) {
 	const isDragging = useRef(false);
 	const lastX = useRef(0);
 
+	// 2) Leva controls for camera & lights
+	//    - cameraFov & cameraPosition
+	//    - lights intensities
+	const {
+		cameraFov,
+		cameraPosition,
+		ambientLightIntensity,
+		directionalLightIntensity,
+	} = useControls("Debug", {
+		cameraFov: {
+			value: camera.fov, // Start from the current camera.fov
+			min: 10,
+			max: 100,
+			step: 1,
+		},
+		cameraPosition: {
+			value: {
+				x: camera.position.x,
+				y: camera.position.y,
+				z: camera.position.z,
+			},
+			step: 0.1,
+		},
+		ambientLightIntensity: {
+			value: 1.5,
+			min: 0,
+			max: 10,
+			step: 0.1,
+		},
+		directionalLightIntensity: {
+			value: 4.5,
+			min: 0,
+			max: 10,
+			step: 0.1,
+		},
+	});
+
+	// Update camera each frame with Leva values
+	useFrame(() => {
+		camera.fov = cameraFov;
+		camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+		camera.updateProjectionMatrix();
+	});
+
+	// Load the selected model
 	useEffect(() => {
 		if (!selectedModel) return;
-
-		// Load the selected model
 		const loader = new GLTFLoader();
 		loader.load(selectedModel.model, (gltf) => {
 			setModelScene(gltf.scene);
 		});
 	}, [selectedModel]);
 
-	// Continuously rotate the model on the Y-axis (slow speed)
+	// Continuously rotate the model on the Y-axis
 	useFrame((state, delta) => {
 		if (groupRef.current) {
 			groupRef.current.rotation.y += 0.2 * delta;
-			// Adjust speed if needed (0.2 * delta is roughly 0.2 radians/sec)
 		}
 	});
 
@@ -40,11 +87,8 @@ export default function Experience({ selectedModel }) {
 
 		const handlePointerMove = (e) => {
 			if (!isDragging.current || !groupRef.current) return;
-
 			const deltaX = e.clientX - lastX.current;
 			lastX.current = e.clientX;
-
-			// Add manual rotation around the Y-axis
 			groupRef.current.rotation.y += deltaX * 0.01;
 		};
 
@@ -57,7 +101,6 @@ export default function Experience({ selectedModel }) {
 		canvas.addEventListener("pointerup", handlePointerUp);
 		canvas.addEventListener("pointerleave", handlePointerUp);
 
-		// Cleanup
 		return () => {
 			canvas.removeEventListener("pointerdown", handlePointerDown);
 			canvas.removeEventListener("pointermove", handlePointerMove);
@@ -68,8 +111,15 @@ export default function Experience({ selectedModel }) {
 
 	return (
 		<>
-			<directionalLight position={[1, 2, 3]} intensity={4.5} />
-			<ambientLight intensity={1.5} />
+			{/* 3) Add Perf in the scene - it will show top-left by default */}
+			{/* <Perf position="top-left" /> */}
+
+			{/* Lights whose intensities can be debugged via Leva */}
+			<directionalLight
+				position={[1, 2, 3]}
+				intensity={directionalLightIntensity}
+			/>
+			<ambientLight intensity={ambientLightIntensity} />
 
 			{/* Plane or ground */}
 			<mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>

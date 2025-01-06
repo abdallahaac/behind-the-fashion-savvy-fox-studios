@@ -17,6 +17,10 @@ import ModelList from "./components/ModelList.jsx";
 import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
 import { useState, useEffect } from "react";
 
+// 1) Import Leva and Perf
+import { Leva } from "leva";
+import { Perf } from "r3f-perf";
+
 const App = () => {
 	const modelsByCategory = useModels();
 	const allModels = [
@@ -153,6 +157,8 @@ const App = () => {
 						position: [3, 2, 6],
 					}}
 				>
+					{/* 2) Add Perf for performance info */}
+					{/* <Perf position="top-left" /> */}
 					<Experience selectedModel={selectedModel} />
 				</Canvas>
 
@@ -186,8 +192,12 @@ const App = () => {
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
+// 3) Put <Leva /> outside the Canvas so we can tweak camera/lights from anywhere
 root.render(
 	<ModelsProvider>
+		{/* Collapsed by default so it doesn’t obstruct the page */}
+		{/* Debugger */}
+		<Leva collapsed />
 		<App />
 	</ModelsProvider>
 );
