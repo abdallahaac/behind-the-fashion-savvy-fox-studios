@@ -16,6 +16,7 @@ import OutfitDetails from "./components/OutfitDetails.jsx";
 import ModelList from "./components/ModelList.jsx";
 import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
 import { useState, useEffect } from "react";
+
 const App = () => {
 	const modelsByCategory = useModels();
 	const allModels = [
@@ -24,11 +25,9 @@ const App = () => {
 		...modelsByCategory.NeutralChoices,
 	];
 
-	// Initialize `selectedModel` to the first model in the list
 	const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
 	const [collection, setCollection] = useState([]);
 
-	// Add a model to the collection
 	const addToCollection = (model) => {
 		if (
 			collection.length < 3 &&
@@ -38,12 +37,10 @@ const App = () => {
 		}
 	};
 
-	// Remove a model from the collection
 	const removeFromCollection = (modelId) => {
 		setCollection(collection.filter((item) => item.id !== modelId));
 	};
 
-	// Update `selectedModel` if it's null on mount or when `allModels` changes
 	useEffect(() => {
 		if (!selectedModel && allModels.length > 0) {
 			setSelectedModel(allModels[0]);
@@ -52,146 +49,140 @@ const App = () => {
 
 	return (
 		<div className="app">
-		  <div className="logo-container">
-			<Logo />
-			<Metric
-			  label="Budget"
-			  value="$ 45,123"
-			  percentChange="-XX%"
-			  indicatorColor="#fffff"
-			  percentChangeStyles={{
-				backgroundColor: "none",
-				padding: "3px 6px",
-				borderRadius: "5px",
-				color: "#ffffff",
-				fontWeight: "bold",
-			  }}
-			/>
-			<Metric
-			  label="Sustainability"
-			  value="4.7 / 5"
-			  percentChange="-XX%"
-			  indicatorColor="#1d7b18"
-			  percentChangeStyles={{
-				backgroundColor: "#1d7b18",
-				padding: "5px",
-				borderRadius: "7px",
-				color: "#ffffff",
-				fontSize: "13px",
-			  }}
-			  icon={
-				<img
-				  src={leaf}
-				  alt="Sustainability Icon"
-				  style={{ width: "20px", height: "20px" }}
+			<div className="logo-container">
+				<Logo />
+				<Metric
+					label="Budget"
+					value="$ 45,123"
+					percentChange="-XX%"
+					indicatorColor="#fffff"
+					percentChangeStyles={{
+						backgroundColor: "none",
+						padding: "3px 6px",
+						borderRadius: "5px",
+						color: "#ffffff",
+						fontWeight: "bold",
+					}}
 				/>
-			  }
-			/>
-			<Metric
-			  label="Ethics"
-			  value="4.7 / 5"
-			  percentChange="-XX%"
-			  indicatorColor="#1d7b18"
-			  percentChangeStyles={{
-				backgroundColor: "#1d7b18",
-				padding: "3px 6px",
-				borderRadius: "5px",
-				color: "#ffffff",
-				fontWeight: "bold",
-			  }}
-			  icon={
-				<img
-				  src={thumb}
-				  alt="Ethics Icon"
-				  style={{ width: "20px", height: "20px" }}
+				<Metric
+					label="Sustainability"
+					value="4.7 / 5"
+					percentChange="-XX%"
+					indicatorColor="#1d7b18"
+					percentChangeStyles={{
+						backgroundColor: "#1d7b18",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#ffffff",
+						fontSize: "13px",
+					}}
+					icon={
+						<img
+							src={leaf}
+							alt="Sustainability Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
 				/>
-			  }
-			/>
-			<Metric
-			  label="Popularity"
-			  value="4.7 / 5"
-			  percentChange="-XX%"
-			  indicatorColor="#C83C00"
-			  percentChangeStyles={{
-				backgroundColor: "#C83C00",
-				padding: "5px",
-				borderRadius: "7px",
-				color: "#fffefd",
-				fontSize: "13px",
-			  }}
-			  icon={
-				<img
-				  src={heart}
-				  alt="Popularity Icon"
-				  style={{ width: "20px", height: "20px" }}
+				<Metric
+					label="Ethics"
+					value="4.7 / 5"
+					percentChange="-XX%"
+					indicatorColor="#1d7b18"
+					percentChangeStyles={{
+						backgroundColor: "#1d7b18",
+						padding: "3px 6px",
+						borderRadius: "5px",
+						color: "#ffffff",
+						fontWeight: "bold",
+					}}
+					icon={
+						<img
+							src={thumb}
+							alt="Ethics Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
 				/>
-			  }
-			/>
-			<Metric
-			  label="Projected Revenue"
-			  value="$ 45,123"
-			  percentChange="-XX%"
-			  indicatorColor="#C83C00"
-			  percentChangeStyles={{
-				backgroundColor: "#C83C00",
-				padding: "5px",
-				borderRadius: "7px",
-				color: "#fffefd",
-				fontSize: "13px",
-			  }}
-			/>
-		  </div>
-	  
-		  <div className="main-page-content">
-			{/* Three-column layout */}
-			<div className="three-column-layout">
-			  <div className="left-center-group">
-				<div className="left-column">
-				  <div className="canvas-container">
-					<Canvas
-					  gl={{
+				<Metric
+					label="Popularity"
+					value="4.7 / 5"
+					percentChange="-XX%"
+					indicatorColor="#C83C00"
+					percentChangeStyles={{
+						backgroundColor: "#C83C00",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#fffefd",
+						fontSize: "13px",
+					}}
+					icon={
+						<img
+							src={heart}
+							alt="Popularity Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
+				/>
+				<Metric
+					label="Projected Revenue"
+					value="$ 45,123"
+					percentChange="-XX%"
+					indicatorColor="#C83C00"
+					percentChangeStyles={{
+						backgroundColor: "#C83C00",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#fffefd",
+						fontSize: "13px",
+					}}
+				/>
+			</div>
+
+			<div className="canvas-container">
+				{/* 3D Canvas */}
+				<Canvas
+					gl={{
 						antialias: true,
 						toneMapping: THREE.ACESFilmicToneMapping,
-					  }}
-					  camera={{
+					}}
+					camera={{
 						fov: 45,
 						near: 0.1,
 						far: 200,
 						position: [3, 2, 6],
-					  }}
-					>
-					  <Experience selectedModel={selectedModel} />
-					</Canvas>
-				  </div>
+					}}
+				>
+					<Experience selectedModel={selectedModel} />
+				</Canvas>
+
+				{/* Overlay container for side-by-side details */}
+				<div className="details-container">
+					<div className="outfit-details">
+						<OutfitDetails
+							selectedModel={selectedModel}
+							onAddToCollection={addToCollection}
+							collection={collection}
+						/>
+					</div>
+					<div className="outfit-details">
+						<SelectionPanel
+							collection={collection}
+							onRemoveFromCollection={removeFromCollection}
+						/>
+					</div>
 				</div>
-	  
-				<div className="center-column">
-				  <OutfitDetails
-					selectedModel={selectedModel}
-					onAddToCollection={addToCollection}
-					collection={collection} // Pass the collection
-				  />
-				</div>
-	  
-				<div className="model-list-container">
-				  <ModelList
+			</div>
+
+			<div className="model-list-container">
+				<ModelList
 					selectedModel={selectedModel}
 					onModelChange={setSelectedModel}
-				  />
-				</div>
-			  </div>
-	  
-			  <div className="right-column">
-				<SelectionPanel
-				  collection={collection}
-				  onRemoveFromCollection={removeFromCollection}
 				/>
-			  </div>
 			</div>
-		  </div>
 		</div>
-	  );
-};  
+	);
+};
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -200,3 +191,5 @@ root.render(
 		<App />
 	</ModelsProvider>
 );
+
+export default App;
