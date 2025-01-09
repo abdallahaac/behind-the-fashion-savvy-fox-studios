@@ -16,6 +16,10 @@ export default function Experience({ selectedModel }) {
 	const isDragging = useRef(false);
 	const lastX = useRef(0);
 
+	useEffect(() => {
+		camera.rotation.set(-0.24, 0.01, 0.0);
+	}, [camera]);
+
 	// ─────────────────────────────────────────────
 	// 1) Leva controls for camera & lights
 	// ─────────────────────────────────────────────
@@ -93,7 +97,7 @@ export default function Experience({ selectedModel }) {
 	// ─────────────────────────────────────────────
 	const { modelPos, modelRot, modelScale } = useControls("Debug - Model", {
 		modelPos: {
-			value: { x: -3, y: 0, z: 2 },
+			value: { x: 0.8, y: -1.2, z: 3.3 },
 			step: 0.1,
 		},
 		modelRot: {
@@ -101,7 +105,7 @@ export default function Experience({ selectedModel }) {
 			step: 0.1,
 		},
 		modelScale: {
-			value: 1,
+			value: 0.1,
 			min: 0.1,
 			max: 5,
 			step: 0.1,
@@ -186,14 +190,14 @@ export default function Experience({ selectedModel }) {
 			<ambientLight intensity={ambientLightIntensity} />
 
 			{/* Plane with transform & color from Leva */}
-			<mesh
+			{/* <mesh
 				position={[planePos.x, planePos.y, planePos.z]}
 				rotation={[planeRot.x, planeRot.y, planeRot.z]}
 				scale={planeScale}
 			>
 				<planeGeometry />
 				<meshStandardMaterial color={planeColor} />
-			</mesh>
+			</mesh> */}
 
 			{/* Group that holds the model with transform from Leva */}
 			<group

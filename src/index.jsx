@@ -151,10 +151,11 @@ const App = () => {
 						toneMapping: THREE.ACESFilmicToneMapping,
 					}}
 					camera={{
-						fov: 45,
+						fov: 65,
 						near: 0.1,
 						far: 200,
-						position: [3, 2, 6],
+						position: [3.8, 2.0, 7.2],
+						rotation: [-0.19, -0.1, 0.11],
 					}}
 				>
 					{/* 2) Add Perf for performance info */}
