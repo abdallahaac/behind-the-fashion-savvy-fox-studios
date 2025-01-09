@@ -1,0 +1,8 @@
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000; /* Optional: Set a background color */
+    border-radius: 8px; /* Optional: Add border radius */
+    overflow: hidden; /* Optional: Hide overflow */
+  }
