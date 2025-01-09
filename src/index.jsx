@@ -16,6 +16,8 @@ import OutfitDetails from "./components/OutfitDetails.jsx";
 import ModelList from "./components/ModelList.jsx";
 import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
 import { useState, useEffect } from "react";
+import { Suspense } from "react";
+import Loader from "./utils/Loader.jsx";
 
 // 1) Import Leva and Perf
 import { Leva } from "leva";
@@ -158,9 +160,10 @@ const App = () => {
 						rotation: [-0.19, -0.1, 0.11],
 					}}
 				>
-					{/* 2) Add Perf for performance info */}
-					{/* <Perf position="top-left" /> */}
-					<Experience selectedModel={selectedModel} />
+					{/* Suspense wrapper for asynchronous model loading */}
+					<Suspense fallback={<Loader />}>
+						<Experience selectedModel={selectedModel} />
+					</Suspense>
 				</Canvas>
 
 				{/* Overlay container for side-by-side details */}
