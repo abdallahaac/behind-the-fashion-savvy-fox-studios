@@ -3,203 +3,92 @@ import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
 import ReactDOM from "react-dom/client";
-import { Canvas } from "@react-three/fiber";
-import Experience from "./Experience.jsx";
-import * as THREE from "three";
-import Logo from "./components/Logo.jsx";
-import Metric from "./components/MetricWidget.jsx";
-import leaf from "./assets/images/leaf.svg";
-import thumb from "./assets/images/thumb.svg";
-import heart from "./assets/images/heart.svg";
-import SelectionPanel from "./components/SelectionPanel.jsx";
-import OutfitDetails from "./components/OutfitDetails.jsx";
-import ModelList from "./components/ModelList.jsx";
-import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
-import { useState, useEffect } from "react";
-
-// 1) Import Leva and Perf
-import { Leva } from "leva";
-import { Perf } from "r3f-perf";
+import React, { useEffect, useState } from "react";
+import Marquee from "react-fast-marquee";
+import BackgroundImage from "./assets/images/background-image.svg"; // Update the path to your SVG
 
 const App = () => {
-	const modelsByCategory = useModels();
-	const allModels = [
-		...modelsByCategory.EthicallyStrongOptions,
-		...modelsByCategory.CapitalisticChoices,
-		...modelsByCategory.NeutralChoices,
+	const sentences = [
+		"Sustainability and ethics in fashion are catalysts for a revolutionary shift toward a more harmonious world.",
+		"This movement redefines fashion, transforming it into a force for good — ensuring style no longer comes at the expense of the planet or its people. The future of fashion is responsible, regenerative, and transformative.",
 	];
 
-	const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
-	const [collection, setCollection] = useState([]);
-
-	const addToCollection = (model) => {
-		if (
-			collection.length < 3 &&
-			!collection.find((item) => item.id === model.id)
-		) {
-			setCollection([...collection, model]);
-		}
-	};
-
-	const removeFromCollection = (modelId) => {
-		setCollection(collection.filter((item) => item.id !== modelId));
-	};
+	const [revealedWords, setRevealedWords] = useState([[]]); // Tracks revealed words for each sentence
+	const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0); // Tracks the current sentence
+	const [currentWordIndex, setCurrentWordIndex] = useState(0); // Tracks the word index within the current sentence
 
 	useEffect(() => {
-		if (!selectedModel && allModels.length > 0) {
-			setSelectedModel(allModels[0]);
-		}
-	}, [selectedModel, allModels]);
+		const words = sentences[currentSentenceIndex]?.split(" ") || [];
+		const interval = setInterval(() => {
+			if (currentWordIndex < words.length) {
+				// Reveal words one by one in the current sentence
+				setRevealedWords((prev) => {
+					const updated = [...prev];
+					updated[currentSentenceIndex] = [
+						...(updated[currentSentenceIndex] || []),
+						words[currentWordIndex],
+					];
+					return updated;
+				});
+				setCurrentWordIndex((prev) => prev + 1);
+			} else if (currentSentenceIndex < sentences.length - 1) {
+				// Move to the next sentence after a short delay
+				setTimeout(() => {
+					setCurrentSentenceIndex((prev) => prev + 1);
+					setCurrentWordIndex(0);
+				}, 1000); // Delay before starting the next sentence
+				clearInterval(interval);
+			} else {
+				clearInterval(interval); // Stop interval when all sentences are displayed
+			}
+		}, 100); // Adjust the interval to control the speed of word reveal
+		return () => clearInterval(interval);
+	}, [currentWordIndex, currentSentenceIndex, sentences]);
 
 	return (
-		<div className="app">
-			<div className="logo-container">
-				<Logo />
-				<Metric
-					label="Budget"
-					value="$ 45,123"
-					percentChange="-XX%"
-					indicatorColor="#fffff"
-					percentChangeStyles={{
-						backgroundColor: "none",
-						padding: "3px 6px",
-						borderRadius: "5px",
-						color: "#ffffff",
-						fontWeight: "bold",
-					}}
-				/>
-				<Metric
-					label="Sustainability"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#1d7b18"
-					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#ffffff",
-						fontSize: "13px",
-					}}
-					icon={
-						<img
-							src={leaf}
-							alt="Sustainability Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
-				/>
-				<Metric
-					label="Ethics"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#1d7b18"
-					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
-						padding: "3px 6px",
-						borderRadius: "5px",
-						color: "#ffffff",
-						fontWeight: "bold",
-					}}
-					icon={
-						<img
-							src={thumb}
-							alt="Ethics Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
-				/>
-				<Metric
-					label="Popularity"
-					value="4.7 / 5"
-					percentChange="-XX%"
-					indicatorColor="#C83C00"
-					percentChangeStyles={{
-						backgroundColor: "#C83C00",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#fffefd",
-						fontSize: "13px",
-					}}
-					icon={
-						<img
-							src={heart}
-							alt="Popularity Icon"
-							style={{ width: "20px", height: "20px" }}
-						/>
-					}
-				/>
-				<Metric
-					label="Projected Revenue"
-					value="$ 45,123"
-					percentChange="-XX%"
-					indicatorColor="#C83C00"
-					percentChangeStyles={{
-						backgroundColor: "#C83C00",
-						padding: "5px",
-						borderRadius: "7px",
-						color: "#fffefd",
-						fontSize: "13px",
-					}}
-				/>
-			</div>
-
-			<div className="canvas-container">
-				{/* 3D Canvas */}
-				<Canvas
-					gl={{
-						antialias: true,
-						toneMapping: THREE.ACESFilmicToneMapping,
-					}}
-					camera={{
-						fov: 45,
-						near: 0.1,
-						far: 200,
-						position: [3, 2, 6],
-					}}
+		<div className="homepage">
+			<header className="header">
+				<Marquee
+					gradient={false}
+					speed={30}
+					pauseOnHover={false}
+					style={{ marginTop: 10, marginBottom: 10 }}
 				>
-					{/* 2) Add Perf for performance info */}
-					{/* <Perf position="top-left" /> */}
-					<Experience selectedModel={selectedModel} />
-				</Canvas>
+					&nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
+					// BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+				</Marquee>
+			</header>
 
-				{/* Overlay container for side-by-side details */}
-				<div className="details-container">
-					<div className="outfit-details">
-						<OutfitDetails
-							selectedModel={selectedModel}
-							onAddToCollection={addToCollection}
-							collection={collection}
-						/>
-					</div>
-					<div className="outfit-details">
-						<SelectionPanel
-							collection={collection}
-							onRemoveFromCollection={removeFromCollection}
-						/>
-					</div>
+			<main className="content">
+				<div className="intro-header">
+					<h1>BEHIND THE FASHION</h1>
+					<h2>// INTRO</h2>
 				</div>
-			</div>
-
-			<div className="model-list-container">
-				<ModelList
-					selectedModel={selectedModel}
-					onModelChange={setSelectedModel}
-				/>
-			</div>
+				<div className="intro-body">
+					{revealedWords.map((words, sentenceIndex) => (
+						<p key={sentenceIndex}>
+							{words.map((word, wordIndex) => (
+								<span key={wordIndex} className="fade-in-word">
+									{word}{" "}
+								</span>
+							))}
+						</p>
+					))}
+					<a href="#" className="skip-intro">
+						[SKIP INTRO]
+					</a>
+				</div>
+				<div className="intro-image">
+					<img src={BackgroundImage} alt="Fashion Intro" />
+				</div>
+			</main>
 		</div>
 	);
 };
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
-// 3) Put <Leva /> outside the Canvas so we can tweak camera/lights from anywhere
-root.render(
-	<ModelsProvider>
-		{/* Collapsed by default so it doesn’t obstruct the page */}
-		{/* Debugger */}
-		<Leva collapsed />
-		<App />
-	</ModelsProvider>
-);
+root.render(<App />);
 
 export default App;

@@ -1,0 +1,146 @@
+/* General Styling */
+body,
+html {
+	margin: 0;
+	padding: 0;
+	font-family: "Kode Mono", monospace;
+	height: 100vh;
+	overflow: hidden;
+	background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%);
+}
+
+/* Homepage */
+.homepage {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+}
+
+/* Header Styling */
+.header {
+	z-index: 100;
+	width: 100%;
+	background: #0f0f0f;
+	color: #e0e0e0;
+	font-size: 20px;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 26px;
+	letter-spacing: 2px;
+}
+
+/* Content Area */
+.content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: calc(100% - 42px);
+}
+
+/* Intro Header */
+.intro-header {
+	position: absolute;
+	top: 98px;
+	left: 80px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 152px;
+}
+
+.intro-header h1 {
+	font-size: 14px;
+	line-height: 18px;
+	color: #ffc4b1;
+	text-transform: uppercase;
+}
+
+.intro-header h2 {
+	font-size: 12px;
+	line-height: 15px;
+	font-weight: 600;
+	color: #ffc4b1;
+	text-transform: uppercase;
+}
+
+/* Intro Body */
+.intro-body {
+	position: absolute;
+	left: 80px;
+	top: 239px;
+	max-width: 599px;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.intro-body p {
+	font-size: 24px;
+	line-height: 31px;
+	text-transform: uppercase;
+	color: #fffefd;
+}
+
+/* Fade-in effect for words */
+.fade-in-word {
+	opacity: 0;
+	animation: fadeInWord 0.5s ease forwards;
+}
+
+@keyframes fadeInWord {
+	0% {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Skip Intro Button */
+.skip-intro {
+	font-size: 14px;
+	line-height: 18px;
+	color: #fffefd;
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 8px 20px;
+	border-radius: 8px;
+	transition: all 0.3s ease;
+	opacity: 0; /* Initially hidden */
+	animation: fadeInWord 1.5s ease forwards;
+	animation-delay: 4s; /* Appears after the paragraphs */
+	width: fit-content;
+}
+
+.skip-intro:hover {
+	font-weight: 800;
+}
+
+/* Intro Image */
+.intro-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 555px;
+	height: 832px;
+	scale: 1.1;
+	background: url("./image.png") no-repeat center center;
+	background-size: cover;
+}
+
+.intro-image::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	background: transparent;
+	box-shadow: 0 0 1px rgba(255, 255, 255, 0.1), 0 0 2px rgba(0, 0, 0, 0.1);
+	opacity: 0.1;
+	z-index: 1;
+}
