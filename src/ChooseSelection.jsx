@@ -1,4 +1,4 @@
-import "./style.css";
+import "./choose-selection-style.css";
 import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
@@ -54,6 +54,22 @@ function ChooseSelection() {
 			setSelectedModel(allModels[0]);
 		}
 	}, [selectedModel, allModels]);
+
+	useEffect(() => {
+		// Need to add this because when you define styles for the body and html elements in intro-style.css, those styles apply globally to the entire document, affecting all components
+		document.body.style.margin = "20px";
+		document.body.style.padding = "0px";
+		document.body.style.backgroundColor = "#515151";
+		document.documentElement.style.height = "100vh";
+		document.documentElement.style.overflow = "hidden";
+	
+		// Cleanup function to reset styles when component unmounts
+		return () => {
+			document.body.style = "";
+            document.documentElement.style = "";
+		};
+	  }, []);
+	
 
 	return (
 		<div className="app">

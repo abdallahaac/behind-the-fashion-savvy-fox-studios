@@ -4,10 +4,17 @@ import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
 import ReactDOM from "react-dom/client";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Marquee from "react-fast-marquee";
 import BackgroundImage from "./assets/images/background-image.svg"; // Update the path to your SVG
 
-const App = () => {
+const Intro = () => {
+	const navigate = useNavigate();
+	const handleSkipIntro = (e) => {
+		e.preventDefault();
+		navigate('/choose-selection');
+	};
+
 	const sentences = [
 		"Sustainability and ethics in fashion are catalysts for a revolutionary shift toward a more harmonious world.",
 		"This movement redefines fashion, transforming it into a force for good — ensuring style no longer comes at the expense of the planet or its people. The future of fashion is responsible, regenerative, and transformative.",
@@ -45,6 +52,27 @@ const App = () => {
 		return () => clearInterval(interval);
 	}, [currentWordIndex, currentSentenceIndex, sentences]);
 
+	
+	useEffect(() => {
+        // Apply styles to body and html elements
+        document.body.style.margin = "0";
+        document.body.style.padding = "0";
+        document.body.style.fontFamily = '"Kode Mono", monospace';
+        document.body.style.height = "100vh";
+        document.body.style.overflow = "hidden";
+        document.body.style.background = "linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%)";
+        document.documentElement.style.height = "100vh";
+        document.documentElement.style.overflow = "hidden";
+
+        // Cleanup function to reset styles when component unmounts
+        return () => {
+            document.body.style = "";
+            document.documentElement.style = "";
+        };
+    }, []);
+
+	
+
 	return (
 		<div className="homepage">
 			<header className="header">
@@ -75,7 +103,7 @@ const App = () => {
 							))}
 						</p>
 					))}
-					<a href="#" className="skip-intro">
+					<a href="#" className="skip-intro" onClick={handleSkipIntro}>
 						[SKIP INTRO]
 					</a>
 				</div>
@@ -87,8 +115,8 @@ const App = () => {
 	);
 };
 
-const root = ReactDOM.createRoot(document.querySelector("#root"));
+// const root = ReactDOM.createRoot(document.querySelector("#root"));
 
-root.render(<App />);
+// root.render(<Intro />);
 
-export default App;
+export default Intro;

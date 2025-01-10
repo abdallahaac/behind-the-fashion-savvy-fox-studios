@@ -22,6 +22,6 @@
     "react-fast-marquee": "^1.6.5",
     "react-router-dom": "^7.1.1",
     "three": "^0.166.1",
-    "vite": "^6.0.7"
+    "vite": "^5.0.0"
   }
 }
