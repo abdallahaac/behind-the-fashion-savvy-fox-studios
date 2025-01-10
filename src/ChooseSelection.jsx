@@ -60,9 +60,6 @@ function ChooseSelection() {
 		document.body.style.margin = "20px";
 		document.body.style.padding = "0px";
 		document.body.style.backgroundColor = "#515151";
-		document.documentElement.style.height = "100vh";
-		document.documentElement.style.overflow = "hidden";
-	
 		// Cleanup function to reset styles when component unmounts
 		return () => {
 			document.body.style = "";

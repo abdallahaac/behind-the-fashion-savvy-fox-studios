@@ -46,6 +46,7 @@
     flex: none;
     order: 0;
     align-self: stretch;
+    background: none;
     flex-grow: 1; /* Allow it to grow to fill available space */
     justify-content: space-between; /* Push .change-tag to the far right */
 }
