@@ -75,7 +75,7 @@ const Intro = () => {
 
 	return (
 		<div className="homepage">
-			<header className="header">
+			<header className="banner">
 				<Marquee
 					gradient={false}
 					speed={30}
