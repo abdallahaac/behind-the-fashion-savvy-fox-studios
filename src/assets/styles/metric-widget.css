@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Kode+Mono:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap");
+
+/* Outer container */
+.metric-container {
+    display: flex;
+    justify-content: space-around; /* Space out each metric widget evenly */
+    width: 100%; /* Span the width of the screen */
+    padding: 20px; /* Optional: Add padding if needed */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+/* Metric Widget */
+.metric-widget {
+    display: flex; /* Changed to flex to allow it to grow */
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 6px;
+    background: #2e2e2e;
+    border-radius: 16px;
+    flex: 1; /* Allow it to grow */
+    /* max-width: 300px; Optional: Set a max width if needed */
+}
+
+/* Widget content container */
+.widget-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 1; /* Let it grow so header can use full width */
+    width: 100%; /* Ensures .header can stretch across the full widget */
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 4px;
+    gap: 4px;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    background: none;
+    flex-grow: 1; /* Allow it to grow to fill available space */
+    justify-content: space-between; /* Push .change-tag to the far right */
+}
+
+/* Indicator */
+.indicator {
+    width: 6px;
+    height: 6px;
+    background: #fffefd;
+    border-radius: 2px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Widget Label */
+.widget-label {
+    line-height: 13px;
+    text-transform: uppercase;
+    color: #fffefd;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    white-space: nowrap; /* Prevent label from breaking line */
+}
+
+.change-tag {
+    margin-left: auto; /* Push this element to the far right */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 4px;
+    gap: 10px;
+    border-radius: 4px;
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+/* % Change */
+.percent-change {
+    font-family: "Kode Mono", monospace;
+    font-style: normal;
+    padding: 5px;
+    font-weight: lighter !important;
+    font-size: 13px;
+    border-radius: 7px;
+    line-height: 13px;
+    color: #fffefd;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    white-space: nowrap; /* Prevent from breaking line */
+}
+
+/* Stat Section */
+.stat {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 12px;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Icon */
+.icon {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Stat Content */
+.stat-content {
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #fffefd;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    white-space: nowrap; /* Prevent line wrapping */
+}
+
+/* Graph Line (hidden) */
+.graph-line {
+    display: none;
+    border: 1px solid #ffeeeb;
+    border-radius: 3px;
+    transform: matrix(1, 0, 0, -1, 0, 0);
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
