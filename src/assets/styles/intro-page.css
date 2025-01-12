@@ -66,9 +66,9 @@ html {
 
 /* Intro Body */
 .intro-body {
-	position: absolute;
+	/* position: absolute;
 	left: 80px;
-	top: 239px;
+	top: 239px; */
 	max-width: 599px;
 	display: flex;
 	flex-direction: column;
@@ -121,9 +121,9 @@ html {
 
 /* Intro Image */
 .intro-image {
-	position: absolute;
+	/* position: absolute;
 	top: 0;
-	right: 0;
+	right: 0; */
 	width: 555px;
 	height: 832px;
 	scale: 1.1;
