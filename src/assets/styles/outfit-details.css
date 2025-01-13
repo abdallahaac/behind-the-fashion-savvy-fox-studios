@@ -85,7 +85,7 @@
 
 .add-button {
 	display: block;
-	width: auto;
+	width: auto !important ;
 	background-color: #C83C00;
 	color: #fff;
 	border: none;

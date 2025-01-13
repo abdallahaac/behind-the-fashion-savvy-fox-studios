@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Intro from './Intro.jsx';
+import Intro from './intro.jsx';
+import LandingPage from './Landing-page.jsx';
 import ChooseSelection from './ChooseSelection.jsx'; // Import the ChooseSelection component
 import { ModelsProvider } from './utils/ModelsContext.jsx'; // Import ModelsProvider
 
@@ -12,6 +13,7 @@ root.render(
       <Routes>
         <Route path="/choose-selection" element={<ChooseSelection />} />
         <Route path="/" element={<Intro />} />
+        <Route path="/landing-page" element={<LandingPage />} />
       </Routes>
     </Router>
   </ModelsProvider>

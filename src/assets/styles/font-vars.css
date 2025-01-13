@@ -6,12 +6,14 @@
     --font-family-kodo: "Kode Mono", serif;
     --font-family-dm-sans: "DM Sans", sans-serif;
     /* accent font sizes*/
+    --landing-page: 64px;
     --accent-1: 32px;
     --accent-2: 24px;
     --accent-3: 20px;
     --accent-4: 16px;
     --accent-5: 14px;
     --accent-6: 12px;
+
 
     --font-style-normal: normal;
     --font-weight-light: lighter;
@@ -30,6 +32,11 @@
 
   /* Add appropriate class to html elements */
   /* KODO */
+  .landing-page{
+    font-family: var(--font-family-kodo);
+    font-size: var(--landing-page);
+    font-weight: var(--font-weight-semibold);
+  }
   .accent-1 {
     font-family: var(--font-family-kodo);
     font-size: var(--accent-1);

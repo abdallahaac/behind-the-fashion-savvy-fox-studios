@@ -16,7 +16,7 @@ const Intro = () => {
     const navigate = useNavigate();
     const handleSkipIntro = (e) => {
         e.preventDefault();
-        navigate('/choose-selection');
+        navigate('/landing-page');
     };
 
     const sentences = [
@@ -59,9 +59,9 @@ const Intro = () => {
                 // Wait 5 seconds before fading out the words
                 setTimeout(() => {
                     setIsFading(true);
-                    // setTimeout(() => {
-                    //     navigate('/choose-selection');
-                    // }, 1000); // Duration of the fade-out animation before navigating to the next page
+                    setTimeout(() => {
+                        navigate('/landing-page');
+                    }, 1000); // Duration of the fade-out animation before navigating to the next page
                 }, 5000); // Wait 5 seconds before starting the fade-out
                 clearInterval(interval);
             }
@@ -113,9 +113,9 @@ const Intro = () => {
 
             <main className="content">
                 <div className="text-content">
-                    <div className="intro-header">
-                        <h1>BEHIND THE FASHION</h1>
-                        <h2>// INTRO</h2>
+					<div className={`intro-header ${isFading ? "fade-out" : ""}`}>	
+                        <h1 className="accent-5">BEHIND THE FASHION</h1>
+                        <h2 className="accent-6">// INTRO</h2>
                     </div>
                     <div className="intro-body">
                         {revealedWords.map((words, sentenceIndex) => (
@@ -127,7 +127,7 @@ const Intro = () => {
                                 ))}
                             </p>
                         ))}
-                        <a href="#" className={`skip-intro  ${isFading ? "fade-out" : ""}`} onClick={handleSkipIntro}>
+                        <a href="#" className={`skip-intro  ${isFading ? "fade-out" : ""} accent-5`} onClick={handleSkipIntro}>
                             [SKIP INTRO]
                         </a>
                     </div>
