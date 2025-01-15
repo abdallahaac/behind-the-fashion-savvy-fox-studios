@@ -1,0 +1,70 @@
+/* budget-roller.css */
+.budget-roller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width:80%;
+    background-color: white;
+}
+
+.number-display {
+    display: flex;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    height: 72px;
+    overflow: hidden;
+    width:100%;
+    justify-content: space-between;
+}
+
+.digit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 46px; /* Adjust width as needed */
+    overflow: hidden;
+    position: relative;
+    margin:2px;
+    background-color: #F0F0F0;
+    border-radius: 5px;
+}
+
+.digit-value {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* Adjust width as needed */
+
+}
+
+#roll-button {
+
+    display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+    width:100% !important;
+}
+
+.roll-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+.currency {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* Adjust spacing as needed */
+}
+

@@ -77,12 +77,12 @@
     .heading-1 {
         font-family: var(--font-family-dm-sans);
         font-size: var(--heading-1);
-        font-style: var(--font-style-semibold);
+        font-weight: var(--font-weight-semibold);
     }
     .heading-2 {
         font-family: var(--font-family-dm-sans);
         font-size: var(--heading-2);
-        font-style: var(--font-style-semibold);
+        font-weight: var(--font-weight-semibold);
     }
     .body-text-large {
         font-family: var(--font-family-dm-sans);

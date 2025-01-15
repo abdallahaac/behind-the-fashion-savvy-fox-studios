@@ -21,12 +21,22 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
 .tutorial-video {
     width: 100%;
     height: calc(100% - 60px); /* Adjust height to fit within the tutorial box */
+}
+/* DO NOT EDIT THIS - WEIRD BLACK BORDER WILL SHOW UP */
+video{
+    clip-path: inset(2px 2px);
+    clip-path: fill-box;
+    overflow:hidden;
+    margin-bottom:-1px;
+    outline:none;
+    border-radius:1px;
 }
 
 #tutorial-button {
@@ -40,11 +50,9 @@
     color: white;
     border: none;
     cursor: pointer;
+    width:100% !important;
 }
 
-.tutorial-button:hover {
-    background-color: #0056b3;
-}
 
 #next-button{
     padding: 0px 8px;
@@ -65,5 +73,5 @@
 }
 
 .pagination-dot.active {
-    background-color: #007bff;
+    background-color: #C83C00;
 }
