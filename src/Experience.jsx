@@ -1,23 +1,19 @@
-import { useThree, useFrame } from "@react-three/fiber";
-import { useRef, useEffect, useState } from "react";
+// Experience.jsx
+import { useThree, useFrame, useLoader } from "@react-three/fiber";
+import { useRef, useEffect } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-// Import from Leva & r3f-perf if needed
+// 1) Import Leva & r3f-perf for debugging
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 
 export default function Experience({ selectedModel }) {
 	// Access the THREE.js WebGL context & camera
 	const { gl, camera } = useThree();
-	const [modelScene, setModelScene] = useState(null);
 	const groupRef = useRef();
 
-	// Track mouse dragging
-	const isDragging = useRef(false);
-	const lastX = useRef(0);
-
 	// ─────────────────────────────────────────────
-	// 1) Leva controls for camera & lights
+	// LEVA CONTROLS: Camera & Lights
 	// ─────────────────────────────────────────────
 	const {
 		cameraFov,
@@ -63,98 +59,81 @@ export default function Experience({ selectedModel }) {
 	});
 
 	// ─────────────────────────────────────────────
-	// 2) Leva controls for the PLANE
-	//    (position, rotation, scale, color, etc.)
+	// LEVA CONTROLS: Plane
 	// ─────────────────────────────────────────────
 	const { planePos, planeRot, planeScale, planeColor } = useControls(
 		"Debug - Plane",
 		{
-			planePos: {
-				value: { x: 0, y: -1, z: 0 },
-				step: 0.1,
-			},
-			planeRot: {
-				value: { x: -Math.PI * 0.5, y: 0, z: 0 },
-				step: 0.1,
-			},
-			planeScale: {
-				value: 10,
-				min: 1,
-				max: 50,
-				step: 1,
-			},
+			planePos: { value: { x: 0, y: -1, z: 0 }, step: 0.1 },
+			planeRot: { value: { x: -Math.PI * 0.5, y: 0, z: 0 }, step: 0.1 },
+			planeScale: { value: 10, min: 1, max: 50, step: 1 },
 			planeColor: "#88ff88",
 		}
 	);
 
 	// ─────────────────────────────────────────────
-	// 3) Leva controls for the MODEL group
-	//    (position, rotation, scale, etc.)
+	// LEVA CONTROLS: Model transform
 	// ─────────────────────────────────────────────
 	const { modelPos, modelRot, modelScale } = useControls("Debug - Model", {
-		modelPos: {
-			value: { x: -3, y: 0, z: 2 },
-			step: 0.1,
-		},
-		modelRot: {
-			value: { x: 0, y: 0, z: 0 },
-			step: 0.1,
-		},
-		modelScale: {
-			value: 1,
-			min: 0.1,
-			max: 5,
-			step: 0.1,
-		},
+		modelPos: { value: { x: 0.8, y: -1.4, z: 2.8 }, step: 0.1 },
+		modelRot: { value: { x: 0, y: 0, z: 0 }, step: 0.1 },
+		modelScale: { value: 0.1, min: 0.1, max: 5, step: 0.1 },
 	});
 
 	// ─────────────────────────────────────────────
-	// Apply camera & lights updates
+	// Apply camera & lights updates each frame
 	// ─────────────────────────────────────────────
 	useFrame(() => {
-		// Camera position and rotation updates
 		camera.fov = cameraFov;
 		camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 		camera.rotation.set(cameraRotation.x, cameraRotation.y, cameraRotation.z);
 		camera.updateProjectionMatrix();
 	});
 
-	// Load the selected model
-	useEffect(() => {
-		if (!selectedModel) return;
-		const loader = new GLTFLoader();
-		loader.load(selectedModel.model, (gltf) => {
-			setModelScene(gltf.scene);
-		});
-	}, [selectedModel]);
+	// ─────────────────────────────────────────────
+	// Load model via Suspense + `useLoader`
+	// ─────────────────────────────────────────────
+	// If `selectedModel` is null, pass a fallback or skip
+	const modelPath = selectedModel?.model || null;
+	// This triggers the `<Loader />` fallback in Suspense if not yet loaded
+	const gltf = useLoader(GLTFLoader, modelPath);
 
-	// Continuously rotate the model on the Y-axis
-	useFrame((state, delta) => {
+	// Adjust camera once
+	useEffect(() => {
+		camera.rotation.set(-0.24, 0.01, 0.0);
+	}, [camera]);
+
+	// ─────────────────────────────────────────────
+	// Slowly auto-rotate the model
+	// ─────────────────────────────────────────────
+	useFrame((_, delta) => {
 		if (groupRef.current) {
-			// Add a slow auto-rotation
 			groupRef.current.rotation.y += 0.2 * delta;
 		}
 	});
 
-	// Attach event listeners for manual dragging
+	// ─────────────────────────────────────────────
+	// Dragging logic for the model (optional)
+	// ─────────────────────────────────────────────
 	useEffect(() => {
 		const canvas = gl.domElement;
+		let isDragging = false;
+		let lastX = 0;
 
 		const handlePointerDown = (e) => {
-			isDragging.current = true;
-			lastX.current = e.clientX;
+			isDragging = true;
+			lastX = e.clientX;
 		};
 
 		const handlePointerMove = (e) => {
-			if (!isDragging.current || !groupRef.current) return;
-			const deltaX = e.clientX - lastX.current;
-			lastX.current = e.clientX;
-			// Manual Y-axis rotation from drag
+			if (!isDragging || !groupRef.current) return;
+			const deltaX = e.clientX - lastX;
+			lastX = e.clientX;
 			groupRef.current.rotation.y += deltaX * 0.01;
 		};
 
 		const handlePointerUp = () => {
-			isDragging.current = false;
+			isDragging = false;
 		};
 
 		canvas.addEventListener("pointerdown", handlePointerDown);
@@ -175,7 +154,10 @@ export default function Experience({ selectedModel }) {
 	// ─────────────────────────────────────────────
 	return (
 		<>
-			{/* Optional performance panel */}
+			{/*
+        OPTIONAL Performance panel. 
+        Uncomment to see real-time stats:
+      */}
 			{/* <Perf position="top-left" /> */}
 
 			{/* Lights with intensities from Leva */}
@@ -186,23 +168,23 @@ export default function Experience({ selectedModel }) {
 			<ambientLight intensity={ambientLightIntensity} />
 
 			{/* Plane with transform & color from Leva */}
-			<mesh
+			{/* <mesh
 				position={[planePos.x, planePos.y, planePos.z]}
 				rotation={[planeRot.x, planeRot.y, planeRot.z]}
 				scale={planeScale}
 			>
 				<planeGeometry />
 				<meshStandardMaterial color={planeColor} />
-			</mesh>
+			</mesh> */}
 
-			{/* Group that holds the model with transform from Leva */}
+			{/* The 3D Model group */}
 			<group
 				ref={groupRef}
 				position={[modelPos.x, modelPos.y, modelPos.z]}
 				rotation={[modelRot.x, modelRot.y, modelRot.z]}
 				scale={modelScale}
 			>
-				{modelScene && <primitive object={modelScene} />}
+				{gltf && <primitive object={gltf.scene} />}
 			</group>
 		</>
 	);

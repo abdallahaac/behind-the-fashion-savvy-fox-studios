@@ -126,7 +126,7 @@
 	align-items: flex-start;
 	padding: 0px;
 	gap: 8px;
-	width: 345px;
+	width: 100%;
 	height: 173px;
 	flex: none;
 	order: 1;
@@ -147,10 +147,11 @@
 .thumbnail-list {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
 	padding: 0px;
 	gap: 8px;
-	width: 345px;
+	width: 100%;
 	height: 145px;
 	flex: none;
 	order: 1;
@@ -173,9 +174,19 @@
 	flex: none;
 	flex-grow: 1;
 }
+/* .thumbnail {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border: 1px dashed #ccc;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 10px;
+} */
+
 
 .empty-state-text {
-	width: 39px;
 	height: 41px;
 	font-family: "Kode Mono", monospace;
 	font-size: 32px;
@@ -272,7 +283,7 @@
 	align-items: center;
 	padding: 16px 24px;
 	gap: 24px;
-	width: 345px;
+	/* width: 345px; */
 	height: 83px;
 	background: #3d3d3d;
 	border: 1px solid #222222;
@@ -347,16 +358,6 @@
 	width: 24px;
 	height: 24px;
 	/* Add an icon if needed */
-}
-.thumbnail {
-	position: relative;
-	width: 100px;
-	height: 100px;
-	border: 1px dashed #ccc;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 10px;
 }
 
 .thumbnail-content {
