@@ -195,6 +195,7 @@ function ChooseSelection() {
 							<SelectionPanel
 								collection={collection}
 								onRemoveFromCollection={removeFromCollection}
+								currentStep={2}
 							/>
 						</div>
 					</div>

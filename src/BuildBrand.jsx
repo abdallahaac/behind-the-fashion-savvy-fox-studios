@@ -68,31 +68,87 @@ export default function BuildBrand() {
 					label="Budget"
 					value="$ 45,123"
 					percentChange="-XX%"
-					indicatorColor="#fffff"
+					indicatorColor="#ffffff"
+					percentChangeStyles={{
+						backgroundColor: "none",
+						padding: "3px 6px",
+						borderRadius: "5px",
+						color: "#ffffff",
+						fontWeight: "bold",
+					}}
 				/>
 				<Metric
-					label="Budget"
-					value="$ 45,123"
+					label="Sustainability"
+					value=""
 					percentChange="-XX%"
-					indicatorColor="#fffff"
+					indicatorColor="#1d7b18"
+					percentChangeStyles={{
+						backgroundColor: "#1d7b18",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#ffffff",
+						fontSize: "13px",
+					}}
+					icon={
+						<img
+							src={leaf}
+							alt="Sustainability Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
 				/>
 				<Metric
-					label="Budget"
-					value="$ 45,123"
+					label="Ethics"
+					value=""
 					percentChange="-XX%"
-					indicatorColor="#fffff"
+					indicatorColor="#1d7b18"
+					percentChangeStyles={{
+						backgroundColor: "#1d7b18",
+						padding: "3px 6px",
+						borderRadius: "5px",
+						color: "#ffffff",
+						fontWeight: "bold",
+					}}
+					icon={
+						<img
+							src={thumb}
+							alt="Ethics Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
 				/>
 				<Metric
-					label="Budget"
-					value="$ 45,123"
+					label="Popularity"
+					value=""
 					percentChange="-XX%"
-					indicatorColor="#fffff"
+					indicatorColor="#C83C00"
+					percentChangeStyles={{
+						backgroundColor: "#C83C00",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#fffefd",
+						fontSize: "13px",
+					}}
+					icon={
+						<img
+							src={heart}
+							alt="Popularity Icon"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					}
 				/>
 				<Metric
-					label="Budget"
-					value="$ 45,123"
+					label="Projected Revenue"
+					value="$"
 					percentChange="-XX%"
-					indicatorColor="#fffff"
+					indicatorColor="#C83C00"
+					percentChangeStyles={{
+						backgroundColor: "#C83C00",
+						padding: "5px",
+						borderRadius: "7px",
+						color: "#fffefd",
+						fontSize: "13px",
+					}}
 				/>
 			</div>
 

@@ -1,31 +1,32 @@
+// SelectionPanel.js
 import React, { useState } from "react";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
 import shopping_bag from "../assets/images/shopping_bag.svg";
+import FontStyleSelection from "./FontSelection";
 
 const SelectionPanel = ({
 	collection,
 	onRemoveFromCollection,
 	currentStep,
 }) => {
-	// 1. Create a state variable for the brand name
 	const [brandName, setBrandName] = useState("");
+	// New state for font style selection
+	const [fontStyle, setFontStyle] = useState(null);
+
 	console.log("currentStep in SelectionPanel:", currentStep);
 
 	return (
 		<div className="selection-panel">
 			{/* Header Section */}
 			<div className="header-section">
-				{/* Step Count Bar (always visible) */}
 				<StepCountBar currentStep={currentStep} totalSteps={5} />
-
 				{currentStep === 1 && (
 					<div className="choose-outfit-designs accent-2">
 						Create your brand
 					</div>
 				)}
-
 				{currentStep === 2 && (
 					<div className="choose-outfit-designs accent-2">
 						Choose Outfit Designs
@@ -41,14 +42,11 @@ const SelectionPanel = ({
 						style={{ marginBottom: "240px" }}
 					>
 						<div className="my-collection accent-4">Brand Name</div>
-
-						{/* Position a parent container relative to hold the input + counter */}
 						<div style={{ position: "relative", width: "100%" }}>
 							<input
 								type="text"
 								placeholder="Brand Name..."
 								maxLength="12"
-								// 2. Bind the input to our state variable
 								value={brandName}
 								onChange={(e) => setBrandName(e.target.value)}
 								style={{
@@ -61,11 +59,9 @@ const SelectionPanel = ({
 									outline: "none",
 									fontSize: "14px",
 									background: "#222222",
-									borderRadius: "4px",
 									letterSpacing: "1px",
 								}}
 							/>
-							{/* 3. The character counter (absolute positioned) */}
 							<div
 								style={{
 									position: "absolute",
@@ -75,7 +71,6 @@ const SelectionPanel = ({
 									color: "#CCC",
 									fontSize: "12px",
 									fontFamily: "'DM Sans', sans-serif",
-									//
 								}}
 							>
 								{brandName.length} / 12
@@ -83,90 +78,22 @@ const SelectionPanel = ({
 						</div>
 					</div>
 
-					{/* Font Style Selection */}
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "8px",
-							marginTop: "16px",
-						}}
-					>
-						{/* Font Style Header */}
-						<div
-							style={{
-								fontFamily: "'DM Sans', sans-serif",
-								fontSize: "12px",
-								fontWeight: "bold",
-								color: "#FFFFFF",
-								textTransform: "uppercase",
-							}}
-						>
-							Font Style
-						</div>
-
-						{/* Font Style Options */}
-						<div
-							style={{
-								display: "flex",
-								flexWrap: "wrap",
-								gap: "8px",
-							}}
-						>
-							{[
-								{ text: "Future", active: true },
-								{ text: "Minimalist", active: false },
-								{ text: "Retro", active: true },
-								{ text: "Elegant", active: false },
-								{ text: "Bohemian", active: false },
-								{ text: "Playful", active: false },
-							].map(({ text, active }) => (
-								<div
-									key={text}
-									style={{
-										display: "flex",
-										justifyContent: "center",
-										alignItems: "center",
-										padding: "4px 12px",
-										borderRadius: "32px",
-										background: active ? "#FFEEEB" : "#FFFEFD",
-										color: active ? "#C83C00" : "#0F0F0F",
-										fontFamily: active ? "'Kode Mono'" : "'DM Sans'",
-										fontWeight: active ? "700" : "400",
-										fontSize: "12px",
-										textTransform: "uppercase",
-										cursor: "pointer",
-										border: "1px solid transparent",
-										minWidth: "60px",
-										textAlign: "center",
-									}}
-								>
-									{text}
-									{active && (
-										<span
-											style={{
-												marginLeft: "8px",
-												color: "#C83C00",
-												fontWeight: "bold",
-												cursor: "pointer",
-											}}
-										>
-											×
-										</span>
-									)}
-								</div>
-							))}
-						</div>
-					</div>
+					{/* Pass state and updater to FontStyleSelection */}
+					<FontStyleSelection
+						selectedOption={fontStyle}
+						setSelectedOption={setFontStyle}
+					/>
 
 					{/* Total Price Widget */}
 					<div className="total-price-widget">
 						<div className="price">
-							{/* 4. Display brandName if it’s not empty; otherwise, fallback to "Brand Name" */}
 							<div className="dollar-amount accent-2">
 								{brandName || "Brand Name"}
 							</div>
-							<div className="total-design-price label-large">Brand Style</div>
+							{/* Display the dynamically selected font style */}
+							<div className="total-design-price label-large">
+								{fontStyle || "Brand Style"}
+							</div>
 						</div>
 						<div className="button">
 							<div className="button-text body-text-medium">Create</div>

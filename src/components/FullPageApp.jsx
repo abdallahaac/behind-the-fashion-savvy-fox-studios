@@ -174,8 +174,6 @@ export default function FullPageApp() {
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
-							currentStep={2}
-							//
 						/>
 					</div>
 				</div>
