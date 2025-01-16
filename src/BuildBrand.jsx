@@ -159,13 +159,13 @@ export default function BuildBrand() {
 					style={{
 						position: "absolute",
 						zIndex: 0,
-						fontSize: "7rem",
+						fontSize: "8rem",
 						top: "50px",
 						left: "30%",
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
-						opacity: 0.2,
+						opacity: 0.8,
 						textTransform: "uppercase",
 					}}
 				>
@@ -176,13 +176,13 @@ export default function BuildBrand() {
 					style={{
 						position: "absolute",
 						zIndex: 0,
-						fontSize: "7rem",
+						fontSize: "8rem",
 						top: "250px",
 						left: "30%",
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
-						opacity: 0.2,
+						opacity: 0.8,
 						textTransform: "uppercase",
 					}}
 				>
@@ -193,21 +193,46 @@ export default function BuildBrand() {
 					style={{
 						position: "absolute",
 						zIndex: 3,
-						fontSize: "7rem",
+						fontSize: "8rem",
 						top: "450px",
-						left: "30%",
+						left: "29%",
 						transform: "translateX(-48%)",
 						margin: 0,
 						padding: 0,
 						textTransform: "uppercase",
 						opacity: 1,
+						marginBottom: "-100px",
+					}}
+				>
+					{brandName || "brand name"}
+				</h4>
+				<h4
+					style={{
+						zIndex: 0,
+
+						position: "absolute",
+						fontSize: "8rem",
+						top: "650px",
+						left: "29%",
+						transform: "translateX(-48%)",
+						margin: 0,
+						padding: 0,
+						textTransform: "uppercase",
+						opacity: 0.3,
+						marginBottom: "-100px",
 					}}
 				>
 					{brandName || "brand name"}
 				</h4>
 
 				<Canvas
-					style={{ position: "relative", zIndex: 1 }} // Higher z-index than h4
+					style={{
+						position: "relative",
+						zIndex: 1,
+
+						background:
+							"linear-gradient(to top,rgba(160, 169, 186, 0.6) 0%, #ffffff 100%)",
+					}} // Higher z-index than h4
 					gl={{
 						antialias: true,
 						toneMapping: THREE.ACESFilmicToneMapping,

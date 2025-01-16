@@ -87,7 +87,10 @@ const SelectionPanel = ({
 					{/* Total Price Widget */}
 					<div className="total-price-widget">
 						<div className="price">
-							<div className="dollar-amount accent-2">
+							<div
+								className="dollar-amount accent-2"
+								style={{ width: "188px" }}
+							>
 								{brandName || "Brand Name"}
 							</div>
 							{/* Display the dynamically selected font style */}
@@ -95,7 +98,7 @@ const SelectionPanel = ({
 								{fontStyle || "Brand Style"}
 							</div>
 						</div>
-						<div className="button">
+						<div className="button" style={{ width: "76px", height: "33px" }}>
 							<div className="button-text body-text-medium">Create</div>
 							<div className="button-icon"></div>
 						</div>
