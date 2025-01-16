@@ -1,3 +1,4 @@
+// SelectionPanel.js
 import React from "react";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
@@ -11,10 +12,9 @@ const SelectionPanel = ({
 	currentStep,
 	brandName,
 	setBrandName,
+	fontStyle,
+	setFontStyle,
 }) => {
-	// New state for font style selection
-	const [fontStyle, setFontStyle] = React.useState(null);
-
 	console.log("currentStep in SelectionPanel:", currentStep);
 
 	return (
@@ -78,7 +78,7 @@ const SelectionPanel = ({
 						</div>
 					</div>
 
-					{/* Pass state and updater to FontStyleSelection */}
+					{/* Pass fontStyle and its updater to FontStyleSelection */}
 					<FontStyleSelection
 						selectedOption={fontStyle}
 						setSelectedOption={setFontStyle}
@@ -140,8 +140,7 @@ const SelectionPanel = ({
 						<div className="collection-statistics-header accent-4">
 							Collection Statistics
 						</div>
-
-						{/* Info Widget 1 */}
+						{/* Example metric */}
 						<div className="collection-metric-container">
 							<CollectionOrigMetric
 								label="Collection Originality"

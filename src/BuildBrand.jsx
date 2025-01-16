@@ -1,3 +1,4 @@
+// BuildBrand.js
 import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
@@ -13,9 +14,31 @@ import leaf from "./assets/images/leaf.svg";
 import thumb from "./assets/images/thumb.svg";
 import heart from "./assets/images/heart.svg";
 
+// CSS imports
 import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
+
+// Create a helper function that returns the correct font family
+// for the currently selected fontStyle
+function getFontFamily(fontStyle) {
+	switch (fontStyle) {
+		case "Future":
+			return "'Orbitron', sans-serif";
+		case "Minimalist":
+			return "'DM Sans', sans-serif";
+		case "Retro":
+			return "'Kode Mono', monospace";
+		case "Elegant":
+			return "'Instrument Serif', serif";
+		case "Bohemian":
+			return "'MuseoModerno', cursive";
+		case "Playful":
+			return "'DynaPuff', cursive";
+		default:
+			return "inherit"; // Fallback font
+	}
+}
 
 export default function BuildBrand() {
 	// Grab our logo array from context
@@ -29,11 +52,14 @@ export default function BuildBrand() {
 	// State for the models in the "collection"
 	const [collection, setCollection] = useState([]);
 
-	// 1) State for the current step
+	// State for the current step
 	const [currentStep, setCurrentStep] = useState(1);
 
 	// Lifted state for the brand name
 	const [brandName, setBrandName] = useState("");
+
+	// NEW: State for the selected font style
+	const [fontStyle, setFontStyle] = useState("Future");
 
 	// Add a model to the collection if there is space (limit 3) and it's not already added
 	const addToCollection = (model) => {
@@ -57,12 +83,14 @@ export default function BuildBrand() {
 		}
 	}, [selectedLogoModel, LogoChoices]);
 
+	// Derive the font family from the selected style
+	const derivedFontFamily = getFontFamily(fontStyle);
+
 	return (
 		<div className="app">
 			{/* Top container with Logo and Metrics */}
 			<div className="logo-container">
 				<Logo />
-
 				{/* Example Metric components */}
 				<Metric
 					label="Budget"
@@ -155,18 +183,24 @@ export default function BuildBrand() {
 
 			{/* Main 3D Canvas area */}
 			<div className="canvas-container">
+				{/* 
+          Apply derivedFontFamily here. If fontStyle = 'Future', 
+          it uses "'Orbitron', sans-serif", etc.
+        */}
 				<h4
 					style={{
 						position: "absolute",
 						zIndex: 0,
 						fontSize: "8rem",
 						top: "50px",
-						left: "30%",
+						left: "39%",
+
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
 						opacity: 0.8,
 						textTransform: "uppercase",
+						fontFamily: derivedFontFamily,
 					}}
 				>
 					{brandName || "brand name"}
@@ -178,12 +212,14 @@ export default function BuildBrand() {
 						zIndex: 0,
 						fontSize: "8rem",
 						top: "250px",
-						left: "30%",
+						left: "39%",
+
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
 						opacity: 0.8,
 						textTransform: "uppercase",
+						fontFamily: derivedFontFamily,
 					}}
 				>
 					{brandName || "brand name"}
@@ -195,13 +231,14 @@ export default function BuildBrand() {
 						zIndex: 3,
 						fontSize: "8rem",
 						top: "450px",
-						left: "29%",
+						left: "38%",
 						transform: "translateX(-48%)",
 						margin: 0,
 						padding: 0,
 						textTransform: "uppercase",
 						opacity: 1,
 						marginBottom: "-100px",
+						fontFamily: derivedFontFamily,
 					}}
 				>
 					{brandName || "brand name"}
@@ -209,17 +246,17 @@ export default function BuildBrand() {
 				<h4
 					style={{
 						zIndex: 0,
-
 						position: "absolute",
 						fontSize: "8rem",
 						top: "650px",
-						left: "29%",
+						left: "38%",
 						transform: "translateX(-48%)",
 						margin: 0,
 						padding: 0,
 						textTransform: "uppercase",
 						opacity: 0.3,
 						marginBottom: "-100px",
+						fontFamily: derivedFontFamily,
 					}}
 				>
 					{brandName || "brand name"}
@@ -229,10 +266,9 @@ export default function BuildBrand() {
 					style={{
 						position: "relative",
 						zIndex: 1,
-
 						background:
 							"linear-gradient(to top,rgba(160, 169, 186, 0.6) 0%, #ffffff 100%)",
-					}} // Higher z-index than h4
+					}}
 					gl={{
 						antialias: true,
 						toneMapping: THREE.ACESFilmicToneMapping,
@@ -252,13 +288,18 @@ export default function BuildBrand() {
 				{/* Right-side (or below) detail panel */}
 				<div className="details-container">
 					<div className="outfit-details" style={{ zIndex: 10 }}>
-						{/* Pass the collection, current step, and brand state to SelectionPanel */}
+						{/* 
+               Pass the fontStyle and setFontStyle to the SelectionPanel 
+               so that it can control which font is selected
+            */}
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
 							currentStep={1}
 							brandName={brandName}
 							setBrandName={setBrandName}
+							fontStyle={fontStyle}
+							setFontStyle={setFontStyle}
 						/>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-// FontStyleSelection.js
+// FontSelection.js
 import React from "react";
 
 const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
