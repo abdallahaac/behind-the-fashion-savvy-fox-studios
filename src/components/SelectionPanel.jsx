@@ -74,6 +74,7 @@ const SelectionPanel = ({
 									color: "#CCC",
 									fontSize: "12px",
 									fontFamily: "'DM Sans', sans-serif",
+									//
 								}}
 							>
 								{brandName.length} / 12
