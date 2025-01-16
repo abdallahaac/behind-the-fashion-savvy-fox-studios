@@ -1,6 +1,8 @@
 import React, { createContext, useContext } from "react";
-// modelsData.js
+
+// Separate your outfit models and logo models into different arrays
 const modelsData = {
+	// Existing outfit models
 	EthicallyStrongOptions: [
 		{
 			id: 1,
@@ -115,6 +117,40 @@ const modelsData = {
 			popularity: 4.7,
 			description: "A balanced option.",
 			model: "/models/cube-01.glb",
+		},
+	],
+
+	// NEW: Add a separate array for your 5 logo models
+	LogoChoices: [
+		{
+			id: 1,
+			name: "Minimalist Leaf Logo",
+			description: "Simple leaf-based design for eco-friendly vibes.",
+			model: "/models/cube-02.glb",
+		},
+		{
+			id: 2,
+			name: "Retro Badge Logo",
+			description: "Vintage flair with bold lines and text.",
+			model: "/models/cube-03.glb",
+		},
+		{
+			id: 3,
+			name: "Futuristic Neon Logo",
+			description: "A neon-glow style with sharp edges.",
+			model: "/models/cube-02.glb",
+		},
+		{
+			id: 4,
+			name: "3D Chrome Logo",
+			description: "Metallic 3D effect, perfect for luxury brands.",
+			model: "/models/cube-03.glb",
+		},
+		{
+			id: 5,
+			name: "Handwritten Brush Logo",
+			description: "A playful script style for a casual brand.",
+			model: "/models/cube-03.glb",
 		},
 	],
 };

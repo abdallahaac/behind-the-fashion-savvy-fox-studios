@@ -69,7 +69,7 @@ const IntroPage = () => {
 						<p key={sentenceIndex}>
 							{words.map((word, wordIndex) => (
 								<span key={wordIndex} className="fade-in-word">
-									{word}{" "}
+									{word}
 								</span>
 							))}
 						</p>

@@ -63,10 +63,9 @@ function ChooseSelection() {
 		// Cleanup function to reset styles when component unmounts
 		return () => {
 			document.body.style = "";
-            document.documentElement.style = "";
+			document.documentElement.style = "";
 		};
-	  }, []);
-	
+	}, []);
 
 	return (
 		<div className="app">

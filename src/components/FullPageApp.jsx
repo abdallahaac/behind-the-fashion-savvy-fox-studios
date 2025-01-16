@@ -15,7 +15,7 @@ import thumb from "./assets/images/thumb.svg";
 import heart from "./assets/images/heart.svg";
 
 // Import your CSS files
-import "./style.css";
+
 import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
