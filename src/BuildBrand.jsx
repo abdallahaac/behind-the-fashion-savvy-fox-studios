@@ -158,43 +158,60 @@ export default function BuildBrand() {
 					style={{
 						position: "absolute",
 						zIndex: 0,
-						fontSize: "5vh",
-						top: "0px",
-						left: "50%", // center horizontally if desired
+						fontSize: "7rem",
+						top: "50px", // vertical position for Header One
+						left: "30%", // center horizontally
 						transform: "translateX(-50%)",
-						margin: 0,
-						padding: 0,
-					}}
-				>
-					Header One
-				</h4>
-				<h4
-					style={{
-						position: "absolute",
-						zIndex: 0,
-						fontSize: "5vh",
-						top: "407px", // adjust for center
-						left: "50%",
-						transform: "translate(-50%, -50%)", // to center vertically and horizontally at the point
 						margin: 0,
 						padding: 0,
 					}}
 				>
 					Header Two
 				</h4>
+
 				<h4
 					style={{
 						position: "absolute",
 						zIndex: 0,
-						fontSize: "5vh",
-						top: "814px", // near bottom; adjust if needed
-						left: "50%",
-						transform: "translate(-50%, -100%)", // shift up by height if needed
+						fontSize: "7rem",
+						top: "250px", // adjust vertical position for Header Two
+						left: "30%", // center horizontally
+						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
 					}}
 				>
-					Header Three
+					Header Two
+				</h4>
+
+				<h4
+					style={{
+						position: "absolute",
+						zIndex: 0,
+						fontSize: "7rem",
+						top: "450px", // adjust vertical position for Header Three
+						left: "30%", // center horizontally
+						transform: "translateX(-48%)",
+						margin: 0,
+						padding: 0,
+					}}
+				>
+					Header Two
+				</h4>
+
+				<h4
+					style={{
+						position: "absolute",
+						zIndex: 3,
+						fontSize: "7rem",
+						top: "650px", // adjust vertical position for Header Four
+						left: "30%", // center horizontally
+						transform: "translateX(-50%)",
+						margin: 0,
+						padding: 0,
+					}}
+				>
+					Header Two
 				</h4>
 
 				<Canvas
@@ -229,7 +246,7 @@ export default function BuildBrand() {
 			</div>
 
 			{/* Render the logo model list at the bottom (or wherever needed) */}
-			<div className="model-list-container">
+			<div className="model-list-container" style={{ zIndex: "1000" }}>
 				<LogoModelList
 					selectedLogoModel={selectedLogoModel}
 					onLogoModelChange={setSelectedLogoModel}
