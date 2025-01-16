@@ -11,6 +11,7 @@ const SelectionPanel = ({
 }) => {
 	// 1. Create a state variable for the brand name
 	const [brandName, setBrandName] = useState("");
+	console.log("currentStep in SelectionPanel:", currentStep);
 
 	return (
 		<div className="selection-panel">

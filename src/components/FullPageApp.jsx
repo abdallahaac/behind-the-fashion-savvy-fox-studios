@@ -1,4 +1,4 @@
-// FullPageApp.jsx
+"// FullPageApp.jsx";
 import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
@@ -174,6 +174,7 @@ export default function FullPageApp() {
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
+							currentStep={2}
 						/>
 					</div>
 				</div>
