@@ -154,7 +154,51 @@ export default function BuildBrand() {
 
 			{/* Main 3D Canvas area */}
 			<div className="canvas-container">
+				<h4
+					style={{
+						position: "absolute",
+						zIndex: 0,
+						fontSize: "5vh",
+						top: "0px",
+						left: "50%", // center horizontally if desired
+						transform: "translateX(-50%)",
+						margin: 0,
+						padding: 0,
+					}}
+				>
+					Header One
+				</h4>
+				<h4
+					style={{
+						position: "absolute",
+						zIndex: 0,
+						fontSize: "5vh",
+						top: "407px", // adjust for center
+						left: "50%",
+						transform: "translate(-50%, -50%)", // to center vertically and horizontally at the point
+						margin: 0,
+						padding: 0,
+					}}
+				>
+					Header Two
+				</h4>
+				<h4
+					style={{
+						position: "absolute",
+						zIndex: 0,
+						fontSize: "5vh",
+						top: "814px", // near bottom; adjust if needed
+						left: "50%",
+						transform: "translate(-50%, -100%)", // shift up by height if needed
+						margin: 0,
+						padding: 0,
+					}}
+				>
+					Header Three
+				</h4>
+
 				<Canvas
+					style={{ position: "relative", zIndex: 1 }} // Higher z-index than h4
 					gl={{
 						antialias: true,
 						toneMapping: THREE.ACESFilmicToneMapping,
@@ -165,10 +209,6 @@ export default function BuildBrand() {
 						far: 200,
 						position: [3.8, 2.0, 7.2],
 						rotation: [-0.19, -0.1, 0.11],
-					}}
-					style={{
-						background:
-							"linear-gradient(to top,rgba(160, 169, 186, 0.6) 0%, #ffffff 100%)",
 					}}
 				>
 					{/* Pass the selected logo to the Experience component */}
