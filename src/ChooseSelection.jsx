@@ -194,6 +194,7 @@ function ChooseSelection() {
 						</div>
 						<div className="outfit-details">
 							<SelectionPanel
+								selectedModel={selectedModel}
 								collection={collection}
 								onRemoveFromCollection={removeFromCollection}
 							/>
