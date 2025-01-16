@@ -5,9 +5,6 @@ import Experience from "./Experience";
 import Logo from "./components/Logo";
 import Metric from "./components/MetricWidget";
 import SelectionPanel from "./components/SelectionPanel";
-import OutfitDetails from "./components/OutfitDetails";
-
-// Import the new LogoModelList
 import LogoModelList from "./components/LogoModelList";
 
 import { useModels } from "./utils/ModelsContext";
@@ -34,6 +31,9 @@ export default function BuildBrand() {
 
 	// 1) State for the current step
 	const [currentStep, setCurrentStep] = useState(1);
+
+	// Lifted state for the brand name
+	const [brandName, setBrandName] = useState("");
 
 	// Add a model to the collection if there is space (limit 3) and it's not already added
 	const addToCollection = (model) => {
@@ -138,6 +138,7 @@ export default function BuildBrand() {
 					}
 				/>
 				<Metric
+					className="landing-page"
 					label="Projected Revenue"
 					value="$"
 					percentChange="-XX%"
@@ -159,14 +160,16 @@ export default function BuildBrand() {
 						position: "absolute",
 						zIndex: 0,
 						fontSize: "7rem",
-						top: "50px", // vertical position for Header One
-						left: "30%", // center horizontally
+						top: "50px",
+						left: "30%",
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
+						opacity: 0.2,
+						textTransform: "uppercase",
 					}}
 				>
-					Header Two
+					{brandName || "brand name"}
 				</h4>
 
 				<h4
@@ -174,29 +177,16 @@ export default function BuildBrand() {
 						position: "absolute",
 						zIndex: 0,
 						fontSize: "7rem",
-						top: "250px", // adjust vertical position for Header Two
-						left: "30%", // center horizontally
+						top: "250px",
+						left: "30%",
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
+						opacity: 0.2,
+						textTransform: "uppercase",
 					}}
 				>
-					Header Two
-				</h4>
-
-				<h4
-					style={{
-						position: "absolute",
-						zIndex: 0,
-						fontSize: "7rem",
-						top: "450px", // adjust vertical position for Header Three
-						left: "30%", // center horizontally
-						transform: "translateX(-48%)",
-						margin: 0,
-						padding: 0,
-					}}
-				>
-					Header Two
+					{brandName || "brand name"}
 				</h4>
 
 				<h4
@@ -204,14 +194,16 @@ export default function BuildBrand() {
 						position: "absolute",
 						zIndex: 3,
 						fontSize: "7rem",
-						top: "650px", // adjust vertical position for Header Four
-						left: "30%", // center horizontally
-						transform: "translateX(-50%)",
+						top: "450px",
+						left: "30%",
+						transform: "translateX(-48%)",
 						margin: 0,
 						padding: 0,
+						textTransform: "uppercase",
+						opacity: 1,
 					}}
 				>
-					Header Two
+					{brandName || "brand name"}
 				</h4>
 
 				<Canvas
@@ -234,19 +226,21 @@ export default function BuildBrand() {
 
 				{/* Right-side (or below) detail panel */}
 				<div className="details-container">
-					<div className="outfit-details">
-						{/* Pass the collection and current step into the selection panel */}
+					<div className="outfit-details" style={{ zIndex: 10 }}>
+						{/* Pass the collection, current step, and brand state to SelectionPanel */}
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
 							currentStep={1}
+							brandName={brandName}
+							setBrandName={setBrandName}
 						/>
 					</div>
 				</div>
 			</div>
 
 			{/* Render the logo model list at the bottom (or wherever needed) */}
-			<div className="model-list-container" style={{ zIndex: "1000" }}>
+			<div className="model-list-container" style={{ zIndex: "8" }}>
 				<LogoModelList
 					selectedLogoModel={selectedLogoModel}
 					onLogoModelChange={setSelectedLogoModel}

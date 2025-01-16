@@ -1,5 +1,4 @@
-// SelectionPanel.js
-import React, { useState } from "react";
+import React from "react";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
@@ -10,10 +9,11 @@ const SelectionPanel = ({
 	collection,
 	onRemoveFromCollection,
 	currentStep,
+	brandName,
+	setBrandName,
 }) => {
-	const [brandName, setBrandName] = useState("");
 	// New state for font style selection
-	const [fontStyle, setFontStyle] = useState(null);
+	const [fontStyle, setFontStyle] = React.useState(null);
 
 	console.log("currentStep in SelectionPanel:", currentStep);
 
@@ -103,7 +103,6 @@ const SelectionPanel = ({
 				</>
 			)}
 
-			{/* Everything below only shows for Step 2 */}
 			{currentStep === 2 && (
 				<>
 					{/* My Collection Block */}
