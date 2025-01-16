@@ -175,6 +175,7 @@ export default function FullPageApp() {
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
 							currentStep={2}
+							//
 						/>
 					</div>
 				</div>
