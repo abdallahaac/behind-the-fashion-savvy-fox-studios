@@ -1,194 +1,218 @@
 import { useThree, useFrame } from "@react-three/fiber";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
-
-// 1) Import Leva & r3f-perf for debugging
-import { useControls } from "leva";
-import { Perf } from "r3f-perf";
-
-// ─────────────────────────────────────────────
-const ENABLE_LEVA = false; // comment out to disable Leva
-// ─────────────────────────────────────────────
-
-// *** NEW: Import Environment from drei
 import { Environment } from "@react-three/drei";
 
+// If you need debugging, uncomment the lines below:
+// import { useControls } from "leva";
+// import { Perf } from "r3f-perf";
+const ENABLE_LEVA = true;
+
 export default function Experience({ selectedModel, preloadedModels }) {
-    // Access the THREE.js WebGL context & camera
-    const { gl, camera } = useThree();
-    const groupRef = useRef();
+	const { gl, camera } = useThree();
+	// The group we spin/orbit
+	const groupRef = useRef();
 
-	// 2) Provide fallback defaults (if Leva is disabled)
-	let cameraFov = camera.fov;
-	let cameraPosition = {
-		x: camera.position.x,
-		y: camera.position.y,
-		z: camera.position.z,
-	};
-	let cameraRotation = {
-		x: camera.rotation.x,
-		y: camera.rotation.y,
-		z: camera.rotation.z,
-	};
-	let ambientLightIntensity = 1.5;
-	let directionalLightIntensity = 4.5;
+	// Keep an internal angle for orbit (auto-rotate)
+	const [orbitAngle, setOrbitAngle] = useState(0);
 
-	let planePos = { x: 0, y: -1, z: 0 };
-	let planeRot = { x: -Math.PI * 0.5, y: 0, z: 0 };
-	let planeScale = 10;
-	let planeColor = "#88ff88";
+	// Get the preloaded model for the selected model
+	const gltf = preloadedModels[selectedModel.id - 1];
 
-	let modelPos = { x: 0.8, y: -1.4, z: 2.8 };
-	let modelRot = { x: 0, y: 0, z: 0 };
-	let modelScale = 0.1;
-
-	// 3) Only run useControls if ENABLE_LEVA is true
-	if (ENABLE_LEVA) {
-		({
-			cameraFov,
-			cameraPosition,
-			cameraRotation,
-			ambientLightIntensity,
-			directionalLightIntensity,
-		} = useControls("Debug - Camera & Lights", {
-			cameraFov: { value: camera.fov, min: 10, max: 100, step: 1 },
-			cameraPosition: {
-				value: {
-					x: camera.position.x,
-					y: camera.position.y,
-					z: camera.position.z,
-				},
-				step: 0.1,
-			},
-			cameraRotation: {
-				value: {
-					x: camera.rotation.x,
-					y: camera.rotation.y,
-					z: camera.rotation.z,
-				},
-				step: 0.01,
-			},
-			ambientLightIntensity: { value: 1.5, min: 0, max: 10, step: 0.1 },
-			directionalLightIntensity: { value: 4.5, min: 0, max: 10, step: 0.1 },
-		}));
-
-		({ planePos, planeRot, planeScale, planeColor } = useControls(
-			"Debug - Plane",
-			{
-				planePos: { value: { x: 0, y: -1, z: 0 }, step: 0.1 },
-				planeRot: { value: { x: -Math.PI * 0.5, y: 0, z: 0 }, step: 0.1 },
-				planeScale: { value: 10, min: 1, max: 50, step: 1 },
-				planeColor: "#88ff88",
-			}
-		));
-
-		({ modelPos, modelRot, modelScale } = useControls("Debug - Model", {
-			modelPos: { value: { x: 0.8, y: -1.4, z: 2.8 }, step: 0.1 },
-			modelRot: { value: { x: 0, y: 0, z: 0 }, step: 0.1 },
-			modelScale: { value: 0.1, min: 0.1, max: 5, step: 0.1 },
-		}));
-	}
-
-	useFrame(() => {
-		camera.fov = cameraFov;
-		camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
-		camera.rotation.set(cameraRotation.x, cameraRotation.y, cameraRotation.z);
-		camera.updateProjectionMatrix();
-	});
-
-    // Get the preloaded model for the selected model
-    const gltf = preloadedModels[selectedModel.id - 1]; // Assuming model IDs are 1-based and sequential
-
+	// On mount, tweak camera if desired
 	useEffect(() => {
-		camera.rotation.set(-0.24, 0.01, 0.0);
+		camera.rotation.set(-0.23, -0.1, 0.1);
 	}, [camera]);
 
-	// *** NEW: Override materials for reflectivity or glass
+	// ──────────────────────────────────────────────────
+	// (1) BOUNDING BOX LOGIC (normalize model sizes)
+	// ──────────────────────────────────────────────────
 	useEffect(() => {
 		if (!gltf) return;
-		gltf.scene.traverse((child) => {
-			if (child.isMesh) {
-				// --- Option A) Metallic, mirror-like:
-				child.material = new THREE.MeshPhysicalMaterial({
-					metalness: 1,
-					roughness: 0,
-					reflectivity: 1,
-					color: new THREE.Color("#ffffff"),
-				});
 
-				/* --- Option B) Glassy, translucent: 
-				child.material = new THREE.MeshPhysicalMaterial({
-					transmission: 1,
-					thickness: 0.5,
-					roughness: 0,
-					metalness: 0,
-					ior: 1.25, 
-					envMapIntensity: 1,
-					color: new THREE.Color("#ffffff"),
-				});
-				*/
-			}
-		});
+		const scene = gltf.scene;
+		const box = new THREE.Box3().setFromObject(scene);
+		const size = new THREE.Vector3();
+		box.getSize(size);
+
+		const desiredSize = 2; // largest dimension we want
+		const maxDim = Math.max(size.x, size.y, size.z);
+		const scaleFactor = desiredSize / maxDim;
+
+		scene.scale.setScalar(scaleFactor);
+
+		// Recompute bounding box, center the model
+		box.setFromObject(scene);
+		const center = new THREE.Vector3();
+		box.getCenter(center);
+		scene.position.sub(center);
 	}, [gltf]);
 
-	// Slowly auto-rotate the model
+	// ──────────────────────────────────────────────────
+	// (2) APPLY TRANSFORM FROM MODEL DATA
+	// ──────────────────────────────────────────────────
+	useEffect(() => {
+		if (!gltf || !selectedModel.transform) return;
+
+		const { position, rotation, scale } = selectedModel.transform;
+		const scene = gltf.scene;
+
+		// position
+		scene.position.fromArray(position || [0, 0, 0]);
+		// rotation
+		scene.rotation.fromArray(rotation || [0, 0, 0]);
+
+		// scale
+		if (typeof scale === "number") {
+			// uniform scale
+			scene.scale.setScalar(scale);
+		} else if (Array.isArray(scale)) {
+			// non-uniform scale, e.g. [1, 2, 1]
+			scene.scale.fromArray(scale);
+		}
+	}, [gltf, selectedModel]);
+
+	// ──────────────────────────────────────────────────
+	// (3) APPLY CUSTOM MATERIAL PARAMS
+	// ──────────────────────────────────────────────────
+	useEffect(() => {
+		if (!gltf || !selectedModel.materialParams) return;
+
+		gltf.scene.traverse((child) => {
+			if (child.isMesh) {
+				const {
+					metalness = 0.0,
+					roughness = 1.0,
+					color = "#ffffff",
+				} = selectedModel.materialParams;
+
+				// Reuse existing material
+				child.material.metalness = metalness;
+				child.material.roughness = roughness;
+				child.material.color = new THREE.Color(color);
+
+				// Or override with a new material if you prefer:
+				// child.material = new THREE.MeshPhysicalMaterial({ ... });
+			}
+		});
+	}, [gltf, selectedModel]);
+
+	// ──────────────────────────────────────────────────
+	// (4) AUTO SPIN + ORBIT THE MODEL
+	// ──────────────────────────────────────────────────
 	useFrame((_, delta) => {
-		if (groupRef.current) {
-			groupRef.current.rotation.y += 0.2 * delta;
+		if (!groupRef.current) return;
+
+		// Axis to spin around automatically
+		const axis = selectedModel.autoRotateAxis || "y"; // default
+		// Orbit radius (circle around origin)
+		const radius = selectedModel.autoRotateRadius || 0; // 0 = no orbit
+
+		// Spin in place
+		const spinSpeed = 0.2; // how fast to spin
+		switch (axis) {
+			case "x":
+				groupRef.current.rotation.x += spinSpeed * delta;
+				break;
+			case "z":
+				groupRef.current.rotation.z += spinSpeed * delta;
+				break;
+			case "y":
+			default:
+				groupRef.current.rotation.y += spinSpeed * delta;
+				break;
+		}
+
+		// Orbit around that axis
+		setOrbitAngle((prev) => prev + spinSpeed * delta);
+		const angle = orbitAngle + spinSpeed * delta;
+
+		// revolve in a plane perpendicular to the chosen axis
+		switch (axis) {
+			case "x":
+				// revolve in Y-Z plane
+				groupRef.current.position.y = radius * Math.sin(angle);
+				groupRef.current.position.z = radius * Math.cos(angle);
+				break;
+			case "z":
+				// revolve in X-Y plane
+				groupRef.current.position.x = radius * Math.sin(angle);
+				groupRef.current.position.y = radius * Math.cos(angle);
+				break;
+			case "y":
+			default:
+				// revolve in X-Z plane
+				groupRef.current.position.x = radius * Math.sin(angle);
+				groupRef.current.position.z = radius * Math.cos(angle);
+				break;
 		}
 	});
 
-	// Optional dragging logic
+	// ──────────────────────────────────────────────────
+	// (5) DRAG LOGIC: CHOOSE AXIS, SET SPEED
+	// ──────────────────────────────────────────────────
 	useEffect(() => {
 		const canvas = gl.domElement;
 		let isDragging = false;
 		let lastX = 0;
 
-        const handlePointerDown = (e) => {
-            isDragging = true;
-            lastX = e.clientX;
-        };
+		// Use the model's or a default drag speed
+		const mouseDragSpeed = selectedModel.mouseDragSpeed || 0.01;
+		// Which axis to rotate on drag? (x, y, or z)
+		const dragAxis = selectedModel.dragAxis || "y";
 
-        const handlePointerMove = (e) => {
-            if (!isDragging || !groupRef.current) return;
-            const deltaX = e.clientX - lastX;
-            lastX = e.clientX;
-            groupRef.current.rotation.y += deltaX * 0.01;
-        };
+		const handlePointerDown = (e) => {
+			isDragging = true;
+			lastX = e.clientX;
+		};
 
-        const handlePointerUp = () => {
-            isDragging = false;
-        };
+		const handlePointerMove = (e) => {
+			if (!isDragging || !groupRef.current) return;
+			const deltaX = e.clientX - lastX;
+			lastX = e.clientX;
 
-        canvas.addEventListener("pointerdown", handlePointerDown);
-        canvas.addEventListener("pointermove", handlePointerMove);
-        canvas.addEventListener("pointerup", handlePointerUp);
-        canvas.addEventListener("pointerleave", handlePointerUp);
+			// Rotate on the chosen axis by deltaX * mouseDragSpeed
+			switch (dragAxis) {
+				case "x":
+					groupRef.current.rotation.x += deltaX * mouseDragSpeed;
+					break;
+				case "z":
+					groupRef.current.rotation.z += deltaX * mouseDragSpeed;
+					break;
+				case "y":
+				default:
+					groupRef.current.rotation.y += deltaX * mouseDragSpeed;
+					break;
+			}
+		};
 
-        return () => {
-            canvas.removeEventListener("pointerdown", handlePointerDown);
-            canvas.removeEventListener("pointermove", handlePointerMove);
-            canvas.removeEventListener("pointerup", handlePointerUp);
-            canvas.removeEventListener("pointerleave", handlePointerUp);
-        };
-    }, [gl]);
+		const handlePointerUp = () => {
+			isDragging = false;
+		};
+
+		canvas.addEventListener("pointerdown", handlePointerDown);
+		canvas.addEventListener("pointermove", handlePointerMove);
+		canvas.addEventListener("pointerup", handlePointerUp);
+		canvas.addEventListener("pointerleave", handlePointerUp);
+
+		return () => {
+			canvas.removeEventListener("pointerdown", handlePointerDown);
+			canvas.removeEventListener("pointermove", handlePointerMove);
+			canvas.removeEventListener("pointerup", handlePointerUp);
+			canvas.removeEventListener("pointerleave", handlePointerUp);
+		};
+	}, [gl, selectedModel]);
 
 	return (
 		<>
-			{/* OPTIONAL Performance panel */}
-			{ENABLE_LEVA}
-
-			{/* *** NEW: The environment map for reflections */}
+			{/* If needed:
+         {ENABLE_LEVA && <Perf position="top-left" />}
+      */}
 			<Environment preset="city" />
+			<directionalLight position={[1, 2, 3]} intensity={4.5} />
+			<ambientLight intensity={1.5} />
 
-			{/* Lights */}
-			<directionalLight
-				position={[1, 2, 3]}
-				intensity={directionalLightIntensity}
-			/>
-			<ambientLight intensity={ambientLightIntensity} color={[11, 43, 53]} />
-
-			{/* 3D Model */}
+			{/* The group that auto-rotates + orbits. The GLTF is inside. */}
 			<group ref={groupRef}>{gltf && <primitive object={gltf.scene} />}</group>
 		</>
 	);
