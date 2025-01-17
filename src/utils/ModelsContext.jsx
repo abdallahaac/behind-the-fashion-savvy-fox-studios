@@ -43,7 +43,7 @@ const modelsData = {
 			orig_percentage: 30,
 			plag_percentage: 70,
 			model: "/models/avantGardeBloom.glb",
-			img_path: "assets/images/avantGarde.png",
+			img_path: "./images/avantGarde.png",
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -67,7 +67,7 @@ const modelsData = {
 			orig_percentage: 40,
 			plag_percentage: 60,
 			model: "/models/industrialLuxe.glb",
-			img_path: "assets/images/industrialLuxe.png",
+			img_path: "./images/industrialLuxe.png",
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -91,7 +91,7 @@ const modelsData = {
 			orig_percentage: 50,
 			plag_percentage: 50,
 			model: "/models/streetRoyal.glb",
-			img_path: "assets/images/plushStreetRoyale.png",
+			img_path: "./images/plushStreetRoyale.png",
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -117,7 +117,7 @@ const modelsData = {
 			orig_percentage: 60,
 			plag_percentage: 40,
 			model: "/models/kimono.glb",
-			img_path: "assets/images/midNightEdge.png",
+			img_path: "./images/midNightEdge.png",
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -141,7 +141,7 @@ const modelsData = {
 			orig_percentage: 70,
 			plag_percentage: 30,
 			model: "/models/spaceGothic.glb",
-			img_path: "assets/images/spaceGothic.png",
+			img_path: "./images/spaceGothic.png",
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
