@@ -45,10 +45,7 @@ export default function BuildBrand() {
 	const { LogoChoices, budget, setBudget } = useModels();
 
 	// Example videos
-	const tutorialVideos = [
-		"../public/videos/BMAXX_1.mp4",
-		"../public/videos/BMAXX_2.mp4",
-	];
+	const tutorialVideos = ["./videos/BMAXX_1.mp4", "./videos/BMAXX_2.mp4"];
 
 	// State for the currently selected logo model
 	const [selectedLogoModel, setSelectedLogoModel] = useState(
