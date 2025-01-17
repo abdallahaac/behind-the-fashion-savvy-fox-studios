@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from "react";
 // modelsData.js
+// new models
 const modelsData = {
 	EthicallyStrongOptions: [
 		{
