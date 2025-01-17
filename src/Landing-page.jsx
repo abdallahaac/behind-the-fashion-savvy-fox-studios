@@ -100,7 +100,7 @@ const LandingPage = () => {
 							<img src={right_arrow} alt="Right Arrow Icon" />
 						</div>
 					</button>
-					<div class="credits-container fade-in">
+					<div className="credits-container fade-in">
 						<img className="wordmark" src={wordmark} alt="wordmark Image" />
 						<img src={production} alt="production" />
 					</div>

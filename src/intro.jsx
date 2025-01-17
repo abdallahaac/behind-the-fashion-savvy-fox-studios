@@ -55,16 +55,17 @@ const Intro = () => {
 					setCurrentWordIndex(0);
 				}, 1000); // Delay before starting the next sentence
 				clearInterval(interval);
-			} else {
-				// Wait 5 seconds before fading out the words
-				setTimeout(() => {
-					setIsFading(true);
-					setTimeout(() => {
-						navigate("/landing-page");
-					}, 1000); // Duration of the fade-out animation before navigating to the next page
-				}, 5000); // Wait 5 seconds before starting the fade-out
-				clearInterval(interval);
 			}
+			// else {
+			// 	// Wait 5 seconds before fading out the words
+			// 	setTimeout(() => {
+			// 		setIsFading(true);
+			// 		setTimeout(() => {
+			// 			navigate("/landing-page");
+			// 		}, 1000); // Duration of the fade-out animation before navigating to the next page
+			// 	}, 5000); // Wait 5 seconds before starting the fade-out
+			// 	clearInterval(interval);
+			// }
 		}, 100); // Adjust the interval to control the speed of word reveal
 		return () => clearInterval(interval);
 	}, [currentWordIndex, currentSentenceIndex, sentences, navigate]);
