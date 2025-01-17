@@ -16,6 +16,7 @@ const modelsData = {
             orig_percentage: 80,
             plag_percentage: 20,
             model: "/models/earthyboundNomad.glb",
+            img_path: "assets/images/earthynomad.png",
             // *** Additional fields for transform & material
             transform: {
                 position: [0, -4, -0.1],
@@ -42,6 +43,7 @@ const modelsData = {
             orig_percentage: 30,
             plag_percentage: 70,
             model: "/models/avantGardeBloom.glb",
+            img_path: "assets/images/avantGarde.png",
             transform: {
                 position: [0, -4, -0.1],
                 rotation: [0, 100, 0],
@@ -65,6 +67,7 @@ const modelsData = {
             orig_percentage: 40,
             plag_percentage: 60,
             model: "/models/industrialLuxe.glb",
+            img_path: "assets/images/industrialLuxe.png",
             transform: {
                 position: [0, -4, -0.1],
                 rotation: [0, 100, 0],
@@ -88,6 +91,7 @@ const modelsData = {
             orig_percentage: 50,
             plag_percentage: 50,
             model: "/models/streetRoyal.glb",
+            img_path: "assets/images/plushStreetRoyale.png",
             transform: {
                 position: [0, -4, -0.1],
                 rotation: [0, 100, 0],
@@ -113,6 +117,7 @@ const modelsData = {
             orig_percentage: 60,
             plag_percentage: 40,
             model: "/models/kimono.glb",
+            img_path: "assets/images/midNightEdge.png",
             transform: {
                 position: [0, -4, -0.1],
                 rotation: [0, 100, 0],
@@ -136,6 +141,7 @@ const modelsData = {
             orig_percentage: 70,
             plag_percentage: 30,
             model: "/models/spaceGothic.glb",
+            img_path: "assets/images/spaceGothic.png",
             transform: {
                 position: [0, -4, -0.1],
                 rotation: [0, 100, 0],

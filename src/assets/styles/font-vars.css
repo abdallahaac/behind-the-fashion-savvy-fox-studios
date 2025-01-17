@@ -100,7 +100,6 @@
 .label-large {
 	font-family: var(--font-family-dm-sans);
 	font-size: var(--label-large);
-	font-weight: var(--font-weight-semibold);
 }
 .label-small {
 	font-family: var(--font-family-dm-sans);
