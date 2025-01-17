@@ -7,20 +7,20 @@ import Logo from "./components/Logo";
 import Metric from "./components/MetricWidget";
 import SelectionPanel from "./components/SelectionPanel";
 import LogoModelList from "./components/LogoModelList";
+import Tutorial from "./components/Tutorial";
 
+// Import our models & budget from context
 import { useModels } from "./utils/ModelsContext";
 
 import leaf from "./assets/images/leaf.svg";
 import thumb from "./assets/images/thumb.svg";
 import heart from "./assets/images/heart.svg";
 
-// CSS imports
 import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
 
-// Create a helper function that returns the correct font family
-// for the currently selected fontStyle
+// Helper to pick the correct font family
 function getFontFamily(fontStyle) {
 	switch (fontStyle) {
 		case "Future":
@@ -36,32 +36,34 @@ function getFontFamily(fontStyle) {
 		case "Playful":
 			return "'DynaPuff', cursive";
 		default:
-			return "inherit"; // Fallback font
+			return "inherit";
 	}
 }
 
 export default function BuildBrand() {
-	// Grab our logo array from context
-	const { LogoChoices = [] } = useModels();
+	// 1) Access the entire context
+	const { LogoChoices, budget, setBudget } = useModels();
+
+	// Example videos
+	const tutorialVideos = [
+		"./assets/videos/BMAXX_1.mp4",
+		"./assets/videos/BMAXX_2.mp4",
+	];
 
 	// State for the currently selected logo model
 	const [selectedLogoModel, setSelectedLogoModel] = useState(
 		LogoChoices[0] || null
 	);
 
-	// State for the models in the "collection"
+	// State for the outfit "collection"
 	const [collection, setCollection] = useState([]);
 
-	// State for the current step
+	// Step, brand name, font style
 	const [currentStep, setCurrentStep] = useState(1);
-
-	// Lifted state for the brand name
 	const [brandName, setBrandName] = useState("");
-
-	// NEW: State for the selected font style
 	const [fontStyle, setFontStyle] = useState("Future");
 
-	// Add a model to the collection if there is space (limit 3) and it's not already added
+	// Add a model to the collection
 	const addToCollection = (model) => {
 		if (
 			collection.length < 3 &&
@@ -71,30 +73,40 @@ export default function BuildBrand() {
 		}
 	};
 
-	// Remove a model from the collection by ID
+	// Remove a model
 	const removeFromCollection = (modelId) => {
 		setCollection(collection.filter((item) => item.id !== modelId));
 	};
 
-	// Make sure we have a default selected logo model
+	// Make sure we have a default selected logo if none chosen
 	useEffect(() => {
 		if (!selectedLogoModel && LogoChoices.length > 0) {
 			setSelectedLogoModel(LogoChoices[0]);
 		}
 	}, [selectedLogoModel, LogoChoices]);
 
-	// Derive the font family from the selected style
 	const derivedFontFamily = getFontFamily(fontStyle);
+
+	// 2) This callback receives the newBudget from Tutorial, stores in context
+	const handleBudgetGenerated = (newBudget) => {
+		setBudget(newBudget); // Write to context
+	};
 
 	return (
 		<div className="app">
-			{/* Top container with Logo and Metrics */}
+			{/* Show the tutorial, pass handleBudgetGenerated */}
+			<Tutorial
+				videos={tutorialVideos}
+				onBudgetGenerated={handleBudgetGenerated}
+			/>
+
 			<div className="logo-container">
 				<Logo />
-				{/* Example Metric components */}
+
+				{/* 3) Display the budget from context in a Metric */}
 				<Metric
 					label="Budget"
-					value="$ 45,123"
+					value={budget !== null ? `$ ${budget.toLocaleString()}` : "$ ------"}
 					percentChange="-XX%"
 					percentChangeStyles={{
 						backgroundColor: "none",
@@ -104,6 +116,8 @@ export default function BuildBrand() {
 						fontWeight: "bold",
 					}}
 				/>
+
+				{/* Sample other metrics */}
 				<Metric
 					label="Sustainability"
 					value="-- / 5"
@@ -173,12 +187,8 @@ export default function BuildBrand() {
 				/>
 			</div>
 
-			{/* Main 3D Canvas area */}
 			<div className="canvas-container">
-				{/* 
-          Apply derivedFontFamily here. If fontStyle = 'Future', 
-          it uses "'Orbitron', sans-serif", etc.
-        */}
+				{/* Just applying brandName in fancy text */}
 				<h4
 					style={{
 						position: "absolute",
@@ -186,7 +196,6 @@ export default function BuildBrand() {
 						fontSize: "8rem",
 						top: "50px",
 						left: "39%",
-
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
@@ -205,7 +214,6 @@ export default function BuildBrand() {
 						fontSize: "8rem",
 						top: "250px",
 						left: "39%",
-
 						transform: "translateX(-50%)",
 						margin: 0,
 						padding: 0,
@@ -254,6 +262,8 @@ export default function BuildBrand() {
 					{brandName || "brand name"}
 				</h4>
 
+				{/* ...other repeated brandName elements... */}
+
 				<Canvas
 					style={{
 						position: "relative",
@@ -273,21 +283,15 @@ export default function BuildBrand() {
 						rotation: [-0.19, -0.1, 0.11],
 					}}
 				>
-					{/* Pass the selected logo to the Experience component */}
 					<Experience selectedModel={selectedLogoModel} />
 				</Canvas>
 
-				{/* Right-side (or below) detail panel */}
 				<div className="details-container">
 					<div className="outfit-details" style={{ zIndex: 10 }}>
-						{/* 
-               Pass the fontStyle and setFontStyle to the SelectionPanel 
-               so that it can control which font is selected
-            */}
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}
-							currentStep={1}
+							currentStep={currentStep}
 							brandName={brandName}
 							setBrandName={setBrandName}
 							fontStyle={fontStyle}
@@ -297,15 +301,12 @@ export default function BuildBrand() {
 				</div>
 			</div>
 
-			{/* Render the logo model list at the bottom (or wherever needed) */}
 			<div className="model-list-container" style={{ zIndex: "8" }}>
 				<LogoModelList
 					selectedLogoModel={selectedLogoModel}
 					onLogoModelChange={setSelectedLogoModel}
 				/>
 			</div>
-
-			{/* Step navigation buttons (optional) */}
 		</div>
 	);
 }

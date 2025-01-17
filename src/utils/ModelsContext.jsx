@@ -1,13 +1,13 @@
-import React, { createContext, useContext } from "react";
+// ModelsContext.jsx (or .js)
+import React, { createContext, useContext, useState } from "react";
 
-// Separate your outfit models and logo models into different arrays
+// 1) Your static models data
 const modelsData = {
-	// Existing outfit models
 	EthicallyStrongOptions: [
 		{
 			id: 1,
 			name: "Earthbound Nomad - loose clothing",
-			budget: 45123,
+			budget: 4512333,
 			cost: 4300,
 			sustainability: 4.9,
 			ethics: 4.8,
@@ -120,7 +120,7 @@ const modelsData = {
 		},
 	],
 
-	// NEW: Add a separate array for your 5 logo models
+	// Logos
 	LogoChoices: [
 		{
 			id: 1,
@@ -155,19 +155,29 @@ const modelsData = {
 	],
 };
 
-export default modelsData;
-
-// Context Creation
+// 2) Create the context
 const ModelsContext = createContext();
 
-// Provider Component
+// 3) Provider component
 export const ModelsProvider = ({ children }) => {
+	// *** Add your budget state here ***
+	const [budget, setBudget] = useState(null);
+
+	// Combine static model data + dynamic budget in one object:
+	const contextValue = {
+		...modelsData,
+		budget,
+		setBudget,
+	};
+
 	return (
-		<ModelsContext.Provider value={modelsData}>
+		<ModelsContext.Provider value={contextValue}>
 			{children}
 		</ModelsContext.Provider>
 	);
 };
 
-// Custom Hook
-export const useModels = () => useContext(ModelsContext);
+// 4) Custom hook
+export const useModels = () => {
+	return useContext(ModelsContext);
+};

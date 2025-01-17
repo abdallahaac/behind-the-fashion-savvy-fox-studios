@@ -1,7 +1,7 @@
+// BudgetRoller.js
 import React, { useState, useEffect } from "react";
 import "../assets/styles/budget-roller.css";
 import RandomizeIcon from "../assets/images/shuffle.svg";
-import right_arrow from "../assets/images/right-arrow.svg";
 
 const generateRandomNumber = () => {
 	const min = 20000;
@@ -15,20 +15,20 @@ const DigitRoller = ({ digit, rolling, delay }) => {
 	useEffect(() => {
 		if (rolling) {
 			const interval = setInterval(() => {
-				setCurrentDigit(Math.floor(Math.random() * 10)); // Generate a random digit from 0-9
-			}, 50); // Speed of the rolling animation
+				setCurrentDigit(Math.floor(Math.random() * 10)); // Generate random digit 0-9
+			}, 50);
 
 			const timeout = setTimeout(() => {
 				clearInterval(interval);
-				setCurrentDigit(parseInt(digit, 10)); // Ensure digit is parsed as an integer
-			}, 2000 + delay); // Duration of the rolling animation with offset
+				setCurrentDigit(parseInt(digit, 10));
+			}, 2000 + delay);
 
 			return () => {
 				clearInterval(interval);
 				clearTimeout(timeout);
 			};
 		} else {
-			setCurrentDigit(parseInt(digit, 10)); // Ensure digit is parsed as an integer
+			setCurrentDigit(parseInt(digit, 10));
 		}
 	}, [rolling, digit, delay]);
 
@@ -49,17 +49,22 @@ const BudgetRoller = ({ onRollDone }) => {
 	const handleRoll = () => {
 		setRolling(true);
 		setButtonDisabled(true);
+
 		setTimeout(() => {
 			const newNumber = generateRandomNumber();
 			setNumber(newNumber.toString().padStart(6, "0"));
-			console.log(newNumber); // Log the generated number
+
+			// Pass the actual numeric budget back to the parent
+			onRollDone(newNumber);
+
 			setRolling(false);
-			onRollDone();
-		}, 2000); // Duration of the rolling animation
+		}, 2000); // length of rolling animation
 	};
 
 	const numberString =
 		number !== null ? number.toString().padStart(6, "0") : "000000";
+
+	// Format the number as XXX,XXX
 	const numberWithComma = `${numberString.slice(0, 3)},${numberString.slice(
 		3
 	)}`;

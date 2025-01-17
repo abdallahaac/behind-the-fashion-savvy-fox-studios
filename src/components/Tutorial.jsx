@@ -1,23 +1,30 @@
+// Tutorial.js
 import React, { useState, useEffect } from "react";
 import BudgetRoller from "./BudgetRoller";
 import right_arrow from "../assets/images/right-arrow.svg";
 import "../assets/styles/tutorial.css";
 
-const Tutorial = ({ videos }) => {
+const Tutorial = ({ videos, onBudgetGenerated }) => {
 	const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 	const [isBudgetRolled, setIsBudgetRolled] = useState(false);
 
 	const handleNext = () => {
 		if (currentVideoIndex < videos.length) {
-			setCurrentVideoIndex(currentVideoIndex + 1);
+			setCurrentVideoIndex((prev) => prev + 1);
 		} else {
 			// Close the tutorial box
 			document.querySelector(".tutorial-overlay").style.display = "none";
 		}
 	};
 
-	const handleBudgetRollDone = () => {
+	// Now we receive the number from BudgetRoller
+	const handleBudgetRollDone = (generatedBudget) => {
+		// Mark as rolled, so the "Done" button is active
 		setIsBudgetRolled(true);
+		// Pass up to BuildBrand
+		if (onBudgetGenerated) {
+			onBudgetGenerated(generatedBudget);
+		}
 	};
 
 	useEffect(() => {
@@ -34,7 +41,7 @@ const Tutorial = ({ videos }) => {
 				{currentVideoIndex < videos.length ? (
 					<video
 						className="tutorial-video"
-						controls
+						// controls removed
 						autoPlay
 						muted
 						onEnded={handleNext}
@@ -45,6 +52,10 @@ const Tutorial = ({ videos }) => {
 				) : (
 					<>
 						<div className="heading-2">Brand Budget</div>
+						{/*
+               We pass handleBudgetRollDone to BudgetRoller
+               so it knows how to pass the budget upward.
+            */}
 						<BudgetRoller onRollDone={handleBudgetRollDone} />
 					</>
 				)}

@@ -1,13 +1,14 @@
+// ChooseSelection.jsx
 import "./choose-selection-style.css";
 import "./assets/styles/logo-button.css";
 import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
+
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Suspense, useEffect, useState } from "react";
 
-// Components & contexts
 import Experience from "./Experience.jsx";
 import Logo from "./components/Logo.jsx";
 import Metric from "./components/MetricWidget.jsx";
@@ -17,21 +18,22 @@ import heart from "./assets/images/heart.svg";
 import SelectionPanel from "./components/SelectionPanel.jsx";
 import OutfitDetails from "./components/OutfitDetails.jsx";
 import ModelList from "./components/ModelList.jsx";
-import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
-import Loader from "./utils/Loader.jsx";
 
-// Leva for debugging
-import { Leva } from "leva";
+// Import your existing context
+import { useModels } from "./utils/ModelsContext.jsx";
+import Loader from "./utils/Loader.jsx";
 
 function ChooseSelection() {
 	const modelsByCategory = useModels();
+	// 1) Pull the same budget from context
+	const { budget } = modelsByCategory;
+
 	const allModels = [
 		...modelsByCategory.EthicallyStrongOptions,
 		...modelsByCategory.CapitalisticChoices,
 		...modelsByCategory.NeutralChoices,
 	];
 
-	// The first model to show
 	const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
 	const [collection, setCollection] = useState([]);
 
@@ -48,7 +50,6 @@ function ChooseSelection() {
 		setCollection(collection.filter((item) => item.id !== modelId));
 	};
 
-	// If no selected model, pick the first once models are loaded
 	useEffect(() => {
 		if (!selectedModel && allModels.length > 0) {
 			setSelectedModel(allModels[0]);
@@ -56,11 +57,10 @@ function ChooseSelection() {
 	}, [selectedModel, allModels]);
 
 	useEffect(() => {
-		// Need to add this because when you define styles for the body and html elements in intro-style.css, those styles apply globally to the entire document, affecting all components
+		// Global body styling for this page
 		document.body.style.margin = "20px";
 		document.body.style.padding = "0px";
 		document.body.style.backgroundColor = "#515151";
-		// Cleanup function to reset styles when component unmounts
 		return () => {
 			document.body.style = "";
 			document.documentElement.style = "";
@@ -69,17 +69,16 @@ function ChooseSelection() {
 
 	return (
 		<div className="app">
-			{/*
-        Wrap everything that depends on 3D models
-        inside Suspense so Loader is shown until loaded.
-      */}
 			<Suspense fallback={<Loader />}>
 				<div className="logo-container">
 					<Logo />
 
+					{/* 2) Display the same budget from context */}
 					<Metric
 						label="Budget"
-						value="$ 45,123"
+						value={
+							budget !== null ? `$ ${budget.toLocaleString()}` : "$ 45,123"
+						}
 						percentChange="-XX%"
 						indicatorColor="#ffffff"
 						percentChangeStyles={{
@@ -179,7 +178,6 @@ function ChooseSelection() {
 							rotation: [-0.19, -0.1, 0.11],
 						}}
 					>
-						{/* The Experience component uses `useLoader` to load the model */}
 						<Experience selectedModel={selectedModel} />
 					</Canvas>
 
@@ -211,14 +209,5 @@ function ChooseSelection() {
 		</div>
 	);
 }
-
-// const root = ReactDOM.createRoot(document.querySelector("#root"));
-// root.render(
-// 	<ModelsProvider>
-// 		{/* Leva for debugging UI */}
-// 		<Leva collapsed />
-// 		<ChooseSelection />
-// 	</ModelsProvider>
-// );
 
 export default ChooseSelection;
