@@ -213,6 +213,7 @@ function ChooseSelection() {
 								collection={collection}
 								onRemoveFromCollection={removeFromCollection}
 								currentStep={2}
+								selectedModel={selectedModel}
 							/>
 						</div>
 					</div>

@@ -14,6 +14,7 @@ const SelectionPanel = ({
 	setBrandName,
 	fontStyle,
 	setFontStyle,
+	selectedModel,
 }) => {
 	const navigate = useNavigate();
 
@@ -199,8 +200,8 @@ const SelectionPanel = ({
 						<div className="collection-metric-container">
 							<CollectionOrigMetric
 								label="Collection Originality"
-								originalPercentage={50}
-								plagiarizedPercentage={50}
+								originalPercentage={selectedModel.orig_percentage}
+								plagiarizedPercentage={selectedModel.plag_percentage}
 								summaryText="Consumers need to resonate with your designs or your brand risks no sales."
 								icon={
 									<img
