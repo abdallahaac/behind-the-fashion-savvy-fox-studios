@@ -1,4 +1,3 @@
-// ModelsContext.jsx (or .js)
 import React, { createContext, useContext, useState } from "react";
 
 // 1) Your static models data
@@ -15,6 +14,17 @@ const modelsData = {
 			popularity: 3.2,
 			description: "Affordable and ethical, but less trendy.",
 			model: "/models/earthyboundNomad.glb",
+			// *** Additional fields for transform & material
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 0.2,
+				roughness: 0.8,
+				color: "#ffffff",
+			},
 		},
 		{
 			id: 2,
@@ -26,6 +36,16 @@ const modelsData = {
 			popularity: 3.8,
 			description: "High-end ethical fashion.",
 			model: "/models/cube-02.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, Math.PI / 4, 0],
+				scale: 1.2,
+			},
+			materialParams: {
+				metalness: 0.3,
+				roughness: 0.7,
+				color: "#cccccc",
+			},
 		},
 		{
 			id: 3,
@@ -37,6 +57,16 @@ const modelsData = {
 			popularity: 3.5,
 			description: "A balanced, affordable, ethical choice.",
 			model: "/models/solarpunkoutfit.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 0.1,
+				roughness: 0.9,
+				color: "#ff88aa",
+			},
 		},
 	],
 	CapitalisticChoices: [
@@ -50,6 +80,16 @@ const modelsData = {
 			popularity: 5.0,
 			description: "Ultra-trendy but ethically low.",
 			model: "/models/cube-04.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 1.0,
+				roughness: 0.2,
+				color: "#ffffff",
+			},
 		},
 		{
 			id: 5,
@@ -61,6 +101,16 @@ const modelsData = {
 			popularity: 5.0,
 			description: "Expensive, low ethics, very popular.",
 			model: "/models/industrialLuxe.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, Math.PI / 2, 0],
+				scale: 1.3,
+			},
+			materialParams: {
+				metalness: 0.8,
+				roughness: 0.1,
+				color: "#aaaaaa",
+			},
 		},
 		{
 			id: 6,
@@ -72,6 +122,16 @@ const modelsData = {
 			popularity: 4.9,
 			description: "Capitalistic but somewhat neutral.",
 			model: "/models/streetRoyal.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 0.2,
+				roughness: 0.5,
+				color: "#ffbb00",
+			},
 		},
 	],
 	NeutralChoices: [
@@ -85,6 +145,16 @@ const modelsData = {
 			popularity: 4.0,
 			description: "A balanced option.",
 			model: "/models/cube-07.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 0.3,
+				roughness: 0.7,
+				color: "#aabbaa",
+			},
 		},
 		{
 			id: 8,
@@ -96,6 +166,16 @@ const modelsData = {
 			popularity: 4.0,
 			description: "A balanced option.",
 			model: "/models/cube-08.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [Math.PI / 6, 0, 0],
+				scale: 0.8,
+			},
+			materialParams: {
+				metalness: 0.1,
+				roughness: 0.9,
+				color: "#88ffff",
+			},
 		},
 		{
 			id: 9,
@@ -107,6 +187,16 @@ const modelsData = {
 			popularity: 4.0,
 			description: "Trendy with average ethics.",
 			model: "/models/kimono.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 0.4,
+				roughness: 0.6,
+				color: "#444444",
+			},
 		},
 		{
 			id: 10,
@@ -118,6 +208,16 @@ const modelsData = {
 			popularity: 4.7,
 			description: "A balanced option.",
 			model: "/models/spaceGothic.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.1,
+			},
+			materialParams: {
+				metalness: 0.5,
+				roughness: 0.3,
+				color: "#ffffff",
+			},
 		},
 	],
 
@@ -127,31 +227,77 @@ const modelsData = {
 			id: 1,
 			name: "Minimalist Leaf Logo",
 			description: "Simple leaf-based design for eco-friendly vibes.",
-			model: "/models/cube-02.glb",
+			model: "/models/logo-1.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [8, 1, 0],
+				scale: 20.0,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
 		},
 		{
 			id: 2,
 			name: "Retro Badge Logo",
 			description: "Vintage flair with bold lines and text.",
-			model: "/models/cube-03.glb",
+			model: "/models/logo-02.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 0.7,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
 		},
 		{
 			id: 3,
 			name: "Futuristic Neon Logo",
 			description: "A neon-glow style with sharp edges.",
-			model: "/models/cube-02.glb",
+			model: "/models/logo-03.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 0.8,
+			},
 		},
 		{
 			id: 4,
 			name: "3D Chrome Logo",
 			description: "Metallic 3D effect, perfect for luxury brands.",
-			model: "/models/cube-03.glb",
+			model: "/models/logo-04.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, Math.PI / 3, 0],
+				scale: 2,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
+			autoRotateRadius: 0.001,
 		},
 		{
 			id: 5,
 			name: "Handwritten Brush Logo",
 			description: "A playful script style for a casual brand.",
-			model: "/models/cube-03.glb",
+			model: "/models/logo-05.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [0, 0, 0],
+				scale: 1.0,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
 		},
 	],
 };
