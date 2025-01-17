@@ -1,7 +1,5 @@
-// Experience.jsx
-import { useThree, useFrame, useLoader } from "@react-three/fiber";
+import { useThree, useFrame } from "@react-three/fiber";
 import { useRef, useEffect } from "react";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
 // 1) Import Leva & r3f-perf for debugging
@@ -15,9 +13,10 @@ const ENABLE_LEVA = false; // comment out to disable Leva
 // *** NEW: Import Environment from drei
 import { Environment } from "@react-three/drei";
 
-export default function Experience({ selectedModel }) {
-	const { gl, camera } = useThree();
-	const groupRef = useRef();
+export default function Experience({ selectedModel, preloadedModels }) {
+    // Access the THREE.js WebGL context & camera
+    const { gl, camera } = useThree();
+    const groupRef = useRef();
 
 	// 2) Provide fallback defaults (if Leva is disabled)
 	let cameraFov = camera.fov;
@@ -97,9 +96,8 @@ export default function Experience({ selectedModel }) {
 		camera.updateProjectionMatrix();
 	});
 
-	// Load model via useLoader
-	const modelPath = selectedModel?.model || null;
-	const gltf = useLoader(GLTFLoader, modelPath);
+    // Get the preloaded model for the selected model
+    const gltf = preloadedModels[selectedModel.id - 1]; // Assuming model IDs are 1-based and sequential
 
 	useEffect(() => {
 		camera.rotation.set(-0.24, 0.01, 0.0);
@@ -146,34 +144,34 @@ export default function Experience({ selectedModel }) {
 		let isDragging = false;
 		let lastX = 0;
 
-		const handlePointerDown = (e) => {
-			isDragging = true;
-			lastX = e.clientX;
-		};
+        const handlePointerDown = (e) => {
+            isDragging = true;
+            lastX = e.clientX;
+        };
 
-		const handlePointerMove = (e) => {
-			if (!isDragging || !groupRef.current) return;
-			const deltaX = e.clientX - lastX;
-			lastX = e.clientX;
-			groupRef.current.rotation.y += deltaX * 0.01;
-		};
+        const handlePointerMove = (e) => {
+            if (!isDragging || !groupRef.current) return;
+            const deltaX = e.clientX - lastX;
+            lastX = e.clientX;
+            groupRef.current.rotation.y += deltaX * 0.01;
+        };
 
-		const handlePointerUp = () => {
-			isDragging = false;
-		};
+        const handlePointerUp = () => {
+            isDragging = false;
+        };
 
-		canvas.addEventListener("pointerdown", handlePointerDown);
-		canvas.addEventListener("pointermove", handlePointerMove);
-		canvas.addEventListener("pointerup", handlePointerUp);
-		canvas.addEventListener("pointerleave", handlePointerUp);
+        canvas.addEventListener("pointerdown", handlePointerDown);
+        canvas.addEventListener("pointermove", handlePointerMove);
+        canvas.addEventListener("pointerup", handlePointerUp);
+        canvas.addEventListener("pointerleave", handlePointerUp);
 
-		return () => {
-			canvas.removeEventListener("pointerdown", handlePointerDown);
-			canvas.removeEventListener("pointermove", handlePointerMove);
-			canvas.removeEventListener("pointerup", handlePointerUp);
-			canvas.removeEventListener("pointerleave", handlePointerUp);
-		};
-	}, [gl]);
+        return () => {
+            canvas.removeEventListener("pointerdown", handlePointerDown);
+            canvas.removeEventListener("pointermove", handlePointerMove);
+            canvas.removeEventListener("pointerup", handlePointerUp);
+            canvas.removeEventListener("pointerleave", handlePointerUp);
+        };
+    }, [gl]);
 
 	return (
 		<>

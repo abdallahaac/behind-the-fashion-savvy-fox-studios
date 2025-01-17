@@ -5,9 +5,11 @@ import "./assets/styles/metric-widget.css";
 import "./assets/styles/selection-panel.css";
 
 import ReactDOM from "react-dom/client";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { Suspense, useEffect, useState } from "react";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
 import Experience from "./Experience.jsx";
 import Logo from "./components/Logo.jsx";
@@ -24,37 +26,46 @@ import { useModels } from "./utils/ModelsContext.jsx";
 import Loader from "./utils/Loader.jsx";
 
 function ChooseSelection() {
-	const modelsByCategory = useModels();
+    const modelsByCategory = useModels();
 	// 1) Pull the same budget from context
 	const { budget } = modelsByCategory;
 
-	const allModels = [
-		...modelsByCategory.EthicallyStrongOptions,
-		...modelsByCategory.CapitalisticChoices,
-		...modelsByCategory.NeutralChoices,
-	];
+    const allModels = [
+        ...modelsByCategory.EthicallyStrongOptions,
+        ...modelsByCategory.CapitalisticChoices,
+        ...modelsByCategory.NeutralChoices,
+    ];
 
-	const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
-	const [collection, setCollection] = useState([]);
+    // Preload all models
+    const preloadedModels = useLoader(GLTFLoader, allModels.map(model => model.model), (loader) => {
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+        loader.setDRACOLoader(dracoLoader);
+    });
 
-	const addToCollection = (model) => {
-		if (
-			collection.length < 3 &&
-			!collection.find((item) => item.id === model.id)
-		) {
-			setCollection([...collection, model]);
-		}
-	};
+    // The first model to show
+    const [selectedModel, setSelectedModel] = useState(allModels[0] || null);
+    const [collection, setCollection] = useState([]);
 
-	const removeFromCollection = (modelId) => {
-		setCollection(collection.filter((item) => item.id !== modelId));
-	};
+    const addToCollection = (model) => {
+        if (
+            collection.length < 3 &&
+            !collection.find((item) => item.id === model.id)
+        ) {
+            setCollection([...collection, model]);
+        }
+    };
 
-	useEffect(() => {
-		if (!selectedModel && allModels.length > 0) {
-			setSelectedModel(allModels[0]);
-		}
-	}, [selectedModel, allModels]);
+    const removeFromCollection = (modelId) => {
+        setCollection(collection.filter((item) => item.id !== modelId));
+    };
+
+    // If no selected model, pick the first once models are loaded
+    useEffect(() => {
+        if (!selectedModel && allModels.length > 0) {
+            setSelectedModel(allModels[0]);
+        }
+    }, [selectedModel, allModels]);
 
 	useEffect(() => {
 		// Global body styling for this page
@@ -67,11 +78,11 @@ function ChooseSelection() {
 		};
 	}, []);
 
-	return (
-		<div className="app">
-			<Suspense fallback={<Loader />}>
-				<div className="logo-container">
-					<Logo />
+    return (
+        <div className="app">
+            <Suspense fallback={<Loader />}>
+                <div className="logo-container">
+                    <Logo />
 
 					{/* 2) Display the same budget from context */}
 					<Metric
@@ -164,22 +175,22 @@ function ChooseSelection() {
 					/>
 				</div>
 
-				<div className="canvas-container">
-					<Canvas
-						gl={{
-							antialias: true,
-							toneMapping: THREE.ACESFilmicToneMapping,
-						}}
-						camera={{
-							fov: 65,
-							near: 0.1,
-							far: 200,
-							position: [3.8, 2.0, 7.2],
-							rotation: [-0.19, -0.1, 0.11],
-						}}
-					>
-						<Experience selectedModel={selectedModel} />
-					</Canvas>
+                <div className="canvas-container">
+                    <Canvas
+                        gl={{
+                            antialias: true,
+                            toneMapping: THREE.ACESFilmicToneMapping,
+                        }}
+                        camera={{
+                            fov: 65,
+                            near: 0.1,
+                            far: 200,
+                            position: [3.8, 2.0, 7.2],
+                            rotation: [-0.19, -0.1, 0.11],
+                        }}
+                    >
+                        <Experience selectedModel={selectedModel} preloadedModels={preloadedModels} />
+                    </Canvas>
 
 					<div className="details-container">
 						<div className="outfit-details">
@@ -199,15 +210,15 @@ function ChooseSelection() {
 					</div>
 				</div>
 
-				<div className="model-list-container">
-					<ModelList
-						selectedModel={selectedModel}
-						onModelChange={setSelectedModel}
-					/>
-				</div>
-			</Suspense>
-		</div>
-	);
+                <div className="model-list-container">
+                    <ModelList
+                        selectedModel={selectedModel}
+                        onModelChange={setSelectedModel}
+                    />
+                </div>
+            </Suspense>
+        </div>
+    );
 }
 
 export default ChooseSelection;
