@@ -67,6 +67,7 @@ const Intro = () => {
 			// 	clearInterval(interval);
 			// }
 			//
+			//
 		}, 100); // Adjust the interval to control the speed of word reveal
 		return () => clearInterval(interval);
 	}, [currentWordIndex, currentSentenceIndex, sentences, navigate]);
