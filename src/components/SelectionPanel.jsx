@@ -1,5 +1,5 @@
-// SelectionPanel.js
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import cracked_heart from "../assets/images/cracked-heart.png";
@@ -15,7 +15,22 @@ const SelectionPanel = ({
 	fontStyle,
 	setFontStyle,
 }) => {
-	console.log("currentStep in SelectionPanel:", currentStep);
+	const navigate = useNavigate();
+
+	// Function to handle "Create" button click
+	const handleCreateClick = () => {
+		if (brandName.trim() && fontStyle) {
+			navigate("/choose-selection");
+		}
+	};
+
+	// Determine the background color of the "total-price-widget" element
+	const getBackgroundColor = () => {
+		if (!brandName.trim() || !fontStyle) {
+			return "#f0f0f0"; // Disabled/Default background
+		}
+		return "#fff4e6"; // Active background when valid
+	};
 
 	return (
 		<div className="selection-panel">
@@ -85,23 +100,63 @@ const SelectionPanel = ({
 					/>
 
 					{/* Total Price Widget */}
-					<div className="total-price-widget">
+					<div
+						className="total-price-widget"
+						style={{
+							backgroundColor: getBackgroundColor(),
+							padding: "16px",
+							borderRadius: "8px",
+							transition: "background-color 0.3s ease",
+							border:
+								brandName.trim() && fontStyle
+									? "1px solid #FFC4B1"
+									: "1px solid transparent",
+						}}
+					>
 						<div className="price">
 							<div
 								className="dollar-amount accent-2"
-								style={{ width: "188px" }}
+								style={{
+									width: "188px",
+									color: brandName.trim() && fontStyle ? "#0F0F0F" : "#9B9B9B",
+								}}
 							>
 								{brandName || "Brand Name"}
 							</div>
 							{/* Display the dynamically selected font style */}
-							<div className="total-design-price label-large">
-								{fontStyle || "Brand Style"}
+							<div
+								className="total-design-price label-large"
+								style={{
+									color: brandName.trim() && fontStyle ? "#0F0F0F" : "#9B9B9B",
+								}}
+							>
+								{fontStyle ? `A ${fontStyle} Brand` : "Select a Font Style"}
 							</div>
 						</div>
-						<div className="button" style={{ width: "76px", height: "33px" }}>
-							<div className="button-text body-text-medium">Create</div>
-							<div className="button-icon"></div>
-						</div>
+						{/* Updated "Create" Button */}
+						<button
+							className="button"
+							onClick={handleCreateClick}
+							style={{
+								width: "90px",
+								height: "40px",
+								cursor:
+									brandName.trim() && fontStyle ? "pointer" : "not-allowed",
+								backgroundColor:
+									brandName.trim() && fontStyle ? " #C83C00" : "#888888",
+								transition: "background-color 0.3s ease",
+								border: "none",
+								borderRadius: "5px",
+								color: "white",
+								display: "flex",
+								padding: "16px 8px",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+							disabled={!brandName.trim() || !fontStyle} // Disable button if brandName or fontStyle is empty
+						>
+							Create
+						</button>
 					</div>
 				</>
 			)}
