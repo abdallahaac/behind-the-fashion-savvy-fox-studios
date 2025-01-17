@@ -66,6 +66,7 @@ const Intro = () => {
 			// 	}, 5000); // Wait 5 seconds before starting the fade-out
 			// 	clearInterval(interval);
 			// }
+			//
 		}, 100); // Adjust the interval to control the speed of word reveal
 		return () => clearInterval(interval);
 	}, [currentWordIndex, currentSentenceIndex, sentences, navigate]);
