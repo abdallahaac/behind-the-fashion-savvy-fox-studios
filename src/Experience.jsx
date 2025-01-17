@@ -21,7 +21,7 @@ export default function Experience({ selectedModel, preloadedModels }) {
 
 	// On mount, tweak camera if desired
 	useEffect(() => {
-		camera.rotation.set(-0.24, 0.01, 0.0);
+		camera.rotation.set(-0.23, -0.1, 0.1);
 	}, [camera]);
 
 	// ──────────────────────────────────────────────────
@@ -205,7 +205,9 @@ export default function Experience({ selectedModel, preloadedModels }) {
 
 	return (
 		<>
-			{ENABLE_LEVA}
+			{/* If needed:
+         {ENABLE_LEVA && <Perf position="top-left" />}
+      */}
 			<Environment preset="city" />
 			<directionalLight position={[1, 2, 3]} intensity={4.5} />
 			<ambientLight intensity={1.5} />
