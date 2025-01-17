@@ -46,8 +46,8 @@ export default function BuildBrand() {
 
 	// Example videos
 	const tutorialVideos = [
-		"./assets/videos/BMAXX_1.mp4",
-		"./assets/videos/BMAXX_2.mp4",
+		"../public/videos/BMAXX_1.mp4",
+		"../public/videos/BMAXX_2.mp4",
 	];
 
 	// State for the currently selected logo model
