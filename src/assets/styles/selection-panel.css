@@ -168,20 +168,22 @@
 }
 
 .thumbnail {
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 8px;
-	width: 109.67px;
-	height: 145px;
-	background: #222222;
-	border: 1px dashed #9b9b9b;
-	border-radius: 4px;
-	flex: none;
-	flex-grow: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    width: 109.67px;
+    height: 145px;
+    background: white;
+    border: 1px dashed #9b9b9b;
+    border-radius: 4px;
+    flex: none;
+    flex-grow: 1;
+    position: relative; 
 }
+
 /* .thumbnail {
 	position: relative;
 	width: 100px;
@@ -364,21 +366,44 @@
 .button-icon {
 	width: 24px;
 	height: 24px;
-	/* Add an icon if needed */
+	
 }
+
+.thumbnail.occupied {
+    background: white;
+}
+
+.thumbnail.unoccupied {
+    background: #222222;
+}
+
+
+
 
 .thumbnail-content {
-	text-align: center;
+    text-align: center;
+    position: relative;
 }
-
 .remove-button {
-	top: 5px;
-	right: 5px;
-	background: red;
-	color: white;
-	border: none;
-	cursor: pointer;
+    position: absolute;
+    top: 110px; /* Adjust the position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222222;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
 }
 .model-name {
 	color: white;
+}
+
+.model-image {
+    width: 100px; 
+    height: auto; 
+    display: block;
+    margin: 0 auto;
 }
