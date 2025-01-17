@@ -11,7 +11,7 @@ const modelsData = {
 			ethics: 4.8,
 			popularity: 3.2,
 			description: "Affordable and ethical, but less trendy.",
-			model: "/models/cube-01.glb",
+			model: "/models/earthyboundNomad.glb",
 		},
 		{
 			id: 2,
@@ -33,7 +33,7 @@ const modelsData = {
 			ethics: 4.6,
 			popularity: 3.5,
 			description: "A balanced, affordable, ethical choice.",
-			model: "/models/cube-03.glb",
+			model: "/models/solarpunkoutfit.glb",
 		},
 	],
 	CapitalisticChoices: [
@@ -57,7 +57,7 @@ const modelsData = {
 			ethics: 1.7,
 			popularity: 5.0,
 			description: "Expensive, low ethics, very popular.",
-			model: "/models/cube-05.glb",
+			model: "/models/industrialLuxe.glb",
 		},
 		{
 			id: 6,
@@ -68,7 +68,7 @@ const modelsData = {
 			ethics: 3.0,
 			popularity: 4.9,
 			description: "Capitalistic but somewhat neutral.",
-			model: "/models/cube-06.glb",
+			model: "/models/streetRoyal.glb",
 		},
 	],
 	NeutralChoices: [
@@ -103,7 +103,7 @@ const modelsData = {
 			ethics: 2.8,
 			popularity: 4.0,
 			description: "Trendy with average ethics.",
-			model: "/models/cube-09.glb",
+			model: "/models/kimono.glb",
 		},
 		{
 			id: 10,
@@ -114,7 +114,7 @@ const modelsData = {
 			ethics: 4.7,
 			popularity: 4.7,
 			description: "A balanced option.",
-			model: "/models/cube-01.glb",
+			model: "/models/spaceGothic.glb",
 		},
 	],
 };
