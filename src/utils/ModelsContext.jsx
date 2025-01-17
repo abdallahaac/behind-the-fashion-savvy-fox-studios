@@ -21,8 +21,8 @@ const modelsData = {
 				scale: 0.6,
 			},
 			materialParams: {
-				metalness: 0.2,
-				roughness: 0.8,
+				metalness: 0,
+				roughness: 0.9,
 				color: "#ffffff",
 			},
 		},
