@@ -16,7 +16,7 @@ const modelsData = {
 			orig_percentage: 80,
 			plag_percentage: 20,
 			model: "/models/earthyboundNomad.glb",
-			img_path: "/assets/images/earthynomad.png",
+			img_path: "./images/earthynomad.png",
 			// *** Additional fields for transform & material
 			transform: {
 				position: [0, -4, -0.1],
