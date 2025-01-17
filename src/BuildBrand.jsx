@@ -96,7 +96,6 @@ export default function BuildBrand() {
 					label="Budget"
 					value="$ 45,123"
 					percentChange="-XX%"
-					indicatorColor="#ffffff"
 					percentChangeStyles={{
 						backgroundColor: "none",
 						padding: "3px 6px",
@@ -107,11 +106,9 @@ export default function BuildBrand() {
 				/>
 				<Metric
 					label="Sustainability"
-					value=""
+					value="-- / 5"
 					percentChange="-XX%"
-					indicatorColor="#1d7b18"
 					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
 						padding: "5px",
 						borderRadius: "7px",
 						color: "#ffffff",
@@ -127,11 +124,9 @@ export default function BuildBrand() {
 				/>
 				<Metric
 					label="Ethics"
-					value=""
+					value="-- / 5"
 					percentChange="-XX%"
-					indicatorColor="#1d7b18"
 					percentChangeStyles={{
-						backgroundColor: "#1d7b18",
 						padding: "3px 6px",
 						borderRadius: "5px",
 						color: "#ffffff",
@@ -147,11 +142,9 @@ export default function BuildBrand() {
 				/>
 				<Metric
 					label="Popularity"
-					value=""
+					value="-- / 5"
 					percentChange="-XX%"
-					indicatorColor="#C83C00"
 					percentChangeStyles={{
-						backgroundColor: "#C83C00",
 						padding: "5px",
 						borderRadius: "7px",
 						color: "#fffefd",
@@ -168,11 +161,10 @@ export default function BuildBrand() {
 				<Metric
 					className="landing-page"
 					label="Projected Revenue"
-					value="$"
+					value="$ ------"
 					percentChange="-XX%"
 					indicatorColor="#C83C00"
 					percentChangeStyles={{
-						backgroundColor: "#C83C00",
 						padding: "5px",
 						borderRadius: "7px",
 						color: "#fffefd",
