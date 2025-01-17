@@ -1,3 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+/* index.css (global stylesheet) */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Kode+Mono:wght@400..700&family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&family=Kode+Mono:wght@400..700&family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&family=Kode+Mono:wght@400..700&family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DynaPuff:wght@400..700&family=Instrument+Serif:ital@0;1&family=Kode+Mono:wght@400..700&family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap");
+
 .selection-panel {
 	display: flex;
 	flex-direction: column;
@@ -184,7 +192,6 @@
 	justify-content: center;
 	margin: 10px;
 } */
-
 
 .empty-state-text {
 	height: 41px;

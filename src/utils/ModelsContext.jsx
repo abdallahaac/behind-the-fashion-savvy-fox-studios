@@ -1,11 +1,13 @@
-import React, { createContext, useContext } from "react";
-// modelsData.js
+// ModelsContext.jsx (or .js)
+import React, { createContext, useContext, useState } from "react";
+
+// 1) Your static models data
 const modelsData = {
 	EthicallyStrongOptions: [
 		{
 			id: 1,
 			name: "Earthbound Nomad - loose clothing",
-			budget: 45123,
+			budget: 4512333,
 			cost: 4300,
 			sustainability: 4.9,
 			ethics: 4.8,
@@ -117,21 +119,65 @@ const modelsData = {
 			model: "/models/cube-01.glb",
 		},
 	],
+
+	// Logos
+	LogoChoices: [
+		{
+			id: 1,
+			name: "Minimalist Leaf Logo",
+			description: "Simple leaf-based design for eco-friendly vibes.",
+			model: "/models/cube-02.glb",
+		},
+		{
+			id: 2,
+			name: "Retro Badge Logo",
+			description: "Vintage flair with bold lines and text.",
+			model: "/models/cube-03.glb",
+		},
+		{
+			id: 3,
+			name: "Futuristic Neon Logo",
+			description: "A neon-glow style with sharp edges.",
+			model: "/models/cube-02.glb",
+		},
+		{
+			id: 4,
+			name: "3D Chrome Logo",
+			description: "Metallic 3D effect, perfect for luxury brands.",
+			model: "/models/cube-03.glb",
+		},
+		{
+			id: 5,
+			name: "Handwritten Brush Logo",
+			description: "A playful script style for a casual brand.",
+			model: "/models/cube-03.glb",
+		},
+	],
 };
 
-export default modelsData;
-
-// Context Creation
+// 2) Create the context
 const ModelsContext = createContext();
 
-// Provider Component
+// 3) Provider component
 export const ModelsProvider = ({ children }) => {
+	// *** Add your budget state here ***
+	const [budget, setBudget] = useState(null);
+
+	// Combine static model data + dynamic budget in one object:
+	const contextValue = {
+		...modelsData,
+		budget,
+		setBudget,
+	};
+
 	return (
-		<ModelsContext.Provider value={modelsData}>
+		<ModelsContext.Provider value={contextValue}>
 			{children}
 		</ModelsContext.Provider>
 	);
 };
 
-// Custom Hook
-export const useModels = () => useContext(ModelsContext);
+// 4) Custom hook
+export const useModels = () => {
+	return useContext(ModelsContext);
+};

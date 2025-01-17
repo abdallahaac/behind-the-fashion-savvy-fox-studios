@@ -39,9 +39,10 @@ const OutfitDetails = ({ selectedModel, onAddToCollection, collection }) => {
 						style={{ width: `${selectedModel.sustainability * 20}%` }}
 					></div>
 				</div>
-				<p className="description body-text-small">{selectedModel.description}</p>
+				<p className="description body-text-small">
+					{selectedModel.description}
+				</p>
 			</div>
-			
 
 			<div className="feature">
 				<span className="icon heart">
@@ -72,9 +73,8 @@ const OutfitDetails = ({ selectedModel, onAddToCollection, collection }) => {
 				<p className="description body-text-small">
 					Considerations for ethics and sustainability can influence the broader
 					impact of your choices.
-				</p>	
+				</p>
 			</div>
-			
 
 			<div className="cost-row">
 				<div className="cost">

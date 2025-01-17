@@ -3,109 +3,107 @@
 
 /*constant vars- change vars in :root to make uniform changes*/
 :root {
-    --font-family-kodo: "Kode Mono", serif;
-    --font-family-dm-sans: "DM Sans", sans-serif;
-    /* accent font sizes*/
-    --landing-page: 64px;
-    --accent-1: 32px;
-    --accent-2: 24px;
-    --accent-3: 20px;
-    --accent-4: 16px;
-    --accent-5: 14px;
-    --accent-6: 12px;
+	--font-family-kodo: "Kode Mono", serif;
+	--font-family-dm-sans: "DM Sans", sans-serif;
+	/* accent font sizes*/
+	--landing-page: 64px;
+	--accent-1: 32px;
+	--accent-2: 24px;
+	--accent-3: 20px;
+	--accent-4: 16px;
+	--accent-5: 14px;
+	--accent-6: 12px;
 
+	--font-style-normal: normal;
+	--font-weight-light: lighter;
 
-    --font-style-normal: normal;
-    --font-weight-light: lighter;
+	/* main body font sizes */
+	--heading-1: 24px;
+	--heading-2: 20px;
+	--body-text-large: 16px;
+	--body-text-medium: 14px;
+	--body-text-small: 12px;
+	--label-large: 12px;
+	--label-small: 10px;
+	--font-weight-semibold: 600;
+}
 
-    /* main body font sizes */
-    --heading-1: 24px;
-    --heading-2: 20px;
-    --body-text-large: 16px;
-    --body-text-medium: 14px;
-    --body-text-small: 12px;
-    --label-large: 12px;
-    --label-small: 10px;
-    --font-weight-semibold: 600;
+/* Add appropriate class to html elements */
+/* KODO */
+.landing-page {
+	font-family: var(--font-family-kodo);
+	font-size: var(--landing-page);
+	font-weight: var(--font-weight-semibold);
+}
+.accent-1 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-1);
+	font-weight: var(--font-weight-light);
+	font-style: var(--font-style-normal);
+}
+.accent-2 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-2);
+	font-weight: var(--font-weight-light);
+	font-style: var(--font-style-normal);
+}
+.accent-3 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-3);
+	font-weight: var(--font-weight-light);
+	font-style: var(--font-style-normal);
+}
+.accent-4 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-4);
+	font-weight: var(--font-weight-light);
+	font-style: var(--font-style-normal);
+}
+.accent-5 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-5);
+	font-weight: var(--font-weight-light);
+	font-style: var(--font-style-normal);
+}
+.accent-6 {
+	font-family: var(--font-family-kodo);
+	font-size: var(--accent-5);
+	font-weight: var(--font-weight-semibold);
+}
 
-  }
-
-  /* Add appropriate class to html elements */
-  /* KODO */
-  .landing-page{
-    font-family: var(--font-family-kodo);
-    font-size: var(--landing-page);
-    font-weight: var(--font-weight-semibold);
-  }
-  .accent-1 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-1);
-    font-weight: var(--font-weight-light);
-    font-style: var(--font-style-normal);
-  }
-  .accent-2 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-2);
-    font-weight: var(--font-weight-light);
-    font-style: var(--font-style-normal);
-  }
-  .accent-3 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-3);
-    font-weight: var(--font-weight-light);
-    font-style: var(--font-style-normal);
-  }
-  .accent-4 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-4);
-    font-weight: var(--font-weight-light);
-    font-style: var(--font-style-normal);
-  }
-  .accent-5 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-5);
-    font-weight: var(--font-weight-light);
-    font-style: var(--font-style-normal);
-  }
-  .accent-6 {
-    font-family: var(--font-family-kodo);
-    font-size: var(--accent-5);
-    font-weight: var(--font-weight-semibold);
-  }
-  
-  /* DM SANS */
-    .heading-1 {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--heading-1);
-        font-weight: var(--font-weight-semibold);
-    }
-    .heading-2 {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--heading-2);
-        font-weight: var(--font-weight-semibold);
-    }
-    .body-text-large {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--body-text-large);
-        font-style: var(--font-style-normal);
-    }
-    .body-text-medium {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--body-text-medium);
-        font-style: var(--font-style-normal);
-    }
-    .body-text-small {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--body-text-small);
-        font-style: var(--font-style-normal);
-    }
-    .label-large {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--label-large);
-        font-weight: var(--font-weight-semibold);
-    }
-    .label-small {
-        font-family: var(--font-family-dm-sans);
-        font-size: var(--label-small);
-        font-weight: var(--font-weight-semibold);
-    }
+/* DM SANS */
+.heading-1 {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--heading-1);
+	font-weight: var(--font-weight-semibold);
+}
+.heading-2 {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--heading-2);
+	font-weight: var(--font-weight-semibold);
+}
+.body-text-large {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--body-text-large);
+	font-style: var(--font-style-normal);
+}
+.body-text-medium {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--body-text-medium);
+	font-style: var(--font-style-normal);
+}
+.body-text-small {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--body-text-small);
+	font-style: var(--font-style-normal);
+}
+.label-large {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--label-large);
+	font-weight: var(--font-weight-semibold);
+}
+.label-small {
+	font-family: var(--font-family-dm-sans);
+	font-size: var(--label-small);
+	font-weight: var(--font-weight-semibold);
+}
