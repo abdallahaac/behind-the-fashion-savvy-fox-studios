@@ -73,6 +73,7 @@ const modelsData = {
 				rotation: [0, 100, 0],
 				scale: 0.6,
 			},
+			//
 			materialParams: {
 				metalness: 0.8,
 				roughness: 0.1,
