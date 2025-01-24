@@ -5,24 +5,23 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { Suspense } from "react";
-import Experience from "./Experience";
-import Logo from "./components/Logo";
-import Metric from "./components/MetricWidget";
-import SelectionPanel from "./components/SelectionPanel";
-import LogoModelList from "./components/LogoModelList";
-import Tutorial from "./components/Tutorial";
-import Loader from "./utils/Loader"; // Import the Loader component
+import Experience from "../Experience";
+import Logo from "../components/Logo";
+import Metric from "../components/MetricWidget";
+import SelectionPanel from "../components/SelectionPanel";
+import LogoModelList from "../components/LogoModelList";
+import Tutorial from "../components/Tutorial";
+import Loader from "../utils/Loader"; // Import the Loader component
 
 // Import our models & budget from context
-import { useModels } from "./utils/ModelsContext";
+import { useModels } from "../utils/ModelsContext";
+import leaf from "../assets/images/leaf.svg";
+import thumb from "../assets/images/thumb.svg";
+import heart from "../assets/images/heart.svg";
 
-import leaf from "./assets/images/leaf.svg";
-import thumb from "./assets/images/thumb.svg";
-import heart from "./assets/images/heart.svg";
-
-import "./assets/styles/logo-button.css";
-import "./assets/styles/metric-widget.css";
-import "./assets/styles/selection-panel.css";
+import "../assets/styles/logo-button.css";
+import "../assets/styles/metric-widget.css";
+import "../assets/styles/selection-panel.css";
 
 // Helper to pick the correct font family
 function getFontFamily(fontStyle) {

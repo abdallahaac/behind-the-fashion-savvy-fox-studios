@@ -1,8 +1,8 @@
 // ChooseSelection.jsx
-import "./choose-selection-style.css";
-import "./assets/styles/logo-button.css";
-import "./assets/styles/metric-widget.css";
-import "./assets/styles/selection-panel.css";
+import "../choose-selection-style.css";
+import "../assets/styles/logo-button.css";
+import "../assets/styles/metric-widget.css";
+import "../assets/styles/selection-panel.css";
 
 import ReactDOM from "react-dom/client";
 import { Canvas, useLoader } from "@react-three/fiber";
@@ -11,19 +11,19 @@ import { Suspense, useEffect, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
-import Experience from "./Experience.jsx";
-import Logo from "./components/Logo.jsx";
-import Metric from "./components/MetricWidget.jsx";
-import leaf from "./assets/images/leaf.svg";
-import thumb from "./assets/images/thumb.svg";
-import heart from "./assets/images/heart.svg";
-import SelectionPanel from "./components/SelectionPanel.jsx";
-import OutfitDetails from "./components/OutfitDetails.jsx";
-import ModelList from "./components/ModelList.jsx";
+import Experience from "../Experience.jsx";
+import Logo from "../components/Logo.jsx";
+import Metric from "../components/MetricWidget.jsx";
+import leaf from "../assets/images/leaf.svg";
+import thumb from "../assets/images/thumb.svg";
+import heart from "../assets/images/heart.svg";
+import SelectionPanel from "../components/SelectionPanel.jsx";
+import OutfitDetails from "../components/OutfitDetails.jsx";
+import ModelList from "../components/ModelList.jsx";
 
 // Import your existing context
-import { useModels } from "./utils/ModelsContext.jsx";
-import Loader from "./utils/Loader.jsx";
+import { useModels } from "../utils/ModelsContext.jsx";
+import Loader from "../utils/Loader.jsx";
 import { Leva } from "leva";
 
 function ChooseSelection() {

@@ -1,20 +1,20 @@
-import "./intro-style.css";
-import "./assets/styles/logo-button.css";
-import "./assets/styles/metric-widget.css";
-import "./assets/styles/selection-panel.css";
+import "../intro-style.css";
+import "../assets/styles/logo-button.css";
+import "../assets/styles/metric-widget.css";
+import "../assets/styles/selection-panel.css";
 import ReactDOM from "react-dom/client";
 import React, { useEffect, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
-import { ModelsProvider, useModels } from "./utils/ModelsContext.jsx";
+import { ModelsProvider, useModels } from "../utils/ModelsContext.jsx";
 import Marquee from "react-fast-marquee";
-import BackgroundImage from "./assets/images/background-image.svg"; // Update the path to your SVG
-import right_arrow from "./assets/images/right-arrow.svg";
-import wordmark from "./assets/images/Savvy Fox Logo Wordmark.png";
-import production from "./assets/images/A Savvy Fox Studios production.png";
-import logo from "./assets/images/logo.svg";
-import Experience from "./Experience.jsx";
+import BackgroundImage from "../assets/images/background-image.svg"; // Update the path to your SVG
+import right_arrow from "../assets/images/right-arrow.svg";
+import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
+import production from "../assets/images/A Savvy Fox Studios production.png";
+import logo from "../assets/images/logo.svg";
+import Experience from "../Experience.jsx";
 
 const LandingPage = () => {
 	const navigate = useNavigate();
