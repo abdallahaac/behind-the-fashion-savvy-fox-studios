@@ -1,5 +1,5 @@
 // ChooseSelection.jsx
-import "../choose-selection-style.css";
+import "../assets/styles/choose-selection-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";

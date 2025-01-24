@@ -1,4 +1,4 @@
-import "../intro-style.css";
+import "../assets/styles/intro-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
