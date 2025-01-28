@@ -4,30 +4,37 @@ import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Leva, useControls } from "leva";
-import { useNavigate } from "react-router-dom";
-import { ModelsProvider, useModels } from "../utils/ModelsContext.jsx";
+import { gsap } from "gsap";
 import Marquee from "react-fast-marquee";
-import BackgroundImage from "../assets/images/background-image.svg"; // If needed
-import Experience from "../Experience.jsx";
-
-// R3F + Drei
 import { Environment } from "@react-three/drei";
-
-// Postprocessing
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { useNavigate } from "react-router-dom";
 
-// Your custom model
+// Custom 3D model
 import { Human } from "../models/Human.jsx";
 
-const Scene = () => {
-  // ------------------------ LEVA: Mesh Controls ------------------------
+// Image imports for LandingPage content
+import right_arrow from "../assets/images/right-arrow.svg";
+import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
+import production from "../assets/images/A Savvy Fox Studios production.png";
+import BackgroundImage from "../assets/images/background-image.svg"; // Update the path to your SVG
+
+// -----------------------------------------------------
+// SCENE COMPONENT
+// -----------------------------------------------------
+const Scene = ({ onSkip }) => {
+  // Mesh ref for GSAP animation
+  const meshRef = useRef();
+
+  // LEVA: Mesh Controls (excluding Y rotation)
   const {
     meshPosition,
-    meshRotation,
+    meshRotationX,
+    meshRotationZ,
     meshScale,
     meshColor,
     roughness,
@@ -35,9 +42,10 @@ const Scene = () => {
     brightness,
   } = useControls("Mesh", {
     meshPosition: { value: [2.8, -9.7, 1.5], step: 0.1 },
-    meshRotation: { value: [0.0, -1.5, 0.1], step: 0.1 },
+    meshRotationX: { value: 0.0, step: 0.1, label: "Rotation X" },
+    meshRotationZ: { value: 0.1, step: 0.1, label: "Rotation Z" },
     meshScale: { value: 0.7, step: 0.1 },
-    meshColor: "#ffffff", // base color
+    meshColor: "#ffffff",
     roughness: {
       value: 0.2,
       min: 0,
@@ -61,14 +69,25 @@ const Scene = () => {
     },
   });
 
-  // We create a final color (base color + brightness factor).
+  // Final color calculation
   const finalColor = useMemo(() => {
     const color = new THREE.Color(meshColor);
     color.multiplyScalar(brightness);
     return color;
   }, [meshColor, brightness]);
 
-  // ------------------------ LEVA: Camera Controls ------------------------
+  // Rotate the mesh on skip intro
+  useEffect(() => {
+    if (onSkip && meshRef.current) {
+      gsap.to(meshRef.current.rotation, {
+        y: 5.5,
+        duration: 2,
+        ease: "power2.inOut",
+      });
+    }
+  }, [onSkip]);
+
+  // LEVA: Camera Controls
   const { camFov, camPosition, camRotation } = useControls("Camera", {
     camFov: {
       value: 34,
@@ -86,7 +105,7 @@ const Scene = () => {
     },
   });
 
-  // ------------------------ LEVA: Rendering Controls ------------------------
+  // LEVA: Rendering Controls
   const {
     bloomIntensity,
     bloomThreshold,
@@ -138,6 +157,7 @@ const Scene = () => {
         outputEncoding: THREE.sRGBEncoding,
       }}
       onCreated={({ gl }) => {
+        // Set exposure from LEVA controls
         gl.toneMappingExposure = toneMappingExposure;
       }}
       camera={{
@@ -148,26 +168,28 @@ const Scene = () => {
         rotation: camRotation,
       }}
     >
-      {/* Environment and lights */}
+      {/* Environment and Lights */}
       <Environment preset="sunset" intensity={1.0} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 10, 5]} intensity={1.0} />
 
-      {/* 
-        The Human model: 
-        We now pass roughness, metalness, brightness, 
-        and finalColor to the Human so it can feed them into CustomMaterial.
-      */}
-      <Human
+      {/* Human model */}
+      <mesh
+        ref={meshRef}
         position={meshPosition}
-        rotation={meshRotation}
-        scale={meshScale}
-        roughness={roughness}
-        metalness={metalness}
-        color={finalColor}
-      />
+        rotation={[meshRotationX, -1.5, meshRotationZ]}
+      >
+        <Human
+          position={[0, 0, 0]}
+          rotation={[0, 0, 0]}
+          scale={meshScale}
+          roughness={roughness}
+          metalness={metalness}
+          color={finalColor}
+        />
+      </mesh>
 
-      {/* Bloom Post-Processing */}
+      {/* Post-Processing */}
       <EffectComposer>
         <Bloom
           intensity={bloomIntensity}
@@ -179,12 +201,20 @@ const Scene = () => {
   );
 };
 
+// -----------------------------------------------------
+// INTRO COMPONENT
+// -----------------------------------------------------
 const Intro = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Not needed if not navigating
+  const [skip, setSkip] = useState(false);
+  const [showLanding, setShowLanding] = useState(false); // New state to show LandingPage
 
   const handleSkipIntro = (e) => {
     e.preventDefault();
-    navigate("/landing-page");
+    setSkip(true); // Trigger the rotation animation
+    setTimeout(() => {
+      setShowLanding(true); // Show LandingPage content after animation
+    }, 2000); // Duration matches GSAP animation
   };
 
   const sentences = [
@@ -197,12 +227,10 @@ const Intro = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
 
-  const modelsByCategory = useModels();
-  const allModels = modelsByCategory.EthicallyStrongOptions;
-  const selectedModel = allModels[0] || null;
-
   // Reveal text word by word
   useEffect(() => {
+    if (showLanding) return; // Do not reveal words if landing is shown
+
     const words = sentences[currentSentenceIndex]?.split(" ") || [];
     const interval = setInterval(() => {
       if (currentWordIndex < words.length) {
@@ -224,7 +252,7 @@ const Intro = () => {
       }
     }, 100);
     return () => clearInterval(interval);
-  }, [currentWordIndex, currentSentenceIndex, sentences, navigate]);
+  }, [currentWordIndex, currentSentenceIndex, sentences, showLanding]);
 
   // Lock the body/html scrolling, etc.
   useEffect(() => {
@@ -248,6 +276,56 @@ const Intro = () => {
     };
   }, []);
 
+  // LandingPage content: moved into a component
+  const LandingContent = () => {
+    const handleStartExp = (e) => {
+      e.preventDefault();
+      // Implement further navigation or actions
+      // For example, you could trigger another animation or component
+      navigate("/build-a-brand");
+    };
+
+    return (
+      <div className="landing-content">
+        <div className="text-content fade-in">
+          <div className="landing-header fade-in">
+            <h1 className="accent-5">BEHIND THE FASHION</h1>
+            <h2 className="accent-6">// LANDING PAGE</h2>
+          </div>
+          <div className="landing-body fade-in">
+            <h1 className="landing-h1 landing-page">
+              STEP INTO THE ROLE OF A FASHION BRAND CEO.
+            </h1>
+            <p className="body-text-medium">
+              Experience what it's like to build a fashion brand from the ground
+              up, while <br /> managing crucial factors such as budget,
+              audience, and sustainability.
+            </p>
+          </div>
+          <button
+            id="start-button"
+            className="add-button body-text-medium fade-in"
+            onClick={handleStartExp}
+          >
+            Start the Experience
+            <div className="button-icon">
+              <img src={right_arrow} alt="Right Arrow Icon" />
+            </div>
+          </button>
+          <div className="credits-container fade-in">
+            <img className="wordmark" src={wordmark} alt="wordmark Image" />
+            <img src={production} alt="production" />
+          </div>
+        </div>
+
+        <div className="intro-image model-container fade-in">
+          {/* <img src={BackgroundImage} alt="Background Image" /> */}
+          {/* Optionally, include Canvas or other 3D elements if needed */}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Scene behind the content */}
@@ -261,13 +339,13 @@ const Intro = () => {
           zIndex: -1,
         }}
       >
-        <Scene />
+        <Scene onSkip={skip} />
       </div>
 
       {/* Leva Controls */}
       <Leva collapsed />
 
-      {/* Text + Intro Content */}
+      {/* Page Content */}
       <div className="homepage" style={{ position: "relative" }}>
         <header className="banner">
           <Marquee
@@ -283,30 +361,38 @@ const Intro = () => {
         </header>
 
         <main className="content">
-          <div className="text-content">
-            <div className={`intro-header ${isFading ? "fade-out" : ""}`}>
-              <h1 className="accent-5">BEHIND THE FASHION</h1>
-              <h2 className="accent-6">// INTRO</h2>
+          {showLanding ? (
+            // Render LandingPage content
+            <LandingContent />
+          ) : (
+            // Render Intro text
+            <div className="text-content">
+              <div className="intro-header">
+                <h1 className="accent-5">BEHIND THE FASHION</h1>
+                <h2 className="accent-6">// INTRO</h2>
+              </div>
+              <div className="intro-body">
+                {revealedWords.map((words, sentenceIndex) => (
+                  <p key={sentenceIndex} className={isFading ? "fade-out" : ""}>
+                    {words.map((word, wordIndex) => (
+                      <span key={wordIndex} className="fade-in-word">
+                        {word}{" "}
+                      </span>
+                    ))}
+                  </p>
+                ))}
+                <a
+                  href="#"
+                  className={`skip-intro ${
+                    isFading ? "fade-out" : ""
+                  } accent-5`}
+                  onClick={handleSkipIntro}
+                >
+                  [SKIP INTRO]
+                </a>
+              </div>
             </div>
-            <div className="intro-body">
-              {revealedWords.map((words, sentenceIndex) => (
-                <p key={sentenceIndex} className={isFading ? "fade-out" : ""}>
-                  {words.map((word, wordIndex) => (
-                    <span key={wordIndex} className="fade-in-word">
-                      {word}{" "}
-                    </span>
-                  ))}
-                </p>
-              ))}
-              <a
-                href="#"
-                className={`skip-intro ${isFading ? "fade-out" : ""} accent-5`}
-                onClick={handleSkipIntro}
-              >
-                [SKIP INTRO]
-              </a>
-            </div>
-          </div>
+          )}
         </main>
       </div>
     </>
