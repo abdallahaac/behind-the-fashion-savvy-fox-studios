@@ -1,8 +1,7 @@
-// Intro.jsx
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import Marquee from "react-fast-marquee";
 import { Leva } from "leva";
+import { gsap } from "gsap";
 
 // Import **all** the same styles here (and only here):
 import "../assets/styles/intro-style.css";
@@ -16,9 +15,14 @@ import { LandingContent } from "./LandingContent";
 import { IntroText } from "./IntroText";
 
 const Intro = () => {
-  const navigate = useNavigate();
   const [skip, setSkip] = useState(false);
   const [showLanding, setShowLanding] = useState(false);
+
+  /**
+   * We will store the THREE.js camera in a ref so that we can animate it
+   * when "Start Experience" is clicked in LandingContent.
+   */
+  const cameraRef = useRef(null);
 
   // Sentences for intro text
   const sentences = [
@@ -34,6 +38,21 @@ const Intro = () => {
     setTimeout(() => {
       setShowLanding(true);
     }, 2000);
+  };
+
+  /**
+   * This function will be passed into LandingContent and called when
+   * the user clicks the "Start the Experience" button. It will animate
+   * the camera's x-position (instead of navigating).
+   */
+  const handleStartExpCameraAnim = () => {
+    if (cameraRef.current) {
+      gsap.to(cameraRef.current.position, {
+        x: 7.1, // Move camera's x position to 7.1
+        duration: 2,
+        ease: "power2.inOut",
+      });
+    }
   };
 
   // Lock body scrolling, etc. (as in your original code)
@@ -72,7 +91,11 @@ const Intro = () => {
           zIndex: -1,
         }}
       >
-        <Scene onSkip={skip} />
+        {/**
+         * Pass the cameraRef to <Scene /> using ref={cameraRef}.
+         * We also pass skip state so Scene can handle the "skip" animation.
+         */}
+        <Scene onSkip={skip} ref={cameraRef} />
       </div>
 
       {/* Include Leva (collapsed) if you still need it */}
@@ -96,7 +119,12 @@ const Intro = () => {
 
         <main className="content">
           {showLanding ? (
-            <LandingContent />
+            /**
+             * Instead of just rendering <LandingContent />,
+             * we now pass an onStartExp prop that triggers
+             * the camera animation when clicked.
+             */
+            <LandingContent onStartExp={handleStartExpCameraAnim} />
           ) : (
             <IntroText
               sentences={sentences}

@@ -1,6 +1,6 @@
-// LandingContent.jsx
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// We no longer use useNavigate here, because we won't navigate, we'll animate the camera instead.
+// import { useNavigate } from "react-router-dom";
 
 // Image imports for LandingPage content
 import right_arrow from "../assets/images/right-arrow.svg";
@@ -8,12 +8,16 @@ import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/A Savvy Fox Studios production.png";
 // (BackgroundImage import not strictly necessary if you don't display it here)
 
-export const LandingContent = () => {
-  const navigate = useNavigate();
-
+export const LandingContent = ({ onStartExp }) => {
+  /**
+   * We receive onStartExp (a function) from Intro.jsx. This function
+   * animates the camera's x position. The code below calls that instead of navigating.
+   */
   const handleStartExp = (e) => {
     e.preventDefault();
-    navigate("/build-a-brand");
+    if (onStartExp) {
+      onStartExp();
+    }
   };
 
   return (
@@ -51,9 +55,8 @@ export const LandingContent = () => {
 
       <div className="intro-image model-container fade-in">
         {/* If you want to display a background image, uncomment:
-          <img src={BackgroundImage} alt="Background" />
-        */}
-        {/* Or any additional 3D elements, etc. */}
+            <img src={BackgroundImage} alt="Background" />
+          Or any additional 3D elements, etc. */}
       </div>
     </div>
   );
