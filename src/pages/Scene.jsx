@@ -12,6 +12,7 @@ import { Human } from "../models/Human.jsx";
 
 export const Scene = ({ onSkip }) => {
   const meshRef = useRef();
+  const finalGradientRef = useRef(); // Ref for the final gradient overlay
 
   // LEVA: Mesh Controls
   const {
@@ -59,11 +60,21 @@ export const Scene = ({ onSkip }) => {
     return color;
   }, [meshColor, brightness]);
 
-  // Rotate the mesh on skip intro
+  // Handle Skip Action
   useEffect(() => {
-    if (onSkip && meshRef.current) {
+    if (onSkip && meshRef.current && finalGradientRef.current) {
+      console.log("Skip triggered: Animating background and mesh rotation.");
+
+      // Rotate the mesh
       gsap.to(meshRef.current.rotation, {
         y: 5.5,
+        duration: 2,
+        ease: "power2.inOut",
+      });
+
+      // Animate the gradient stops
+      gsap.to(finalGradientRef.current, {
+        opacity: 1,
         duration: 2,
         ease: "power2.inOut",
       });
@@ -128,60 +139,105 @@ export const Scene = ({ onSkip }) => {
   return (
     <>
       <Leva collapsed />
-      <Canvas
-        style={{
-          width: "100%",
-          height: "100%",
-          background:
-            "linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%)",
-        }}
-        gl={{
-          antialias: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          outputEncoding: THREE.sRGBEncoding,
-        }}
-        onCreated={({ gl }) => {
-          // Set exposure from LEVA controls
-          gl.toneMappingExposure = toneMappingExposure;
-        }}
-        camera={{
-          fov: camFov,
-          near: 0.1,
-          far: 200,
-          position: camPosition,
-          rotation: camRotation,
-        }}
-      >
-        {/* Environment and Lights */}
-        <Environment preset="sunset" intensity={1.0} />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 10, 5]} intensity={1.0} />
-
-        {/* Human Model */}
-        <mesh
-          ref={meshRef}
-          position={meshPosition}
-          rotation={[meshRotationX, -1.5, meshRotationZ]}
+      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+        {/* Initial Gradient Overlay */}
+        <svg
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: -2, // Ensure it's behind the final gradient
+          }}
         >
-          <Human
-            position={[0, 0, 0]}
-            rotation={[0, 0, 0]}
-            scale={meshScale}
-            roughness={roughness}
-            metalness={metalness}
-            color={finalColor}
-          />
-        </mesh>
+          <defs>
+            <linearGradient
+              id="bgGradientInitial"
+              x1="0.084"
+              y1="0.7774"
+              x2="0.916"
+              y2="0.2226"
+            >
+              <stop offset="27.78%" stopColor="#282828" />
+              <stop offset="94.21%" stopColor="#52231f" />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#bgGradientInitial)" />
+        </svg>
 
-        {/* Post-Processing */}
-        <EffectComposer>
-          <Bloom
-            intensity={bloomIntensity}
-            luminanceThreshold={bloomThreshold}
-            luminanceSmoothing={bloomSmoothing}
-          />
-        </EffectComposer>
-      </Canvas>
+        {/* Final Gradient Overlay */}
+        <div
+          ref={finalGradientRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background:
+              "linear-gradient(123.21deg, #282828 27.78%,rgb(184, 79, 74) 94.21%)",
+            zIndex: -1, // Ensure it's above the initial gradient
+            opacity: 0, // Start as transparent
+            transition: "opacity 300ms ease",
+          }}
+        ></div>
+
+        {/* Three.js Canvas */}
+        <Canvas
+          style={{
+            width: "100%",
+            height: "100%",
+            background: "transparent", // Make Canvas background transparent
+          }}
+          gl={{
+            antialias: true,
+            toneMapping: THREE.ACESFilmicToneMapping,
+            outputEncoding: THREE.sRGBEncoding,
+          }}
+          onCreated={({ gl }) => {
+            // Set exposure from LEVA controls
+            gl.toneMappingExposure = toneMappingExposure;
+          }}
+          camera={{
+            fov: camFov,
+            near: 0.1,
+            far: 200,
+            position: camPosition,
+            rotation: camRotation,
+          }}
+        >
+          {/* Environment and Lights */}
+          <Environment preset="sunset" intensity={1.0} />
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 10, 5]} intensity={1.0} />
+
+          {/* Human Model */}
+          <mesh
+            ref={meshRef}
+            position={meshPosition}
+            rotation={[meshRotationX, -1.5, meshRotationZ]}
+          >
+            <Human
+              position={[0, 0, 0]}
+              rotation={[0, 0, 0]}
+              scale={meshScale}
+              roughness={roughness}
+              metalness={metalness}
+              color={finalColor}
+            />
+          </mesh>
+
+          {/* Post-Processing */}
+          <EffectComposer>
+            <Bloom
+              intensity={bloomIntensity}
+              luminanceThreshold={bloomThreshold}
+              luminanceSmoothing={bloomSmoothing}
+            />
+          </EffectComposer>
+        </Canvas>
+      </div>
     </>
   );
 };

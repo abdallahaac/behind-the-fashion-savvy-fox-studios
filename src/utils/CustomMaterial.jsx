@@ -26,7 +26,7 @@ export default function CustomMaterial({ children, ...props }) {
       ref={materialRef}
       envMap={envMap}
       metalness={0.8}
-      roughness={0.28}
+      roughness={0.58}
       onBeforeCompile={(shader) => {
         // Insert our custom uniform
         shader.uniforms.uTime = { value: 0 };
