@@ -288,12 +288,12 @@ export default function BuildBrand() {
           {brandName || "brand name"}
         </h4>
 
-        <Canvas>
+        {/* <Canvas>
           <Experience
             selectedModel={selectedLogoModel}
             preloadedModels={preloadedLogoModels}
           />
-        </Canvas>
+        </Canvas> */}
 
         <div className="details-container">
           <div className="outfit-details" style={{ zIndex: 10 }}>

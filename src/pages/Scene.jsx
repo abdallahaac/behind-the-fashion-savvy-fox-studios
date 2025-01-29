@@ -15,7 +15,11 @@ import { LogoThree } from "../models/Logos/LogoThree.jsx";
 import { LogoFour } from "../models/Logos/LogoFour.jsx";
 import { LogoFive } from "../models/Logos/LogoFive.jsx";
 
-export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
+// NOTE: We add "isExperience" as a prop here
+export const Scene = forwardRef(function Scene(
+  { onSkip, isExperience },
+  cameraRef
+) {
   const meshRef = useRef();
   const finalGradientRef = useRef();
 
@@ -200,7 +204,7 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
     },
   });
 
-  // Skip animation (for your existing logic)
+  // Skip animation (existing logic)
   React.useEffect(() => {
     if (onSkip && meshRef.current && finalGradientRef.current) {
       gsap.to(meshRef.current.rotation, {
@@ -332,8 +336,9 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
             ]}
           />
 
-          {/* LogoTwo */}
-          {/* <LogoTwo
+          {/* Other logos (commented out by default) */}
+          {/* 
+          <LogoTwo
             position={[
               logoTwoControls.position.x,
               logoTwoControls.position.y,
@@ -349,10 +354,9 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
               logoTwoControls.scale.y,
               logoTwoControls.scale.z,
             ]}
-          /> */}
+          />
 
-          {/* LogoThree */}
-          {/* <LogoThree
+          <LogoThree
             position={[
               logoThreeControls.position.x,
               logoThreeControls.position.y,
@@ -368,10 +372,9 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
               logoThreeControls.scale.y,
               logoThreeControls.scale.z,
             ]}
-          /> */}
+          />
 
-          {/* LogoFour */}
-          {/* <LogoFour
+          <LogoFour
             position={[
               logoFourControls.position.x,
               logoFourControls.position.y,
@@ -387,10 +390,9 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
               logoFourControls.scale.y,
               logoFourControls.scale.z,
             ]}
-          /> */}
+          />
 
-          {/* LogoFive */}
-          {/* <LogoFive
+          <LogoFive
             position={[
               logoFiveControls.position.x,
               logoFiveControls.position.y,
@@ -406,12 +408,14 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
               logoFiveControls.scale.y,
               logoFiveControls.scale.z,
             ]}
-          /> */}
+          />
+          */}
 
           {/* Post-Processing */}
           <EffectComposer>
+            {/* Bloom is forced to 0 if we are in the experience */}
             <Bloom
-              intensity={bloomIntensity}
+              intensity={isExperience ? 0 : bloomIntensity}
               luminanceThreshold={bloomThreshold}
               luminanceSmoothing={bloomSmoothing}
             />
