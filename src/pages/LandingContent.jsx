@@ -1,6 +1,5 @@
 import React from "react";
 // We no longer use useNavigate here, because we won't navigate, we'll animate the camera instead.
-// import { useNavigate } from "react-router-dom";
 
 // Image imports for LandingPage content
 import right_arrow from "../assets/images/right-arrow.svg";
@@ -9,10 +8,7 @@ import production from "../assets/images/A Savvy Fox Studios production.png";
 // (BackgroundImage import not strictly necessary if you don't display it here)
 
 export const LandingContent = ({ onStartExp }) => {
-  /**
-   * We receive onStartExp (a function) from Intro.jsx. This function
-   * animates the camera's x position. The code below calls that instead of navigating.
-   */
+  // We receive onStartExp from Intro.jsx
   const handleStartExp = (e) => {
     e.preventDefault();
     if (onStartExp) {

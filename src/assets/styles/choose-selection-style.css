@@ -5,56 +5,56 @@
 } */
 
 .app {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 /* Top bar container */
 .logo-container {
-	display: flex;
-	width: 100%;
-	gap: 10px;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 1em;
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
 }
 
 /* Main canvas container */
 .canvas-container {
-	position: relative;
-	width: 100%;
-	height: 85vh;
-	border-radius: 10px;
-	overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  border-radius: 10px;
+  overflow: hidden;
 
-	/* Add your background image here */
-	background: url("./assets/images/canvas-home.svg") center center no-repeat;
-	background-size: cover; /* or 'contain', depending on your preference */
+  /* Add your background image here */
+  /* background: url("./assets/images/canvas-home.svg") center center no-repeat; */
+  background-size: cover; /* or 'contain', depending on your preference */
 }
 
 /* Ensure the canvas spans the full width */
 .canvas-container canvas {
-	width: 100%;
-	height: 100%;
-	display: block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* Container for side-by-side details */
 .details-container {
-	/* Positions the container in the top-right corner */
-	position: absolute;
-	top: 3%;
-	right: 5%;
-	margin-right: -26px;
-	/* Flexbox to place the two sections side by side */
-	display: flex;
+  /* Positions the container in the top-right corner */
+  position: absolute;
+  top: 3%;
+  right: 5%;
+  margin-right: -26px;
+  /* Flexbox to place the two sections side by side */
+  display: flex;
 
-	flex-wrap: wrap; /* allows wrapping on smaller screens if needed */
-	justify-content: space-between;
-	align-items: center;
-	gap: 20px;
+  flex-wrap: wrap; /* allows wrapping on smaller screens if needed */
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }
 
 /* Individual sections for OutfitDetails and SelectionPanel */

@@ -14,9 +14,14 @@ import { Scene } from "./Scene";
 import { LandingContent } from "./LandingContent";
 import { IntroText } from "./IntroText";
 
+// Import BuildBrand component
+import BuildBrandExperience from "./BuildBrandExperience";
+
 const Intro = () => {
   const [skip, setSkip] = useState(false);
   const [showLanding, setShowLanding] = useState(false);
+  const [startExperience, setStartExperience] = useState(false);
+  const [fadeOutAll, setFadeOutAll] = useState(false); // <-- New fade-out state
 
   /**
    * We will store the THREE.js camera in a ref so that we can animate it
@@ -41,18 +46,30 @@ const Intro = () => {
   };
 
   /**
-   * This function will be passed into LandingContent and called when
-   * the user clicks the "Start the Experience" button. It will animate
-   * the camera's x-position (instead of navigating).
+   * This function is passed into LandingContent and called when
+   * the user clicks the "Start the Experience" button. It will:
+   *   1. Fade out the marquee header and landing content.
+   *   2. After fade-out completes, animate the camera.
+   *   3. Show the BuildBrand UI.
    */
   const handleStartExpCameraAnim = () => {
-    if (cameraRef.current) {
-      gsap.to(cameraRef.current.position, {
-        x: 7.1, // Move camera's x position to 7.1
-        duration: 2,
-        ease: "power2.inOut",
-      });
-    }
+    // 1) Trigger fade-out
+    setFadeOutAll(true);
+
+    // 2) Wait for fade-out transition to finish before animating camera
+    setTimeout(() => {
+      if (cameraRef.current) {
+        gsap.to(cameraRef.current.position, {
+          x: 6.1,
+          duration: 3,
+          ease: "power2.inOut",
+          onComplete: () => {
+            // 3) Finally show BuildBrand
+            setStartExperience(true);
+          },
+        });
+      }
+    }, 1500); // match or exceed your .fade-out transition duration
   };
 
   // Lock body scrolling, etc. (as in your original code)
@@ -92,10 +109,10 @@ const Intro = () => {
         }}
       >
         {/**
-         * Pass the cameraRef to <Scene /> using ref={cameraRef}.
-         * We also pass skip state so Scene can handle the "skip" animation.
+         * Pass the cameraRef and skip state to <Scene />.
+         * Also pass the isExperience state if needed.
          */}
-        <Scene onSkip={skip} ref={cameraRef} />
+        <Scene onSkip={skip} ref={cameraRef} isExperience={startExperience} />
       </div>
 
       {/* Include Leva (collapsed) if you still need it */}
@@ -103,35 +120,43 @@ const Intro = () => {
 
       {/* Page Content */}
       <div className="homepage" style={{ position: "relative" }}>
-        {/* Banner with marquee */}
-        <header className="banner">
-          <Marquee
-            gradient={false}
-            speed={30}
-            pauseOnHover={false}
-            style={{ marginTop: 10, marginBottom: 10 }}
-          >
-            &nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
-            // BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-            BEHIND THE FASHION
-          </Marquee>
-        </header>
+        {/* Conditionally render the marquee header (fade out if needed) */}
+        {!startExperience && (
+          <header className={`banner ${fadeOutAll ? "fade-out" : ""}`}>
+            <Marquee
+              gradient={false}
+              speed={30}
+              pauseOnHover={false}
+              style={{ marginTop: 10, marginBottom: 10 }}
+            >
+              &nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE
+              FASHION // BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE
+              FASHION // BEHIND THE FASHION
+            </Marquee>
+          </header>
+        )}
 
-        <main className="content">
-          {showLanding ? (
-            /**
-             * Instead of just rendering <LandingContent />,
-             * we now pass an onStartExp prop that triggers
-             * the camera animation when clicked.
-             */
-            <LandingContent onStartExp={handleStartExpCameraAnim} />
-          ) : (
+        <main className="content" style={{ position: "relative" }}>
+          {/* Step 1: Intro text (shown if not skipping & not showing landing) */}
+          {!startExperience && !showLanding && (
             <IntroText
               sentences={sentences}
               onSkip={handleSkipIntro}
               showLanding={showLanding}
             />
           )}
+
+          {/* Step 2: Landing content (once skip is done) */}
+          {!startExperience && showLanding && (
+            <div
+              className={`landing-container ${fadeOutAll ? "fade-out" : ""}`}
+            >
+              <LandingContent onStartExp={handleStartExpCameraAnim} />
+            </div>
+          )}
+
+          {/* Step 3: BuildBrand UI (shown after camera anim) */}
+          {startExperience && <BuildBrandExperience />}
         </main>
       </div>
     </>

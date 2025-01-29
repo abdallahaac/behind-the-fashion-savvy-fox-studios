@@ -314,7 +314,7 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
           </mesh>
 
           {/* LogoOne */}
-          {/* <LogoOne
+          <LogoOne
             position={[
               logoOneControls.position.x,
               logoOneControls.position.y,
@@ -330,7 +330,7 @@ export const Scene = forwardRef(function Scene({ onSkip }, cameraRef) {
               logoOneControls.scale.y,
               logoOneControls.scale.z,
             ]}
-          /> */}
+          />
 
           {/* LogoTwo */}
           {/* <LogoTwo
