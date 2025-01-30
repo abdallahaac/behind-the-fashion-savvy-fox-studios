@@ -234,6 +234,108 @@ const modelsData = {
 			},
 		},
 	],
+	CottonChoices: [
+        {
+            id: 1,
+            name: "Conventional Cotton",
+            description: "Simple leaf-based design for eco-friendly vibes.",
+            model: "/models/logo-1.glb",
+            transform: {
+                position: [0, 0, 0],
+                rotation: [8, 1, 0],
+                scale: 20.0,
+            },
+            cost: 750,
+            env_title: "Bad for the Environment",
+            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_title: "Poor Rights & Child Labor",
+            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
+            water_use: "High Water Use",
+            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+			img_path: "../assets/images/Cotton/conventional.svg",
+
+            // materialParams: {
+            //     metalness: 1,
+            //     roughness: 0,
+            //     color: "#ffffff",
+            // },
+        },
+        {
+            id: 2,
+            name: "Organic Cotton",
+            description: "Simple leaf-based design for eco-friendly vibes.",
+            model: "/models/logo-02.glb",
+            transform: {
+                position: [0, 0, 0],
+                rotation: [8, 1, 0],
+                scale: 20.0,
+            },
+            cost: 875,
+            env_title: "Bad for the Environment",
+            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_title: "Poor Rights & Child Labor",
+            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
+            water_use: "High Water Use",
+            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+			img_path: "../assets/images/Cotton/organic_cotton.svg",
+
+            // materialParams: {
+            //     metalness: 1,
+            //     roughness: 0,
+            //     color: "#ffffff",
+            // },
+        },
+        {
+            id: 3,
+            name: "Recycled Cotton",
+            description: "Simple leaf-based design for eco-friendly vibes.",
+            model: "/models/logo-03.glb",
+            transform: {
+                position: [0, 0, 0],
+                rotation: [8, 1, 0],
+                scale: 20.0,
+            },
+            cost: 700,
+            env_title: "Bad for the Environment",
+            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_title: "Poor Rights & Child Labor",
+            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
+            water_use: "High Water Use",
+            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+			img_path: "../assets/images/Cotton/recycled_cotton.svg",
+
+            // materialParams: {
+            //     metalness: 1,
+            //     roughness: 0,
+            //     color: "#ffffff",
+            // },
+        },
+        {
+            id: 4,
+            name: "Sustainable Cotton",
+            description: "Simple leaf-based design for eco-friendly vibes.",
+            model: "/models/logo-04.glb",
+            transform: {
+                position: [0, 0, 0],
+                rotation: [8, 1, 0],
+                scale: 20.0,
+            },
+            cost: 750,
+            env_title: "Bad for the Environment",
+            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_title: "Poor Rights & Child Labor",
+            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
+            water_use: "High Water Use",
+            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+			img_path: "../assets/images/Cotton/sustainable_cotton.svg",
+
+            // materialParams: {
+            //     metalness: 1,
+            //     roughness: 0,
+            //     color: "#ffffff",
+            // },
+        },
+    ],
 };
 
 // 2) Create the context

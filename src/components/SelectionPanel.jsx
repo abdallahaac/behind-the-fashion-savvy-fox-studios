@@ -2,9 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
+import CardSelection from "./CardSelection";
 import cracked_heart from "../assets/images/cracked-heart.png";
 import shopping_bag from "../assets/images/shopping_bag.svg";
 import FontStyleSelection from "./FontSelection";
+
+
 
 const SelectionPanel = ({
     collection,
@@ -15,6 +18,8 @@ const SelectionPanel = ({
     fontStyle,
     setFontStyle,
     selectedModel,
+    cards,
+    onCardSelect
 }) => {
     const navigate = useNavigate();
 
@@ -46,6 +51,11 @@ const SelectionPanel = ({
                 {currentStep === 2 && (
                     <div className="choose-outfit-designs accent-2">
                         Choose Outfit Designs
+                    </div>
+                )}
+                 {currentStep === 3 && (
+                    <div className="choose-outfit-designs accent-2">
+                        Fabrics Lab
                     </div>
                 )}
             </div>
@@ -238,6 +248,13 @@ const SelectionPanel = ({
                         </div>
                     </div>
                 </>
+            )}
+            {currentStep === 3 && (
+                 <>
+                 <h1 className= "step-title accent-4">1. SELECT A COTTON</h1>
+                 <CardSelection cards={cards} onCardSelect={onCardSelect} />
+                 </>
+
             )}
         </div>
     );
