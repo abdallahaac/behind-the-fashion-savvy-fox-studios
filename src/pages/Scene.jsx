@@ -69,6 +69,22 @@ export const Scene = forwardRef(function Scene(
     color: "#000000",
     opacity: { value: 0.7, min: 0, max: 1, step: 0.01 },
   });
+  const thirdTextControls = useControls("Text - Third", {
+    position: { value: { x: 5.9, y: -0.3, z: -5.6 }, step: 0.1 },
+    rotation: { value: { x: -0.12, y: 0.03, z: 0.09 }, step: 0.01 },
+    scale: { value: 1.0, min: 0.1, max: 2, step: 0.1 },
+    fontSize: { value: 0.9, min: 0.1, max: 2, step: 0.1 },
+    color: "#000000",
+    opacity: { value: 0.7, min: 0, max: 1, step: 0.01 },
+  });
+  const FourthTextControls = useControls("Text - Fourth", {
+    position: { value: { x: 5.9, y: -1.4, z: -5.7 }, step: 0.1 },
+    rotation: { value: { x: -0.2, y: -0.02, z: 0.09 }, step: 0.01 },
+    scale: { value: 1.0, min: 0.1, max: 2, step: 0.1 },
+    fontSize: { value: 0.9, min: 0.1, max: 2, step: 0.1 },
+    color: "#000000",
+    opacity: { value: 0.7, min: 0, max: 1, step: 0.01 },
+  });
 
   const finalColor = useMemo(() => {
     const color = new THREE.Color(meshColor);
@@ -278,6 +294,7 @@ export const Scene = forwardRef(function Scene(
 
           {/* Primary 3D Text */}
           <Text
+            visible={isExperience && isLogoOneReady}
             font={fontURL}
             fontSize={primaryTextControls.fontSize}
             color={primaryTextControls.color}
@@ -302,6 +319,7 @@ export const Scene = forwardRef(function Scene(
 
           {/* Secondary 3D Text */}
           <Text
+            visible={isExperience && isLogoOneReady}
             font={fontURL}
             fontSize={secondaryTextControls.fontSize}
             color={secondaryTextControls.color}
@@ -319,6 +337,52 @@ export const Scene = forwardRef(function Scene(
             anchorX="center"
             anchorY="middle"
             opacity={secondaryTextControls.opacity}
+          >
+            <meshBasicMaterial color={0x00000} transparent opacity={0.8} />
+            {textString}
+          </Text>
+          <Text
+            visible={isExperience && isLogoOneReady}
+            font={fontURL}
+            fontSize={thirdTextControls.fontSize}
+            color={thirdTextControls.color}
+            position={[
+              thirdTextControls.position.x,
+              thirdTextControls.position.y,
+              thirdTextControls.position.z,
+            ]}
+            rotation={[
+              thirdTextControls.rotation.x,
+              thirdTextControls.rotation.y,
+              thirdTextControls.rotation.z,
+            ]}
+            scale={thirdTextControls.scale}
+            anchorX="center"
+            anchorY="middle"
+            opacity={thirdTextControls.opacity}
+          >
+            <meshBasicMaterial color={0x00000} transparent opacity={0.8} />
+            {textString}
+          </Text>
+          <Text
+            visible={isExperience && isLogoOneReady}
+            font={fontURL}
+            fontSize={FourthTextControls.fontSize}
+            color={FourthTextControls.color}
+            position={[
+              FourthTextControls.position.x,
+              FourthTextControls.position.y,
+              FourthTextControls.position.z,
+            ]}
+            rotation={[
+              FourthTextControls.rotation.x,
+              FourthTextControls.rotation.y,
+              FourthTextControls.rotation.z,
+            ]}
+            scale={FourthTextControls.scale}
+            anchorX="center"
+            anchorY="middle"
+            opacity={FourthTextControls.opacity}
           >
             <meshBasicMaterial color={0x00000} transparent opacity={0.8} />
             {textString}
