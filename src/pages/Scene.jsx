@@ -1,5 +1,4 @@
-// Scene.jsx
-import React, { useRef, useMemo, forwardRef } from "react";
+import React, { useRef, useMemo, useEffect, useState, forwardRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { gsap } from "gsap";
@@ -113,106 +112,121 @@ export const Scene = forwardRef(function Scene(
     },
   });
 
-  // LEVA: Logo Controls
+  // -----------------------------------
+  // Animated bloom state and effect
+  // -----------------------------------
+  const [animatedBloom, setAnimatedBloom] = useState(bloomIntensity);
+
+  useEffect(() => {
+    // When isExperience changes, or the user adjusts the bloomIntensity,
+    // animate from the current bloom to either 0 or the user-defined bloomIntensity.
+    const target = isExperience ? 0 : bloomIntensity;
+    gsap.to(
+      { value: animatedBloom },
+      {
+        value: target,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onUpdate: function () {
+          setAnimatedBloom(this.targets()[0].value);
+        },
+      }
+    );
+  }, [isExperience, bloomIntensity]);
+
+  const [isLogoOneReady, setIsLogoOneReady] = useState(false);
+
+  useEffect(() => {
+    // Only start the timer when isExperience = true (or always if you prefer)
+    if (isExperience) {
+      // 3000 seconds = 3,000,000 ms
+      const timer = setTimeout(() => {
+        setIsLogoOneReady(true);
+      }, 1000);
+
+      // Cleanup to avoid memory leaks if the component unmounts early
+      return () => clearTimeout(timer);
+    } else {
+      // If isExperience is switched off, reset to false
+      setIsLogoOneReady(false);
+    }
+  }, [isExperience]);
+
+  // LEVA: LogoOne Controls
   const logoOneControls = useControls("LogoOne", {
     position: {
-      value: { x: -2, y: 1, z: -3 },
+      value: { x: 6.4, y: 1, z: -3 },
       step: 0.1,
       label: "Position",
     },
     rotation: {
-      value: { x: 0, y: 0, z: 0 },
+      value: { x: 1.1, y: 0.2, z: 0.2 },
       step: 0.1,
       label: "Rotation",
     },
     scale: {
-      value: { x: 1, y: 1, z: 1 },
+      value: { x: 9, y: 9, z: 9 },
       step: 0.1,
       label: "Scale",
     },
+    roughness: {
+      value: 0,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      label: "Roughness",
+    },
+    metalness: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      label: "Metalness",
+    },
   });
 
+  // Other logos omitted for brevity...
   const logoTwoControls = useControls("LogoTwo", {
-    position: {
-      value: { x: 3, y: 0.5, z: -4 },
-      step: 0.1,
-      label: "Position",
-    },
+    position: { value: { x: 3, y: 0.5, z: -4 }, step: 0.1, label: "Position" },
     rotation: {
       value: { x: 0, y: Math.PI / 4, z: 0 },
       step: 0.1,
       label: "Rotation",
     },
-    scale: {
-      value: { x: 1.2, y: 1.2, z: 1.2 },
-      step: 0.1,
-      label: "Scale",
-    },
+    scale: { value: { x: 1.2, y: 1.2, z: 1.2 }, step: 0.1, label: "Scale" },
   });
-
   const logoThreeControls = useControls("LogoThree", {
-    position: {
-      value: { x: -4, y: 2, z: 1 },
-      step: 0.1,
-      label: "Position",
-    },
+    position: { value: { x: -4, y: 2, z: 1 }, step: 0.1, label: "Position" },
     rotation: {
       value: { x: Math.PI / 6, y: 0, z: Math.PI / 6 },
       step: 0.1,
       label: "Rotation",
     },
-    scale: {
-      value: { x: 0.8, y: 0.8, z: 0.8 },
-      step: 0.1,
-      label: "Scale",
-    },
+    scale: { value: { x: 0.8, y: 0.8, z: 0.8 }, step: 0.1, label: "Scale" },
   });
-
   const logoFourControls = useControls("LogoFour", {
-    position: {
-      value: { x: 1, y: -1, z: -2 },
-      step: 0.1,
-      label: "Position",
-    },
-    rotation: {
-      value: { x: 0, y: 0, z: 0 },
-      step: 0.1,
-      label: "Rotation",
-    },
-    scale: {
-      value: { x: 1, y: 1, z: 1 },
-      step: 0.1,
-      label: "Scale",
-    },
+    position: { value: { x: 1, y: -1, z: -2 }, step: 0.1, label: "Position" },
+    rotation: { value: { x: 0, y: 0, z: 0 }, step: 0.1, label: "Rotation" },
+    scale: { value: { x: 1, y: 1, z: 1 }, step: 0.1, label: "Scale" },
   });
-
   const logoFiveControls = useControls("LogoFive", {
-    position: {
-      value: { x: 5, y: 1.5, z: 0 },
-      step: 0.1,
-      label: "Position",
-    },
+    position: { value: { x: 5, y: 1.5, z: 0 }, step: 0.1, label: "Position" },
     rotation: {
       value: { x: 0, y: Math.PI / 2, z: 0 },
       step: 0.1,
       label: "Rotation",
     },
-    scale: {
-      value: { x: 1, y: 1, z: 1 },
-      step: 0.1,
-      label: "Scale",
-    },
+    scale: { value: { x: 1, y: 1, z: 1 }, step: 0.1, label: "Scale" },
   });
 
   // Skip animation (existing logic)
-  React.useEffect(() => {
+  useEffect(() => {
     if (onSkip && meshRef.current && finalGradientRef.current) {
       gsap.to(meshRef.current.rotation, {
         y: 5.5,
         duration: 2,
         ease: "power2.inOut",
       });
-
       gsap.to(finalGradientRef.current, {
         opacity: 1,
         duration: 2,
@@ -317,8 +331,12 @@ export const Scene = forwardRef(function Scene(
             />
           </mesh>
 
-          {/* LogoOne */}
+          {/* LogoOne 
+              NOTE: We pass `visible={isExperience}` so it won't be visible
+                    until `startExperience` is true in your Intro.jsx.
+           */}
           <LogoOne
+            visible={isExperience && isLogoOneReady}
             position={[
               logoOneControls.position.x,
               logoOneControls.position.y,
@@ -334,88 +352,19 @@ export const Scene = forwardRef(function Scene(
               logoOneControls.scale.y,
               logoOneControls.scale.z,
             ]}
+            roughness={logoOneControls.roughness}
+            metalness={logoOneControls.metalness}
           />
 
-          {/* Other logos (commented out by default) */}
           {/* 
-          <LogoTwo
-            position={[
-              logoTwoControls.position.x,
-              logoTwoControls.position.y,
-              logoTwoControls.position.z,
-            ]}
-            rotation={[
-              logoTwoControls.rotation.x,
-              logoTwoControls.rotation.y,
-              logoTwoControls.rotation.z,
-            ]}
-            scale={[
-              logoTwoControls.scale.x,
-              logoTwoControls.scale.y,
-              logoTwoControls.scale.z,
-            ]}
-          />
-
-          <LogoThree
-            position={[
-              logoThreeControls.position.x,
-              logoThreeControls.position.y,
-              logoThreeControls.position.z,
-            ]}
-            rotation={[
-              logoThreeControls.rotation.x,
-              logoThreeControls.rotation.y,
-              logoThreeControls.rotation.z,
-            ]}
-            scale={[
-              logoThreeControls.scale.x,
-              logoThreeControls.scale.y,
-              logoThreeControls.scale.z,
-            ]}
-          />
-
-          <LogoFour
-            position={[
-              logoFourControls.position.x,
-              logoFourControls.position.y,
-              logoFourControls.position.z,
-            ]}
-            rotation={[
-              logoFourControls.rotation.x,
-              logoFourControls.rotation.y,
-              logoFourControls.rotation.z,
-            ]}
-            scale={[
-              logoFourControls.scale.x,
-              logoFourControls.scale.y,
-              logoFourControls.scale.z,
-            ]}
-          />
-
-          <LogoFive
-            position={[
-              logoFiveControls.position.x,
-              logoFiveControls.position.y,
-              logoFiveControls.position.z,
-            ]}
-            rotation={[
-              logoFiveControls.rotation.x,
-              logoFiveControls.rotation.y,
-              logoFiveControls.rotation.z,
-            ]}
-            scale={[
-              logoFiveControls.scale.x,
-              logoFiveControls.scale.y,
-              logoFiveControls.scale.z,
-            ]}
-          />
+            Other logos (LogoTwo, LogoThree, etc.) can follow the same pattern
+            if you want them hidden until the user chooses them.
           */}
 
           {/* Post-Processing */}
           <EffectComposer>
-            {/* Bloom is forced to 0 if we are in the experience */}
             <Bloom
-              intensity={isExperience ? 0 : bloomIntensity}
+              intensity={animatedBloom}
               luminanceThreshold={bloomThreshold}
               luminanceSmoothing={bloomSmoothing}
             />

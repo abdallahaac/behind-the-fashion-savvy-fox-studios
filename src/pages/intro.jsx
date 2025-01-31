@@ -69,7 +69,7 @@ const Intro = () => {
           },
         });
       }
-    }, 1500); // match or exceed your .fade-out transition duration
+    }, 1200); // match or exceed your .fade-out transition duration
   };
 
   // Lock body scrolling, etc. (as in your original code)
