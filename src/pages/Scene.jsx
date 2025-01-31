@@ -14,15 +14,19 @@ import { LogoThree } from "../models/Logos/LogoThree.jsx";
 import { LogoFour } from "../models/Logos/LogoFour.jsx";
 import { LogoFive } from "../models/Logos/LogoFive.jsx";
 
-// NOTE: We add "isExperience" as a prop here
+// We add "isExperience" as a prop here
 export const Scene = forwardRef(function Scene(
   { onSkip, isExperience },
   cameraRef
 ) {
+  // Refs
   const meshRef = useRef();
-  const finalGradientRef = useRef();
+  const finalGradientRef = useRef(); // "red" gradient that appears on skip
+  const whiteGradientRef = useRef(); // "white" gradient that appears on experience
 
+  // ----------------------------------
   // LEVA: Mesh Controls
+  // ----------------------------------
   const {
     meshPosition,
     meshRotationX,
@@ -61,21 +65,25 @@ export const Scene = forwardRef(function Scene(
     },
   });
 
-  // Compute final color
+  // Compute final color for the mesh
   const finalColor = useMemo(() => {
     const color = new THREE.Color(meshColor);
     color.multiplyScalar(brightness);
     return color;
   }, [meshColor, brightness]);
 
+  // ----------------------------------
   // LEVA: Camera Controls
+  // ----------------------------------
   const { camFov, camPosition, camRotation } = useControls("Camera", {
     camFov: { value: 34, min: 1, max: 120, step: 1 },
     camPosition: { value: [0.5, 2.9, 5.2], step: 0.1 },
     camRotation: { value: [-0.19, -0.1, 0.11], step: 0.1 },
   });
 
+  // ----------------------------------
   // LEVA: Rendering Controls
+  // ----------------------------------
   const {
     bloomIntensity,
     bloomThreshold,
@@ -112,14 +120,12 @@ export const Scene = forwardRef(function Scene(
     },
   });
 
-  // -----------------------------------
-  // Animated bloom state and effect
-  // -----------------------------------
+  // ----------------------------------
+  // Animated Bloom
+  // ----------------------------------
   const [animatedBloom, setAnimatedBloom] = useState(bloomIntensity);
-
   useEffect(() => {
-    // When isExperience changes, or the user adjusts the bloomIntensity,
-    // animate from the current bloom to either 0 or the user-defined bloomIntensity.
+    // If isExperience is true, fade bloom out to 0; otherwise revert
     const target = isExperience ? 0 : bloomIntensity;
     gsap.to(
       { value: animatedBloom },
@@ -134,99 +140,62 @@ export const Scene = forwardRef(function Scene(
     );
   }, [isExperience, bloomIntensity]);
 
+  // ----------------------------------
+  // Example: Timed display of a Logo (LogoOne)
+  // ----------------------------------
   const [isLogoOneReady, setIsLogoOneReady] = useState(false);
-
   useEffect(() => {
-    // Only start the timer when isExperience = true (or always if you prefer)
     if (isExperience) {
-      // 3000 seconds = 3,000,000 ms
       const timer = setTimeout(() => {
         setIsLogoOneReady(true);
       }, 1000);
-
-      // Cleanup to avoid memory leaks if the component unmounts early
       return () => clearTimeout(timer);
     } else {
-      // If isExperience is switched off, reset to false
       setIsLogoOneReady(false);
     }
   }, [isExperience]);
 
   // LEVA: LogoOne Controls
   const logoOneControls = useControls("LogoOne", {
-    position: {
-      value: { x: 6.4, y: 1, z: -3 },
-      step: 0.1,
-      label: "Position",
-    },
+    position: { value: { x: 6.4, y: 1, z: -3 }, step: 0.1, label: "Position" },
     rotation: {
       value: { x: 1.1, y: 0.2, z: 0.2 },
       step: 0.1,
       label: "Rotation",
     },
-    scale: {
-      value: { x: 9, y: 9, z: 9 },
-      step: 0.1,
-      label: "Scale",
-    },
-    roughness: {
-      value: 0,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Roughness",
-    },
-    metalness: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Metalness",
-    },
+    scale: { value: { x: 9, y: 9, z: 9 }, step: 0.1, label: "Scale" },
+    roughness: { value: 0, min: 0, max: 1, step: 0.01, label: "Roughness" },
+    metalness: { value: 1, min: 0, max: 1, step: 0.01, label: "Metalness" },
   });
-
-  // Other logos omitted for brevity...
   const logoTwoControls = useControls("LogoTwo", {
-    position: { value: { x: 3, y: 0.5, z: -4 }, step: 0.1, label: "Position" },
+    position: {
+      value: { x: 15.3, y: 1.4, z: -3 },
+      step: 0.1,
+      label: "Position",
+    },
     rotation: {
-      value: { x: 0, y: Math.PI / 4, z: 0 },
+      value: { x: 0.0, y: -1.6, z: 0.1 },
       step: 0.1,
       label: "Rotation",
     },
-    scale: { value: { x: 1.2, y: 1.2, z: 1.2 }, step: 0.1, label: "Scale" },
+    scale: { value: { x: 0.5, y: 0.5, z: 0.5 }, step: 0.1, label: "Scale" },
+    roughness: { value: 0, min: 0, max: 1, step: 0.01, label: "Roughness" },
+    metalness: { value: 1, min: 0, max: 1, step: 0.01, label: "Metalness" },
   });
-  const logoThreeControls = useControls("LogoThree", {
-    position: { value: { x: -4, y: 2, z: 1 }, step: 0.1, label: "Position" },
-    rotation: {
-      value: { x: Math.PI / 6, y: 0, z: Math.PI / 6 },
-      step: 0.1,
-      label: "Rotation",
-    },
-    scale: { value: { x: 0.8, y: 0.8, z: 0.8 }, step: 0.1, label: "Scale" },
-  });
-  const logoFourControls = useControls("LogoFour", {
-    position: { value: { x: 1, y: -1, z: -2 }, step: 0.1, label: "Position" },
-    rotation: { value: { x: 0, y: 0, z: 0 }, step: 0.1, label: "Rotation" },
-    scale: { value: { x: 1, y: 1, z: 1 }, step: 0.1, label: "Scale" },
-  });
-  const logoFiveControls = useControls("LogoFive", {
-    position: { value: { x: 5, y: 1.5, z: 0 }, step: 0.1, label: "Position" },
-    rotation: {
-      value: { x: 0, y: Math.PI / 2, z: 0 },
-      step: 0.1,
-      label: "Rotation",
-    },
-    scale: { value: { x: 1, y: 1, z: 1 }, step: 0.1, label: "Scale" },
-  });
+  // ...same for Logos Two, Three, etc. if needed
 
-  // Skip animation (existing logic)
+  // ----------------------------------
+  // onSkip => rotate mesh + fade in red finalGradientRef
+  // ----------------------------------
   useEffect(() => {
     if (onSkip && meshRef.current && finalGradientRef.current) {
+      // Rotate the mesh
       gsap.to(meshRef.current.rotation, {
         y: 5.5,
         duration: 2,
         ease: "power2.inOut",
       });
+      // Fade in the red gradient
       gsap.to(finalGradientRef.current, {
         opacity: 1,
         duration: 2,
@@ -235,22 +204,51 @@ export const Scene = forwardRef(function Scene(
     }
   }, [onSkip]);
 
-  // Handle camera reference
-  const handleOnCreated = ({ gl, camera }) => {
-    // Set exposure
-    gl.toneMappingExposure = toneMappingExposure;
+  // ----------------------------------
+  // When isExperience => fade OUT red gradient, fade IN white gradient
+  // ----------------------------------
+  useEffect(() => {
+    if (isExperience) {
+      // Fade out the "red" gradient
+      if (finalGradientRef.current) {
+        gsap.to(finalGradientRef.current, {
+          opacity: 0,
+          duration: 2,
+          ease: "power2.inOut",
+        });
+      }
+      // Fade in the "white" gradient
+      if (whiteGradientRef.current) {
+        gsap.to(whiteGradientRef.current, {
+          opacity: 1,
+          duration: 2,
+          ease: "power2.inOut",
+        });
+      }
+    }
+  }, [isExperience]);
 
-    // Store camera in the parent's ref
+  // ----------------------------------
+  // Handle camera creation
+  // ----------------------------------
+  const handleOnCreated = ({ gl, camera }) => {
+    gl.toneMappingExposure = toneMappingExposure;
     if (cameraRef) {
       cameraRef.current = camera;
     }
   };
 
+  // ----------------------------------
+  // Return JSX
+  // ----------------------------------
   return (
     <>
       <Leva collapsed />
+
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
-        {/* Initial gradient */}
+        {/* 
+          1) Base Brownish Gradient (always visible, zIndex: -3)
+        */}
         <svg
           style={{
             position: "absolute",
@@ -258,12 +256,12 @@ export const Scene = forwardRef(function Scene(
             left: 0,
             width: "100%",
             height: "100%",
-            zIndex: -2,
+            zIndex: -3,
           }}
         >
           <defs>
             <linearGradient
-              id="bgGradientInitial"
+              id="bgGradientBrownish"
               x1="0.084"
               y1="0.7774"
               x2="0.916"
@@ -273,10 +271,13 @@ export const Scene = forwardRef(function Scene(
               <stop offset="94.21%" stopColor="#52231f" />
             </linearGradient>
           </defs>
-          <rect width="100%" height="100%" fill="url(#bgGradientInitial)" />
+          <rect width="100%" height="100%" fill="url(#bgGradientBrownish)" />
         </svg>
 
-        {/* Final gradient */}
+        {/*
+          2) "Final" Red Gradient (appears AFTER skip, fades in via finalGradientRef)
+          Start invisible at opacity:0, place it just above the base brownish (zIndex:-2)
+        */}
         <div
           ref={finalGradientRef}
           style={{
@@ -285,15 +286,53 @@ export const Scene = forwardRef(function Scene(
             left: 0,
             width: "100%",
             height: "100%",
+            zIndex: -2,
+            opacity: 0,
             background:
               "linear-gradient(123.21deg, #282828 27.78%, rgb(184,79,74) 94.21%)",
-            zIndex: -1,
-            opacity: 0,
             transition: "opacity 300ms ease",
           }}
         />
 
-        {/* Three.js Canvas */}
+        {/*
+          3) White Gradient (fades in ONLY once isExperience === true)
+          Start invisible at opacity:0, place it topmost (zIndex:-1)
+        */}
+        <svg
+          ref={whiteGradientRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: -1,
+            opacity: 0,
+            transition: "opacity 300ms ease",
+          }}
+        >
+          <defs>
+            <linearGradient
+              id="bgGradientWhiteish"
+              x1="0"
+              y1="1"
+              x2="0"
+              y2="0"
+              gradientUnits="objectBoundingBox"
+            >
+              {/* 
+                This replicates "to top, rgba(160, 169, 186, 0.6) 0%, #ffffff 100%".
+              */}
+              <stop offset="0%" stopColor="rgba(160, 169, 186, 0.6)" />
+              <stop offset="100%" stopColor="#ffffff" />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#bgGradientWhiteish)" />
+        </svg>
+
+        {/* 
+          4) Three.js Canvas on top
+        */}
         <Canvas
           style={{ width: "100%", height: "100%", background: "transparent" }}
           gl={{
@@ -310,7 +349,7 @@ export const Scene = forwardRef(function Scene(
             rotation: camRotation,
           }}
         >
-          {/* Environment and Lights */}
+          {/* Environment & Lights */}
           <Environment preset="sunset" intensity={1.0} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 10, 5]} intensity={1.0} />
@@ -331,10 +370,7 @@ export const Scene = forwardRef(function Scene(
             />
           </mesh>
 
-          {/* LogoOne 
-              NOTE: We pass `visible={isExperience}` so it won't be visible
-                    until `startExperience` is true in your Intro.jsx.
-           */}
+          {/* Example: LogoOne once isExperience + a short delay */}
           <LogoOne
             visible={isExperience && isLogoOneReady}
             position={[
@@ -355,10 +391,29 @@ export const Scene = forwardRef(function Scene(
             roughness={logoOneControls.roughness}
             metalness={logoOneControls.metalness}
           />
+          <LogoTwo
+            visible={isExperience && isLogoOneReady}
+            position={[
+              logoTwoControls.position.x,
+              logoTwoControls.position.y,
+              logoTwoControls.position.z,
+            ]}
+            rotation={[
+              logoTwoControls.rotation.x,
+              logoTwoControls.rotation.y,
+              logoTwoControls.rotation.z,
+            ]}
+            scale={[
+              logoTwoControls.scale.x,
+              logoTwoControls.scale.y,
+              logoTwoControls.scale.z,
+            ]}
+            roughness={logoTwoControls.roughness}
+            metalness={logoTwoControls.metalness}
+          />
 
           {/* 
-            Other logos (LogoTwo, LogoThree, etc.) can follow the same pattern
-            if you want them hidden until the user chooses them.
+            Additional logos (LogoTwo, LogoThree, etc.) go here...
           */}
 
           {/* Post-Processing */}
