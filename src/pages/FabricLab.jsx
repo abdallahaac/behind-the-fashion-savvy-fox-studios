@@ -28,7 +28,7 @@ import { Leva } from "leva";
 
 function FabricLab() {
     
-	const {CottonChoices, budget} = useModels();
+	const {CottonChoices,HeavyChoices, budget} = useModels();
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
      // Ensure CottonChoices has at least four elements
@@ -38,10 +38,20 @@ function FabricLab() {
 
 	// // 1) Pull the same budget from context
     const cards = [
-        { image: CottonChoices[0].img_path, fabricName: CottonChoices[0].name, cost:CottonChoices[0].cost },
-        { image: CottonChoices[1].img_path, fabricName: CottonChoices[1].name, cost:CottonChoices[1].cost  },
-        { image: CottonChoices[2].img_path, fabricName: CottonChoices[2].name, cost:CottonChoices[2].cost },
-        { image: CottonChoices[3].img_path, fabricName: CottonChoices[3].name, cost:CottonChoices[3].cost  },
+		[
+			{ image: CottonChoices[0].img_path, fabricName: CottonChoices[0].name, cost:CottonChoices[0].cost },
+			{ image: CottonChoices[1].img_path, fabricName: CottonChoices[1].name, cost:CottonChoices[1].cost  },
+			{ image: CottonChoices[2].img_path, fabricName: CottonChoices[2].name, cost:CottonChoices[2].cost },
+			{ image: CottonChoices[3].img_path, fabricName: CottonChoices[3].name, cost:CottonChoices[3].cost  },
+
+		],
+		[
+			{ image: HeavyChoices[0].img_path, fabricName: HeavyChoices[0].name, cost:HeavyChoices[0].cost },
+			{ image: HeavyChoices[1].img_path, fabricName: HeavyChoices[1].name, cost:HeavyChoices[1].cost  },
+			{ image: HeavyChoices[2].img_path, fabricName: HeavyChoices[2].name, cost:HeavyChoices[2].cost },
+			{ image: HeavyChoices[3].img_path, fabricName: HeavyChoices[3].name, cost:HeavyChoices[3].cost  },
+		]
+        
     ];
     
 
@@ -228,6 +238,7 @@ function FabricLab() {
 								selectedModel={selectedModel}
                                 cards = {cards}
                                 onCardSelect={handleCardSelect}
+								selectedCardIndex={selectedCardIndex}
 							/>
 						</div>
 					</div>

@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
 import CardSelection from "./CardSelection";
 import cracked_heart from "../assets/images/cracked-heart.png";
 import shopping_bag from "../assets/images/shopping_bag.svg";
+import right_arrow  from "../assets/images/right-arrow.svg";
+
 import FontStyleSelection from "./FontSelection";
+import StagesCounter from "../components/StagesCounter.jsx";
+
 
 
 
@@ -19,9 +23,11 @@ const SelectionPanel = ({
     setFontStyle,
     selectedModel,
     cards,
-    onCardSelect
+    onCardSelect,
+    selectedCardIndex,
 }) => {
     const navigate = useNavigate();
+    const [currentFabricStep, setCurrentFabricStep] = useState(0);
 
     // Function to handle "Create" button click
     const handleCreateClick = () => {
@@ -30,13 +36,32 @@ const SelectionPanel = ({
         }
     };
 
+    const handleNextFabricStage = () => {
+        if (currentFabricStep < 2) {
+            setCurrentFabricStep(currentFabricStep + 1);
+        }
+    }
     // Determine the background color of the "total-price-widget" element
     const getBackgroundColor = () => {
         if (!brandName.trim() || !fontStyle) {
             return "#f0f0f0"; // Disabled/Default background
         }
+        
         return "#fff4e6"; // Active background when valid
     };
+    const getBackgroundColorFabricLab = () => {
+        return selectedCardIndex !== null ? "#fff4e6" : "#f0f0f0"; // Orange if selected, white if not
+    };
+    const getButtonClass = () => {
+        return selectedCardIndex !== null ? "button button-active" : "button button-disabled";
+    };
+    const stepTitles = [
+        "1. SELECT A COTTON",
+        "2. SELECT A HEAVY FABRIC",
+        "3. SELECT A FINISHING FABRIC"
+    ];
+
+
 
     return (
         <div className="selection-panel">
@@ -251,9 +276,59 @@ const SelectionPanel = ({
             )}
             {currentStep === 3 && (
                  <>
-                 <h1 className= "step-title accent-4">1. SELECT A COTTON</h1>
-                 <CardSelection cards={cards} onCardSelect={onCardSelect} />
+                    <StagesCounter numSteps={3} currentStep={currentFabricStep} />
+                    <h1 className="step-title accent-4">{stepTitles[currentFabricStep]}</h1>
+                    <CardSelection cards={cards[currentFabricStep]} onCardSelect={onCardSelect} />
+
+
+                    {/* Total Price Widget */}
+                    <div
+                        className="total-price-widget"
+                        style={{
+                            backgroundColor: getBackgroundColorFabricLab(),
+                            padding: "16px",
+                            borderRadius: "8px",
+                            transition: "background-color 0.3s ease",
+                            border: selectedCardIndex !== null ? "1px solid #FFC4B1" : "1px solid transparent",
+                        }}
+                    >
+                        <div className="price">
+                            <div className="dollar-amount accent-2"
+                                style={{
+                                    color: selectedCardIndex !== null ? "#0F0F0F" : "#9B9B9B",
+                                }}
+                            >
+                                $
+                                {selectedCardIndex !== null ? cards[currentFabricStep][selectedCardIndex].cost.toFixed(2) : "0.00"}
+                            </div>
+                            <div className="total-design-price label-large"
+                                style={{
+                                    color: selectedCardIndex !== null ? "#0F0F0F" : "#9B9B9B",
+                                }}
+                            >
+                                Total Fabrics Price: ${selectedCardIndex !== null ? cards[currentFabricStep][selectedCardIndex].cost : 0}
+                            </div>
+                        </div>
+                        <button
+                            className={getButtonClass()}
+                            id = "next-fabric-button"
+                            onClick={handleNextFabricStage}
+                            disabled={selectedCardIndex === null} // Disable button if no card is selected
+                        >
+                            Next
+
+                            <div className="button-icon">
+                                <img src={right_arrow} alt="right arrow Icon" />
+                            </div>
+
+                        </button>
+                        
+                    </div>
+            
+                   
+                
                  </>
+
 
             )}
         </div>
