@@ -1,6 +1,6 @@
 // BuildBrand.js
 import React, { useState, useEffect } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
@@ -11,7 +11,7 @@ import Metric from "../components/MetricWidget";
 import SelectionPanel from "../components/SelectionPanel";
 import LogoModelList from "../components/LogoModelList";
 import Tutorial from "../components/Tutorial";
-import Loader from "../utils/Loader"; // Import the Loader component
+import Loader from "../utils/Loader";
 
 // Import our models & budget from context
 import { useModels } from "../utils/ModelsContext";
@@ -43,12 +43,21 @@ function getFontFamily(fontStyle) {
   }
 }
 
-export default function BuildBrand() {
+/**
+ * We remove brandName & fontStyle states from here
+ * and instead accept them as props. Same for the setters.
+ */
+export default function BuildBrand({
+  brandName,
+  setBrandName,
+  fontStyle,
+  setFontStyle,
+}) {
   // 1) Access the entire context
   const { LogoChoices, budget, setBudget } = useModels();
 
   // Preload all logo models
-  const preloadedLogoModels = useLoader(
+  useLoader(
     GLTFLoader,
     LogoChoices.map((model) => model.model),
     (loader) => {
@@ -69,10 +78,11 @@ export default function BuildBrand() {
   // State for the outfit "collection"
   const [collection, setCollection] = useState([]);
 
-  // Step, brand name, font style
+  // Step (kept locally if needed)
   const [currentStep, setCurrentStep] = useState(1);
-  const [brandName, setBrandName] = useState("");
-  const [fontStyle, setFontStyle] = useState("Future");
+
+  // Fade-in state
+  const [fadeIn, setFadeIn] = useState(false);
 
   // Add a model to the collection
   const addToCollection = (model) => {
@@ -89,7 +99,7 @@ export default function BuildBrand() {
     setCollection(collection.filter((item) => item.id !== modelId));
   };
 
-  // Make sure we have a default selected logo if none chosen
+  // Ensure we have a default selected logo
   useEffect(() => {
     if (!selectedLogoModel && LogoChoices.length > 0) {
       setSelectedLogoModel(LogoChoices[0]);
@@ -98,14 +108,23 @@ export default function BuildBrand() {
 
   const derivedFontFamily = getFontFamily(fontStyle);
 
-  // 2) This callback receives the newBudget from Tutorial, stores in context
+  // Callback to store newBudget in context
   const handleBudgetGenerated = (newBudget) => {
-    setBudget(newBudget); // Write to context
+    setBudget(newBudget);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeIn(true);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="app">
-      {/* Show the tutorial, pass handleBudgetGenerated */}
+    <div
+      className={`app start-hidden ${fadeIn ? "fade-in" : ""}`}
+      style={{ position: "relative" }}
+    >
       <Tutorial
         videos={tutorialVideos}
         onBudgetGenerated={handleBudgetGenerated}
@@ -114,7 +133,7 @@ export default function BuildBrand() {
       <div className="logo-container">
         <Logo />
 
-        {/* 3) Display the budget from context in a Metric */}
+        {/* Display the budget from context in a Metric */}
         <Metric
           label="Budget"
           value={budget !== null ? `$ ${budget.toLocaleString()}` : "$ ------"}
@@ -127,8 +146,6 @@ export default function BuildBrand() {
             fontWeight: "bold",
           }}
         />
-
-        {/* Sample other metrics */}
         <Metric
           label="Sustainability"
           value="-- / 5"
@@ -139,13 +156,7 @@ export default function BuildBrand() {
             color: "#ffffff",
             fontSize: "13px",
           }}
-          icon={
-            <img
-              src={leaf}
-              alt="Sustainability Icon"
-              style={{ width: "20px", height: "20px" }}
-            />
-          }
+          icon={<img src={leaf} alt="leaf" style={{ width: "20px" }} />}
         />
         <Metric
           label="Ethics"
@@ -157,13 +168,7 @@ export default function BuildBrand() {
             color: "#ffffff",
             fontWeight: "bold",
           }}
-          icon={
-            <img
-              src={thumb}
-              alt="Ethics Icon"
-              style={{ width: "20px", height: "20px" }}
-            />
-          }
+          icon={<img src={thumb} alt="thumb" style={{ width: "20px" }} />}
         />
         <Metric
           label="Popularity"
@@ -175,13 +180,7 @@ export default function BuildBrand() {
             color: "#fffefd",
             fontSize: "13px",
           }}
-          icon={
-            <img
-              src={heart}
-              alt="Popularity Icon"
-              style={{ width: "20px", height: "20px" }}
-            />
-          }
+          icon={<img src={heart} alt="heart" style={{ width: "20px" }} />}
         />
         <Metric
           className="landing-page"
@@ -199,11 +198,14 @@ export default function BuildBrand() {
       </div>
 
       <div className="canvas-container">
-        {/* Just applying brandName in fancy text */}
-        <h4
+        {/**
+         * HTML <h4> overlays. They won't truly be behind the 3D mesh,
+         * but you can visually layer them if you wish.
+         */}
+        {/* <h4
           style={{
             position: "absolute",
-            zIndex: 0,
+            zIndex: -1,
             fontSize: "8rem",
             top: "50px",
             left: "39%",
@@ -254,6 +256,7 @@ export default function BuildBrand() {
         >
           {brandName || "brand name"}
         </h4>
+
         <h4
           style={{
             zIndex: 0,
@@ -272,33 +275,24 @@ export default function BuildBrand() {
         >
           {brandName || "brand name"}
         </h4>
-
-        {/* ...other repeated brandName elements... */}
-
-        <Canvas
+        <h4
           style={{
-            position: "relative",
-            zIndex: 1,
-            background:
-              "linear-gradient(to top,rgba(160, 169, 186, 0.6) 0%, #ffffff 100%)",
-          }}
-          gl={{
-            antialias: true,
-            toneMapping: THREE.ACESFilmicToneMapping,
-          }}
-          camera={{
-            fov: 65,
-            near: 0.1,
-            far: 200,
-            position: [3.8, 2.0, 7.2],
-            rotation: [-0.19, -0.1, 0.11],
+            zIndex: 0,
+            position: "absolute",
+            fontSize: "8rem",
+            top: "650px",
+            left: "38%",
+            transform: "translateX(-48%)",
+            margin: 0,
+            padding: 0,
+            textTransform: "uppercase",
+            opacity: 0.3,
+            marginBottom: "-100px",
+            fontFamily: derivedFontFamily,
           }}
         >
-          <Experience
-            selectedModel={selectedLogoModel}
-            preloadedModels={preloadedLogoModels}
-          />
-        </Canvas>
+          {brandName || "brand name"}
+        </h4> */}
 
         <div className="details-container">
           <div className="outfit-details" style={{ zIndex: 10 }}>
@@ -306,6 +300,8 @@ export default function BuildBrand() {
               collection={collection}
               onRemoveFromCollection={removeFromCollection}
               currentStep={currentStep}
+              // These props let the user type & pick fonts
+              // which updates Intro's states
               brandName={brandName}
               setBrandName={setBrandName}
               fontStyle={fontStyle}
@@ -315,7 +311,7 @@ export default function BuildBrand() {
         </div>
       </div>
 
-      <div className="model-list-container" style={{ zIndex: "8" }}>
+      <div className="model-list-container" style={{ zIndex: 8 }}>
         <LogoModelList
           selectedLogoModel={selectedLogoModel}
           onLogoModelChange={setSelectedLogoModel}

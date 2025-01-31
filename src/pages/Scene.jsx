@@ -1,32 +1,36 @@
+// Scene.jsx
 import React, { useRef, useMemo, useEffect, useState, forwardRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { Leva, useControls } from "leva";
-import { Environment } from "@react-three/drei";
+import { Environment, Text } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 // Import your custom 3D models
 import { Human } from "../models/Human.jsx";
 import { LogoOne } from "../models/Logos/LogoOne.jsx";
-import { LogoTwo } from "../models/Logos/LogoTwo.jsx";
-import { LogoThree } from "../models/Logos/LogoThree.jsx";
-import { LogoFour } from "../models/Logos/LogoFour.jsx";
-import { LogoFive } from "../models/Logos/LogoFive.jsx";
+// etc...
 
-// We add "isExperience" as a prop here
+// A small map from style name => .ttf
+const fontMap = {
+  Future: "/fonts/Orbitron-Regular.ttf",
+  Minimalist: "/fonts/DMSans-Regular.ttf",
+  Retro: "/fonts/KodeMono-Regular.ttf",
+  Elegant: "/fonts/InstrumentSerif-Regular.ttf",
+  Bohemian: "/fonts/MuseoModerno-Regular.ttf",
+  Playful: "/fonts/DynaPuff-Regular.ttf",
+};
+
 export const Scene = forwardRef(function Scene(
-  { onSkip, isExperience },
+  { onSkip, isExperience, whiteBackground, brandName, fontStyle },
   cameraRef
 ) {
-  // Refs
   const meshRef = useRef();
-  const finalGradientRef = useRef(); // "red" gradient that appears on skip
-  const whiteGradientRef = useRef(); // "white" gradient that appears on experience
+  const finalGradientRef = useRef();
+  const whiteGradientRef = useRef();
 
-  // ----------------------------------
-  // LEVA: Mesh Controls
-  // ----------------------------------
+  // LEVA controls for the mesh
   const {
     meshPosition,
     meshRotationX,
@@ -38,94 +42,63 @@ export const Scene = forwardRef(function Scene(
     brightness,
   } = useControls("Mesh", {
     meshPosition: { value: [2.8, -9.7, 1.5], step: 0.1 },
-    meshRotationX: { value: 0.0, step: 0.1, label: "Rotation X" },
-    meshRotationZ: { value: 0.1, step: 0.1, label: "Rotation Z" },
+    meshRotationX: { value: 0.0, step: 0.1 },
+    meshRotationZ: { value: 0.1, step: 0.1 },
     meshScale: { value: 0.7, step: 0.1 },
     meshColor: "#ffffff",
-    roughness: {
-      value: 0.2,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Roughness",
-    },
-    metalness: {
-      value: 0.81,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Metalness",
-    },
-    brightness: {
-      value: 1.0,
-      min: 0,
-      max: 2,
-      step: 0.01,
-      label: "Brightness Factor",
-    },
+    roughness: { value: 0.2, min: 0, max: 1, step: 0.01 },
+    metalness: { value: 0.81, min: 0, max: 1, step: 0.01 },
+    brightness: { value: 1.0, min: 0, max: 2, step: 0.01 },
   });
 
-  // Compute final color for the mesh
+  // Text controls
+  const primaryTextControls = useControls("Text - Primary", {
+    position: { value: { x: 5.7, y: 1.9, z: -5.6 }, step: 0.01 },
+    rotation: { value: { x: -0.11, y: 0.03, z: 0.11 }, step: 0.01 },
+    scale: { value: 1.0, min: 0.1, max: 2, step: 0.1 },
+    fontSize: { value: 0.9, min: 0.1, max: 2, step: 0.1 },
+    color: "#000000",
+    opacity: { value: 0.7, min: 0, max: 1, step: 0.01 },
+  });
+
+  const secondaryTextControls = useControls("Text - Secondary", {
+    position: { value: { x: 5.8, y: 0.8, z: -5.6 }, step: 0.1 },
+    rotation: { value: { x: -0.11, y: 0.03, z: 0.1 }, step: 0.01 },
+    scale: { value: 1.0, min: 0.1, max: 2, step: 0.1 },
+    fontSize: { value: 0.9, min: 0.1, max: 2, step: 0.1 },
+    color: "#000000",
+    opacity: { value: 0.7, min: 0, max: 1, step: 0.01 },
+  });
+
   const finalColor = useMemo(() => {
     const color = new THREE.Color(meshColor);
     color.multiplyScalar(brightness);
     return color;
   }, [meshColor, brightness]);
 
-  // ----------------------------------
-  // LEVA: Camera Controls
-  // ----------------------------------
+  // LEVA camera controls
   const { camFov, camPosition, camRotation } = useControls("Camera", {
     camFov: { value: 34, min: 1, max: 120, step: 1 },
     camPosition: { value: [0.5, 2.9, 5.2], step: 0.1 },
     camRotation: { value: [-0.19, -0.1, 0.11], step: 0.1 },
   });
 
-  // ----------------------------------
-  // LEVA: Rendering Controls
-  // ----------------------------------
+  // LEVA rendering controls
   const {
     bloomIntensity,
     bloomThreshold,
     bloomSmoothing,
     toneMappingExposure,
   } = useControls("Rendering", {
-    toneMappingExposure: {
-      value: 1.0,
-      min: 0,
-      max: 3,
-      step: 0.01,
-      label: "ToneMapping Exposure",
-    },
-    bloomIntensity: {
-      value: 8.0,
-      min: 0,
-      max: 8,
-      step: 0.05,
-      label: "Bloom Intensity",
-    },
-    bloomThreshold: {
-      value: 0.0,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Bloom Threshold",
-    },
-    bloomSmoothing: {
-      value: 0.21,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      label: "Bloom Smoothing",
-    },
+    toneMappingExposure: { value: 1.0, min: 0, max: 3, step: 0.01 },
+    bloomIntensity: { value: 8.0, min: 0, max: 8, step: 0.05 },
+    bloomThreshold: { value: 0.0, min: 0, max: 1, step: 0.01 },
+    bloomSmoothing: { value: 0.21, min: 0, max: 1, step: 0.01 },
   });
 
-  // ----------------------------------
-  // Animated Bloom
-  // ----------------------------------
+  // Animate bloom
   const [animatedBloom, setAnimatedBloom] = useState(bloomIntensity);
   useEffect(() => {
-    // If isExperience is true, fade bloom out to 0; otherwise revert
     const target = isExperience ? 0 : bloomIntensity;
     gsap.to(
       { value: animatedBloom },
@@ -140,9 +113,7 @@ export const Scene = forwardRef(function Scene(
     );
   }, [isExperience, bloomIntensity]);
 
-  // ----------------------------------
-  // Example: Timed display of a Logo (LogoOne)
-  // ----------------------------------
+  // Show/hide a logo after experience
   const [isLogoOneReady, setIsLogoOneReady] = useState(false);
   useEffect(() => {
     if (isExperience) {
@@ -155,47 +126,24 @@ export const Scene = forwardRef(function Scene(
     }
   }, [isExperience]);
 
-  // LEVA: LogoOne Controls
+  // LogoOne controls
   const logoOneControls = useControls("LogoOne", {
-    position: { value: { x: 6.4, y: 1, z: -3 }, step: 0.1, label: "Position" },
-    rotation: {
-      value: { x: 1.1, y: 0.2, z: 0.2 },
-      step: 0.1,
-      label: "Rotation",
-    },
-    scale: { value: { x: 9, y: 9, z: 9 }, step: 0.1, label: "Scale" },
-    roughness: { value: 0, min: 0, max: 1, step: 0.01, label: "Roughness" },
-    metalness: { value: 1, min: 0, max: 1, step: 0.01, label: "Metalness" },
-  });
-  const logoTwoControls = useControls("LogoTwo", {
-    position: {
-      value: { x: 15.3, y: 1.4, z: -3 },
-      step: 0.1,
-      label: "Position",
-    },
-    rotation: {
-      value: { x: 0.0, y: -1.6, z: 0.1 },
-      step: 0.1,
-      label: "Rotation",
-    },
-    scale: { value: { x: 0.5, y: 0.5, z: 0.5 }, step: 0.1, label: "Scale" },
-    roughness: { value: 0, min: 0, max: 1, step: 0.01, label: "Roughness" },
-    metalness: { value: 1, min: 0, max: 1, step: 0.01, label: "Metalness" },
-  });
-  // ...same for Logos Two, Three, etc. if needed
+    position: { value: { x: 5.5, y: 0.6, z: -5.7 }, step: 0.1 },
+    rotation: { value: { x: 1.2, y: 0.1, z: 0.2 }, step: 0.1 },
+    scale: { value: 13.7, min: 0.1, max: 20, step: 0.1 },
 
-  // ----------------------------------
-  // onSkip => rotate mesh + fade in red finalGradientRef
-  // ----------------------------------
+    roughness: { value: 0, min: 0, max: 1, step: 0.01 },
+    metalness: { value: 1, min: 0, max: 1, step: 0.01 },
+  });
+
+  // onSkip => rotate mesh + fade in "red"
   useEffect(() => {
     if (onSkip && meshRef.current && finalGradientRef.current) {
-      // Rotate the mesh
       gsap.to(meshRef.current.rotation, {
         y: 5.5,
         duration: 2,
         ease: "power2.inOut",
       });
-      // Fade in the red gradient
       gsap.to(finalGradientRef.current, {
         opacity: 1,
         duration: 2,
@@ -204,33 +152,19 @@ export const Scene = forwardRef(function Scene(
     }
   }, [onSkip]);
 
-  // ----------------------------------
-  // When isExperience => fade OUT red gradient, fade IN white gradient
-  // ----------------------------------
+  // isExperience => fade out "red", fade in "white"
   useEffect(() => {
     if (isExperience) {
-      // Fade out the "red" gradient
       if (finalGradientRef.current) {
-        gsap.to(finalGradientRef.current, {
-          opacity: 0,
-          duration: 2,
-          ease: "power2.inOut",
-        });
+        gsap.to(finalGradientRef.current, { opacity: 0, duration: 2 });
       }
-      // Fade in the "white" gradient
       if (whiteGradientRef.current) {
-        gsap.to(whiteGradientRef.current, {
-          opacity: 1,
-          duration: 2,
-          ease: "power2.inOut",
-        });
+        gsap.to(whiteGradientRef.current, { opacity: 1, duration: 2 });
       }
     }
   }, [isExperience]);
 
-  // ----------------------------------
-  // Handle camera creation
-  // ----------------------------------
+  // Canvas creation
   const handleOnCreated = ({ gl, camera }) => {
     gl.toneMappingExposure = toneMappingExposure;
     if (cameraRef) {
@@ -238,17 +172,15 @@ export const Scene = forwardRef(function Scene(
     }
   };
 
-  // ----------------------------------
-  // Return JSX
-  // ----------------------------------
+  // The .ttf for the selected font
+  const fontURL = fontMap[fontStyle] || fontMap["Future"];
+  const textString = brandName || "BRAND NAME";
+
   return (
     <>
       <Leva collapsed />
-
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
-        {/* 
-          1) Base Brownish Gradient (always visible, zIndex: -3)
-        */}
+        {/* Brownish BG */}
         <svg
           style={{
             position: "absolute",
@@ -274,10 +206,7 @@ export const Scene = forwardRef(function Scene(
           <rect width="100%" height="100%" fill="url(#bgGradientBrownish)" />
         </svg>
 
-        {/*
-          2) "Final" Red Gradient (appears AFTER skip, fades in via finalGradientRef)
-          Start invisible at opacity:0, place it just above the base brownish (zIndex:-2)
-        */}
+        {/* Red gradient after skip */}
         <div
           ref={finalGradientRef}
           style={{
@@ -290,14 +219,10 @@ export const Scene = forwardRef(function Scene(
             opacity: 0,
             background:
               "linear-gradient(123.21deg, #282828 27.78%, rgb(184,79,74) 94.21%)",
-            transition: "opacity 300ms ease",
           }}
         />
 
-        {/*
-          3) White Gradient (fades in ONLY once isExperience === true)
-          Start invisible at opacity:0, place it topmost (zIndex:-1)
-        */}
+        {/* White gradient once isExperience */}
         <svg
           ref={whiteGradientRef}
           style={{
@@ -312,17 +237,7 @@ export const Scene = forwardRef(function Scene(
           }}
         >
           <defs>
-            <linearGradient
-              id="bgGradientWhiteish"
-              x1="0"
-              y1="1"
-              x2="0"
-              y2="0"
-              gradientUnits="objectBoundingBox"
-            >
-              {/* 
-                This replicates "to top, rgba(160, 169, 186, 0.6) 0%, #ffffff 100%".
-              */}
+            <linearGradient id="bgGradientWhiteish" x1="0" y1="1" x2="0" y2="0">
               <stop offset="0%" stopColor="rgba(160, 169, 186, 0.6)" />
               <stop offset="100%" stopColor="#ffffff" />
             </linearGradient>
@@ -330,16 +245,10 @@ export const Scene = forwardRef(function Scene(
           <rect width="100%" height="100%" fill="url(#bgGradientWhiteish)" />
         </svg>
 
-        {/* 
-          4) Three.js Canvas on top
-        */}
+        {/* The 3D Canvas */}
         <Canvas
           style={{ width: "100%", height: "100%", background: "transparent" }}
-          gl={{
-            antialias: true,
-            toneMapping: THREE.ACESFilmicToneMapping,
-            outputEncoding: THREE.sRGBEncoding,
-          }}
+          gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
           onCreated={handleOnCreated}
           camera={{
             fov: camFov,
@@ -349,12 +258,10 @@ export const Scene = forwardRef(function Scene(
             rotation: camRotation,
           }}
         >
-          {/* Environment & Lights */}
           <Environment preset="sunset" intensity={1.0} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 10, 5]} intensity={1.0} />
 
-          {/* Human Model */}
           <mesh
             ref={meshRef}
             position={meshPosition}
@@ -362,7 +269,6 @@ export const Scene = forwardRef(function Scene(
           >
             <Human
               position={[0, 0, 0]}
-              rotation={[0, 0, 0]}
               scale={meshScale}
               roughness={roughness}
               metalness={metalness}
@@ -370,7 +276,55 @@ export const Scene = forwardRef(function Scene(
             />
           </mesh>
 
-          {/* Example: LogoOne once isExperience + a short delay */}
+          {/* Primary 3D Text */}
+          <Text
+            font={fontURL}
+            fontSize={primaryTextControls.fontSize}
+            color={primaryTextControls.color}
+            castShadow={false} // Disable casting shadows
+            receiveShadow={false} // Disable receiving shadows
+            position={[
+              primaryTextControls.position.x,
+              primaryTextControls.position.y,
+              primaryTextControls.position.z,
+            ]}
+            rotation={[
+              primaryTextControls.rotation.x,
+              primaryTextControls.rotation.y,
+              primaryTextControls.rotation.z,
+            ]}
+            scale={primaryTextControls.scale}
+            anchorX="center"
+            anchorY="middle"
+          >
+            {textString}
+          </Text>
+
+          {/* Secondary 3D Text */}
+          <Text
+            font={fontURL}
+            fontSize={secondaryTextControls.fontSize}
+            color={secondaryTextControls.color}
+            position={[
+              secondaryTextControls.position.x,
+              secondaryTextControls.position.y,
+              secondaryTextControls.position.z,
+            ]}
+            rotation={[
+              secondaryTextControls.rotation.x,
+              secondaryTextControls.rotation.y,
+              secondaryTextControls.rotation.z,
+            ]}
+            scale={secondaryTextControls.scale}
+            anchorX="center"
+            anchorY="middle"
+            opacity={secondaryTextControls.opacity}
+          >
+            <meshBasicMaterial color={0x00000} transparent opacity={0.8} />
+            {textString}
+          </Text>
+
+          {/* Example: Show LogoOne if "isExperience" */}
           <LogoOne
             visible={isExperience && isLogoOneReady}
             position={[
@@ -383,40 +337,12 @@ export const Scene = forwardRef(function Scene(
               logoOneControls.rotation.y,
               logoOneControls.rotation.z,
             ]}
-            scale={[
-              logoOneControls.scale.x,
-              logoOneControls.scale.y,
-              logoOneControls.scale.z,
-            ]}
+            scale={logoOneControls.scale}
             roughness={logoOneControls.roughness}
             metalness={logoOneControls.metalness}
           />
-          <LogoTwo
-            visible={isExperience && isLogoOneReady}
-            position={[
-              logoTwoControls.position.x,
-              logoTwoControls.position.y,
-              logoTwoControls.position.z,
-            ]}
-            rotation={[
-              logoTwoControls.rotation.x,
-              logoTwoControls.rotation.y,
-              logoTwoControls.rotation.z,
-            ]}
-            scale={[
-              logoTwoControls.scale.x,
-              logoTwoControls.scale.y,
-              logoTwoControls.scale.z,
-            ]}
-            roughness={logoTwoControls.roughness}
-            metalness={logoTwoControls.metalness}
-          />
 
-          {/* 
-            Additional logos (LogoTwo, LogoThree, etc.) go here...
-          */}
-
-          {/* Post-Processing */}
+          {/* Post-processing */}
           <EffectComposer>
             <Bloom
               intensity={animatedBloom}

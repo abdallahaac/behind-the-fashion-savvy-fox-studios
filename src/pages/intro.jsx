@@ -14,24 +14,32 @@ import { Scene } from "./Scene";
 import { LandingContent } from "./LandingContent";
 import { IntroText } from "./IntroText";
 
-// Import BuildBrand component
+// Import BuildBrand component wrapper
 import BuildBrandExperience from "./BuildBrandExperience";
 
 const Intro = () => {
   const [skip, setSkip] = useState(false);
   const [showLanding, setShowLanding] = useState(false);
   const [startExperience, setStartExperience] = useState(false);
-  const [fadeOutAll, setFadeOutAll] = useState(false); // <-- New fade-out state
+  const [fadeOutAll, setFadeOutAll] = useState(false);
+  const [whiteBackground, setWhiteBackground] = useState(false);
 
   /**
-   * We will store the THREE.js camera in a ref so that we can animate it
-   * when "Start Experience" is clicked in LandingContent.
+   * 1) LIFT brandName & fontStyle to this top-level Intro component
+   * so we can pass them to both <Scene /> and <BuildBrandExperience />.
+   */
+  const [brandName, setBrandName] = useState("");
+  const [fontStyle, setFontStyle] = useState("Future");
+
+  /**
+   * We'll store the THREE.js camera in a ref so we can animate
+   * it when "Start Experience" is clicked in <LandingContent/>.
    */
   const cameraRef = useRef(null);
 
   // Sentences for intro text
   const sentences = [
-    "Today’s clothing brands face a complex balancing act. They must not only consider the quality and cost of their materials, but also their Impact on the planet & Society.",
+    "Today’s clothing brands face a complex balancing act. They must not only consider the quality and cost of their materials, but also their impact on the planet & society.",
     "Will your brand prioritize profits, sustainability, or ethical productions — can you figure out a way to balance all three? Let’s find out.",
   ];
 
@@ -46,14 +54,14 @@ const Intro = () => {
   };
 
   /**
-   * This function is passed into LandingContent and called when
+   * This function is passed into <LandingContent /> and called when
    * the user clicks the "Start the Experience" button. It will:
-   *   1. Fade out the marquee header and landing content.
+   *   1. Fade out the marquee header & landing content.
    *   2. After fade-out completes, animate the camera.
    *   3. Show the BuildBrand UI.
    */
   const handleStartExpCameraAnim = () => {
-    // 1) Trigger fade-out
+    // 1) Trigger fade-out of marquee & landing
     setFadeOutAll(true);
 
     // 2) Wait for fade-out transition to finish before animating camera
@@ -64,15 +72,17 @@ const Intro = () => {
           duration: 3,
           ease: "power2.inOut",
           onComplete: () => {
-            // 3) Finally show BuildBrand
+            // 3) Once camera completes, fade the background to white
+            setWhiteBackground(true);
+            // Then show your brand-building UI
             setStartExperience(true);
           },
         });
       }
-    }, 1200); // match or exceed your .fade-out transition duration
+    }, 1200);
   };
 
-  // Lock body scrolling, etc. (as in your original code)
+  // Lock body scrolling, etc.
   useEffect(() => {
     const applyStyles = (styles) => {
       Object.keys(styles).forEach((key) => {
@@ -97,7 +107,10 @@ const Intro = () => {
 
   return (
     <>
-      {/* Background 3D Scene */}
+      {/**
+       * Background 3D Scene:
+       * We pass brandName & fontStyle to <Scene /> so its 3D text is always up to date.
+       */}
       <div
         style={{
           position: "fixed",
@@ -108,14 +121,19 @@ const Intro = () => {
           zIndex: -1,
         }}
       >
-        {/**
-         * Pass the cameraRef and skip state to <Scene />.
-         * Also pass the isExperience state if needed.
-         */}
-        <Scene onSkip={skip} ref={cameraRef} isExperience={startExperience} />
+        <Scene
+          // Intro logic
+          onSkip={skip}
+          ref={cameraRef}
+          isExperience={startExperience}
+          whiteBackground={whiteBackground}
+          // The brandName & fontStyle states
+          brandName={brandName}
+          fontStyle={fontStyle}
+        />
       </div>
 
-      {/* Include Leva (collapsed) if you still need it */}
+      {/* Include Leva (collapsed) if you need debugging/tweaking */}
       <Leva collapsed />
 
       {/* Page Content */}
@@ -155,8 +173,19 @@ const Intro = () => {
             </div>
           )}
 
-          {/* Step 3: BuildBrand UI (shown after camera anim) */}
-          {startExperience && <BuildBrandExperience />}
+          {/**
+           * Step 3: BuildBrand UI (shown after camera anim).
+           * We pass brandName, fontStyle, setBrandName, setFontStyle
+           * so the user can type or select a new font, updating Intro's states.
+           */}
+          {startExperience && (
+            <BuildBrandExperience
+              brandName={brandName}
+              setBrandName={setBrandName}
+              fontStyle={fontStyle}
+              setFontStyle={setFontStyle}
+            />
+          )}
         </main>
       </div>
     </>
