@@ -31,6 +31,7 @@ function ChooseSelection() {
 	// 1) Pull the same budget from context
 	const { budget } = modelsByCategory;
 
+
 	const allModels = [
 		...modelsByCategory.EthicallyStrongOptions,
 		...modelsByCategory.CapitalisticChoices,
@@ -221,8 +222,10 @@ function ChooseSelection() {
 
 				<div className="model-list-container">
 					<ModelList
+						models={allModels}
 						selectedModel={selectedModel}
 						onModelChange={setSelectedModel}
+						
 					/>
 				</div>
 				<Leva collapsed={false} />

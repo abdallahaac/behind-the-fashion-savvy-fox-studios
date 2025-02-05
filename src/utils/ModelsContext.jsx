@@ -673,6 +673,58 @@ const modelsData = {
             //     color: "#ffffff",
             // },
         },
+  
+    ],
+    Manufacturers: [
+        {
+            id: 1,
+			name: "FACTORY 1",
+			description: "Simple leaf-based design for eco-friendly vibes.",
+			model: "/models/logo-1.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [8, 1, 0],
+				scale: 20.0,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
+
+        },
+        {
+            id: 2,
+			name: "FACTORY 2",
+			description: "Simple leaf-based design for eco-friendly vibes.",
+			model: "/models/logo-2.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [8, 1, 0],
+				scale: 20.0,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
+        },
+        {
+            id: 3,
+			name: "FACTORY 3",
+			description: "Simple leaf-based design for eco-friendly vibes.",
+			model: "/models/logo-3.glb",
+			transform: {
+				position: [0, 0, 0],
+				rotation: [8, 1, 0],
+				scale: 20.0,
+			},
+			materialParams: {
+				metalness: 1,
+				roughness: 0,
+				color: "#ffffff",
+			},
+        }
     ],
 };
 

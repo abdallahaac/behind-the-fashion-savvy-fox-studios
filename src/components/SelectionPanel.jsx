@@ -40,6 +40,8 @@ const SelectionPanel = ({
             setCurrentFabricStep(currentFabricStep + 1);
             setSelectedCardIndex(null);
             setSelectedModel(null);
+        }else{
+            navigate("/manufacturing");
         }
     };
 
@@ -76,7 +78,7 @@ const SelectionPanel = ({
         <div className="selection-panel">
             {/* Header Section */}
             <div className="header-section">
-                <StepCountBar currentStep={currentStep} totalSteps={5} />
+                <StepCountBar currentStep={currentStep} totalSteps={4} />
                 {currentStep === 1 && (
                     <div className="choose-outfit-designs accent-2">
                         Create your brand
@@ -90,6 +92,11 @@ const SelectionPanel = ({
                 {currentStep === 3 && (
                     <div className="choose-outfit-designs accent-2">
                         Fabrics Lab
+                    </div>
+                )}
+                {currentStep === 4 && (
+                    <div className="choose-outfit-designs accent-2">
+                        Factory Selection
                     </div>
                 )}
             </div>
@@ -330,6 +337,12 @@ const SelectionPanel = ({
                         </button>
                     </div>
                 </>
+            )}
+            {currentStep === 4 && (
+                <div>
+                    <h2 className="accent-3" style={{color:"#FFFEFD"}}>{selectedModel.name}</h2>
+
+                </div>
             )}
         </div>
     );
