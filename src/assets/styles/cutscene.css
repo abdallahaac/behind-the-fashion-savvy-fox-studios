@@ -1,0 +1,34 @@
+/* cutscene.css */
+
+.cutscene-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/* Start hidden */
+	opacity: 0;
+	transition: opacity 1.5s ease; /* <--- 1.5s matches JS timeout */
+}
+
+/* Fade in */
+.cutscene-container.fade-in {
+	opacity: 1;
+}
+
+/* Fade out */
+.cutscene-container.fade-out {
+	opacity: 0;
+}
+
+.cutscene-video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
