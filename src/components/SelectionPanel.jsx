@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StepCountBar from "./StepCountBar";
 import CollectionOrigMetric from "./CollectionOrigMetric";
+import CardSelection from "./CardSelection";
 import cracked_heart from "../assets/images/cracked-heart.png";
 import shopping_bag from "../assets/images/shopping_bag.svg";
+import right_arrow from "../assets/images/right-arrow.svg";
 import FontStyleSelection from "./FontSelection";
+import StagesCounter from "../components/StagesCounter.jsx";
 
 const SelectionPanel = ({
     collection,
@@ -15,6 +18,13 @@ const SelectionPanel = ({
     fontStyle,
     setFontStyle,
     selectedModel,
+    setSelectedModel,
+    cards,
+    onCardSelect,
+    selectedCardIndex,
+    setSelectedCardIndex,
+    currentFabricStep,
+    setCurrentFabricStep
 }) => {
     const navigate = useNavigate();
 
@@ -25,6 +35,15 @@ const SelectionPanel = ({
         }
     };
 
+    const handleNextFabricStage = () => {
+        if (currentFabricStep < 2) {
+            setCurrentFabricStep(currentFabricStep + 1);
+            setSelectedCardIndex(null);
+            setSelectedModel(null);
+        }
+    };
+
+
     // Determine the background color of the "total-price-widget" element
     const getBackgroundColor = () => {
         if (!brandName.trim() || !fontStyle) {
@@ -32,6 +51,26 @@ const SelectionPanel = ({
         }
         return "#fff4e6"; // Active background when valid
     };
+
+    const getBackgroundColorFabricLab = () => {
+        return selectedCardIndex !== null ? "#fff4e6" : "#f0f0f0"; // Orange if selected, white if not
+    };
+
+    const getButtonClass = () => {
+        return selectedCardIndex !== null ? "button button-active" : "button button-disabled";
+    };
+
+    const stepTitles = [
+        "1. CHOOSE A LIGHT FABRIC",
+        "2. CHOOSE A KNIT FABRIC",
+        "3. CHOOSE A SHINY FABRIC"
+    ];
+
+    const handleCardSelectInternal = (index) => {
+        onCardSelect(index, currentFabricStep);
+    };
+
+  
 
     return (
         <div className="selection-panel">
@@ -46,6 +85,11 @@ const SelectionPanel = ({
                 {currentStep === 2 && (
                     <div className="choose-outfit-designs accent-2">
                         Choose Outfit Designs
+                    </div>
+                )}
+                {currentStep === 3 && (
+                    <div className="choose-outfit-designs accent-2">
+                        Fabrics Lab
                     </div>
                 )}
             </div>
@@ -171,7 +215,7 @@ const SelectionPanel = ({
                             {[...Array(3)].map((_, index) => {
                                 const model = collection[index];
                                 return (
-                                    <div key={index}className={`thumbnail ${model ? "occupied" : "unoccupied"}`}>
+                                    <div key={index} className={`thumbnail ${model ? "occupied" : "unoccupied"}`}>
                                         {model ? (
                                             <div className="thumbnail-content">
                                                 <button
@@ -236,6 +280,54 @@ const SelectionPanel = ({
                                 <img src={shopping_bag} alt="Shopping Bag Icon" />
                             </div>
                         </div>
+                    </div>
+                </>
+            )}
+            {currentStep === 3 && (
+                <>
+                    <StagesCounter numSteps={3} currentStep={currentFabricStep} />
+                    <h1 className="step-title accent-4">{stepTitles[currentFabricStep]}</h1>
+                    <CardSelection cards={cards[currentFabricStep]} onCardSelect={handleCardSelectInternal} selectedCardIndex={selectedCardIndex} setSelectedCardIndex={setSelectedCardIndex} />
+
+                    {/* Total Price Widget */}
+                    <div
+                        className="total-price-widget"
+                        style={{
+                            backgroundColor: getBackgroundColorFabricLab(),
+                            padding: "16px",
+                            borderRadius: "8px",
+                            transition: "background-color 0.3s ease",
+                            border: selectedCardIndex !== null ? "1px solid #FFC4B1" : "1px solid transparent",
+                        }}
+                    >
+                        <div className="price">
+                            <div className="dollar-amount accent-2"
+                                style={{
+                                    color: selectedCardIndex !== null ? "#0F0F0F" : "#9B9B9B",
+                                }}
+                            >
+                                $
+                                {selectedCardIndex !== null ? cards[currentFabricStep][selectedCardIndex].cost.toFixed(2) : "0.00"}
+                            </div>
+                            <div className="total-design-price label-large"
+                                style={{
+                                    color: selectedCardIndex !== null ? "#0F0F0F" : "#9B9B9B",
+                                }}
+                            >
+                                Total Fabrics Price: ${selectedCardIndex !== null ? cards[currentFabricStep][selectedCardIndex].cost : 0}
+                            </div>
+                        </div>
+                        <button
+                            className={getButtonClass()}
+                            id="next-fabric-button"
+                            onClick={handleNextFabricStage}
+                            disabled={selectedCardIndex === null} // Disable button if no card is selected
+                        >
+                            Next
+                            <div className="button-icon">
+                                <img src={right_arrow} alt="right arrow Icon" />
+                            </div>
+                        </button>
                     </div>
                 </>
             )}
