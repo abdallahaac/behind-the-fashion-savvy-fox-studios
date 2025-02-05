@@ -234,6 +234,8 @@ const modelsData = {
 			},
 		},
 	],
+  
+  //Turn Cotton Choices into LightweightFabrics
 	CottonChoices: [
         {
             id: 1,
@@ -245,7 +247,10 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 750,
+            cost: 38000,
+            cert_title:"Fair Trade Certified",
+            cert_description:"Certified as having passed safety tests for the prescene of harmful substances",
+            
             env_title: "Bad for the Environment",
             env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
             ethics_title: "Poor Rights & Child Labor",
@@ -270,13 +275,23 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 875,
-            env_title: "Good for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+            cost: 46000,
+            //cert1
+            cert_title1:"OEKO TEX Standard 100",
+            cert_descripton1:"Certifies that textiles are free from harmful chemicals and are safe for human use",
+            //cert 2
+            cert_title2:"Fair Trade Certified",
+            cert_description2:"Certified as having passed safety tests for the prescene of harmful substances",
+            
+            
+            env_title: "Very Uncommon Material",
+            env_description: "Only makes up around 1% of global cotton production",
+            ethics_title: "Good Working Environment",
+            ethics_description: "Working conditions are healthier based on the absence of harmful chemicals",
+            water_use: "Good for the Environment",
+            water_description: "Production uses 91% less water compared to conventional cotton",
+            cost_title: "High Cost",
+            cost_description:"Due to fair and just production practices, organic cotton costs more ot produce",
 			img_path: "../assets/images/Cotton/organic_cotton.svg",
 
             // materialParams: {
@@ -285,9 +300,10 @@ const modelsData = {
             //     color: "#ffffff",
             // },
         },
+        
         {
             id: 3,
-            name: "Recycled Cotton",
+            name: "Polyester",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-03.glb",
             transform: {
@@ -295,13 +311,16 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 700,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
+            cost: 14000,
+            env_title: "Harmful for the Environment",
+            env_description: "Polyester, made from petroleum, contributes to pollution, greenhouse gases, and sheds microplastics into oceans",
+            ethics_title: "Poor Labor Conditions",
+            ethics_description: "Labor often occurs in factories with low wages, long hours, and unsafe working conditions",
             water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+            water_description: "~700 gallons of water is used to produce one pound of polyester",
+            cost_title: "Low Cost",
+            cost_description:"Cheap to produce due to synthetic materials and mass production, but at a high environmental cost",
+            
 			img_path: "../assets/images/Cotton/recycled_cotton.svg",
 
             // materialParams: {
@@ -312,7 +331,7 @@ const modelsData = {
         },
         {
             id: 4,
-            name: "Sustainable Cotton",
+            name: "Bamboo",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-04.glb",
             transform: {
@@ -320,13 +339,21 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 750,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+            cost: 74000,
+            
+            cert_title:"FSC",
+            cert_description:"Certifies that the bamboo used in production is sourced from properly managed forests or plantations",
+            
+            
+            env_title: "Positive Effects for the Environment",
+            env_description: "A diverse material which can be grown in a variety of climates across the world",
+            ethics_title: "Sustainable & Ethical",
+            ethics_description: "Bamboo is often harvested by workers under fair labour conditions",
+            water_use: "Minimal Water Use",
+            water_description: "Bamboo requires little to no irrigation, and can rely mostly on rainfall",
+            cost_title: "High Cost",
+            cost_description:"Processing raw bamboo into fabric can be expensive compared to synthetic fabrics",
+            
 			img_path: "../assets/images/Cotton/sustainable_cotton.svg",
 
             // materialParams: {
@@ -336,6 +363,8 @@ const modelsData = {
             // },
         },
     ],
+    
+    //HeavyChoices into Knit Fabric
 	HeavyChoices: [
         {
             id: 1,
@@ -346,7 +375,7 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 500,
+            cost: 16000,
             env_title: "Bad for the Environment",
             env_description: "Production process is highly volatile. Many harmful chemicals are used during manufacturing",
             ethics_title: "Poor Working Conditions",
@@ -369,13 +398,17 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 2125,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
+            cost: 51000,
+            cert_title:"Woolmark",
+            cert_description:"Certifies the wool product is pure and meets quality standards.This certification does not account for sustainability, environment impacts, or animal welfare.",
+            mat_title: "Common Material",
+            mat_description:"A very popular material known for its softness, warmth, and durability",
+            env_title: "Positive Effects for the Environment",
+            env_description: "Wool is both biodegradable and renewale when sourced properly",
+            ethics_title: "Variable Working Conditions",
+            ethics_description: "Depending on the region, workers and animals may not be treated ethically",
+            water_use: "Negative Effects on Climate",
+            water_description: "Methane emmissions, land degradation, and water cusage are not eco-friendly aspects of production and maintenance",
 			img_path: "../assets/images/Heavy_Fabrics/wool.svg",
 
             // materialParams: {
@@ -386,7 +419,7 @@ const modelsData = {
         },
         {
             id: 3,
-            name: "Bamboo",
+            name: "Organic Hemp",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-03.glb",
             transform: {
@@ -394,14 +427,28 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 1250,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Heavy_Fabrics/bamboo.svg",
+            cost: 61000,
+            
+            cert_title1:"Global Organic Textile Standard (GOTS)",
+            cert_description1:"Certifies responsible growing and manufacturing processes with various environmental and social criteria.",
+            //cert 2
+            cert_title2:"Ethical Trading Initiative (ETI)",
+            cert_description2:"Certifies ethical labor practices, including fair wages, safe working conditions, and respect towards human rights",
+            
+            
+            water_use: "Environmentally Friendly",
+            water_descritption: "Production requires small amounts of water and does not need pesticides to grow",
+            ethics_title: "Good Working Conditions",
+            ethics_description: "Workers are treated fairly and are provided a safe working environment",
+            env_title: "Environmental Benefits",
+            env_description: "Hemp absorbs carbon dioxide at a larger magnitude per hectare compared to other crops",
+            //chose between displaying mat or costt stat
+            mat_title: "Emerging Material",
+            mat_description:"This material is becoming more popular thanks to its sustainability and durability",
+			cost_title: "High Cost",
+			cost_description: "Organic hemp is costly due to sustainable farming, and lower production volumes, but its durability makes it a long-term investment.",  
+            
+			img_path: "../assets/images/Heavy_Fabrics/organic-hemp.svg",
 
             // materialParams: {
             //     metalness: 1,
@@ -411,7 +458,7 @@ const modelsData = {
         },
         {
             id: 4,
-            name: "Organic Hemp",
+            name: "Polyester-Wool Blend",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-04.glb",
             transform: {
@@ -419,14 +466,20 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 1750,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Heavy_Fabrics/organic-hemp.svg",
+            cost:39000,
+            cert_title:"OEKO TEX Standard 100",
+            cert_descripton:"Certifies that textiles are free from harmful chemicals and are safe for human use",
+            
+            env_title:"Varying Sustainability",
+            env_description:"The blend reduces wool waste but adds polyester’s microplastics and fossil fuel impact, making it unsustainable",
+            ethics_title: "Partially Ethical",
+			ethics_description: "Wool can be ethical, but polyester adds microplastic pollution and fossil fuel reliance.",  
+			water_use: "Moderate Water Use",
+			water_description: "Wool requires a lot of water, while polyester reduces cost but adds pollution.",  
+			cost_title: "Moderate Cost",
+			cost_description: "A balance of affordability and quality—polyester lowers cost, wool adds durability." , 
+			// need to add this image-currently none
+			img_path: "../assets/images/Heavy_Fabrics/polyester-wool-blend.svg",
 
             // materialParams: {
             //     metalness: 1,
@@ -435,6 +488,8 @@ const modelsData = {
             // },
         },
     ],
+    
+    //change to ShinyFabrics
 	SyntheticChoices: [
         {
             id: 1,
@@ -445,13 +500,16 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 500,
-            env_title: "Bad for the Environment",
-            env_description: "Production process is highly volatile. Many harmful chemicals are used during manufacturing",
-            ethics_title: "Poor Working Conditions",
-            ethics_description: "Workers regularly experience hazardous conditions due to the chemicals used (acrylonitrile)",
-            additional_cons: "Lacks biodegradability, releases microplastics, may cause irritation for some individuals",
-			img_path: "../assets/images/Heavy_Fabrics/acrylic.svg",
+            cost: 15000,
+            mat_title: "Common Material",
+            mat_description: "An extremely common material used in the fashion industry",
+            env_title: "Terrible for the Environment",
+            env_description: "The manufacturing process creates nitrous oxide, a greenhouse gas which has significantly worse environmental impacts than carbon dioxide",
+            ethics_title: "Not Biodegredable",
+            ethics_description: "Nylon products will last in landfills for hundreds of years",
+            water_use:"Rescource Intensive",
+            water_description:"Large quantities of water are used in the manufacturing to cool nylon fibers, and consumes a lot of energy",
+			img_path: "../assets/images/Heavy_Fabrics/nylon.svg",
 
             // materialParams: {
             //     metalness: 1,
@@ -461,21 +519,27 @@ const modelsData = {
         },
         {
             id: 2,
-            name: "Wool",
+            name: "Silk",
             model: "/models/logo-02.glb",
             transform: {
                 position: [0, 0, 0],
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 2125,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Heavy_Fabrics/wool.svg",
+            cost: 80000,
+            cert_title: "Responsible Silk Standard (RSS)",
+            cert_description:"This certification ensures that the silk is produced with a focus on both animal welfare and sustainable practices.",
+            
+          env_title: "Eco-Friendly & Biodegradable",
+          env_description: "Silk is a natural fiber with minimal environmental impact, requiring no synthetic chemicals and fully biodegradable.",  
+          ethics_title: "Fair & Ethical Production",
+          ethics_description: "When sourced responsibly, silk production supports fair wages and sustainable farming, without exploitation.",  
+          water_use: "Moderate Water Use",
+          water_description: "Silk requires water for sericulture, but far less than cotton, making it a more sustainable choice.",  
+          cost_title: "High Cost",
+          cost_description: "Silk is expensive due to labour-intensive harvesting and ethical sourcing, but its quality and longevity justify the price." ,
+
+			img_path: "../assets/images/Heavy_Fabrics/silk.svg",
 
             // materialParams: {
             //     metalness: 1,
@@ -485,7 +549,7 @@ const modelsData = {
         },
         {
             id: 3,
-            name: "Bamboo",
+            name: "Recycled Nylon",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-03.glb",
             transform: {
@@ -493,14 +557,21 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 1250,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Heavy_Fabrics/bamboo.svg",
+            cost: 37000,
+            
+            cert_title:"Global Recycled Standard (GRS)",
+            cert_description:"Certification ensures tracability of the materials and promotes the general reduction of waste",
+            
+            env_title: "Positive Effects for the Environment",
+            env_description: "Reduces the use of petroleum, which is ueed in regular nylon production, and reduces wate through the process of recycling material",
+            ethics_title: "Negative Effects of Material",
+            ethics_description: "The process of recycling nylon uses a lot of energy. Microplastics can be shed when the material is washed",
+          	mat_title: "Common Material",
+            mat_description:"A comon material used in the industry, seen mostly in outdoor and activewear",
+            cost_title: "Moderate Cost",
+			cost_description: "Recycled nylon is more expensive than virgin nylon due to the recycling process but offers a more sustainable alternative with long-term benefits.",
+
+			img_path: "../assets/images/Heavy_Fabrics/recycled-nylon.svg",
 
             // materialParams: {
             //     metalness: 1,
@@ -510,7 +581,7 @@ const modelsData = {
         },
         {
             id: 4,
-            name: "Organic Hemp",
+            name: "Recycled Polyester",
             description: "Simple leaf-based design for eco-friendly vibes.",
             model: "/models/logo-04.glb",
             transform: {
@@ -518,14 +589,21 @@ const modelsData = {
                 rotation: [8, 1, 0],
                 scale: 20.0,
             },
-            cost: 1750,
-            env_title: "Bad for the Environment",
-            env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
-            ethics_title: "Poor Rights & Child Labor",
-            ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
-            water_description: "~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Heavy_Fabrics/organic-hemp.svg",
+            cost: 40000,
+            cert_title:"Global Recycled Standard (GRS)",
+            cert_description:"Certification ensures tracability of the materials and promotes the general reduction of waste",
+            
+        
+            env_title: "Better for the Environment",
+            env_description: "Reduces the ue of petroleum, which is used in regular polyester production",
+            sus_title: "Moderate Sustainability",
+            sus_description: "Recycled polyester helps reduce waste and reliance on virgin plastics, but it still contributes to microplastic pollution and relies on synthetic fibers.",
+            ethics_title: "Negative Effects",
+            ethics_description: "The process of recycling uses an abundance of energy and chemicals. Washing this material can release microplastics",
+            cost_title: "Moderate Expense",
+			cost_description: "Recycled polyester is generally cheaper than virgin polyester due to the lower material cost, though the recycling process can add some expense.",
+
+			img_path: "../assets/images/Heavy_Fabrics/recycled-polyest.svg",
 
             // materialParams: {
             //     metalness: 1,

@@ -21,6 +21,7 @@ const SelectionPanel = ({
     cards,
     onCardSelect,
     selectedCardIndex,
+    setSelectedCardIndex,
     currentFabricStep,
     setCurrentFabricStep
 }) => {
@@ -36,8 +37,10 @@ const SelectionPanel = ({
     const handleNextFabricStage = () => {
         if (currentFabricStep < 2) {
             setCurrentFabricStep(currentFabricStep + 1);
+            setSelectedCardIndex(null);
         }
     };
+
 
     // Determine the background color of the "total-price-widget" element
     const getBackgroundColor = () => {
@@ -56,14 +59,16 @@ const SelectionPanel = ({
     };
 
     const stepTitles = [
-        "1. SELECT A COTTON",
-        "2. SELECT A HEAVY FABRIC",
-        "3. SELECT A FINISHING FABRIC"
+        "1. CHOOSE A LIGHT FABRIC",
+        "2. CHOOSE A KNIT FABRIC",
+        "3. CHOOSE A SHINY FABRIC"
     ];
 
     const handleCardSelectInternal = (index) => {
         onCardSelect(index, currentFabricStep);
     };
+
+  
 
     return (
         <div className="selection-panel">
@@ -280,7 +285,7 @@ const SelectionPanel = ({
                 <>
                     <StagesCounter numSteps={3} currentStep={currentFabricStep} />
                     <h1 className="step-title accent-4">{stepTitles[currentFabricStep]}</h1>
-                    <CardSelection cards={cards[currentFabricStep]} onCardSelect={handleCardSelectInternal} />
+                    <CardSelection cards={cards[currentFabricStep]} onCardSelect={handleCardSelectInternal} selectedCardIndex={selectedCardIndex} setSelectedCardIndex={setSelectedCardIndex} />
 
                     {/* Total Price Widget */}
                     <div

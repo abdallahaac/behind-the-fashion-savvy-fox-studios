@@ -26,11 +26,12 @@ import Loader from "../utils/Loader.jsx";
 import { Leva } from "leva";
 
 function FabricLab() {
-    const { CottonChoices, HeavyChoices, budget } = useModels();
+    const { CottonChoices, HeavyChoices, SyntheticChoices, budget } = useModels();
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
     const [currentStep, setCurrentStep] = useState(0);
     const [selectedModel, setSelectedModel] = useState(null);
     const [currentFabricStep, setCurrentFabricStep] = useState(0);
+
 
     // Ensure CottonChoices has at least four elements
     if (!CottonChoices || CottonChoices.length < 4) {
@@ -50,6 +51,12 @@ function FabricLab() {
             { image: HeavyChoices[1].img_path, fabricName: HeavyChoices[1].name, cost: HeavyChoices[1].cost, model:HeavyChoices[1] },
             { image: HeavyChoices[2].img_path, fabricName: HeavyChoices[2].name, cost: HeavyChoices[2].cost, model:HeavyChoices[2] },
             { image: HeavyChoices[3].img_path, fabricName: HeavyChoices[3].name, cost: HeavyChoices[3].cost, model:HeavyChoices[3] },
+        ],
+		[
+            { image: SyntheticChoices[0].img_path, fabricName: SyntheticChoices[0].name, cost: SyntheticChoices[0].cost, model:SyntheticChoices[0] },
+            { image: SyntheticChoices[1].img_path, fabricName: SyntheticChoices[1].name, cost: SyntheticChoices[1].cost, model:SyntheticChoices[1] },
+            { image: SyntheticChoices[2].img_path, fabricName: SyntheticChoices[2].name, cost: SyntheticChoices[2].cost, model:SyntheticChoices[2] },
+            { image: SyntheticChoices[3].img_path, fabricName: SyntheticChoices[3].name, cost: SyntheticChoices[3].cost, model:SyntheticChoices[3] },
         ],
         // Add more stages if needed
     ];
@@ -86,12 +93,12 @@ function FabricLab() {
         setCollection(collection.filter((item) => item.id !== modelId));
     };
 
-    // If no selected model, pick the first once models are loaded
-    useEffect(() => {
-        if (!selectedModel && CottonChoices.length > 0) {
-            setSelectedModel(CottonChoices[0]);
-        }
-    }, [selectedModel, CottonChoices]);
+    // // If no selected model, pick the first once models are loaded
+    // useEffect(() => {
+    //     if (!selectedModel && CottonChoices.length > 0) {
+    //         setSelectedModel(CottonChoices[0]);
+    //     }
+    // }, [selectedModel, CottonChoices]);
 
     useEffect(() => {
         // Global body styling for this page
@@ -232,8 +239,9 @@ function FabricLab() {
                                 currentStep={3}
                                 selectedModel={selectedModel}
                                 cards={cards}
-                                onCardSelect={handleCardSelect}
                                 selectedCardIndex={selectedCardIndex}
+                                setSelectedCardIndex={setSelectedCardIndex}
+                                onCardSelect={handleCardSelect}           
                                 currentFabricStep={currentFabricStep}
                                 setCurrentFabricStep={setCurrentFabricStep}
                             />

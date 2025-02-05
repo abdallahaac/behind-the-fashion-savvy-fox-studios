@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/card-selection.css";
 
-const CardSelection = ({ cards, onCardSelect }) => {
-    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+const CardSelection = ({ cards, onCardSelect, selectedCardIndex, setSelectedCardIndex }) => {
+    // const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+
+
 
     const toggleCardSelection = (index) => {
         const newSelectedIndex = selectedCardIndex === index ? null : index;
         setSelectedCardIndex(newSelectedIndex);
         onCardSelect(newSelectedIndex);
     };
+    useEffect(() => {
+
+        console.log(selectedCardIndex)
+
+    })
 
     return (
         <div className="card-selection-container">
