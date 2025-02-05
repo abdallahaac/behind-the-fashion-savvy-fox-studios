@@ -238,6 +238,7 @@ function FabricLab() {
                             <SelectionPanel
                                 currentStep={3}
                                 selectedModel={selectedModel}
+                                setSelectedModel={setSelectedModel}
                                 cards={cards}
                                 selectedCardIndex={selectedCardIndex}
                                 setSelectedCardIndex={setSelectedCardIndex}

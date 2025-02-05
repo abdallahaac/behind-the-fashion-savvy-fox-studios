@@ -248,14 +248,18 @@ const modelsData = {
                 scale: 20.0,
             },
             cost: 38000,
-            cert_title:"Fair Trade Certified",
-            cert_description:"Certified as having passed safety tests for the prescene of harmful substances",
+            cert_icon1: "../assets/images/Certifications/fair-trade.png",
+            cert_title1:"Fair Trade Certified",
+            cert_description1:"Certified as having passed safety tests for the prescene of harmful substances",
             
+            env_icon:"negative",
             env_title: "Bad for the Environment",
             env_description: "Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_icon:"negative",
             ethics_title: "Poor Rights & Child Labor",
             ethics_description: "Labor rights violations and child labor are common in cotton production in some countries",
-            water_use: "High Water Use",
+            water_icon:"negative",
+            water_title: "High Water Use",
             water_description: "~1,320 gallons of water is used to produce one pound of cotton",
 			img_path: "../assets/images/Cotton/conventional.svg",
 
@@ -277,9 +281,11 @@ const modelsData = {
             },
             cost: 46000,
             //cert1
+            cert_icon1: "../assets/images/Certifications/oeko.png",
             cert_title1:"OEKO TEX Standard 100",
-            cert_descripton1:"Certifies that textiles are free from harmful chemicals and are safe for human use",
+            cert_description1:"Certifies that textiles are free from harmful chemicals and are safe for human use",
             //cert 2
+            cert_icon2: "../assets/images/Certifications/fair-trade.png",
             cert_title2:"Fair Trade Certified",
             cert_description2:"Certified as having passed safety tests for the prescene of harmful substances",
             
@@ -288,7 +294,7 @@ const modelsData = {
             env_description: "Only makes up around 1% of global cotton production",
             ethics_title: "Good Working Environment",
             ethics_description: "Working conditions are healthier based on the absence of harmful chemicals",
-            water_use: "Good for the Environment",
+            water_title: "Good for the Environment",
             water_description: "Production uses 91% less water compared to conventional cotton",
             cost_title: "High Cost",
             cost_description:"Due to fair and just production practices, organic cotton costs more ot produce",
@@ -299,6 +305,10 @@ const modelsData = {
             //     roughness: 0,
             //     color: "#ffffff",
             // },
+            env_icon: "positive",
+            ethics_icon: "positive",
+            water_icon: "positive",
+            cost_icon: "negative",
         },
         
         {
@@ -316,7 +326,7 @@ const modelsData = {
             env_description: "Polyester, made from petroleum, contributes to pollution, greenhouse gases, and sheds microplastics into oceans",
             ethics_title: "Poor Labor Conditions",
             ethics_description: "Labor often occurs in factories with low wages, long hours, and unsafe working conditions",
-            water_use: "High Water Use",
+            water_title: "High Water Use",
             water_description: "~700 gallons of water is used to produce one pound of polyester",
             cost_title: "Low Cost",
             cost_description:"Cheap to produce due to synthetic materials and mass production, but at a high environmental cost",
@@ -328,6 +338,10 @@ const modelsData = {
             //     roughness: 0,
             //     color: "#ffffff",
             // },
+            env_icon: "negative",
+            ethics_icon: "negative",
+            water_icon: "negative",
+            cost_icon: "positive",
         },
         {
             id: 4,
@@ -341,15 +355,16 @@ const modelsData = {
             },
             cost: 74000,
             
-            cert_title:"FSC",
-            cert_description:"Certifies that the bamboo used in production is sourced from properly managed forests or plantations",
+            cert_icon1: "../assets/images/Certifications/fsc.svg",
+            cert_title1:"FSC",
+            cert_description1:"Certifies that the bamboo used in production is sourced from properly managed forests or plantations",
             
             
             env_title: "Positive Effects for the Environment",
             env_description: "A diverse material which can be grown in a variety of climates across the world",
             ethics_title: "Sustainable & Ethical",
             ethics_description: "Bamboo is often harvested by workers under fair labour conditions",
-            water_use: "Minimal Water Use",
+            water_title: "Minimal Water Use",
             water_description: "Bamboo requires little to no irrigation, and can rely mostly on rainfall",
             cost_title: "High Cost",
             cost_description:"Processing raw bamboo into fabric can be expensive compared to synthetic fabrics",
@@ -361,6 +376,10 @@ const modelsData = {
             //     roughness: 0,
             //     color: "#ffffff",
             // },
+            env_icon: "positive",
+            ethics_icon: "positive",
+            water_icon: "positive",
+            cost_icon: "negative",
         },
     ],
     
@@ -380,6 +399,7 @@ const modelsData = {
             env_description: "Production process is highly volatile. Many harmful chemicals are used during manufacturing",
             ethics_title: "Poor Working Conditions",
             ethics_description: "Workers regularly experience hazardous conditions due to the chemicals used (acrylonitrile)",
+            additional_cons_title: "Additional Cons",
             additional_cons: "Lacks biodegradability, releases microplastics, may cause irritation for some individuals",
 			img_path: "../assets/images/Heavy_Fabrics/acrylic.svg",
 
@@ -388,6 +408,11 @@ const modelsData = {
             //     roughness: 0,
             //     color: "#ffffff",
             // },
+            env_icon: "negative",
+            ethics_icon: "negative",
+            water_icon: "negative",
+            cost_icon: "positive",
+            additional_cons_icon: "negative",
         },
         {
             id: 2,
@@ -399,17 +424,23 @@ const modelsData = {
                 scale: 20.0,
             },
             cost: 51000,
-            cert_title:"Woolmark",
-            cert_description:"Certifies the wool product is pure and meets quality standards.This certification does not account for sustainability, environment impacts, or animal welfare.",
+            cert_icon1: "../assets/images/Certifications/woolmark.svg",
+            cert_title1:"Woolmark",
+            cert_description1:"Certifies the wool product is pure and meets quality standards.This certification does not account for sustainability, environment impacts, or animal welfare.",
             mat_title: "Common Material",
             mat_description:"A very popular material known for its softness, warmth, and durability",
             env_title: "Positive Effects for the Environment",
             env_description: "Wool is both biodegradable and renewale when sourced properly",
             ethics_title: "Variable Working Conditions",
             ethics_description: "Depending on the region, workers and animals may not be treated ethically",
-            water_use: "Negative Effects on Climate",
+            water_title: "Negative Effects on Climate",
             water_description: "Methane emmissions, land degradation, and water cusage are not eco-friendly aspects of production and maintenance",
 			img_path: "../assets/images/Heavy_Fabrics/wool.svg",
+            env_icon: "positive",
+            ethics_icon: "neutral",
+            water_icon: "negative",
+            cost_icon: "negative",
+            mat_icon: "positive",
 
             // materialParams: {
             //     metalness: 1,
@@ -428,15 +459,16 @@ const modelsData = {
                 scale: 20.0,
             },
             cost: 61000,
-            
+            cert_icon1: "../assets/images/Certifications/gots.svg",
             cert_title1:"Global Organic Textile Standard (GOTS)",
             cert_description1:"Certifies responsible growing and manufacturing processes with various environmental and social criteria.",
             //cert 2
+            cert_icon2: "../assets/images/Certifications/eti.svg",
             cert_title2:"Ethical Trading Initiative (ETI)",
             cert_description2:"Certifies ethical labor practices, including fair wages, safe working conditions, and respect towards human rights",
             
             
-            water_use: "Environmentally Friendly",
+            water_title: "Environmentally Friendly",
             water_descritption: "Production requires small amounts of water and does not need pesticides to grow",
             ethics_title: "Good Working Conditions",
             ethics_description: "Workers are treated fairly and are provided a safe working environment",
@@ -449,6 +481,11 @@ const modelsData = {
 			cost_description: "Organic hemp is costly due to sustainable farming, and lower production volumes, but its durability makes it a long-term investment.",  
             
 			img_path: "../assets/images/Heavy_Fabrics/organic-hemp.svg",
+            env_icon: "positive",
+            ethics_icon: "positive",
+            water_icon: "positive",
+            cost_icon: "negative",
+            mat_icon: "positive",
 
             // materialParams: {
             //     metalness: 1,
@@ -467,19 +504,24 @@ const modelsData = {
                 scale: 20.0,
             },
             cost:39000,
-            cert_title:"OEKO TEX Standard 100",
-            cert_descripton:"Certifies that textiles are free from harmful chemicals and are safe for human use",
+            cert_icon1: "../assets/images/Certifications/oeko.png",
+            cert_title1:"OEKO TEX Standard 100",
+            cert_description1:"Certifies that textiles are free from harmful chemicals and are safe for human use",
             
             env_title:"Varying Sustainability",
             env_description:"The blend reduces wool waste but adds polyester’s microplastics and fossil fuel impact, making it unsustainable",
             ethics_title: "Partially Ethical",
 			ethics_description: "Wool can be ethical, but polyester adds microplastic pollution and fossil fuel reliance.",  
-			water_use: "Moderate Water Use",
+			water_title: "Moderate Water Use",
 			water_description: "Wool requires a lot of water, while polyester reduces cost but adds pollution.",  
 			cost_title: "Moderate Cost",
 			cost_description: "A balance of affordability and quality—polyester lowers cost, wool adds durability." , 
 			// need to add this image-currently none
 			img_path: "../assets/images/Heavy_Fabrics/polyester-wool-blend.svg",
+            env_icon: "neutral",
+            ethics_icon: "neutral",
+            water_icon: "neutral",
+            cost_icon: "neutral",
 
             // materialParams: {
             //     metalness: 1,
@@ -507,9 +549,13 @@ const modelsData = {
             env_description: "The manufacturing process creates nitrous oxide, a greenhouse gas which has significantly worse environmental impacts than carbon dioxide",
             ethics_title: "Not Biodegredable",
             ethics_description: "Nylon products will last in landfills for hundreds of years",
-            water_use:"Rescource Intensive",
+            water_title:"Rescource Intensive",
             water_description:"Large quantities of water are used in the manufacturing to cool nylon fibers, and consumes a lot of energy",
 			img_path: "../assets/images/Heavy_Fabrics/nylon.svg",
+            env_icon: "negative",
+            ethics_icon: "negative",
+            water_icon: "negative",
+            mat_icon: "positive",
 
             // materialParams: {
             //     metalness: 1,
@@ -527,19 +573,23 @@ const modelsData = {
                 scale: 20.0,
             },
             cost: 80000,
-            cert_title: "Responsible Silk Standard (RSS)",
-            cert_description:"This certification ensures that the silk is produced with a focus on both animal welfare and sustainable practices.",
+            cert_title1: "Responsible Silk Standard (RSS)",
+            cert_description1:"This certification ensures that the silk is produced with a focus on both animal welfare and sustainable practices.",
             
-          env_title: "Eco-Friendly & Biodegradable",
-          env_description: "Silk is a natural fiber with minimal environmental impact, requiring no synthetic chemicals and fully biodegradable.",  
-          ethics_title: "Fair & Ethical Production",
-          ethics_description: "When sourced responsibly, silk production supports fair wages and sustainable farming, without exploitation.",  
-          water_use: "Moderate Water Use",
-          water_description: "Silk requires water for sericulture, but far less than cotton, making it a more sustainable choice.",  
-          cost_title: "High Cost",
-          cost_description: "Silk is expensive due to labour-intensive harvesting and ethical sourcing, but its quality and longevity justify the price." ,
+            env_title: "Eco-Friendly & Biodegradable",
+            env_description: "Silk is a natural fiber with minimal environmental impact, requiring no synthetic chemicals and fully biodegradable.",  
+            ethics_title: "Fair & Ethical Production",
+            ethics_description: "When sourced responsibly, silk production supports fair wages and sustainable farming, without exploitation.",  
+            water_title: "Moderate Water Use",
+            water_description: "Silk requires water for sericulture, but far less than cotton, making it a more sustainable choice.",  
+            cost_title: "High Cost",
+            cost_description: "Silk is expensive due to labour-intensive harvesting and ethical sourcing, but its quality and longevity justify the price." ,
 
-			img_path: "../assets/images/Heavy_Fabrics/silk.svg",
+            img_path: "../assets/images/Heavy_Fabrics/silk.svg",
+            env_icon: "positive",
+            ethics_icon: "positive",
+            water_icon: "neutral",
+            cost_icon: "negative",
 
             // materialParams: {
             //     metalness: 1,
@@ -559,8 +609,9 @@ const modelsData = {
             },
             cost: 37000,
             
-            cert_title:"Global Recycled Standard (GRS)",
-            cert_description:"Certification ensures tracability of the materials and promotes the general reduction of waste",
+            cert_icon1: "../assets/images/Certifications/grs.svg",
+            cert_title1:"Global Recycled Standard (GRS)",
+            cert_description1:"Certification ensures tracability of the materials and promotes the general reduction of waste",
             
             env_title: "Positive Effects for the Environment",
             env_description: "Reduces the use of petroleum, which is ueed in regular nylon production, and reduces wate through the process of recycling material",
@@ -572,6 +623,10 @@ const modelsData = {
 			cost_description: "Recycled nylon is more expensive than virgin nylon due to the recycling process but offers a more sustainable alternative with long-term benefits.",
 
 			img_path: "../assets/images/Heavy_Fabrics/recycled-nylon.svg",
+            env_icon: "positive",
+            mat_icon:"positive",
+            ethics_icon: "negative",
+            cost_icon: "neutral",
 
             // materialParams: {
             //     metalness: 1,
@@ -590,8 +645,10 @@ const modelsData = {
                 scale: 20.0,
             },
             cost: 40000,
-            cert_title:"Global Recycled Standard (GRS)",
-            cert_description:"Certification ensures tracability of the materials and promotes the general reduction of waste",
+
+            cert_icon1: "../assets/images/Certifications/grs.svg",
+            cert_title1:"Global Recycled Standard (GRS)",
+            cert_description1:"Certification ensures tracability of the materials and promotes the general reduction of waste",
             
         
             env_title: "Better for the Environment",
@@ -604,6 +661,11 @@ const modelsData = {
 			cost_description: "Recycled polyester is generally cheaper than virgin polyester due to the lower material cost, though the recycling process can add some expense.",
 
 			img_path: "../assets/images/Heavy_Fabrics/recycled-polyest.svg",
+            env_icon: "positive",
+            sus_icon: "neutral",
+
+            ethics_icon: "negative",
+            cost_icon: "neutral",
 
             // materialParams: {
             //     metalness: 1,

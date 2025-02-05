@@ -18,6 +18,7 @@ const SelectionPanel = ({
     fontStyle,
     setFontStyle,
     selectedModel,
+    setSelectedModel,
     cards,
     onCardSelect,
     selectedCardIndex,
@@ -38,6 +39,7 @@ const SelectionPanel = ({
         if (currentFabricStep < 2) {
             setCurrentFabricStep(currentFabricStep + 1);
             setSelectedCardIndex(null);
+            setSelectedModel(null);
         }
     };
 
