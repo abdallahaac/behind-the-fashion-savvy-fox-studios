@@ -9,6 +9,7 @@ import BuildBrand from "./pages/BuildBrand.jsx";
 import FabricLab from "./pages/FabricLab.jsx";
 import IntroSingleCanvas from "./pages/IntroCanvas.jsx";
 import LandingPageCanvas from "./pages/LandingPageCanvas.jsx";
+import Room from "./pages/Room.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(
@@ -20,6 +21,7 @@ root.render(
 				<Route path="/landing-page" element={<LandingPage />} />
 				<Route path="/build-a-brand" element={<BuildBrand />} />
 				<Route path="/fabric-lab" element={<FabricLab />} />
+				<Route path="/room" element={<Room />} />
 			</Routes>
 		</Router>
 	</ModelsProvider>

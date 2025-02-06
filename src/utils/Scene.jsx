@@ -1,11 +1,11 @@
-// Scene.jsx
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
-import { EnvironmentMesh } from "../models/EnvironmentMesh.jsx"; // Adjust path as needed
+import DirectionalLights from "./Lights/DirectionalLights.jsx";
+import { BlenderScene } from "../models/BlenderScene.jsx";
 
-const Scene = () => {
+const Scene = ({ playAnimation }) => {
 	return (
 		<Canvas
 			className="full-screen-canvas"
@@ -14,26 +14,19 @@ const Scene = () => {
 				fov: 34,
 				near: 0.1,
 				far: 200,
-				position: [2, 2, 5],
+				position: [2, 7, 5],
 			}}
 		>
-			{/* Camera controls via Leva (optional) */}
-			<CameraController />
+			{/* Pass the targetCameraZ prop to CameraController */}
 
-			{/* Basic lighting */}
+			{/* Ambient light */}
 			<ambientLight intensity={0.5} />
-			<directionalLight position={[2, 2, 5]} intensity={1} />
 
-			<OrbitControls />
+			{/* Orbit controls */}
+			{/* <OrbitControls /> */}
 
-			{/* Our environment, now with transform controls */}
-			<EnvironmentMesh
-				position={[3.0, 1.3, -2]}
-				scale={0.1}
-				rotation={[0, 1.5, 0]}
-			/>
-
-			{/* Possibly a rotating cube or other objects */}
+			{/* Pass the playAnimation prop to BlenderScene */}
+			<BlenderScene scale={0.1} playAnimation={playAnimation} />
 		</Canvas>
 	);
 };

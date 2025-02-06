@@ -11,12 +11,13 @@ import right_arrow from "../assets/images/right-arrow.svg";
 import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/A Savvy Fox Studios production.png";
 import Scene from "../utils/Scene.jsx"; // Importing Scene component
+import BackgroundImage from "../assets/images/background-image.svg"; // Update the path to your SVG
 
 const LandingPageCanvas = () => {
 	const navigate = useNavigate();
 	const handleStartExp = (e) => {
 		e.preventDefault();
-		navigate("/build-a-brand");
+		navigate("/room");
 	};
 
 	const [isFading, setIsFading] = useState(false);
@@ -54,7 +55,7 @@ const LandingPageCanvas = () => {
 	return (
 		<div className="landing-canvas-page">
 			{/* Full-screen Canvas Scene */}
-			<Scene />
+			{/* <Scene /> */}
 
 			<header className="banner">
 				<Marquee
@@ -99,6 +100,9 @@ const LandingPageCanvas = () => {
 						<img className="wordmark" src={wordmark} alt="wordmark Image" />
 						<img src={production} alt="production" />
 					</div>
+				</div>
+				<div className="intro-image model-container fade-in">
+					<img src={BackgroundImage} alt="Background Image" />
 				</div>
 			</main>
 		</div>
