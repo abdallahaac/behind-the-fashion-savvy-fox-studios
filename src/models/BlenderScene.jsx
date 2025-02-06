@@ -470,7 +470,7 @@ export function BlenderScene({ playAnimation, ...props }) {
 					far={199}
 					near={0.1}
 					fov={32.608}
-					position={[-6.126, 6.599, -4.402]}
+					position={[-96.126, 6.599, -4.402]}
 					rotation={[0, -Math.PI / 2, 0]}
 				/>
 				<mesh
