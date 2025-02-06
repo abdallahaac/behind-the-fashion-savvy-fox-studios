@@ -256,3 +256,54 @@ html {
 		transform: translateY(0);
 	}
 }
+
+/* Fill the viewport with a gradient background */
+.intro-canvas-page {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%);
+	overflow: hidden;
+}
+
+/* Make the Canvas take up the entire parent container. */
+.intro-canvas {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* The marquee, text, etc., should be above the canvas */
+.banner,
+.content {
+	position: relative;
+	z-index: 2;
+}
+
+/* Everything else can remain the same */
+/* Container to ensure the full-screen effect */
+.landing-canvas-page {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%);
+	overflow: hidden;
+}
+
+/* Canvas should fill the entire screen */
+.full-screen-canvas {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* Ensure text/content is above the canvas */
+.content,
+.banner {
+	position: relative;
+	z-index: 2;
+}

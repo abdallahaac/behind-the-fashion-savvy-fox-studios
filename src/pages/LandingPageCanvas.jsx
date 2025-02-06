@@ -2,34 +2,28 @@ import "../assets/styles/intro-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
-import ReactDOM from "react-dom/client";
-import React, { useEffect, useState, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
+
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ModelsProvider, useModels } from "../utils/ModelsContext.jsx";
+import { useModels } from "../utils/ModelsContext.jsx";
 import Marquee from "react-fast-marquee";
-import BackgroundImage from "../assets/images/background-image.svg"; // Update the path to your SVG
 import right_arrow from "../assets/images/right-arrow.svg";
 import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/A Savvy Fox Studios production.png";
-import logo from "../assets/images/logo.svg";
-import Experience from "../Experience.jsx";
-import Scene from "../utils/Scene.jsx";
+import Scene from "../utils/Scene.jsx"; // Importing Scene component
 
-const LandingPage = () => {
+const LandingPageCanvas = () => {
 	const navigate = useNavigate();
 	const handleStartExp = (e) => {
 		e.preventDefault();
 		navigate("/build-a-brand");
 	};
 
-	const [isFading, setIsFading] = useState(false); // Tracks if the text is fading out
+	const [isFading, setIsFading] = useState(false);
 
 	const modelsByCategory = useModels();
 	const allModels = modelsByCategory.EthicallyStrongOptions;
 	const selectedModel = allModels[0] || null;
-	// const modelPath = selectedModel?.model || null;
 
 	useEffect(() => {
 		// Apply styles to body and html elements
@@ -46,7 +40,6 @@ const LandingPage = () => {
 			fontFamily: '"Kode Mono", monospace',
 			height: "100vh",
 			overflow: "hidden",
-			background: "linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%)",
 		};
 
 		applyStyles(styles);
@@ -59,7 +52,10 @@ const LandingPage = () => {
 	}, []);
 
 	return (
-		<div className="homepage">
+		<div className="landing-canvas-page">
+			{/* Full-screen Canvas Scene */}
+			<Scene />
+
 			<header className="banner">
 				<Marquee
 					gradient={false}
@@ -81,14 +77,12 @@ const LandingPage = () => {
 					</div>
 					<div className="landing-body fade-in">
 						<h1 className="landing-h1 landing-page">
-							{" "}
 							STEP INTO THE ROLE OF A FASHION BRAND CEO.
 						</h1>
 						<p className="body-text-medium">
-							{" "}
-							Experience what its like to build a fashion brand from the ground
+							Experience what it's like to build a fashion brand from the ground
 							up, while <br /> managing crucial factors such as budget,
-							audience, and sustainability.{" "}
+							audience, and sustainability.
 						</p>
 					</div>
 					<button
@@ -106,15 +100,9 @@ const LandingPage = () => {
 						<img src={production} alt="production" />
 					</div>
 				</div>
-
-				<div className="intro-image model-container fade-in"></div>
 			</main>
 		</div>
 	);
 };
 
-// const root = ReactDOM.createRoot(document.querySelector("#root"));
-
-// root.render(<Intro />);
-
-export default LandingPage;
+export default LandingPageCanvas;
