@@ -8,6 +8,7 @@ import shopping_bag from "../assets/images/shopping_bag.svg";
 import right_arrow from "../assets/images/right-arrow.svg";
 import FontStyleSelection from "./FontSelection";
 import StagesCounter from "../components/StagesCounter.jsx";
+import Toggle from "../components/Toggle.jsx";
 
 const SelectionPanel = ({
     collection,
@@ -27,6 +28,13 @@ const SelectionPanel = ({
     setCurrentFabricStep
 }) => {
     const navigate = useNavigate();
+    const [hasVisitedAudit, setHasVisitedAudit] = useState(false);
+
+    const handleAuditVisit = () => {
+        setHasVisitedAudit(true);
+    };
+
+  
 
     // Function to handle "Create" button click
     const handleCreateClick = () => {
@@ -330,9 +338,9 @@ const SelectionPanel = ({
                             onClick={handleNextFabricStage}
                             disabled={selectedCardIndex === null} // Disable button if no card is selected
                         >
-                            Next
+                            Purchase
                             <div className="button-icon">
-                                <img src={right_arrow} alt="right arrow Icon" />
+                                <img src={shopping_bag} alt="Shopping Bag Icon" />
                             </div>
                         </button>
                     </div>
@@ -340,9 +348,35 @@ const SelectionPanel = ({
             )}
             {currentStep === 4 && (
                 <div>
-                    <h2 className="accent-3" style={{color:"#FFFEFD"}}>{selectedModel.name}</h2>
+                    <Toggle selectedModel={selectedModel} />
+
+                    <div className="total-price-widget">
+                        <div className="price">
+                            <div className="dollar-amount accent-2">
+                                $ {selectedModel.cost}
+                                {/* {collection
+                                    .reduce((total, item) => total + item.cost, 0)
+                                    .toFixed(2)} */}
+                            </div>
+                            <div className="total-design-price label-large">
+                                MANUFACTURING COST
+                            </div>
+                        </div>
+                        <button
+                            className={getButtonClass()}
+                            id="next-fabric-button"
+                            onClick={handleNextFabricStage}
+                            // disabled={hasVisitedAudit === false} // Disable button if no card is selected
+                        >
+                            Select
+                            <div className="button-icon">
+                                <img src={shopping_bag} alt="Shopping Bag Icon" />
+                            </div>
+                        </button>
+                    </div>
 
                 </div>
+                
             )}
         </div>
     );

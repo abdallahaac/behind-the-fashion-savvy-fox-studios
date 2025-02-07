@@ -17,6 +17,7 @@ import thumb from "../assets/images/thumb.svg";
 import heart from "../assets/images/heart.svg";
 import SelectionPanel from "../components/SelectionPanel.jsx";
 import ModelList from "../components/ModelList.jsx";
+import Toggle from "../components/Toggle";
 
 import OutfitDetails from "../components/OutfitDetails.jsx";
 import FabricDetails from "../components/FabricDetails.jsx";
@@ -201,6 +202,7 @@ function Manufacturing() {
                         models = {Manufacturers}
 					/>
 				</div>
+
 
                 {/* <div className="model-list-container">
                     <ModelList

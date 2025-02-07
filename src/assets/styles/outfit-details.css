@@ -41,6 +41,7 @@
 	margin-right: 12px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	color: #fff;
 }
 
@@ -63,8 +64,13 @@
 }
 
 .p_bar-description {
-	margin-left: 2.5em;
+	margin-left: 2.5em !important;
 	color: #ddd;
+	text-align:left;
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
 .cost-row {

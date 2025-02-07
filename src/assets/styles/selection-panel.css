@@ -16,6 +16,7 @@
 	height: auto; /*we might want to get rid of the height*/
 	right: 16px;
 	top: 16px;
+	/* background: #0F0F0F; */
 	background: #2e2e2e;
 	border-radius: 16px;
 }
@@ -343,11 +344,10 @@
 	justify-content: center;
 	align-items: center;
 	padding: 8px 8px 8px 16px !important;
-	gap: 4px;
-	width: 112px !important;
-	height: 40px;
+	width: 125px !important;
+	height: 56px;
 	background: #9b9b9b;
-	border-radius: 8px !important;
+	border-radius: 40px !important;
 	flex: none;
 	order: 1;
 	flex-grow: 0;
@@ -358,10 +358,9 @@
 }
 
 #next-fabric-button{
-	width: 90px !important;
 	border: none;
-	border-radius: 5px !important;
 	color: white;
+	gap: 4px;
 	padding: 16px 8px !important;
 }
 
@@ -383,7 +382,7 @@
 	font-family: "DM Sans", sans-serif;
 	font-size: 14px;
 	line-height: 18px;
-	text-align: right;
+	text-align: center;
 	color: #fffefd;
 }
 
@@ -434,4 +433,7 @@
 
 .step-title{
 	color:white;
+}
+#select-button{
+	padding:0px !important;
 }

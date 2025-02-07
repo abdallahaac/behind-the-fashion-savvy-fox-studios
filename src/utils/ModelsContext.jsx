@@ -294,8 +294,6 @@ const modelsData = {
             env_description: "Only makes up around 1% of global cotton production",
             ethics_title: "Good Working Environment",
             ethics_description: "Working conditions are healthier based on the absence of harmful chemicals",
-            water_title: "Good for the Environment",
-            water_description: "Production uses 91% less water compared to conventional cotton",
             cost_title: "High Cost",
             cost_description:"Due to fair and just production practices, organic cotton costs more ot produce",
 			img_path: "../assets/images/Cotton/organic_cotton.svg",
@@ -678,7 +676,7 @@ const modelsData = {
     Manufacturers: [
         {
             id: 1,
-			name: "FACTORY 1",
+			name: "ARTTSTHREAD TEXTILES",
 			description: "Simple leaf-based design for eco-friendly vibes.",
 			model: "/models/logo-1.glb",
 			transform: {
@@ -691,6 +689,26 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
+            cost: 130000,
+            location_icon: "../assets/images/Manufacturing/portugal.svg",
+            location: "Located in Portugal",
+            location_description: "Although more expensive, original designs are crucial in the fashion industry because they drive innovation, set trends, and define a brand's identity.",
+            cert_icon1: "../assets/images/Manufacturing/sa8000.svg",
+            cert_title1:"SA8000 Standard",
+            cert_description1:"A standard that organizations meet to show their commitment to treating workers fairly. ",
+            cert_icon2: "../assets/images/Manufacturing/eti_base_code.svg",
+            cert_title2: "ETI Base Code",  
+            cert_description2:"A set of labour standards organizations follow to improve working conditions",
+            mat_title:"Common Material",
+            mat_description:"A versatile fabric used by many clothing brands and is readily available in the supply chain",
+            env_title:"Bad for the Environment",
+            env_description:"Conventional cotton uses up to 25% of all the pesticides used in farming",
+            ethics_title:"Poor Rights & Child Labor",
+            ethics_description:"Labor rights violations and child labor are common in cotton production in some countries",
+            mat_icon: "positive",
+            env_icon: "negative",
+            ethics_icon: "negative",
+            read: "false",
 
         },
         {
@@ -708,6 +726,7 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
+            read: "false",
         },
         {
             id: 3,
@@ -724,6 +743,7 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
+            read: "false",
         }
     ],
 };
