@@ -15,7 +15,6 @@ import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/A Savvy Fox Studios production.png";
 import logo from "../assets/images/logo.svg";
 import Experience from "../Experience.jsx";
-import Scene from "../utils/Scene.jsx";
 
 const LandingPage = () => {
 	const navigate = useNavigate();
@@ -107,7 +106,24 @@ const LandingPage = () => {
 					</div>
 				</div>
 
-				<div className="intro-image model-container fade-in"></div>
+				<div className="intro-image model-container fade-in">
+					<img src={BackgroundImage} alt="Background Image" />
+					{/* <Canvas
+                        gl={{
+                            antialias: true,
+                            toneMapping: THREE.ACESFilmicToneMapping,
+                        }}
+                        camera={{
+                            fov: 34,
+                            near: 0.1,
+                            far: 200,
+                            position: [0.5, 2.9, 5.2],
+                            rotation: [-0.19, -0.1, 0.11],
+                        }}
+                    >
+                        <Experience selectedModel={selectedModel} />
+                    </Canvas> */}
+				</div>
 			</main>
 		</div>
 	);

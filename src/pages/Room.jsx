@@ -1,44 +1,66 @@
 import React, { useState } from "react";
-import Metric from "../components/MetricWidget";
-import Logo from "../components/Logo";
 import Scene from "../utils/Scene";
-import leaf from "../assets/images/leaf.svg";
-import thumb from "../assets/images/thumb.svg";
-import heart from "../assets/images/heart.svg";
-import { useModels } from "../utils/ModelsContext";
+import Logo from "../components/Logo";
 
 function Room() {
-	const { LogoChoices, budget, setBudget } = useModels();
-	// State for the camera's z-position
-	const [cameraZ, setCameraZ] = useState(5); // initial camera z is 5
-	// State to trigger the Blender animation
+	// Start or stop all animations
 	const [playAnimation, setPlayAnimation] = useState(false);
 
-	// This callback receives the newBudget from Tutorial, stores in context
-	const handleBudgetGenerated = (newBudget) => {
-		setBudget(newBudget); // Write to context
+	// If animation is playing, we can pause at breakpoints
+	const [paused, setPaused] = useState(false);
+
+	// Show a DOM overlay “Click to continue”
+	const [showPrompt, setShowPrompt] = useState(false);
+
+	// Which breakpoint index are we expecting next?
+	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
+
+	// Define your desired breakpoints here:
+	const breakpoints = [
+		31, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
+	];
+
+	// Called by EnvironmentWithCamera when we hit a breakpoint
+	const handleBreakpointHit = (index) => {
+		console.log("Reached breakpoint index:", index);
+		// Pause the animation at the breakpoint
+		setPaused(true);
+		// Show the popup overlay
+		setShowPrompt(true);
 	};
 
-	// Handler for button click
-	const handleClick = () => {
-		console.log("Button clicked, triggering animation.");
-		// Optionally update camera position (if needed)
-		setCameraZ(2.7);
-		// Trigger the Blender animation by setting playAnimation to true.
+	// Called when the user clicks "Play"
+	const handlePlayClick = () => {
+		console.log("Play clicked, triggering animation.");
+		// Start (or restart) the animation
 		setPlayAnimation(true);
-		// If you need the animation to be re-triggerable,
-		// you might later reset playAnimation to false (for example, using a timeout).
+		// Make sure we’re unpaused if we’re re-starting
+		setPaused(false);
+		setShowPrompt(false);
+		// Reset back to the first breakpoint if desired
+		setCurrentBreakpointIndex(0);
+	};
+
+	// Called when user clicks the “Continue” button in the popup
+	const handleContinue = () => {
+		// Hide the overlay
+		setShowPrompt(false);
+		// Resume the animation
+		setPaused(false);
+		// Move to the next breakpoint
+		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
 
 	return (
 		<>
+			{/* Same top logo as before */}
 			<div className="logo-container">
 				<Logo />
-				{/* ... other metrics ... */}
 			</div>
 
+			{/* Parent container with position: relative, so we can absolutely place elements over the Canvas */}
 			<div className="canvas-container" style={{ position: "relative" }}>
-				{/* Button placed on top of the canvas */}
+				{/* The same "Play" button style as old code */}
 				<button
 					style={{
 						position: "absolute",
@@ -47,13 +69,38 @@ function Room() {
 						padding: "8px 16px",
 						zIndex: 10,
 					}}
-					onClick={handleClick}
+					onClick={handlePlayClick}
 				>
-					Click Me
+					Play
 				</button>
 
-				{/* Pass cameraZ and playAnimation state to Scene */}
-				<Scene targetCameraZ={cameraZ} playAnimation={playAnimation} />
+				{/* Pass all relevant props into Scene */}
+				<Scene
+					playAnimation={playAnimation}
+					paused={paused}
+					breakpoints={breakpoints}
+					currentBreakpointIndex={currentBreakpointIndex}
+					onBreakpointHit={handleBreakpointHit}
+				/>
+
+				{/* Show the overlay at a breakpoint */}
+				{showPrompt && (
+					<div
+						style={{
+							position: "absolute",
+							top: "200px",
+							left: "50%",
+							transform: "translateX(-50%)",
+							padding: "16px",
+							backgroundColor: "white",
+							border: "2px solid black",
+							zIndex: 9999,
+						}}
+					>
+						<p>Breakpoint reached. Click to continue.</p>
+						<button onClick={handleContinue}>Continue</button>
+					</div>
+				)}
 			</div>
 		</>
 	);

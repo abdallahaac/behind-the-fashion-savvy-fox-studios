@@ -1,8 +1,7 @@
 // CameraController.jsx
 import { useThree, useFrame } from "@react-three/fiber";
 import { useControls } from "leva";
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
+import { useRef } from "react";
 
 const CameraController = ({ targetCameraZ }) => {
 	const { camera } = useThree();
@@ -18,26 +17,11 @@ const CameraController = ({ targetCameraZ }) => {
 		rotZ: { value: 0, min: -Math.PI, max: Math.PI, step: 0.1 },
 	});
 
-	// Animate camera z when targetCameraZ changes
-	useEffect(() => {
-		if (targetCameraZ !== undefined && cameraRef.current) {
-			gsap.to(cameraRef.current.position, {
-				z: targetCameraZ,
-				duration: 1,
-				ease: "power2.out",
-			});
-		}
-	}, [targetCameraZ]);
-
 	useFrame(() => {
 		if (cameraRef.current) {
-			// Always update x and y from Leva controls.
-			cameraRef.current.position.x = x;
-			cameraRef.current.position.y = y;
-			// Only update z manually if targetCameraZ is not provided.
-			if (targetCameraZ === undefined) {
-				cameraRef.current.position.z = z;
-			}
+			// Use targetCameraZ if provided; otherwise, fall back to the Leva-controlled z value.
+			const effectiveZ = targetCameraZ !== undefined ? targetCameraZ : z;
+			cameraRef.current.position.set(x, y, effectiveZ);
 			cameraRef.current.rotation.set(rotX, rotY, rotZ);
 		}
 	});

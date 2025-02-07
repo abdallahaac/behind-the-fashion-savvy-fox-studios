@@ -1,14 +1,17 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import CameraController from "./CameraController.jsx";
-import DirectionalLights from "./Lights/DirectionalLights.jsx";
-import { BlenderScene } from "../models/BlenderScene.jsx";
+import { EnvironmentWithCamera } from "../models/EnvironmentWIthCamera";
 
-const Scene = ({ playAnimation }) => {
+const Scene = ({
+	playAnimation,
+	paused,
+	breakpoints,
+	currentBreakpointIndex,
+	onBreakpointHit,
+}) => {
 	return (
 		<Canvas
-			className="full-screen-canvas"
 			gl={{ antialias: true }}
 			camera={{
 				fov: 34,
@@ -17,16 +20,16 @@ const Scene = ({ playAnimation }) => {
 				position: [2, 7, 5],
 			}}
 		>
-			{/* Pass the targetCameraZ prop to CameraController */}
-
-			{/* Ambient light */}
 			<ambientLight intensity={0.5} />
-
-			{/* Orbit controls */}
 			{/* <OrbitControls /> */}
 
-			{/* Pass the playAnimation prop to BlenderScene */}
-			<BlenderScene scale={0.1} playAnimation={playAnimation} />
+			<EnvironmentWithCamera
+				playAnimation={playAnimation}
+				paused={paused}
+				breakpoints={breakpoints}
+				currentBreakpointIndex={currentBreakpointIndex}
+				onBreakpointHit={onBreakpointHit}
+			/>
 		</Canvas>
 	);
 };
