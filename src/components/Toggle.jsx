@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/toggle.css";
 import greenThumb from "../assets/images/green-thumb.svg";
 import redThumb from "../assets/images/red-thumb.svg";
 import neutralThumb from "../assets/images/leaf.svg";
 
-const Toggle = ({ selectedModel }) => {
+const Toggle = ({ selectedModel, onAuditVisit }) => {
     const [isAbout, setIsAbout] = useState(true);
+
+    useEffect(() => {
+        // Reset to "ABOUT" tab when selectedModel changes
+        setIsAbout(true);
+    }, [selectedModel]);
+
     const getIcon = (iconType) => {
         switch (iconType) {
             case "positive":
@@ -18,7 +24,10 @@ const Toggle = ({ selectedModel }) => {
                 return neutralThumb;
         }
     };
-    
+
+    const handleVisitedAudit = () => {
+        onAuditVisit(selectedModel.id);
+    };
 
     return (
         <div className="toggle-container">
@@ -32,7 +41,10 @@ const Toggle = ({ selectedModel }) => {
                 </button>
                 <button
                     className={`toggle-button accent-5 ${!isAbout ? "active" : ""}`}
-                    onClick={() => setIsAbout(false)}
+                    onClick={() => {
+                        setIsAbout(false);
+                        handleVisitedAudit();
+                    }}
                 >
                     FACTORY AUDIT
                 </button>
@@ -58,11 +70,10 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.location_description}
                                     </p>
                                 </div>
-                                
                             </div>
                         </div>
                         <div className="info-container">
-                            <div className="p_bar-description "  id="added-logo">
+                            <div className="p_bar-description" id="added-logo">
                                 <span className="toggle-icon">
                                     <img
                                         src={selectedModel.cert_icon1}
@@ -75,15 +86,13 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.cert_title1}
                                     </span>
                                     <p className="item-description body-text-small">
-                                    {selectedModel.cert_description1}
+                                        {selectedModel.cert_description1}
                                     </p>
-
                                 </div>
-                                
                             </div>
                         </div>
                         <div className="info-container">
-                            <div className="p_bar-description"  id="added-logo">
+                            <div className="p_bar-description" id="added-logo">
                                 <span className="toggle-icon">
                                     <img
                                         src={selectedModel.cert_icon2}
@@ -96,17 +105,16 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.cert_title2}
                                     </span>
                                     <p className="item-description body-text-small">
-                                    {selectedModel.cert_description2}
+                                        {selectedModel.cert_description2}
                                     </p>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                 ) : (
                     <div className="factory-audit-content">
                         <div className="info-container">
-                            <div className="p_bar-description"  id="added-logo">
+                            <div className="p_bar-description" id="added-logo">
                                 <span className="toggle-icon">
                                     <img
                                         src={getIcon(selectedModel.mat_icon)}
@@ -119,13 +127,13 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.mat_title}
                                     </span>
                                     <p className="item-description body-text-small">
-                                    {selectedModel.mat_description}
+                                        {selectedModel.mat_description}
                                     </p>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <div className="info-container">
-                            <div className="p_bar-description"  id="added-logo">
+                            <div className="p_bar-description" id="added-logo">
                                 <span className="toggle-icon">
                                     <img
                                         src={getIcon(selectedModel.env_icon)}
@@ -138,13 +146,13 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.env_title}
                                     </span>
                                     <p className="item-description body-text-small">
-                                    {selectedModel.env_description}
+                                        {selectedModel.env_description}
                                     </p>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <div className="info-container">
-                            <div className="p_bar-description"  id="added-logo">
+                            <div className="p_bar-description" id="added-logo">
                                 <span className="toggle-icon">
                                     <img
                                         src={getIcon(selectedModel.ethics_icon)}
@@ -157,9 +165,9 @@ const Toggle = ({ selectedModel }) => {
                                         {selectedModel.ethics_title}
                                     </span>
                                     <p className="item-description body-text-small">
-                                    {selectedModel.ethics_description}
+                                        {selectedModel.ethics_description}
                                     </p>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                     </div>

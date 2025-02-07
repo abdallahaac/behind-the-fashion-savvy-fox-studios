@@ -708,7 +708,7 @@ const modelsData = {
             mat_icon: "positive",
             env_icon: "negative",
             ethics_icon: "negative",
-            read: "false",
+            read: false,
 
         },
         {
@@ -726,7 +726,8 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
-            read: "false",
+            read: false,
+            cost: 130000,
         },
         {
             id: 3,
@@ -743,7 +744,8 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
-            read: "false",
+            read: false,
+            cost: 130000,
         }
     ],
 };

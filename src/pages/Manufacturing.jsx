@@ -30,8 +30,6 @@ import { Leva } from "leva";
 
 function Manufacturing() {
     const { Manufacturers, budget } = useModels();
-    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
-    const [selectedModel, setSelectedModel] = useState(null);
 
 
    
@@ -186,7 +184,7 @@ function Manufacturing() {
 
                     <div className="details-container">
                         
-                        <div className="outfit-details">
+                        <div className="outfit-details-rs">
                             <SelectionPanel
                                 currentStep={4}
                                 selectedModel={selectedFactoryModel}

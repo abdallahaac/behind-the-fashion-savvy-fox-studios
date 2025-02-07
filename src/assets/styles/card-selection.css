@@ -6,6 +6,7 @@
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    margin:16px;
 }
 
 .card-row {
@@ -16,8 +17,8 @@
 }
 
 .card {
-    flex: 1 1 164px;
-    background-color: #3D3D3D;
+
+    background-color: #505050;
     border-radius: 4px;
     position: relative;
     cursor: pointer;

@@ -50,14 +50,18 @@
 	margin-right: -26px;
 	/* Flexbox to place the two sections side by side */
 	display: flex;
+	border-radius: 16px;
 
 	flex-wrap: wrap; /* allows wrapping on smaller screens if needed */
 	justify-content: space-between;
 	align-items: center;
 	gap: 20px;
+	
 }
 
 /* Individual sections for OutfitDetails and SelectionPanel */
-.outfit-details,
-.selection-panel {
+.outfit-details-rs
+{
+	background-color: #0F0F0F;
+	border-radius: 16px;
 }

@@ -234,7 +234,7 @@ function FabricLab() {
                         <div className="outfit-details">
                             <FabricDetails selectedModel={selectedModel} />
                         </div>
-                        <div className="outfit-details">
+                        <div className="outfit-details-rs">
                             <SelectionPanel
                                 currentStep={3}
                                 selectedModel={selectedModel}
