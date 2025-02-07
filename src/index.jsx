@@ -6,6 +6,7 @@ import LandingPage from "./pages/Landing-page.jsx";
 import ChooseSelection from "./pages/ChooseSelection.jsx"; // Import the ChooseSelection component
 import { ModelsProvider } from "./utils/ModelsContext.jsx"; // Import ModelsProvider
 import BuildBrand from "./pages/BuildBrand.jsx";
+import BuildBrandCanvas from "./pages/BuildBrandCanvas.jsx";
 import FabricLab from "./pages/FabricLab.jsx";
 import IntroSingleCanvas from "./pages/IntroCanvas.jsx";
 import LandingPageCanvas from "./pages/LandingPageCanvas.jsx";
@@ -19,7 +20,7 @@ root.render(
 				<Route path="/choose-selection" element={<ChooseSelection />} />
 				<Route path="/" element={<LandingPageCanvas />} />
 				<Route path="/landing-page" element={<LandingPage />} />
-				<Route path="/build-a-brand" element={<BuildBrand />} />
+				<Route path="/build-a-brand" element={<BuildBrandCanvas />} />
 				<Route path="/fabric-lab" element={<FabricLab />} />
 				<Route path="/room" element={<Room />} />
 			</Routes>
