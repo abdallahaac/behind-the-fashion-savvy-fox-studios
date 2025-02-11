@@ -170,7 +170,7 @@ export default function FullPageApp() {
 							collection={collection}
 						/>
 					</div>
-					<div className="outfit-details">
+					<div className="outfit-details-rs">
 						<SelectionPanel
 							collection={collection}
 							onRemoveFromCollection={removeFromCollection}

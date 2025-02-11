@@ -8,6 +8,7 @@ import { ModelsProvider } from "./utils/ModelsContext.jsx"; // Import ModelsProv
 import BuildBrand from "./pages/BuildBrand.jsx";
 import BuildBrandCanvas from "./pages/BuildBrandCanvas.jsx";
 import FabricLab from "./pages/FabricLab.jsx";
+import Manufacturing from "./pages/Manufacturing.jsx";
 import IntroSingleCanvas from "./pages/IntroCanvas.jsx";
 import LandingPageCanvas from "./pages/LandingPageCanvas.jsx";
 import Room from "./pages/Room.jsx";
@@ -23,6 +24,7 @@ root.render(
 				<Route path="/build-a-brand" element={<BuildBrandCanvas />} />
 				<Route path="/fabric-lab" element={<FabricLab />} />
 				<Route path="/room" element={<Room />} />
+				<Route path="/manufacturing" element={<Manufacturing />} />
 			</Routes>
 		</Router>
 	</ModelsProvider>
