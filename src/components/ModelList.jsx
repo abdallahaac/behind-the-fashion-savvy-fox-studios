@@ -2,14 +2,7 @@ import React, { useEffect } from "react";
 import { useModels } from "../utils/ModelsContext";
 import "../assets/styles/ModelList.css";
 
-const ModelList = ({ selectedModel, onModelChange }) => {
-	const modelsByCategory = useModels();
-
-	const models = [
-		...modelsByCategory.EthicallyStrongOptions,
-		...modelsByCategory.CapitalisticChoices,
-		...modelsByCategory.NeutralChoices,
-	];
+const ModelList = ({ selectedModel, onModelChange, models }) => {
 
 	useEffect(() => {
 		if (selectedModel) {

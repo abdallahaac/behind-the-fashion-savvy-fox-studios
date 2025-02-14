@@ -27,7 +27,7 @@ const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 				display: "flex",
 				flexDirection: "column",
 				gap: "8px",
-				marginTop: "16px",
+				margin: "16px",
 			}}
 		>
 			{/* Font Style Header */}

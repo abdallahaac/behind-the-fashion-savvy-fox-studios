@@ -186,7 +186,7 @@ export default function BuildBrand() {
 					{/* ...other repeated brandName elements... */}
 
 					<div className="details-container">
-						<div className="outfit-details" style={{ zIndex: 10 }}>
+						<div className="outfit-details-rs" style={{ zIndex: 10 }}>
 							<SelectionPanel
 								collection={collection}
 								onRemoveFromCollection={removeFromCollection}
