@@ -19,6 +19,8 @@ import leaf from "../assets/images/leaf.svg";
 import thumb from "../assets/images/thumb.svg";
 import heart from "../assets/images/heart.svg";
 
+import "../assets/styles/build-brand.css";
+
 // Helper to pick the correct font family
 function getFontFamily(fontStyle) {
 	switch (fontStyle) {

@@ -19,17 +19,32 @@ html {
 	position: relative;
 }
 
+.landing-canvas-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 /* Header Styling */
 .banner {
-	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center !important;
+	z-index: 500;
+	padding: 30px 0px;
+	border-radius: 20px;
 	width: 100%;
+	max-width: 90%;
 	background: #0f0f0f;
 	color: #e0e0e0;
-	font-size: 20px;
+	font-size: 25px;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: 26px;
+	margin-top: 100px;
 	letter-spacing: 2px;
+	overflow: hidden; /* Anything outside the .banner is clipped */
 }
 
 /* Content Area */
@@ -306,4 +321,11 @@ html {
 .banner {
 	position: relative;
 	z-index: 2;
+}
+/* In your CSS file */
+.marquee-center {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }

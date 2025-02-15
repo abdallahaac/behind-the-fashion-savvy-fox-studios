@@ -48,3 +48,23 @@
 	height: auto;
 	pointer-events: none; /* Clicks pass through */
 }
+
+.superimposed-logo.super-landing {
+	left: 120px;
+	z-index: -5;
+}
+
+/* The clipped logo */
+.superimposed-logo.super-landing {
+	position: absolute;
+	z-index: 1; /* Below the marquee text but above the banner background */
+
+	/* Adjust for desired clipping effect */
+	top: 50%;
+	left: 3%;
+	transform: translate(-50%, -50%);
+
+	/* Example sizing: tweak as needed */
+	width: 140px;
+	height: auto;
+}

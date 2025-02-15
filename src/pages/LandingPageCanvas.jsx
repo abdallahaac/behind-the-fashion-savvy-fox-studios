@@ -2,6 +2,7 @@ import "../assets/styles/intro-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
+import LogoSVG from "../assets/images/logo.svg"; // Assuming you've imported the SVG as a React component via a bundler or as a file path
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -58,24 +59,32 @@ const LandingPageCanvas = () => {
 			{/* <Scene /> */}
 
 			<header className="banner">
+				{/* The marquee text */}
 				<Marquee
 					gradient={false}
 					speed={30}
 					pauseOnHover={false}
-					style={{ marginTop: 10, marginBottom: 10 }}
+					className="marquee-center"
 				>
 					&nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
 					// BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 				</Marquee>
+
+				{/* The clipped logo */}
+				<img
+					src={LogoSVG}
+					alt="Logo"
+					className="superimposed-logo super-landing"
+				/>
 			</header>
 
 			<main className="content">
 				<div className="text-content fade-in">
-					<div className="landing-header fade-in">
+					{/* <div className="landing-header fade-in">
 						<h1 className="accent-5">BEHIND THE FASHION</h1>
 						<h2 className="accent-6">// LANDING PAGE</h2>
-					</div>
+					</div> */}
 					<div className="landing-body fade-in">
 						<h1 className="landing-h1 landing-page">
 							STEP INTO THE ROLE OF A FASHION BRAND CEO.
@@ -102,7 +111,7 @@ const LandingPageCanvas = () => {
 					</div>
 				</div>
 				<div className="intro-image model-container fade-in">
-					<img src={BackgroundImage} alt="Background Image" />
+					{/* <img src={BackgroundImage} alt="Background Image" /> */}
 				</div>
 			</main>
 		</div>

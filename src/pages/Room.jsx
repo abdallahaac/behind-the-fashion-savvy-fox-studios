@@ -30,8 +30,6 @@ function Room() {
 	// Specialized UI for each breakpoint index:
 	const promptComponents = [
 		// e.g. <PromptOne />,
-		<></>,
-		<></>,
 		<BuildBrand />,
 		// e.g. <PromptTwo />,
 		// e.g. <PromptThree />,
@@ -45,9 +43,9 @@ function Room() {
   */
 	useEffect(() => {
 		if (showPrompt) {
-			setFadeIn(false); // make sure it starts at 0
+			setFadeIn(false); // ensure it starts at 0 opacity
 			const timer = setTimeout(() => {
-				setFadeIn(true); // next render => 1 (triggers CSS transition)
+				setFadeIn(true); // next render => opacity 1 (triggers CSS transition)
 			}, 50);
 			return () => clearTimeout(timer);
 		} else {
@@ -131,28 +129,14 @@ function Room() {
 
 				{/*
           Show the prompt overlay if:
-            - showPrompt is true (we're at a breakpoint), or
-            - fadeOut is true (we're in the middle of a fade-out).
+          - showPrompt is true (we're at a breakpoint), or
+          - fadeOut is true (we're in the middle of a fade-out).
         */}
 				{(showPrompt || fadeOut) && (
 					<div
 						style={{
-							position: "absolute",
-							top: "200px",
-							left: "50%",
-							transform: "translateX(-50%)",
-							padding: "16px",
-							zIndex: 9999,
-
-							// FADE LOGIC:
-							// - fadeOut => 0
-							// - else fadeIn => 1
-							// - else => 0 (before it has had time to fade in)
 							opacity: fadeOut ? 0 : fadeIn ? 1 : 0,
-							transition: "opacity 0.3s ease",
-
-							backgroundColor: "white",
-							border: "2px solid black",
+							transition: "opacity 300ms ease-in-out",
 						}}
 					>
 						{React.cloneElement(
