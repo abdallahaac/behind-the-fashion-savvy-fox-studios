@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import BuildBrand from "./BuildBrandCanvas";
+import gsap from "gsap";
 
 function Room() {
 	// Start or stop all animations
@@ -72,7 +73,6 @@ function Room() {
 	// "Continue" button fades out the prompt & continues the animation
 	const handleContinue = () => {
 		setFadeOut(true);
-
 		setTimeout(() => {
 			setShowPrompt(false); // unmount prompt
 			setPaused(false);
@@ -81,15 +81,41 @@ function Room() {
 		}, 300); // 300ms matches our CSS transition
 	};
 
+	// Create refs for the canvas and logo containers to apply fade in animation
+	const canvasContainerRef = useRef(null);
+	const logoContainerRef = useRef(null);
+
+	// Fade in the canvas container on mount using GSAP
+	useEffect(() => {
+		gsap.fromTo(
+			canvasContainerRef.current,
+			{ opacity: 0 },
+			{ duration: 1, opacity: 1, ease: "power2.out" }
+		);
+	}, []);
+
+	// Fade in the logo container on mount using GSAP
+	useEffect(() => {
+		gsap.fromTo(
+			logoContainerRef.current,
+			{ opacity: 0 },
+			{ duration: 1, opacity: 1, ease: "power2.out" }
+		);
+	}, []);
+
 	return (
 		<>
-			{/* Logo at the top */}
-			<div className="logo-container">
+			{/* Logo at the top with its own fade in */}
+			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 			</div>
 
 			{/* Parent container with position: relative */}
-			<div className="canvas-container" style={{ position: "relative" }}>
+			<div
+				className="canvas-container"
+				style={{ position: "relative" }}
+				ref={canvasContainerRef}
+			>
 				{/* "Play" button */}
 				<button
 					style={{

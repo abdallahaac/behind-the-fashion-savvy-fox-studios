@@ -4,6 +4,9 @@
 	background-color: #515151;
 } */
 
+html {
+	background-color: #282828; /* Adjust to match your background */
+}
 .app {
 	display: flex;
 	flex-direction: column;
@@ -56,12 +59,10 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: 20px;
-	
 }
 
 /* Individual sections for OutfitDetails and SelectionPanel */
-.outfit-details-rs
-{
-	background-color: #0F0F0F;
+.outfit-details-rs {
+	background-color: #0f0f0f;
 	border-radius: 16px;
 }

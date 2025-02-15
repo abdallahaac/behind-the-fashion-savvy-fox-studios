@@ -8,11 +8,25 @@ const Logo = () => {
 	};
 
 	return (
-		<button className="logo-button" onClick={handleClick}>
+		<button
+			className="logo-button"
+			style={{
+				width: "300px",
+				fontSize: "25px",
+				borderRadius: "20px",
+				overflow: "hidden",
+			}}
+			onClick={handleClick}
+		>
 			<Marquee gradient={false} speed={30} pauseOnHover={false}>
 				&nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 			</Marquee>
-			<img src={LogoSVG} alt="Logo" className="superimposed-logo" />
+			<img
+				src={LogoSVG}
+				alt="Logo"
+				className="superimposed-logo"
+				style={{ marginLeft: "-35px", width: "143px" }}
+			/>
 		</button>
 	);
 };

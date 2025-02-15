@@ -32,17 +32,17 @@ html {
 	justify-content: center;
 	align-items: center !important;
 	z-index: 500;
-	padding: 30px 0px;
+	padding: 35px 0px;
 	border-radius: 20px;
 	width: 100%;
-	max-width: 90%;
+	max-width: 98.8%;
 	background: #0f0f0f;
 	color: #e0e0e0;
 	font-size: 25px;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: 26px;
-	margin-top: 100px;
+	margin-top: 45px;
 	letter-spacing: 2px;
 	overflow: hidden; /* Anything outside the .banner is clipped */
 }
@@ -373,4 +373,25 @@ h1.landing-h1.landing-page {
 .audio-btn:hover {
 	transform: scale(1.05);
 	background-color: #f0f0f0;
+}
+.landing-canvas-page {
+	opacity: 1;
+}
+
+.landing-canvas-page {
+	opacity: 1;
+	/* No transition here, as GSAP will handle the animation */
+}
+/* The overlay covers the entire viewport.
+   Its background should match your desired transition color (e.g., your app background). */
+.transition-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #282828; /* Adjust to match your background */
+	opacity: 0;
+	pointer-events: none;
+	z-index: 9999;
 }
