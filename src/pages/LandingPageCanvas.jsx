@@ -2,7 +2,7 @@ import "../assets/styles/intro-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
-import LogoSVG from "../assets/images/logo.svg"; // Assuming you've imported the SVG as a React component via a bundler or as a file path
+import LogoSVG from "../assets/images/logo.svg"; // Assuming the SVG is imported as a file path
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,13 @@ import { useModels } from "../utils/ModelsContext.jsx";
 import Marquee from "react-fast-marquee";
 import right_arrow from "../assets/images/right-arrow.svg";
 import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
-import production from "../assets/images/A Savvy Fox Studios production.png";
+import production from "../assets/images/credits.svg";
 import Scene from "../utils/Scene.jsx"; // Importing Scene component
-import BackgroundImage from "../assets/images/background-image.svg"; // Update the path to your SVG
+import BackgroundImage from "../assets/images/background-image.svg"; // Update the path if needed
+
+// Import FontAwesomeIcon and the volume icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 
 const LandingPageCanvas = () => {
 	const navigate = useNavigate();
@@ -21,8 +25,16 @@ const LandingPageCanvas = () => {
 		navigate("/room");
 	};
 
-	const [isFading, setIsFading] = useState(false);
+	// State to toggle sound on/off
+	// Defaults to false, which will show the xmark icon (sound off)
+	const [soundOn, setSoundOn] = useState(false);
 
+	// Toggle sound state when the audio button is clicked
+	const toggleSound = () => {
+		setSoundOn((prev) => !prev);
+	};
+
+	const [isFading, setIsFading] = useState(false);
 	const modelsByCategory = useModels();
 	const allModels = modelsByCategory.EthicallyStrongOptions;
 	const selectedModel = allModels[0] || null;
@@ -69,6 +81,12 @@ const LandingPageCanvas = () => {
 					&nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
 					// BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+					BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 				</Marquee>
 
 				{/* The clipped logo */}
@@ -81,10 +99,6 @@ const LandingPageCanvas = () => {
 
 			<main className="content">
 				<div className="text-content fade-in">
-					{/* <div className="landing-header fade-in">
-						<h1 className="accent-5">BEHIND THE FASHION</h1>
-						<h2 className="accent-6">// LANDING PAGE</h2>
-					</div> */}
 					<div className="landing-body fade-in">
 						<h1 className="landing-h1 landing-page">
 							STEP INTO THE ROLE OF A FASHION BRAND CEO.
@@ -95,18 +109,23 @@ const LandingPageCanvas = () => {
 							audience, and sustainability.
 						</p>
 					</div>
-					<button
-						id="start-button"
-						className="add-button body-text-medium fade-in"
-						onClick={handleStartExp}
-					>
-						Start the Experience
-						<div className="button-icon">
-							<img src={right_arrow} alt="Right Arrow Icon" />
+
+					<div className="audio-start">
+						<button
+							id="start-button"
+							className="add-button body-text-medium fade-in"
+							onClick={handleStartExp}
+						>
+							Build Your Brand
+						</button>
+
+						{/* Audio button with the icon that toggles on click */}
+						<div className="audio-btn" onClick={toggleSound}>
+							<FontAwesomeIcon icon={soundOn ? faVolumeHigh : faVolumeXmark} />
 						</div>
-					</button>
+					</div>
+
 					<div className="credits-container fade-in">
-						<img className="wordmark" src={wordmark} alt="wordmark Image" />
 						<img src={production} alt="production" />
 					</div>
 				</div>

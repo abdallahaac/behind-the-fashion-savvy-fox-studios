@@ -104,7 +104,7 @@ html {
 /* Fade-in effect for words */
 .fade-in-word {
 	opacity: 0;
-	animation: fadeInWord 0.5s ease forwards;
+	animation: fadeInWord 0.1s ease forwards;
 }
 
 /* Skip Intro Button */
@@ -208,15 +208,26 @@ html {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	padding: 8px 8px 8px 16px;
 	gap: 4px;
 	border-radius: 8px;
 	flex: none;
 	flex-grow: 0;
-	width: 185px !important;
-	height: 40px;
-	margin-top: 48px;
+	font-weight: 200;
+	border-radius: 20px;
+	font-size: 12px;
+	padding: 15px 70px;
 }
+
+.audio-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background-color: white;
+	width: 50px;
+	height: 50px;
+}
+
 .wordmark {
 	/* position: absolute;
 	top: 0;
@@ -232,8 +243,8 @@ html {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	gap: 16px;
-	margin-top: 25%;
+	padding: 20px;
+	margin-top: 10px;
 }
 
 .fade-out {
@@ -328,4 +339,38 @@ html {
 	display: flex;
 	justify-content: center;
 	text-align: center;
+}
+
+h1.landing-page {
+	width: 830px;
+}
+
+.audio-start {
+	padding: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start; /* Aligns content to the start (left) */
+	gap: 1rem; /* Adds space between the button and the "hi" text */
+	height: fit-content;
+}
+
+.landing-body {
+	margin-top: 50px;
+	font-size: 10px !important;
+	padding: 20px;
+}
+
+h1.landing-h1.landing-page {
+	font-size: 65px;
+	font-weight: 500;
+}
+.audio-btn {
+	transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Hover effect: slightly scale up and change background color */
+.audio-btn:hover {
+	transform: scale(1.05);
+	background-color: #f0f0f0;
 }
