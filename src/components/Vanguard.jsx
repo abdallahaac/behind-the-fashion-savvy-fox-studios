@@ -1,23 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "../assets/styles/vanguard.css";
-import LogoSVG from "../assets/images/logo.svg"; // Adjust path as needed
-import Tutorial from "./Tutorial";
+import LogoSVG from "../assets/images/logo.svg";
 
-function Vanguard() {
-	// Track which Vanguards are active. For 4 items, we have an array of 4 booleans.
-	// By default, all are false (no border, no animation).
-	const [activeStates, setActiveStates] = useState([true, false, false, false]);
-
-	// Toggle a specific Vanguard's active state
-	const handleToggle = (index) => {
-		setActiveStates((prev) => {
-			const updated = [...prev];
-			updated[index] = !updated[index];
-			return updated;
-		});
-	};
-
-	// For convenience, define how many Vanguards we want to render
+function Vanguard({ activeStates, onVanguardClick }) {
+	// Define the indices for the vanguards (in your case, 4 items)
 	const vanguards = [0, 1, 2, 3];
 
 	return (
@@ -26,14 +12,18 @@ function Vanguard() {
 				{vanguards.map((vIndex) => (
 					<div
 						key={vIndex}
-						// Conditionally add a class if activeStates[vIndex] is true
 						className={`vanguard ${
 							activeStates[vIndex] ? "vanguard-active" : ""
 						}`}
-						onClick={() => handleToggle(vIndex)}
+						onClick={() => {
+							// For the first vanguard (index 0), if it’s active, open the tutorial.
+							if (vIndex === 0 && activeStates[0]) {
+								onVanguardClick();
+							}
+							// (Optional) Add other behavior for other vanguards if needed.
+						}}
 					>
 						<div
-							// Conditionally add the blinking class
 							className={`vanguard-inner-circle ${
 								activeStates[vIndex] ? "blink-animation" : ""
 							}`}

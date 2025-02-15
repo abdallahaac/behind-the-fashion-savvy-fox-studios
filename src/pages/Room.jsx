@@ -7,87 +7,72 @@ import Vanguard from "../components/Vanguard";
 import VanguardTutorial from "../components/VanguardTutorial";
 
 function Room() {
-	// Start or stop all animations
+	// --- Shared State for Vanguard ---
+	const [vanguardActiveStates, setVanguardActiveStates] = useState([
+		true,
+		false,
+		false,
+		false,
+	]);
+
+	// --- Tutorial Visibility ---
+	const [showTutorial, setShowTutorial] = useState(false);
+
+	// Other Room states...
 	const [playAnimation, setPlayAnimation] = useState(false);
-
-	// If animation is playing, we can pause at breakpoints
 	const [paused, setPaused] = useState(false);
-
-	// Whether the prompt should be displayed (mounted)
 	const [showPrompt, setShowPrompt] = useState(false);
-
-	// Whether we are currently fading out the prompt (true = in transition)
 	const [fadeOut, setFadeOut] = useState(false);
-
-	// Whether we are currently fading in
 	const [fadeIn, setFadeIn] = useState(false);
-
-	// Which breakpoint index are we expecting next?
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
-
-	// Define your desired breakpoints here:
 	const breakpoints = [
 		31, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
+	const promptComponents = [<BuildBrand />];
 
-	// Specialized UI for each breakpoint index:
-	const promptComponents = [
-		// e.g. <PromptOne />,
-		<BuildBrand />,
-		// e.g. <PromptTwo />,
-		// e.g. <PromptThree />,
-		// ...
-	];
+	// --- Functions for the Tutorial Flow ---
+	const openTutorial = () => {
+		setShowTutorial(true);
+	};
 
-	/*
-    Whenever "showPrompt" flips to true:
-    1. We mount the prompt at opacity: 0 (fadeIn = false initially).
-    2. After a tiny delay (50ms), set fadeIn = true to transition from 0 -> 1.
-  */
-	useEffect(() => {
-		if (showPrompt) {
-			setFadeIn(false); // ensure it starts at 0 opacity
-			const timer = setTimeout(() => {
-				setFadeIn(true); // next render => opacity 1 (triggers CSS transition)
-			}, 50);
-			return () => clearTimeout(timer);
-		} else {
-			setFadeIn(false);
-		}
-	}, [showPrompt]);
+	const closeTutorial = () => {
+		setShowTutorial(false);
+		// Turn off blinking for the first vanguard.
+		setVanguardActiveStates((prev) => {
+			const newState = [...prev];
+			newState[0] = false;
+			return newState;
+		});
+	};
 
-	// Called by Scene when a breakpoint is reached
+	// ... (rest of your Room component remains unchanged)
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
-		setShowPrompt(true); // triggers fade-in effect
+		setShowPrompt(true);
 	};
 
-	// "Play" button starts (or restarts) the animation
 	const handlePlayClick = () => {
 		console.log("Play clicked, triggering animation.");
 		setPlayAnimation(true);
 		setPaused(false);
 		setShowPrompt(false);
-		setCurrentBreakpointIndex(0); // optional reset
+		setCurrentBreakpointIndex(0);
 	};
 
-	// "Continue" button fades out the prompt & continues the animation
 	const handleContinue = () => {
 		setFadeOut(true);
 		setTimeout(() => {
-			setShowPrompt(false); // unmount prompt
+			setShowPrompt(false);
 			setPaused(false);
-			setFadeOut(false); // reset fadeOut
+			setFadeOut(false);
 			setCurrentBreakpointIndex((prev) => prev + 1);
-		}, 300); // 300ms matches our CSS transition
+		}, 300);
 	};
 
-	// Create refs for the canvas and logo containers to apply fade in animation
+	// Refs for GSAP fade in
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
-
-	// Fade in the canvas container on mount using GSAP
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
@@ -95,8 +80,6 @@ function Room() {
 			{ duration: 1, opacity: 1, ease: "power2.out" }
 		);
 	}, []);
-
-	// Fade in the logo container on mount using GSAP
 	useEffect(() => {
 		gsap.fromTo(
 			logoContainerRef.current,
@@ -107,12 +90,11 @@ function Room() {
 
 	return (
 		<>
-			{/* Logo at the top with its own fade in */}
+			{/* Logo at the top */}
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 			</div>
 
-			{/* Parent container with position: relative */}
 			<div
 				className="canvas-container"
 				style={{ position: "relative" }}
@@ -132,7 +114,7 @@ function Room() {
 					Play
 				</button>
 
-				{/* "Continue" button right beside "Play" */}
+				{/* "Continue" button */}
 				<button
 					style={{
 						position: "absolute",
@@ -146,9 +128,14 @@ function Room() {
 					Continue
 				</button>
 
-				<VanguardTutorial />
+				{/* Conditionally render the Tutorial */}
+				{showTutorial && <VanguardTutorial onClose={closeTutorial} />}
 
-				<Vanguard />
+				{/* Pass the shared vanguard state and a click handler */}
+				<Vanguard
+					activeStates={vanguardActiveStates}
+					onVanguardClick={openTutorial}
+				/>
 
 				{/* The 3D Scene */}
 				<Scene
@@ -159,11 +146,7 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 				/>
 
-				{/*
-          Show the prompt overlay if:
-          - showPrompt is true (we're at a breakpoint), or
-          - fadeOut is true (we're in the middle of a fade-out).
-        */}
+				{/* Prompt overlay */}
 				{(showPrompt || fadeOut) && (
 					<div
 						style={{
@@ -182,7 +165,6 @@ function Room() {
 	);
 }
 
-// Fallback component if you haven't defined something in `promptComponents`
 function DefaultPrompt({ onContinue }) {
 	return (
 		<div>

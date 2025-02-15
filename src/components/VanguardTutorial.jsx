@@ -13,6 +13,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function VanguardTutorial({ onClose }) {
+	// New state to show/hide the tutorial
+	const [isTutorialVisible, setIsTutorialVisible] = useState(true);
+
 	// Steps data
 	const steps = [
 		{
@@ -87,23 +90,16 @@ function VanguardTutorial({ onClose }) {
 	// ---------------------------
 	// Hold-to-Complete Logic
 	// ---------------------------
-	const HOLD_DURATION = 500; // 2 seconds
+	const HOLD_DURATION = 500; // Duration in ms
 
 	const startHold = (e) => {
-		e.preventDefault(); // Prevent default mouse/touch behaviors
-		// If we've already completed or are in done state, do nothing
+		e.preventDefault();
 		if (doneClicked) return;
 
-		// Stop blinking as soon as the user starts pressing
 		setIsBlinking(false);
-
-		// Reset loader progress to 0
 		setProgress(0);
-
-		// Record the hold start time
 		holdStartRef.current = Date.now();
 
-		// Use setInterval to update the progress smoothly
 		intervalRef.current = setInterval(() => {
 			const elapsed = Date.now() - holdStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
@@ -115,46 +111,45 @@ function VanguardTutorial({ onClose }) {
 			} else {
 				setProgress(newProgress);
 			}
-		}, 30); // update ~ every 30ms
+		}, 30);
 	};
 
-	// Cancel hold if user releases early
 	const endHold = (e) => {
-		e.preventDefault(); // Prevent default mouse/touch behaviors
+		e.preventDefault();
 		if (doneClicked) return;
 
 		clearInterval(intervalRef.current);
-
-		// If user didn't complete the hold, reset
 		if (progress < 100) {
 			setProgress(0);
-			// Resume blinking to prompt user again
 			setIsBlinking(true);
 		}
 	};
 
 	const handleDone = () => {
 		setDoneClicked(true);
-		// Fade out the tutorial with GSAP, then call onClose
 		gsap.to(parentRef.current, {
 			opacity: 0,
 			duration: 0.5,
 			delay: 0.6,
 			ease: "power1.out",
 			onComplete: () => {
+				setIsTutorialVisible(false);
 				if (onClose) onClose();
 			},
 		});
 	};
 
+	if (!isTutorialVisible) {
+		return null;
+	}
+
 	return (
 		<div
 			className="vanguard-tutorial--parent-container"
 			ref={parentRef}
-			onContextMenu={(e) => e.preventDefault()} // Prevent right-click/long-press menus
+			onContextMenu={(e) => e.preventDefault()}
 		>
 			<div className="tutorial-container">
-				{/* Step indicators */}
 				<div className="step-container">
 					{steps.map((step, index) => (
 						<span
@@ -166,12 +161,10 @@ function VanguardTutorial({ onClose }) {
 					))}
 				</div>
 
-				{/* SVG image */}
 				<div className="vanguard-tutorial-svg">
 					<img src={BotSvg} alt="Tutorial Bot" />
 				</div>
 
-				{/* Step Title/Description */}
 				<div
 					className="vanguard-tutorial-step-description"
 					ref={descriptionRef}
@@ -182,7 +175,6 @@ function VanguardTutorial({ onClose }) {
 					</p>
 				</div>
 
-				{/* Nav Buttons */}
 				<div className="next-btn" ref={navButtonsRef}>
 					{currentStep > 0 && (
 						<div className="nav-button-tut nav-back" onClick={handleBack}>
@@ -202,7 +194,6 @@ function VanguardTutorial({ onClose }) {
 							<FontAwesomeIcon icon={faArrowRight} className="icon-right" />
 						</div>
 					) : (
-						// --------- The "Done" button with hold-to-complete ---------
 						<div
 							className={`nav-button-tut nav-done ${
 								isBlinking ? "blink-done" : ""
@@ -212,13 +203,10 @@ function VanguardTutorial({ onClose }) {
 							onTouchStart={startHold}
 							onTouchEnd={endHold}
 						>
-							{/* Loader overlay filling from left to right */}
 							<div
 								className="hold-progress"
 								style={{ width: `${progress}%` }}
 							/>
-
-							{/* "Done" text + icon (above the filling) */}
 							<div style={{ position: "relative", zIndex: 2 }}>
 								Done
 								<FontAwesomeIcon icon={faCheckCircle} className="icon-done" />
