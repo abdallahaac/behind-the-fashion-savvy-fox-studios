@@ -6,12 +6,7 @@ import Tutorial from "./Tutorial";
 function Vanguard() {
 	// Track which Vanguards are active. For 4 items, we have an array of 4 booleans.
 	// By default, all are false (no border, no animation).
-	const [activeStates, setActiveStates] = useState([
-		false,
-		false,
-		false,
-		false,
-	]);
+	const [activeStates, setActiveStates] = useState([true, false, false, false]);
 
 	// Toggle a specific Vanguard's active state
 	const handleToggle = (index) => {

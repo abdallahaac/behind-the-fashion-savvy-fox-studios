@@ -7,6 +7,7 @@
 	align-items: center;
 	z-index: 100;
 	font-family: "Kode Mono", monospace;
+	opacity: 1;
 }
 
 .tutorial-container {
@@ -35,6 +36,14 @@
 	margin: 3px;
 }
 
+/* Step indicator colors */
+.active-step {
+	background-color: #9b9b9b;
+}
+.inactive-step {
+	background-color: #f0f0f0;
+}
+
 .vanguard-tutorial-svg {
 	display: flex;
 }
@@ -56,4 +65,79 @@
 	font-family: "DM Sans", sans-serif;
 	font-weight: 300;
 	font-size: 15px;
+}
+
+/* Each navigation button */
+.nav-button-tut {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	user-select: none; /* Prevent text selection while holding */
+	-webkit-user-select: none;
+}
+
+/* Optional stylings for back/next */
+.nav-back {
+}
+.nav-next {
+}
+
+/* "Done" button with the light green background */
+.nav-done {
+	position: relative;
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: green;
+	overflow: hidden;
+	z-index: 10;
+	background-color: rgba(0, 128, 0, 0.1); /* Light green backdrop */
+}
+
+/* The loader overlay that fills on hold */
+.hold-progress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0%;
+	pointer-events: none;
+	background-color: rgba(0, 128, 0, 0.4); /* Darker overlay */
+	z-index: 0;
+
+	/* Smooth fill animation as we change 'width' in JS. Increase to .2s or .3s if you want a slower effect. */
+	transition: width 0.1s linear;
+}
+
+/* margin-left auto if it’s the only button on that row */
+.ml-auto {
+	margin-left: auto;
+}
+
+/* Icon spacing/color */
+.icon-left {
+	margin-right: 8px;
+}
+.icon-right {
+	margin-left: 8px;
+}
+.icon-done {
+	margin-left: 8px;
+	color: green;
+}
+
+/* Blinking animation (only if .blink-done is present) */
+.blink-done {
+	animation: blinkDone 1s infinite ease-in-out;
+}
+
+@keyframes blinkDone {
+	0% {
+		background-color: rgba(0, 128, 0, 0.1);
+	}
+	50% {
+		background-color: white;
+	}
+	100% {
+		background-color: rgba(0, 128, 0, 0.1);
+	}
 }
