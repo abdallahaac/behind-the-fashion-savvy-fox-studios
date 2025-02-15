@@ -1,4 +1,6 @@
 .vanguard-parent-container {
+	position: absolute;
+	z-index: 100;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -8,7 +10,6 @@
 }
 
 .vanguard-container {
-	width: 300px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -23,7 +24,9 @@
 	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* Add box-sizing: border-box to reserve space for borders */
 .vanguard {
+	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -31,11 +34,17 @@
 	height: 90px;
 	width: 90px;
 	margin: 10px;
-	border: 5px solid #c83c00;
-	position: relative; /* If you need absolute-positioned elements inside */
+	position: relative;
+	cursor: pointer;
+	border: none; /* No border by default */
 }
 
-/* Inner circle with blinking background */
+/* When active, show the 5px border but size remains the same */
+.vanguard-active {
+	border: 5px solid #c83c00;
+}
+
+/* The inner circle with blinking background */
 .vanguard-inner-circle {
 	display: flex;
 	justify-content: center;
@@ -46,9 +55,6 @@
 	border: 2px solid #ffc4b1;
 	background-color: white;
 	z-index: 5;
-
-	/* Add the blinking animation */
-	animation: blinkBackground 2s infinite ease-in-out;
 }
 
 /* The logo inside the inner circle */
@@ -58,7 +64,12 @@
 	z-index: 0;
 }
 
-/* Keyframes for blinking background */
+/* Blinking animation class */
+.blink-animation {
+	animation: blinkBackground 2s infinite ease-in-out;
+}
+
+/* Keyframes for blinking background on the inner circle */
 @keyframes blinkBackground {
 	0% {
 		background-color: white;

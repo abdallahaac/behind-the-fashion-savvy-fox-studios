@@ -124,7 +124,7 @@ function Room() {
 						top: "10px",
 						left: "10px",
 						padding: "8px 16px",
-						zIndex: 10,
+						zIndex: 200,
 					}}
 					onClick={handlePlayClick}
 				>
@@ -138,7 +138,7 @@ function Room() {
 						top: "10px",
 						left: "100px",
 						padding: "8px 16px",
-						zIndex: 10,
+						zIndex: 200,
 					}}
 					onClick={handleContinue}
 				>
