@@ -32,7 +32,7 @@ function Room() {
 	];
 
 	// The different prompt components to show at each breakpoint
-	const promptComponents = [<BuildBrand />];
+	const promptComponents = [<></>, <BuildBrand />];
 
 	// --- Vanguard UI visibility ---
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
@@ -199,7 +199,13 @@ function Room() {
 				{(showPrompt || fadeOut) && (
 					<div
 						style={{
-							opacity: fadeOut ? 0 : fadeIn ? 1 : 0,
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 1,
+							opacity: fadeOut ? 0 : fadeIn ? 1 : 1,
 							transition: "opacity 300ms ease-in-out",
 						}}
 					>

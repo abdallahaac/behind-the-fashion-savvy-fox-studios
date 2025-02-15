@@ -103,7 +103,7 @@ export default function BuildBrand() {
 
 	return (
 		<Suspense fallback={<Loader />}>
-			<div className="app">
+			<div className="app build">
 				{/* Show the tutorial, pass handleBudgetGenerated */}
 				{/* <Tutorial
 					videos={tutorialVideos}

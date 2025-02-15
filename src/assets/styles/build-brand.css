@@ -1,11 +1,3 @@
-/* .app {
-	width: 100vw;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	flex-direction: row;
+.build {
+	z-index: 2000 !important;
 }
-
-h4 {
-	width: 100vw;
-} */
