@@ -39,7 +39,7 @@ const LandingPageCanvas = () => {
 	};
 
 	// State to toggle sound on/off; defaults to false (sound off, showing xmark)
-	const [soundOn, setSoundOn] = useState(false);
+	const [soundOn, setSoundOn] = useState(true);
 	const toggleSound = () => {
 		setSoundOn((prev) => !prev);
 	};

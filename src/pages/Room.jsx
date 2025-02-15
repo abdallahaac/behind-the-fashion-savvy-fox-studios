@@ -3,6 +3,7 @@ import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import BuildBrand from "./BuildBrandCanvas";
 import gsap from "gsap";
+import Vanguard from "../components/Vanguard";
 
 function Room() {
 	// Start or stop all animations
@@ -143,6 +144,8 @@ function Room() {
 				>
 					Continue
 				</button>
+
+				<Vanguard />
 
 				{/* The 3D Scene */}
 				<Scene

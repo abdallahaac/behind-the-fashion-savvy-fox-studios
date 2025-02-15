@@ -1,0 +1,72 @@
+.vanguard-parent-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+	align-items: center;
+	width: 200px;
+}
+
+.vanguard-container {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	width: fit-content;
+	padding: 10px;
+	background: rgba(206, 206, 206, 0.25);
+	box-shadow: 0 8px 32px 0 rgba(139, 139, 139, 0.37);
+	backdrop-filter: blur(7px);
+	-webkit-backdrop-filter: blur(10px);
+	border-radius: 30px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.vanguard {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	height: 90px;
+	width: 90px;
+	margin: 10px;
+	border: 5px solid #c83c00;
+	position: relative; /* If you need absolute-positioned elements inside */
+}
+
+/* Inner circle with blinking background */
+.vanguard-inner-circle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	border: 2px solid #ffc4b1;
+	background-color: white;
+	z-index: 5;
+
+	/* Add the blinking animation */
+	animation: blinkBackground 2s infinite ease-in-out;
+}
+
+/* The logo inside the inner circle */
+.logo-vanguard {
+	width: 60px;
+	height: 60px;
+	z-index: 0;
+}
+
+/* Keyframes for blinking background */
+@keyframes blinkBackground {
+	0% {
+		background-color: white;
+	}
+	50% {
+		background-color: #ffc4b1;
+	}
+	100% {
+		background-color: white;
+	}
+}
