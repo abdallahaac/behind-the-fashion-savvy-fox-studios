@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../assets/styles/vanguard.css";
 import LogoSVG from "../assets/images/logo.svg"; // Adjust path as needed
+import Tutorial from "./Tutorial";
 
 function Vanguard() {
 	// Track which Vanguards are active. For 4 items, we have an array of 4 booleans.

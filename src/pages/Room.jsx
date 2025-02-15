@@ -4,6 +4,7 @@ import Logo from "../components/Logo";
 import BuildBrand from "./BuildBrandCanvas";
 import gsap from "gsap";
 import Vanguard from "../components/Vanguard";
+import VanguardTutorial from "../components/VanguardTutorial";
 
 function Room() {
 	// Start or stop all animations
@@ -144,6 +145,8 @@ function Room() {
 				>
 					Continue
 				</button>
+
+				<VanguardTutorial />
 
 				<Vanguard />
 
