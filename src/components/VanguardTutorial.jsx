@@ -12,7 +12,7 @@ import {
 	faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-function VanguardTutorial({ onClose }) {
+function VanguardTutorial({ onDone }) {
 	// New state to show/hide the tutorial
 	const [isTutorialVisible, setIsTutorialVisible] = useState(true);
 
@@ -21,16 +21,17 @@ function VanguardTutorial({ onClose }) {
 		{
 			title: "ASSISTANT",
 			description:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur distinctio voluptas ...",
+				"Hey there! Welcome to the Vanguard Pitch Office. I’m your assistant to guide and prepare you for your pitch to the Vanguards.",
 		},
 		{
-			title: "STEP 2",
-			description: "Step 2 description goes here. Lorem ipsum dolor sit amet.",
-		},
-		{
-			title: "STEP 3",
+			title: "ASSISTANT",
 			description:
-				"Step 3 description goes here. Sed do eiusmod tempor incididunt...",
+				"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
+		},
+		{
+			title: "ASSISTANT",
+			description:
+				"Hint! - Take a look at the widgets at the top of your screen. They’ll provide insights into the decisions each investor will prefer!",
 		},
 	];
 
@@ -134,7 +135,7 @@ function VanguardTutorial({ onClose }) {
 			ease: "power1.out",
 			onComplete: () => {
 				setIsTutorialVisible(false);
-				if (onClose) onClose();
+				if (onDone) onDone();
 			},
 		});
 	};

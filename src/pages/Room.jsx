@@ -25,12 +25,24 @@ function Room() {
 	const [fadeOut, setFadeOut] = useState(false);
 	const [fadeIn, setFadeIn] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
+
+	// The breakpoints your animation will hit
 	const breakpoints = [
 		31, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
+
+	// The different prompt components to show at each breakpoint
 	const promptComponents = [<BuildBrand />];
 
-	// --- Functions for the Tutorial Flow ---
+	// --- Vanguard UI visibility ---
+	const [showVanguardUI, setShowVanguardUI] = useState(false);
+
+	// GSAP Refs
+	const canvasContainerRef = useRef(null);
+	const logoContainerRef = useRef(null);
+	const vanguardContainerRef = useRef(null);
+
+	// --- Tutorial Flow Functions ---
 	const openTutorial = () => {
 		setShowTutorial(true);
 	};
@@ -45,11 +57,16 @@ function Room() {
 		});
 	};
 
-	// ... (rest of your Room component remains unchanged)
+	// When a breakpoint is reached...
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setShowPrompt(true);
+
+		// When the first breakpoint is hit, show Vanguard UI
+		if (index === 0) {
+			setShowVanguardUI(true);
+		}
 	};
 
 	const handlePlayClick = () => {
@@ -70,9 +87,14 @@ function Room() {
 		}, 300);
 	};
 
-	// Refs for GSAP fade in
-	const canvasContainerRef = useRef(null);
-	const logoContainerRef = useRef(null);
+	// Close tutorial AND continue
+	const handleTutorialDone = () => {
+		closeTutorial();
+		handleContinue();
+	};
+
+	// ---- GSAP Animations ----
+	// 1) Fade in the canvas on mount
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
@@ -80,12 +102,37 @@ function Room() {
 			{ duration: 1, opacity: 1, ease: "power2.out" }
 		);
 	}, []);
+
+	// 2) Fade in the logo on mount
 	useEffect(() => {
 		gsap.fromTo(
 			logoContainerRef.current,
 			{ opacity: 0 },
 			{ duration: 1, opacity: 1, ease: "power2.out" }
 		);
+	}, []);
+
+	// 3) Make sure the Vanguard container starts hidden
+	useEffect(() => {
+		if (vanguardContainerRef.current) {
+			gsap.set(vanguardContainerRef.current, { opacity: 0 });
+		}
+	}, []);
+
+	// 4) Fade in the Vanguard container when showVanguardUI becomes true
+	useEffect(() => {
+		if (showVanguardUI && vanguardContainerRef.current) {
+			gsap.fromTo(
+				vanguardContainerRef.current,
+				{ opacity: 1 },
+				{ duration: 1, opacity: 1, ease: "power3.out" }
+			);
+		}
+	}, [showVanguardUI]);
+
+	// Auto-play the animation when the Room component mounts
+	useEffect(() => {
+		handlePlayClick();
 	}, []);
 
 	return (
@@ -100,7 +147,7 @@ function Room() {
 				style={{ position: "relative" }}
 				ref={canvasContainerRef}
 			>
-				{/* "Play" button */}
+				{/* Debugging buttons */}
 				<button
 					style={{
 						position: "absolute",
@@ -113,8 +160,6 @@ function Room() {
 				>
 					Play
 				</button>
-
-				{/* "Continue" button */}
 				<button
 					style={{
 						position: "absolute",
@@ -129,13 +174,17 @@ function Room() {
 				</button>
 
 				{/* Conditionally render the Tutorial */}
-				{showTutorial && <VanguardTutorial onClose={closeTutorial} />}
+				{showTutorial && <VanguardTutorial onDone={handleTutorialDone} />}
 
-				{/* Pass the shared vanguard state and a click handler */}
-				<Vanguard
-					activeStates={vanguardActiveStates}
-					onVanguardClick={openTutorial}
-				/>
+				{/* Vanguard UI fades in once the first breakpoint is reached */}
+				{showVanguardUI && (
+					<div ref={vanguardContainerRef}>
+						<Vanguard
+							activeStates={vanguardActiveStates}
+							onVanguardClick={openTutorial}
+						/>
+					</div>
+				)}
 
 				{/* The 3D Scene */}
 				<Scene
@@ -146,7 +195,7 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 				/>
 
-				{/* Prompt overlay */}
+				{/* Prompt overlay (fadeOut or fadeIn logic) */}
 				{(showPrompt || fadeOut) && (
 					<div
 						style={{
