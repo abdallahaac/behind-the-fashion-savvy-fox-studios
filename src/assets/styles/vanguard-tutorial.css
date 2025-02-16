@@ -7,9 +7,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 100;
+	z-index: 900;
 	font-family: "Kode Mono", monospace;
-	opacity: 1;
+	/* opacity: 1; */
 }
 
 .tutorial-container {

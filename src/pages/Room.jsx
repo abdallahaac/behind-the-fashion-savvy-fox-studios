@@ -15,28 +15,18 @@ function Room() {
 		false,
 	]);
 	const [showTutorial, setShowTutorial] = useState(false);
-
-	// Scene playback & breakpoints
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
-
-	// If you only want to show CreateBrand on a certain breakpoint,
-	// we can toggle it with this boolean:
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
-
-	// The active breakpoint
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
-
-	// Our breakpoints
 	const breakpoints = [44, 183, 339, 550];
-
-	// Show Vanguard UI after the first breakpoint is reached
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 
-	// Refs for GSAP
+	// Refs for GSAP animations
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
+	const tutorialContainerRef = useRef(null);
 
 	// ---------------------------
 	// GSAP Effects (initial fade-ins)
@@ -64,14 +54,7 @@ function Room() {
 		);
 	}, []);
 
-	// Hides Vanguard container initially
-	useEffect(() => {
-		if (vanguardContainerRef.current) {
-			gsap.set(vanguardContainerRef.current, { opacity: 0 });
-		}
-	}, []);
-
-	// If we decide to show the Vanguard UI
+	// Animate Vanguard UI when it is rendered
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
 			gsap.fromTo(
@@ -86,17 +69,32 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
+	// Animate VanguardTutorial when it is shown (same as Vanguard UI)
+	useEffect(() => {
+		if (showTutorial && tutorialContainerRef.current) {
+			gsap.fromTo(
+				tutorialContainerRef.current,
+				{ opacity: 0 },
+				{
+					duration: 3,
+					opacity: 1,
+					ease: "power2.out",
+				}
+			);
+		}
+	}, [showTutorial]);
+
 	// Called automatically for each breakpoint by <Scene />
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
 
-		// Example: the first time we hit breakpoint 0, show Vanguard
+		// Show Vanguard on the first breakpoint
 		if (index === 0) {
 			setShowVanguardUI(true);
 		}
-		// Example: the second time we hit a breakpoint (index=1), show CreateBrand
+		// Show CreateBrand on the second breakpoint
 		if (index === 1) {
 			setShowCreateBrand(true);
 		}
@@ -138,7 +136,7 @@ function Room() {
 
 	return (
 		<>
-			{/* Logo at top */}
+			{/* Logo at the top */}
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 			</div>
@@ -171,10 +169,36 @@ function Room() {
 					Continue
 				</button>
 
-				{showTutorial && <VanguardTutorial onDone={handleTutorialDone} />}
+				{/* Tutorial fades in when shown (same pattern as Vanguard UI) */}
+				{showTutorial && (
+					<div
+						ref={tutorialContainerRef}
+						style={{
+							opacity: 0,
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 101,
+							willChange: "opacity, transform",
+							transform: "translateZ(0)",
+						}}
+					>
+						<VanguardTutorial onDone={handleTutorialDone} />
+					</div>
+				)}
 
 				{showVanguardUI && (
-					<div ref={vanguardContainerRef}>
+					<div
+						ref={vanguardContainerRef}
+						style={{
+							opacity: 0,
+							position: "relative",
+							zIndex: 999,
+							top: "440px",
+						}}
+					>
 						<Vanguard
 							activeStates={vanguardActiveStates}
 							onVanguardClick={openTutorial}
@@ -190,10 +214,7 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 				/>
 
-				{/* 
-          Render CreateBrand only once in the entire flow. 
-          showCreateBrand determines if/when it's visible.
-        */}
+				{/* Render CreateBrand only once in the entire flow */}
 				{showCreateBrand && (
 					<div
 						style={{
@@ -209,10 +230,21 @@ function Room() {
 						}}
 					>
 						<CreateBrand
-							// Here’s the crucial part: onStart => we simply continue to next breakpoint
+							// When the start button is clicked, fade out the Vanguard UI to the left then continue.
 							onStart={() => {
-								handleContinue();
-								// We DO NOT hide CreateBrand, so it doesn't fade out.
+								if (vanguardContainerRef.current) {
+									gsap.to(vanguardContainerRef.current, {
+										duration: 1,
+										opacity: 0,
+										x: "-100%", // Move to the left
+										ease: "power3.inOut",
+										onComplete: () => {
+											handleContinue();
+										},
+									});
+								} else {
+									handleContinue();
+								}
 							}}
 						/>
 					</div>

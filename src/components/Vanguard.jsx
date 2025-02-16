@@ -3,7 +3,7 @@ import "../assets/styles/vanguard.css";
 import LogoSVG from "../assets/images/logo.svg";
 
 function Vanguard({ activeStates, onVanguardClick }) {
-	// Define the indices for the vanguards (in your case, 4 items)
+	// Define indices for the vanguards (in your case, 4 items)
 	const vanguards = [0, 1, 2, 3];
 
 	return (
@@ -16,11 +16,10 @@ function Vanguard({ activeStates, onVanguardClick }) {
 							activeStates[vIndex] ? "vanguard-active" : ""
 						}`}
 						onClick={() => {
-							// For the first vanguard (index 0), if it’s active, open the tutorial.
+							// For the first vanguard (index 0), if active, open the tutorial.
 							if (vIndex === 0 && activeStates[0]) {
 								onVanguardClick();
 							}
-							// (Optional) Add other behavior for other vanguards if needed.
 						}}
 					>
 						<div

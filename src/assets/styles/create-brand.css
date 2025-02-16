@@ -9,14 +9,13 @@
 
 .create-container {
 	background-color: #2e2e2e;
-	width: 430px;
-	height: 220px; /* initial height */
+	width: 440px;
+	height: 260px; /* initial height */
 	border-radius: 20px;
 	margin: 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	padding: 20px;
 	transition: height 2s ease; /* Smoothly animates height changes */
 }
 
@@ -131,4 +130,22 @@
 /* Icon spacing */
 .icon-right {
 	margin-left: 8px;
+}
+
+.create-parent-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.create-parent {
+	width: 100%;
+	padding: 20px;
+}
+.body-create {
+	padding: 20px;
+}
+
+.lorem-container {
+	color: white;
+	z-index: 1000;
 }
