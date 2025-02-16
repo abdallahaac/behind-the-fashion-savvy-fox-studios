@@ -41,6 +41,13 @@ function CreateBrand({ onStart }) {
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
 
+	// New refs for staggered animations inside the expanded container.
+	const fontStyleHeaderRef = useRef(null);
+	const fontSelectionContainerRef = useRef(null);
+	const logoStyleHeaderRef = useRef(null);
+	const logoContainerRef = useRef(null);
+	const createSubmitContainerRef = useRef(null);
+
 	const HOLD_DURATION = 500;
 
 	// Fade in the entire CreateBrand component on mount.
@@ -108,6 +115,20 @@ function CreateBrand({ onStart }) {
 				opacity: 1,
 				ease: "power2.out",
 			});
+		}
+	}, [isExpanded]);
+
+	// Once expanded, fade in inner elements in sequence.
+	useEffect(() => {
+		if (isExpanded) {
+			const tl = gsap.timeline({
+				defaults: { opacity: 0, duration: 0.5, ease: "power2.out" },
+			});
+			tl.from(fontStyleHeaderRef.current, { delay: 0.3 })
+				.from(fontSelectionContainerRef.current, { delay: 0.2 })
+				.from(logoStyleHeaderRef.current, { delay: 0.2 })
+				.from(logoContainerRef.current, { delay: 0.2 })
+				.from(createSubmitContainerRef.current, { delay: 0.2 });
 		}
 	}, [isExpanded]);
 
@@ -207,13 +228,21 @@ function CreateBrand({ onStart }) {
 									{brandName.length} / 12
 								</div>
 							</div>
-							<div className="font-style">Font Style</div>
-							<FontStyleSelection
-								selectedOption={fontStyle}
-								setSelectedOption={setFontStyle}
-							/>
-							<div className="logo-style">Logo</div>
-							<div className="logo-container">
+							{/* Fading in the font style header */}
+							<div className="font-style" ref={fontStyleHeaderRef}>
+								Font Style
+							</div>
+							<div ref={fontSelectionContainerRef}>
+								<FontStyleSelection
+									selectedOption={fontStyle}
+									setSelectedOption={setFontStyle}
+								/>
+							</div>
+							{/* Fading in the logo header */}
+							<div className="logo-style" ref={logoStyleHeaderRef}>
+								Logo
+							</div>
+							<div className="logo-container" ref={logoContainerRef}>
 								{logoOptions.map((logo) => (
 									<div
 										key={logo.id}
@@ -229,11 +258,12 @@ function CreateBrand({ onStart }) {
 							<br />
 							<br />
 							<br />
-							{/* Only add ready classes if the form is ready */}
+							{/* Fading in the submit container */}
 							<div
 								className={`create-submit-container ${
 									isReady ? "ready-container" : ""
 								}`}
+								ref={createSubmitContainerRef}
 							>
 								<div className="create-submit">
 									<div
