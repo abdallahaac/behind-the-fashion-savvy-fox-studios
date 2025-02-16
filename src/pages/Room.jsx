@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
-import BuildBrand from "./BuildBrandCanvas";
-import gsap from "gsap";
 import Vanguard from "../components/Vanguard";
 import VanguardTutorial from "../components/VanguardTutorial";
 
+// Import the CreateBrand component
+import CreateBrand from "../components/CreateBrand";
+
 function Room() {
-	// --- Shared State for Vanguard ---
+	// Shared state for Vanguard
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
 		true,
 		false,
@@ -15,10 +17,10 @@ function Room() {
 		false,
 	]);
 
-	// --- Tutorial Visibility ---
+	// Tutorial visibility
 	const [showTutorial, setShowTutorial] = useState(false);
 
-	// Other Room states...
+	// Animation states
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
 	const [showPrompt, setShowPrompt] = useState(false);
@@ -26,30 +28,38 @@ function Room() {
 	const [fadeIn, setFadeIn] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 
-	// The breakpoints your animation will hit
+	// Breakpoints
 	const breakpoints = [
-		31, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
 
-	// The different prompt components to show at each breakpoint
-	const promptComponents = [<></>, <BuildBrand />];
+	// PROMPT COMPONENTS:
+	// Index 0 => an empty fragment (no prompt),
+	// Index 1 => <CreateBrand />, etc.
+	const promptComponents = [
+		<></>,
+		<CreateBrand />,
+		// If you have more breakpoints requiring different prompts, add them here
+	];
 
-	// --- Vanguard UI visibility ---
+	// Show Vanguard UI after hitting first breakpoint
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 
-	// GSAP Refs
+	// Refs for GSAP
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
 
-	// --- Tutorial Flow Functions ---
+	// ---------------------------------
+	// TUTORIAL FLOW
+	// ---------------------------------
 	const openTutorial = () => {
 		setShowTutorial(true);
 	};
 
 	const closeTutorial = () => {
 		setShowTutorial(false);
-		// Turn off blinking for the first vanguard.
+		// Turn off blinking for the first vanguard
 		setVanguardActiveStates((prev) => {
 			const newState = [...prev];
 			newState[0] = false;
@@ -57,18 +67,19 @@ function Room() {
 		});
 	};
 
-	// When a breakpoint is reached...
+	// Called when a breakpoint is reached
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setShowPrompt(true);
 
-		// When the first breakpoint is hit, show Vanguard UI
+		// If it's the very first breakpoint, show Vanguard UI
 		if (index === 0) {
 			setShowVanguardUI(true);
 		}
 	};
 
+	// Start playing the animation from the beginning
 	const handlePlayClick = () => {
 		console.log("Play clicked, triggering animation.");
 		setPlayAnimation(true);
@@ -77,60 +88,76 @@ function Room() {
 		setCurrentBreakpointIndex(0);
 	};
 
+	// This will be passed down and called by the prompt (e.g., CreateBrand) to continue
 	const handleContinue = () => {
+		// Fade out the prompt, then hide it and unpause animation
 		setFadeOut(true);
+
 		setTimeout(() => {
 			setShowPrompt(false);
 			setPaused(false);
 			setFadeOut(false);
+
+			// Advance to next breakpoint
 			setCurrentBreakpointIndex((prev) => prev + 1);
 		}, 300);
 	};
 
-	// Close tutorial AND continue
+	// Called when the tutorial "Done" button is fully held
 	const handleTutorialDone = () => {
 		closeTutorial();
 		handleContinue();
 	};
 
-	// ---- GSAP Animations ----
-	// 1) Fade in the canvas on mount
+	// Fade in canvas on mount
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
 			{ opacity: 0 },
-			{ duration: 1, opacity: 1, ease: "power2.out" }
+			{
+				duration: 1,
+				opacity: 1,
+				ease: "power2.out",
+			}
 		);
 	}, []);
 
-	// 2) Fade in the logo on mount
+	// Fade in logo on mount
 	useEffect(() => {
 		gsap.fromTo(
 			logoContainerRef.current,
 			{ opacity: 0 },
-			{ duration: 1, opacity: 1, ease: "power2.out" }
+			{
+				duration: 1,
+				opacity: 1,
+				ease: "power2.out",
+			}
 		);
 	}, []);
 
-	// 3) Make sure the Vanguard container starts hidden
+	// Ensure Vanguard container starts hidden
 	useEffect(() => {
 		if (vanguardContainerRef.current) {
 			gsap.set(vanguardContainerRef.current, { opacity: 0 });
 		}
 	}, []);
 
-	// 4) Fade in the Vanguard container when showVanguardUI becomes true
+	// Fade in the Vanguard container once showVanguardUI is true
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
 			gsap.fromTo(
 				vanguardContainerRef.current,
 				{ opacity: 1 },
-				{ duration: 1, opacity: 1, ease: "power3.out" }
+				{
+					duration: 1,
+					opacity: 1,
+					ease: "power3.out",
+				}
 			);
 		}
 	}, [showVanguardUI]);
 
-	// Auto-play the animation when the Room component mounts
+	// Autoplay the animation once the Room mounts
 	useEffect(() => {
 		handlePlayClick();
 	}, []);
@@ -173,10 +200,10 @@ function Room() {
 					Continue
 				</button>
 
-				{/* Conditionally render the Tutorial */}
+				{/* Conditionally render the VanguardTutorial */}
 				{showTutorial && <VanguardTutorial onDone={handleTutorialDone} />}
 
-				{/* Vanguard UI fades in once the first breakpoint is reached */}
+				{/* Show Vanguard UI after the first breakpoint */}
 				{showVanguardUI && (
 					<div ref={vanguardContainerRef}>
 						<Vanguard
@@ -195,7 +222,7 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 				/>
 
-				{/* Prompt overlay (fadeOut or fadeIn logic) */}
+				{/* Prompt overlay for breakpoints */}
 				{(showPrompt || fadeOut) && (
 					<div
 						style={{
@@ -205,13 +232,20 @@ function Room() {
 							width: "100%",
 							height: "100%",
 							zIndex: 1,
+							// fadeOut or fadeIn logic
 							opacity: fadeOut ? 0 : fadeIn ? 1 : 1,
 							transition: "opacity 300ms ease-in-out",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
 						}}
 					>
 						{React.cloneElement(
 							promptComponents[currentBreakpointIndex] || <DefaultPrompt />,
-							{ onContinue: handleContinue }
+							{
+								// Pass handleContinue down to whichever prompt is showing
+								onContinue: handleContinue,
+							}
 						)}
 					</div>
 				)}
@@ -220,9 +254,10 @@ function Room() {
 	);
 }
 
+// A default prompt if there's no matching index in promptComponents
 function DefaultPrompt({ onContinue }) {
 	return (
-		<div>
+		<div style={{ background: "#FFF", padding: 20, borderRadius: 10 }}>
 			<p>Breakpoint reached. Click to continue.</p>
 			<button onClick={onContinue}>Continue</button>
 		</div>
