@@ -37,10 +37,8 @@ function VanguardTutorial({ onDone }) {
 
 	const [currentStep, setCurrentStep] = useState(0);
 	const [doneClicked, setDoneClicked] = useState(false);
-
 	// Loader fill from 0% to 100%
 	const [progress, setProgress] = useState(0);
-
 	// Controls if the “Done” button is blinking
 	const [isBlinking, setIsBlinking] = useState(true);
 
@@ -48,10 +46,18 @@ function VanguardTutorial({ onDone }) {
 	const parentRef = useRef(null);
 	const descriptionRef = useRef(null);
 	const navButtonsRef = useRef(null);
-
 	// For “hold-to-complete” logic
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
+
+	// Fade in the entire tutorial container on mount (handled solely here)
+	useEffect(() => {
+		gsap.fromTo(
+			parentRef.current,
+			{ opacity: 0 },
+			{ opacity: 1, duration: 0.8, ease: "power2.out" }
+		);
+	}, []);
 
 	// Animate step description in
 	useEffect(() => {

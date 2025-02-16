@@ -68,13 +68,11 @@ function Room() {
 			);
 		}
 	}, [showVanguardUI]);
-
-	// Updated fade-in for VanguardTutorial for a smoother effect
 	useEffect(() => {
 		if (showTutorial && tutorialContainerRef.current) {
 			gsap.fromTo(
 				tutorialContainerRef.current,
-				{ autoAlpha: 0.1 },
+				{ autoAlpha: 0 },
 				{
 					duration: 1,
 					autoAlpha: 1,
@@ -83,6 +81,8 @@ function Room() {
 			);
 		}
 	}, [showTutorial]);
+
+	// Updated fade-in for VanguardTutorial for a smoother effect
 
 	// Called automatically for each breakpoint by <Scene />
 	const handleBreakpointHit = (index) => {
@@ -169,20 +169,16 @@ function Room() {
 					Continue
 				</button>
 
-				{/* Tutorial fades in when shown */}
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
 						style={{
 							opacity: 0,
-							position: "absolute",
-							top: 0,
+							position: "relative",
+							top: 400,
 							left: 0,
-							width: "100%",
-							height: "100%",
-							zIndex: 101,
-							willChange: "opacity, transform",
-							transform: "translateZ(0)",
+							opacity: 0,
+							zIndex: 999,
 						}}
 					>
 						<VanguardTutorial onDone={handleTutorialDone} />

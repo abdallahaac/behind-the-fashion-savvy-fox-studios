@@ -4,17 +4,16 @@ import "../assets/styles/create-brand.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import FontStyleSelection from "../utils/FontSelection";
-// Import the updated FontStyleSelection component
 
 function CreateBrand({ onStart }) {
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
-	// State for managing the selected font style
 	const [fontStyle, setFontStyle] = useState("");
-	// State for managing the brand name (with 12-character limit)
 	const [brandName, setBrandName] = useState("");
 
+	// New ref for the outer container fade-in effect
+	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
 	const buttonContainerRef = useRef(null);
@@ -22,6 +21,15 @@ function CreateBrand({ onStart }) {
 	const loremContainerRef = useRef(null);
 
 	const HOLD_DURATION = 500;
+
+	// Fade in the entire CreateBrand component on mount
+	useEffect(() => {
+		gsap.fromTo(
+			containerRef.current,
+			{ opacity: 0 },
+			{ opacity: 1, duration: 1, ease: "power2.out" }
+		);
+	}, []);
 
 	const startHold = (e) => {
 		e.preventDefault();
@@ -71,7 +79,7 @@ function CreateBrand({ onStart }) {
 		});
 	};
 
-	// Fade in the new container when expanded
+	// Fade in the lorem container when expanded
 	useEffect(() => {
 		if (isExpanded && loremContainerRef.current) {
 			gsap.to(loremContainerRef.current, {
@@ -83,7 +91,7 @@ function CreateBrand({ onStart }) {
 	}, [isExpanded]);
 
 	return (
-		<div className="start-button-container">
+		<div className="start-button-container" ref={containerRef}>
 			<div
 				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
 			>
@@ -132,7 +140,6 @@ function CreateBrand({ onStart }) {
 							style={{ opacity: 0 }}
 						>
 							<div>BRAND NAME</div>
-							{/* Input wrapped to show character counter */}
 							<div style={{ position: "relative", width: "92%" }}>
 								<input
 									type="text"
@@ -168,13 +175,10 @@ function CreateBrand({ onStart }) {
 									{brandName.length} / 12
 								</div>
 							</div>
-							<div className="font-style">FONT STYLE</div>
-							{/* Font selection component */}
 							<FontStyleSelection
 								selectedOption={fontStyle}
 								setSelectedOption={setFontStyle}
 							/>
-							<div className="font-style">Logo</div>
 						</div>
 					)}
 				</div>

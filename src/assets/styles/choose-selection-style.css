@@ -33,6 +33,7 @@ html {
 
 	/* Add your background image here */
 	background: url("./assets/images/canvas-home.svg") center center no-repeat;
+
 	background-size: cover; /* or 'contain', depending on your preference */
 }
 
