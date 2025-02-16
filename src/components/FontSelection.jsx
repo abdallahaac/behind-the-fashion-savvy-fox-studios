@@ -3,12 +3,12 @@ import React from "react";
 
 const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 	const fontOptions = [
-		"Future",
-		"Minimalist",
-		"Retro",
-		"Elegant",
-		"Bohemian",
-		"Playful",
+		"FUTURE",
+		"MINIMALIST",
+		"RETRO",
+		"ELEGANT",
+		"BOHEMIAN",
+		"PLAYFUL",
 	];
 
 	const handleOptionClick = (option) => {
@@ -28,6 +28,7 @@ const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 				flexDirection: "column",
 				gap: "8px",
 				margin: "16px",
+				textTransform: "uppercase",
 			}}
 		>
 			{/* Font Style Header */}
@@ -37,7 +38,6 @@ const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 					fontSize: "12px",
 					fontWeight: "bold",
 					color: "#FFFFFF",
-					textTransform: "uppercase",
 				}}
 			>
 				Font Style

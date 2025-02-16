@@ -41,7 +41,7 @@
 	align-items: center;
 	justify-content: center;
 	margin: 0;
-	padding: 0;
+	padding: 10px;
 }
 
 /* The step bars */
@@ -66,6 +66,7 @@
 .brand-create {
 	color: white;
 	font-size: 1.7rem;
+	padding: 10px;
 }
 
 /* Button container */
@@ -139,13 +140,19 @@
 
 .create-parent {
 	width: 100%;
-	padding: 20px;
+	padding: 10px 0px;
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
 }
 .body-create {
 	padding: 20px;
 }
 
-.lorem-container {
+.new-container {
 	color: white;
-	z-index: 1000;
+}
+
+.font-style {
+	margin: 15px 0px;
+	text-transform: uppercase;
 }

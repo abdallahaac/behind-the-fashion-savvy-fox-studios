@@ -69,16 +69,16 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
-	// Animate VanguardTutorial when it is shown (same as Vanguard UI)
+	// Updated fade-in for VanguardTutorial for a smoother effect
 	useEffect(() => {
 		if (showTutorial && tutorialContainerRef.current) {
 			gsap.fromTo(
 				tutorialContainerRef.current,
-				{ opacity: 0 },
+				{ autoAlpha: 0.1 },
 				{
-					duration: 3,
-					opacity: 1,
-					ease: "power2.out",
+					duration: 1,
+					autoAlpha: 1,
+					ease: "power3.out",
 				}
 			);
 		}
@@ -169,7 +169,7 @@ function Room() {
 					Continue
 				</button>
 
-				{/* Tutorial fades in when shown (same pattern as Vanguard UI) */}
+				{/* Tutorial fades in when shown */}
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
