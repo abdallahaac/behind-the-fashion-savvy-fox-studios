@@ -4,6 +4,27 @@ import "../assets/styles/create-brand.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import FontStyleSelection from "../utils/FontSelection";
+import LogoOne from "../assets/images/logo-one-preview.svg";
+
+// Helper function to return a dynamic description based on the font selection.
+function getBrandDesc(font) {
+	switch (font) {
+		case "MINIMALIST":
+			return "A Minimalist brand";
+		case "FUTURE":
+			return "A Futuristic brand";
+		case "RETRO":
+			return "A Retro brand";
+		case "ELEGANT":
+			return "An Elegant brand";
+		case "BOHEMIAN":
+			return "A Bohemian brand";
+		case "PLAYFUL":
+			return "A Playful brand";
+		default:
+			return "Your brand awaits";
+	}
+}
 
 function CreateBrand({ onStart }) {
 	const [progress, setProgress] = useState(0);
@@ -11,8 +32,8 @@ function CreateBrand({ onStart }) {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [fontStyle, setFontStyle] = useState("");
 	const [brandName, setBrandName] = useState("");
+	const [selectedLogo, setSelectedLogo] = useState(null); // For logo selection
 
-	// New ref for the outer container fade-in effect
 	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
@@ -22,7 +43,7 @@ function CreateBrand({ onStart }) {
 
 	const HOLD_DURATION = 500;
 
-	// Fade in the entire CreateBrand component on mount
+	// Fade in the entire CreateBrand component on mount.
 	useEffect(() => {
 		gsap.fromTo(
 			containerRef.current,
@@ -58,7 +79,7 @@ function CreateBrand({ onStart }) {
 		}
 	};
 
-	// Called once the hold duration is complete
+	// Called once the hold duration is complete.
 	const handleDone = () => {
 		console.log("Hold-to-complete done. Expanding the container!");
 		gsap.to(createParentRef.current, {
@@ -79,7 +100,7 @@ function CreateBrand({ onStart }) {
 		});
 	};
 
-	// Fade in the lorem container when expanded
+	// Fade in the expanded container.
 	useEffect(() => {
 		if (isExpanded && loremContainerRef.current) {
 			gsap.to(loremContainerRef.current, {
@@ -89,6 +110,16 @@ function CreateBrand({ onStart }) {
 			});
 		}
 	}, [isExpanded]);
+
+	// Define logo options.
+	const logoOptions = [
+		{ id: "logo1", src: LogoOne },
+		// You can add more logo options here.
+	];
+
+	// The form is considered "ready" only if all three inputs are provided.
+	const isReady =
+		brandName.trim() !== "" && fontStyle !== "" && selectedLogo !== null;
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -140,6 +171,7 @@ function CreateBrand({ onStart }) {
 							style={{ opacity: 0 }}
 						>
 							<div>BRAND NAME</div>
+							{/* Input for brand title */}
 							<div style={{ position: "relative", width: "92%" }}>
 								<input
 									type="text"
@@ -175,10 +207,62 @@ function CreateBrand({ onStart }) {
 									{brandName.length} / 12
 								</div>
 							</div>
+							<div className="font-style">Font Style</div>
 							<FontStyleSelection
 								selectedOption={fontStyle}
 								setSelectedOption={setFontStyle}
 							/>
+							<div className="logo-style">Logo</div>
+							<div className="logo-container">
+								{logoOptions.map((logo) => (
+									<div
+										key={logo.id}
+										className={`logo ${
+											selectedLogo === logo.id ? "clicked" : ""
+										}`}
+										onClick={() => setSelectedLogo(logo.id)}
+									>
+										<img src={logo.src} alt={`Logo ${logo.id}`} />
+									</div>
+								))}
+							</div>
+							<br />
+							<br />
+							<br />
+							{/* Only add ready classes if the form is ready */}
+							<div
+								className={`create-submit-container ${
+									isReady ? "ready-container" : ""
+								}`}
+							>
+								<div className="create-submit">
+									<div
+										className={`create-description ${
+											isReady ? "ready-text" : ""
+										}`}
+									>
+										<span
+											className={`brand-title ${isReady ? "brand-ready" : ""}`}
+										>
+											{brandName || "brand title"}
+										</span>
+										<span
+											className={`brand-desc ${
+												isReady ? "brand-desc-ready" : ""
+											}`}
+										>
+											{getBrandDesc(fontStyle)}
+										</span>
+									</div>
+									<div className={`create-btn ${isReady ? "ready-btn" : ""}`}>
+										Create
+										<FontAwesomeIcon
+											icon={faArrowRight}
+											className="icon-right"
+										/>
+									</div>
+								</div>
+							</div>
 						</div>
 					)}
 				</div>
