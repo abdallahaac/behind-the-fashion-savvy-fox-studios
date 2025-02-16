@@ -118,7 +118,7 @@ function CreateBrand({ onStart }) {
 		}
 	}, [isExpanded]);
 
-	// Once expanded, fade in inner elements in sequence.
+	// Once expanded, fade in inner elements in sequence using a timeline.
 	useEffect(() => {
 		if (isExpanded) {
 			const tl = gsap.timeline({
@@ -132,10 +132,12 @@ function CreateBrand({ onStart }) {
 		}
 	}, [isExpanded]);
 
-	// Define logo options.
+	// Define logo options (multiple options using the same source for demonstration).
 	const logoOptions = [
 		{ id: "logo1", src: LogoOne },
-		// You can add more logo options here.
+		{ id: "logo2", src: LogoOne },
+		{ id: "logo3", src: LogoOne },
+		{ id: "logo4", src: LogoOne },
 	];
 
 	// The form is considered "ready" only if all three inputs are provided.
