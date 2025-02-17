@@ -96,7 +96,6 @@ function Room() {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
-
 		// Show Vanguard on the first breakpoint
 		if (index === 0) {
 			setShowVanguardUI(true);
@@ -147,7 +146,6 @@ function Room() {
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 			</div>
-
 			<div
 				className="canvas-container"
 				style={{ position: "relative" }}
@@ -175,7 +173,6 @@ function Room() {
 				>
 					Continue
 				</button>
-
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
@@ -190,7 +187,6 @@ function Room() {
 						<VanguardTutorial onDone={handleTutorialDone} />
 					</div>
 				)}
-
 				{showVanguardUI && (
 					<div
 						ref={vanguardContainerRef}
@@ -207,7 +203,6 @@ function Room() {
 						/>
 					</div>
 				)}
-
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
@@ -216,7 +211,6 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 					selectedLogo={selectedLogo} // Pass the selected logo to Scene
 				/>
-
 				{/* Render CreateBrand only once in the entire flow */}
 				{showCreateBrand && (
 					<div
@@ -233,7 +227,6 @@ function Room() {
 						}}
 					>
 						<CreateBrand
-							// When the start button is clicked, fade out the Vanguard UI to the left then continue.
 							onStart={() => {
 								if (vanguardContainerRef.current) {
 									gsap.to(vanguardContainerRef.current, {
