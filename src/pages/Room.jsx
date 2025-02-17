@@ -7,7 +7,7 @@ import VanguardTutorial from "../components/VanguardTutorial";
 import CreateBrand from "../components/CreateBrand";
 
 function Room() {
-	// States
+	// States for other UI components.
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
 		true,
 		false,
@@ -22,11 +22,19 @@ function Room() {
 	const breakpoints = [44, 183, 339, 550];
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 
+	// New state for selected logo (lifted from CreateBrand)
+	const [selectedLogo, setSelectedLogo] = useState(null);
+
 	// Refs for GSAP animations
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
 	const tutorialContainerRef = useRef(null);
+
+	// Log changes to selectedLogo
+	useEffect(() => {
+		console.log("Room: selectedLogo updated:", selectedLogo);
+	}, [selectedLogo]);
 
 	// ---------------------------
 	// GSAP Effects (initial fade-ins)
@@ -68,6 +76,7 @@ function Room() {
 			);
 		}
 	}, [showVanguardUI]);
+
 	useEffect(() => {
 		if (showTutorial && tutorialContainerRef.current) {
 			gsap.fromTo(
@@ -81,8 +90,6 @@ function Room() {
 			);
 		}
 	}, [showTutorial]);
-
-	// Updated fade-in for VanguardTutorial for a smoother effect
 
 	// Called automatically for each breakpoint by <Scene />
 	const handleBreakpointHit = (index) => {
@@ -177,7 +184,6 @@ function Room() {
 							position: "relative",
 							top: 400,
 							left: 0,
-							opacity: 0,
 							zIndex: 999,
 						}}
 					>
@@ -208,6 +214,7 @@ function Room() {
 					breakpoints={breakpoints}
 					currentBreakpointIndex={currentBreakpointIndex}
 					onBreakpointHit={handleBreakpointHit}
+					selectedLogo={selectedLogo} // Pass the selected logo to Scene
 				/>
 
 				{/* Render CreateBrand only once in the entire flow */}
@@ -242,6 +249,10 @@ function Room() {
 									handleContinue();
 								}
 							}}
+							onLogoSelect={(logoId) => {
+								console.log("Room: onLogoSelect called with", logoId);
+								setSelectedLogo(logoId);
+							}} // Pass callback to update logo selection
 						/>
 					</div>
 				)}

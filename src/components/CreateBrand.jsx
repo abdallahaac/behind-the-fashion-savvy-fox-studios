@@ -26,7 +26,7 @@ function getBrandDesc(font) {
 	}
 }
 
-function CreateBrand({ onStart }) {
+function CreateBrand({ onStart, onLogoSelect }) {
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -88,7 +88,7 @@ function CreateBrand({ onStart }) {
 
 	// Called once the hold duration is complete.
 	const handleDone = () => {
-		console.log("Hold-to-complete done. Expanding the container!");
+		console.log("CreateBrand: Hold-to-complete done. Expanding the container!");
 		gsap.to(createParentRef.current, {
 			duration: 1,
 			backgroundColor: "black",
@@ -136,9 +136,18 @@ function CreateBrand({ onStart }) {
 	const logoOptions = [
 		{ id: "logo1", src: LogoOne },
 		{ id: "logo2", src: LogoOne },
-		{ id: "logo3", src: LogoOne },
-		{ id: "logo4", src: LogoOne },
 	];
+
+	// Handle logo click: update local state and inform parent
+	const handleLogoClick = (logoId) => {
+		console.log("CreateBrand: Logo clicked:", logoId);
+		setSelectedLogo(logoId);
+		if (onLogoSelect) {
+			onLogoSelect(logoId);
+		} else {
+			console.error("CreateBrand: onLogoSelect prop is not provided!");
+		}
+	};
 
 	// The form is considered "ready" only if all three inputs are provided.
 	const isReady =
@@ -251,7 +260,7 @@ function CreateBrand({ onStart }) {
 										className={`logo ${
 											selectedLogo === logo.id ? "clicked" : ""
 										}`}
-										onClick={() => setSelectedLogo(logo.id)}
+										onClick={() => handleLogoClick(logo.id)}
 									>
 										<img src={logo.src} alt={`Logo ${logo.id}`} />
 									</div>
