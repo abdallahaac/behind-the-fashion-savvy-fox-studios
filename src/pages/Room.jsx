@@ -17,21 +17,25 @@ function Room() {
 	const [showTutorial, setShowTutorial] = useState(false);
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
+
+	// Whether to show CreateBrand and/or Vanguard on the screen.
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
-	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
-	const breakpoints = [44, 183, 339, 550];
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 
-	// New state for selected logo (lifted from CreateBrand)
+	// Keep track of breakpoints (indices) as the animation plays.
+	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
+	const breakpoints = [44, 183, 339, 550];
+
+	// New state for selected logo (lifted from CreateBrand).
 	const [selectedLogo, setSelectedLogo] = useState(null);
 
-	// Refs for GSAP animations
+	// Refs for GSAP animations.
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
 	const tutorialContainerRef = useRef(null);
 
-	// Log changes to selectedLogo
+	// Log changes to selectedLogo.
 	useEffect(() => {
 		console.log("Room: selectedLogo updated:", selectedLogo);
 	}, [selectedLogo]);
@@ -62,21 +66,21 @@ function Room() {
 		);
 	}, []);
 
-	// Animate Vanguard UI when it is rendered
+	// Animate Vanguard UI each time it's set to true
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
-			gsap.fromTo(
-				vanguardContainerRef.current,
-				{ opacity: 0 },
-				{
-					duration: 1,
-					opacity: 1,
-					ease: "power3.out",
-				}
-			);
+			// Set its position off-screen so we can animate in from the left.
+			gsap.set(vanguardContainerRef.current, { x: -100, opacity: 0 });
+			gsap.to(vanguardContainerRef.current, {
+				duration: 1,
+				x: 0,
+				opacity: 1,
+				ease: "power3.out",
+			});
 		}
 	}, [showVanguardUI]);
 
+	// Animate Vanguard tutorial if it becomes visible
 	useEffect(() => {
 		if (showTutorial && tutorialContainerRef.current) {
 			gsap.fromTo(
@@ -96,11 +100,15 @@ function Room() {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
-		// Show Vanguard on the first breakpoint
+
+		// Show Vanguard at the first and third breakpoints:
 		if (index === 0) {
 			setShowVanguardUI(true);
+		} else if (index === 3) {
+			setShowVanguardUI(true);
 		}
-		// Show CreateBrand on the second breakpoint
+
+		// Show CreateBrand at the second breakpoint:
 		if (index === 1) {
 			setShowCreateBrand(true);
 		}
@@ -118,7 +126,7 @@ function Room() {
 		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
 
-	// For Vanguard tutorial usage
+	// Vanguard tutorial controls
 	const openTutorial = () => {
 		setShowTutorial(true);
 	};
@@ -146,6 +154,7 @@ function Room() {
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 			</div>
+
 			<div
 				className="canvas-container"
 				style={{ position: "relative" }}
@@ -173,6 +182,7 @@ function Room() {
 				>
 					Continue
 				</button>
+
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
@@ -180,7 +190,6 @@ function Room() {
 							opacity: 0,
 							position: "relative",
 							top: "50%",
-
 							left: 0,
 							zIndex: 999,
 						}}
@@ -188,11 +197,12 @@ function Room() {
 						<VanguardTutorial onDone={handleTutorialDone} />
 					</div>
 				)}
+
 				{showVanguardUI && (
 					<div
 						ref={vanguardContainerRef}
 						style={{
-							opacity: 0,
+							// We'll position & animate this container from the left
 							position: "relative",
 							zIndex: 999,
 							top: "50%",
@@ -204,6 +214,7 @@ function Room() {
 						/>
 					</div>
 				)}
+
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
@@ -212,7 +223,8 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 					selectedLogo={selectedLogo} // Pass the selected logo to Scene
 				/>
-				{/* Render CreateBrand only once in the entire flow */}
+
+				{/* Show CreateBrand at the second breakpoint. */}
 				{showCreateBrand && (
 					<div
 						style={{
@@ -228,14 +240,21 @@ function Room() {
 						}}
 					>
 						<CreateBrand
+							// 1) When the hold-to-start is complete:
+							//    Fade out the current Vanguard UI by sliding left, then
+							//    continue to the *next* breakpoint.
 							onStart={() => {
+								console.log(
+									"CreateBrand: onStart -> fade out Vanguard, then continue"
+								);
 								if (vanguardContainerRef.current) {
 									gsap.to(vanguardContainerRef.current, {
 										duration: 1,
+										x: -200, // move left
 										opacity: 0,
-										x: "-100%", // Move to the left
 										ease: "power3.inOut",
 										onComplete: () => {
+											setShowVanguardUI(false); // remove from DOM
 											handleContinue();
 										},
 									});
@@ -243,10 +262,17 @@ function Room() {
 									handleContinue();
 								}
 							}}
+							// Store the user-selected logo
 							onLogoSelect={(logoId) => {
 								console.log("Room: onLogoSelect called with", logoId);
 								setSelectedLogo(logoId);
-							}} // Pass callback to update logo selection
+							}}
+							// 2) When the "Create" button is clicked:
+							//    Fade out CreateBrand, advance to next breakpoint (where Vanguard reappears).
+							onCreate={() => {
+								setShowCreateBrand(false); // remove CreateBrand
+								handleContinue(); // advance to the next breakpoint
+							}}
 						/>
 					</div>
 				)}

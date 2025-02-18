@@ -26,7 +26,7 @@ function getBrandDesc(font) {
 	}
 }
 
-function CreateBrand({ onStart, onLogoSelect }) {
+function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -34,6 +34,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 	const [brandName, setBrandName] = useState("");
 	const [selectedLogo, setSelectedLogo] = useState(null); // For logo selection
 
+	// Refs
 	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
@@ -41,7 +42,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
 
-	// New refs for staggered animations inside the expanded container.
+	// For staggered animations
 	const fontStyleHeaderRef = useRef(null);
 	const fontSelectionContainerRef = useRef(null);
 	const logoStyleHeaderRef = useRef(null);
@@ -88,7 +89,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 
 	// Called once the hold duration is complete.
 	const handleDone = () => {
-		console.log("CreateBrand: Hold-to-complete done. Expanding the container!");
+		console.log("CreateBrand: hold-to-complete -> expanding container!");
 		gsap.to(createParentRef.current, {
 			duration: 1,
 			backgroundColor: "black",
@@ -100,6 +101,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 			opacity: 0,
 			onComplete: () => {
 				setIsExpanded(true);
+				// Trigger parent callback to fade out Vanguard & move to next breakpoint
 				if (onStart) {
 					onStart();
 				}
@@ -132,26 +134,36 @@ function CreateBrand({ onStart, onLogoSelect }) {
 		}
 	}, [isExpanded]);
 
-	// Define logo options (multiple options using the same source for demonstration).
+	// Define logo options (demo: same image for both)
 	const logoOptions = [
 		{ id: "logo1", src: LogoOne },
 		{ id: "logo2", src: LogoOne },
 	];
 
-	// Handle logo click: update local state and inform parent
+	// Logo click logic
 	const handleLogoClick = (logoId) => {
-		console.log("CreateBrand: Logo clicked:", logoId);
 		setSelectedLogo(logoId);
-		if (onLogoSelect) {
-			onLogoSelect(logoId);
-		} else {
-			console.error("CreateBrand: onLogoSelect prop is not provided!");
-		}
+		onLogoSelect?.(logoId);
 	};
 
-	// The form is considered "ready" only if all three inputs are provided.
+	// The form is considered ready only if all three inputs are provided
 	const isReady =
 		brandName.trim() !== "" && fontStyle !== "" && selectedLogo !== null;
+
+	// Handler for the "Create" button
+	const handleCreateClick = () => {
+		if (!isReady) return;
+
+		// Fade out the entire CreateBrand container
+		gsap.to(containerRef.current, {
+			duration: 1,
+			opacity: 0,
+			ease: "power2.out",
+			onComplete: () => {
+				onCreate?.();
+			},
+		});
+	};
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -161,7 +173,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
 						<div className="steps">
-							Step 1 <span>&nbsp;/ 4</span>
+							Step 1 <span>/ 4</span>
 						</div>
 						<div className="step-parent-container">
 							<div className="step-containers"></div>
@@ -174,6 +186,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 				</div>
 
 				<div className="body-create">
+					{/* Before expansion: show hold-to-start */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
@@ -197,6 +210,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 							</div>
 						</div>
 					) : (
+						// After expansion: show brand creation options
 						<div
 							className="new-container"
 							ref={loremContainerRef}
@@ -204,7 +218,6 @@ function CreateBrand({ onStart, onLogoSelect }) {
 						>
 							<div className="section-one">
 								<div>BRAND NAME</div>
-								{/* Input for brand title */}
 								<div style={{ position: "relative", width: "92%" }}>
 									<input
 										type="text"
@@ -240,7 +253,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 										{brandName.length} / 12
 									</div>
 								</div>
-								{/* Fading in the font style header */}
+
 								<div className="font-style" ref={fontStyleHeaderRef}>
 									Font Style
 								</div>
@@ -250,7 +263,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 										setSelectedOption={setFontStyle}
 									/>
 								</div>
-								{/* Fading in the logo header */}
+
 								<div className="logo-style" ref={logoStyleHeaderRef}>
 									Logo
 								</div>
@@ -269,7 +282,7 @@ function CreateBrand({ onStart, onLogoSelect }) {
 								</div>
 							</div>
 
-							{/* Fading in the submit container */}
+							{/* The bottom 'Create' button */}
 							<div
 								className={`create-submit-container ${
 									isReady ? "ready-container" : ""
@@ -295,7 +308,10 @@ function CreateBrand({ onStart, onLogoSelect }) {
 											{getBrandDesc(fontStyle)}
 										</span>
 									</div>
-									<div className={`create-btn ${isReady ? "ready-btn" : ""}`}>
+									<div
+										className={`create-btn ${isReady ? "ready-btn" : ""}`}
+										onClick={handleCreateClick}
+									>
 										Create
 										<FontAwesomeIcon
 											icon={faArrowRight}
