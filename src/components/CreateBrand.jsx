@@ -34,6 +34,14 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 	const [brandName, setBrandName] = useState("");
 	const [selectedLogo, setSelectedLogo] = useState(null); // For logo selection
 
+	// State for the create-button hold
+	const [createProgress, setCreateProgress] = useState(0);
+	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
+
+	// Refs to store create-button hold start time & interval
+	const createHoldStartRef = useRef(null);
+	const createIntervalRef = useRef(null);
+
 	// Refs
 	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
@@ -133,6 +141,56 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 				.from(createSubmitContainerRef.current, { delay: 0.2 });
 		}
 	}, [isExpanded]);
+
+	const startCreateHold = (e) => {
+		if (!isReady) return; // Guard: only start hold if form is ready
+		e.preventDefault();
+		setIsCreateBlinking(false);
+		setCreateProgress(0);
+
+		// Record the time when hold starts
+		createHoldStartRef.current = Date.now();
+
+		// Repeatedly update progress bar
+		createIntervalRef.current = setInterval(() => {
+			const elapsed = Date.now() - createHoldStartRef.current;
+			const newProgress = (elapsed / HOLD_DURATION) * 100;
+			if (newProgress >= 100) {
+				setCreateProgress(100);
+				handleCreateDone(); // completed hold
+				clearInterval(createIntervalRef.current);
+			} else {
+				setCreateProgress(newProgress);
+			}
+		}, 30);
+	};
+
+	const endCreateHold = (e) => {
+		if (!isReady) return;
+		e.preventDefault();
+		clearInterval(createIntervalRef.current);
+
+		// If user released too soon (before hitting 100%)
+		if (createProgress < 100) {
+			setCreateProgress(0);
+			setIsCreateBlinking(true); // reset blinking
+		}
+	};
+
+	/**
+	 * Called once the Create button hold duration is complete.
+	 * Here you can replicate your existing handleCreateClick logic.
+	 */
+	const handleCreateDone = () => {
+		gsap.to(containerRef.current, {
+			duration: 1,
+			opacity: 0,
+			ease: "power2.out",
+			onComplete: () => {
+				onCreate?.();
+			},
+		});
+	};
 
 	// Define logo options (demo: same image for both)
 	const logoOptions = [
@@ -309,14 +367,26 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 										</span>
 									</div>
 									<div
-										className={`create-btn ${isReady ? "ready-btn" : ""}`}
-										onClick={handleCreateClick}
+										className={`create-btn 
+              ${isReady ? "ready-btn" : "h"} 
+              }`}
+										onMouseDown={startCreateHold}
+										onMouseUp={endCreateHold}
+										onTouchStart={startCreateHold}
+										onTouchEnd={endCreateHold}
 									>
-										Create
-										<FontAwesomeIcon
-											icon={faArrowRight}
-											className="icon-right"
+										{/* The new progress overlay for create-button */}
+										<div
+											className="hold-progress-create"
+											style={{ width: `${createProgress}%` }}
 										/>
+										<div style={{ position: "relative", zIndex: 2 }}>
+											Create
+											<FontAwesomeIcon
+												icon={faArrowRight}
+												className="icon-right"
+											/>
+										</div>
 									</div>
 								</div>
 							</div>

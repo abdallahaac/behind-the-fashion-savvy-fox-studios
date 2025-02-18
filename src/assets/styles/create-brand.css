@@ -234,8 +234,8 @@
 }
 
 .ready-btn {
-	background-color: #e74c3c;
-	color: white;
+	background-color: #e74c3c !important;
+	color: white !important;
 }
 
 .brand-title {
@@ -262,3 +262,67 @@
 	display: flex;
 	flex-direction: column;
 }
+/* ========================= */
+/* For the "Create" button   */
+/* ========================= */
+.button-create {
+	position: relative; /* So the overlay doesn't spill out */
+	overflow: hidden; /* Hide the fill bar */
+}
+
+/* The hold-to-complete fill bar on the Create button */
+.hold-progress-create {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0%;
+	background-color: #a53505; /* or any color you prefer */
+	z-index: 0;
+	transition: width 0.1s linear;
+}
+
+/* Optional blinking effect until user holds Create (only if form is ready) */
+.blink-create {
+	animation: blinkCreateButton 1s infinite ease-in-out;
+}
+@keyframes blinkCreateButton {
+	0% {
+		background-color: #e74c3c;
+	}
+	50% {
+		background-color: #ff5e4e;
+	}
+	100% {
+		background-color: #e74c3c;
+	}
+}
+.create-btn {
+	position: relative; /* Establishes a containing block for absolute children */
+	overflow: hidden; /* Prevents the progress bar from spilling outside */
+	display: flex;
+	padding: 20px 30px;
+	background-color: #505050;
+	color: #9b9b9b;
+	border-radius: 30px;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+}
+.create-btn {
+	position: relative; /* Establishes a containing block for absolute children */
+	overflow: hidden; /* Prevents the progress bar from spilling outside */
+	display: flex;
+	padding: 20px 30px;
+	background-color: #505050;
+	color: #9b9b9b;
+	border-radius: 30px;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+}
+.button-create {
+	position: relative; /* Makes this element the positioning context */
+	overflow: hidden; /* Confines the absolute children */
+}
+
+/* If you want the Create button to look a bit different from Start, 
+	 you can override "ready-btn" or add more styling here. */
