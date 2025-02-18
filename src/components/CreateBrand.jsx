@@ -202,73 +202,73 @@ function CreateBrand({ onStart, onLogoSelect }) {
 							ref={loremContainerRef}
 							style={{ opacity: 0 }}
 						>
-							<div>BRAND NAME</div>
-							{/* Input for brand title */}
-							<div style={{ position: "relative", width: "92%" }}>
-								<input
-									type="text"
-									placeholder="Brand Name..."
-									maxLength="12"
-									value={brandName}
-									onChange={(e) => setBrandName(e.target.value)}
-									style={{
-										color: "white",
-										width: "100%",
-										padding: "16px",
-										border: "1.1px solid rgba(240, 240, 240, 0.51)",
-										borderRadius: "16px",
-										boxSizing: "border-box",
-										outline: "none",
-										fontSize: "14px",
-										background: "#222222",
-										letterSpacing: "1px",
-										margin: "20px 0px",
-									}}
-								/>
-								<div
-									style={{
-										position: "absolute",
-										right: "10px",
-										top: "50%",
-										transform: "translateY(-50%)",
-										color: "#CCC",
-										fontSize: "12px",
-										fontFamily: "'DM Sans', sans-serif",
-									}}
-								>
-									{brandName.length} / 12
+							<div className="section-one">
+								<div>BRAND NAME</div>
+								{/* Input for brand title */}
+								<div style={{ position: "relative", width: "92%" }}>
+									<input
+										type="text"
+										placeholder="Brand Name..."
+										maxLength="12"
+										value={brandName}
+										onChange={(e) => setBrandName(e.target.value)}
+										style={{
+											color: "white",
+											width: "100%",
+											padding: "16px",
+											border: "1.1px solid rgba(240, 240, 240, 0.51)",
+											borderRadius: "16px",
+											boxSizing: "border-box",
+											outline: "none",
+											fontSize: "14px",
+											background: "#222222",
+											letterSpacing: "1px",
+											margin: "20px 0px",
+										}}
+									/>
+									<div
+										style={{
+											position: "absolute",
+											right: "10px",
+											top: "50%",
+											transform: "translateY(-50%)",
+											color: "#CCC",
+											fontSize: "12px",
+											fontFamily: "'DM Sans', sans-serif",
+										}}
+									>
+										{brandName.length} / 12
+									</div>
+								</div>
+								{/* Fading in the font style header */}
+								<div className="font-style" ref={fontStyleHeaderRef}>
+									Font Style
+								</div>
+								<div ref={fontSelectionContainerRef}>
+									<FontStyleSelection
+										selectedOption={fontStyle}
+										setSelectedOption={setFontStyle}
+									/>
+								</div>
+								{/* Fading in the logo header */}
+								<div className="logo-style" ref={logoStyleHeaderRef}>
+									Logo
+								</div>
+								<div className="logo-container" ref={logoContainerRef}>
+									{logoOptions.map((logo) => (
+										<div
+											key={logo.id}
+											className={`logo ${
+												selectedLogo === logo.id ? "clicked" : ""
+											}`}
+											onClick={() => handleLogoClick(logo.id)}
+										>
+											<img src={logo.src} alt={`Logo ${logo.id}`} />
+										</div>
+									))}
 								</div>
 							</div>
-							{/* Fading in the font style header */}
-							<div className="font-style" ref={fontStyleHeaderRef}>
-								Font Style
-							</div>
-							<div ref={fontSelectionContainerRef}>
-								<FontStyleSelection
-									selectedOption={fontStyle}
-									setSelectedOption={setFontStyle}
-								/>
-							</div>
-							{/* Fading in the logo header */}
-							<div className="logo-style" ref={logoStyleHeaderRef}>
-								Logo
-							</div>
-							<div className="logo-container" ref={logoContainerRef}>
-								{logoOptions.map((logo) => (
-									<div
-										key={logo.id}
-										className={`logo ${
-											selectedLogo === logo.id ? "clicked" : ""
-										}`}
-										onClick={() => handleLogoClick(logo.id)}
-									>
-										<img src={logo.src} alt={`Logo ${logo.id}`} />
-									</div>
-								))}
-							</div>
-							<br />
-							<br />
-							<br />
+
 							{/* Fading in the submit container */}
 							<div
 								className={`create-submit-container ${

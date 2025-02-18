@@ -179,7 +179,8 @@ function Room() {
 						style={{
 							opacity: 0,
 							position: "relative",
-							top: 400,
+							top: "50%",
+
 							left: 0,
 							zIndex: 999,
 						}}
@@ -194,7 +195,7 @@ function Room() {
 							opacity: 0,
 							position: "relative",
 							zIndex: 999,
-							top: "440px",
+							top: "50%",
 						}}
 					>
 						<Vanguard

@@ -19,9 +19,10 @@
 	transition: height 2s ease; /* Smoothly animates height changes */
 }
 
-/* Expands up to 650px upon hold completion */
+/* Expands up to 81vh upon hold completion */
 .expanded-container {
-	height: 750px;
+	height: 71vh;
+	display: flex;
 }
 
 /* Steps row */
@@ -74,7 +75,7 @@
 	display: flex;
 	border: 1px solid #ffc4b1;
 	background-color: #ffeeeb;
-	padding: 20px 20px;
+	padding: 20px;
 	border-radius: 20px;
 	margin: 10px 0;
 	justify-content: space-between;
@@ -140,21 +141,28 @@
 
 .create-parent {
 	width: 100%;
-	padding: 10px 0px;
+	padding: 10px 0;
 	border-top-right-radius: 20px;
 	border-top-left-radius: 20px;
 }
+
 .body-create {
 	padding: 20px;
+	height: 100%;
 }
 
 .new-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	padding-bottom: 20px; /* Adjust spacing at the bottom as needed */
 	color: white;
 }
 
 .font-style,
 .logo-style {
-	margin: 15px 0px;
+	margin: 10px 0;
 	text-transform: uppercase;
 }
 
@@ -175,6 +183,13 @@
 	transition: all 300ms ease-in-out;
 }
 
+.logo.clicked {
+	background-color: #c83c00;
+	border: 0.5px solid white;
+	transition: all 300ms ease-in-out;
+}
+
+/* Submit container positioned at the bottom */
 .create-submit-container {
 	display: flex;
 	flex-direction: row;
@@ -183,37 +198,11 @@
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 20px;
+	margin-top: auto; /* This pushes the container to the bottom */
 }
 .create-submit-container.ready-container {
 	border: 1px solid #ffc4b1;
 	background-color: #ffeeeb;
-	transition: all 300ms ease-in-out;
-}
-
-.brand-title {
-	font-size: 26px;
-	color: #9b9b9b;
-}
-
-.brand-ready {
-	color: black;
-}
-.ready-text {
-	color: black;
-}
-
-.brand-desc {
-	font-size: 14px;
-	font-family: "DM Sans", sans-serif;
-	letter-spacing: 1px;
-	color: #9b9b9b;
-}
-.brand-desc-ready {
-	color: black;
-}
-.logo.clicked {
-	background-color: #c83c00;
-	border: 0.5px solid white;
 	transition: all 300ms ease-in-out;
 }
 
@@ -223,12 +212,13 @@
 	text-align: center;
 	text-transform: uppercase;
 }
+
 .create-submit {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
 	padding: 10px;
-	height: 100px;
+	height: 90px;
 	align-items: center;
 	color: #9b9b9b;
 }
@@ -242,7 +232,33 @@
 	align-items: center;
 	font-family: "DM Sans", sans-serif;
 }
+
 .ready-btn {
 	background-color: #e74c3c;
 	color: white;
+}
+
+.brand-title {
+	font-size: 26px;
+	color: #9b9b9b;
+}
+
+.brand-ready {
+	color: black;
+}
+
+.brand-desc {
+	font-size: 14px;
+	font-family: "DM Sans", sans-serif;
+	letter-spacing: 1px;
+	color: #9b9b9b;
+}
+
+.brand-desc-ready {
+	color: black;
+}
+
+.section-one {
+	display: flex;
+	flex-direction: column;
 }
