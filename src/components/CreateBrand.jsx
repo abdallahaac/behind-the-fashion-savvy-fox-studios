@@ -26,23 +26,26 @@ function getBrandDesc(font) {
 	}
 }
 
-function CreateBrand({ onStart, onLogoSelect, onCreate }) {
+function CreateBrand({
+	onStart,
+	onLogoSelect,
+	onCreate,
+	onBrandNameChange,
+	onFontStyleChange,
+}) {
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
-	const [fontStyle, setFontStyle] = useState("");
+	const [fontStyle, setFontStyle] = useState("MINIMALIST");
 	const [brandName, setBrandName] = useState("");
 	const [selectedLogo, setSelectedLogo] = useState(null); // For logo selection
 
-	// State for the create-button hold
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
 
-	// Refs to store create-button hold start time & interval
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
 
-	// Refs
 	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
@@ -50,7 +53,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
 
-	// For staggered animations
 	const fontStyleHeaderRef = useRef(null);
 	const fontSelectionContainerRef = useRef(null);
 	const logoStyleHeaderRef = useRef(null);
@@ -95,7 +97,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 		}
 	};
 
-	// Called once the hold duration is complete.
 	const handleDone = () => {
 		console.log("CreateBrand: hold-to-complete -> expanding container!");
 		gsap.to(createParentRef.current, {
@@ -109,7 +110,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 			opacity: 0,
 			onComplete: () => {
 				setIsExpanded(true);
-				// Trigger parent callback to fade out Vanguard & move to next breakpoint
 				if (onStart) {
 					onStart();
 				}
@@ -117,7 +117,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 		});
 	};
 
-	// Fade in the expanded container.
 	useEffect(() => {
 		if (isExpanded && loremContainerRef.current) {
 			gsap.to(loremContainerRef.current, {
@@ -128,7 +127,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 		}
 	}, [isExpanded]);
 
-	// Once expanded, fade in inner elements in sequence using a timeline.
 	useEffect(() => {
 		if (isExpanded) {
 			const tl = gsap.timeline({
@@ -143,21 +141,17 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 	}, [isExpanded]);
 
 	const startCreateHold = (e) => {
-		if (!isReady) return; // Guard: only start hold if form is ready
+		if (!isReady) return;
 		e.preventDefault();
 		setIsCreateBlinking(false);
 		setCreateProgress(0);
-
-		// Record the time when hold starts
 		createHoldStartRef.current = Date.now();
-
-		// Repeatedly update progress bar
 		createIntervalRef.current = setInterval(() => {
 			const elapsed = Date.now() - createHoldStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
 			if (newProgress >= 100) {
 				setCreateProgress(100);
-				handleCreateDone(); // completed hold
+				handleCreateDone();
 				clearInterval(createIntervalRef.current);
 			} else {
 				setCreateProgress(newProgress);
@@ -169,18 +163,12 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 		if (!isReady) return;
 		e.preventDefault();
 		clearInterval(createIntervalRef.current);
-
-		// If user released too soon (before hitting 100%)
 		if (createProgress < 100) {
 			setCreateProgress(0);
-			setIsCreateBlinking(true); // reset blinking
+			setIsCreateBlinking(true);
 		}
 	};
 
-	/**
-	 * Called once the Create button hold duration is complete.
-	 * Here you can replicate your existing handleCreateClick logic.
-	 */
 	const handleCreateDone = () => {
 		gsap.to(containerRef.current, {
 			duration: 1,
@@ -192,36 +180,25 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 		});
 	};
 
-	// Define logo options (demo: same image for both)
 	const logoOptions = [
 		{ id: "logo1", src: LogoOne },
 		{ id: "logo2", src: LogoOne },
 	];
 
-	// Logo click logic
 	const handleLogoClick = (logoId) => {
 		setSelectedLogo(logoId);
 		onLogoSelect?.(logoId);
 	};
 
-	// The form is considered ready only if all three inputs are provided
 	const isReady =
 		brandName.trim() !== "" && fontStyle !== "" && selectedLogo !== null;
 
-	// Handler for the "Create" button
-	const handleCreateClick = () => {
-		if (!isReady) return;
-
-		// Fade out the entire CreateBrand container
-		gsap.to(containerRef.current, {
-			duration: 1,
-			opacity: 0,
-			ease: "power2.out",
-			onComplete: () => {
-				onCreate?.();
-			},
-		});
-	};
+	// Lift the fontStyle changes to the parent.
+	useEffect(() => {
+		if (onFontStyleChange) {
+			onFontStyleChange(fontStyle);
+		}
+	}, [fontStyle, onFontStyleChange]);
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -244,7 +221,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 				</div>
 
 				<div className="body-create">
-					{/* Before expansion: show hold-to-start */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
@@ -268,7 +244,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 							</div>
 						</div>
 					) : (
-						// After expansion: show brand creation options
 						<div
 							className="new-container"
 							ref={loremContainerRef}
@@ -282,7 +257,10 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 										placeholder="Brand Name..."
 										maxLength="12"
 										value={brandName}
-										onChange={(e) => setBrandName(e.target.value)}
+										onChange={(e) => {
+											setBrandName(e.target.value);
+											onBrandNameChange && onBrandNameChange(e.target.value);
+										}}
 										style={{
 											color: "white",
 											width: "100%",
@@ -295,6 +273,7 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 											background: "#222222",
 											letterSpacing: "1px",
 											margin: "20px 0px",
+											textTransform: "uppercase",
 										}}
 									/>
 									<div
@@ -340,7 +319,6 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 								</div>
 							</div>
 
-							{/* The bottom 'Create' button */}
 							<div
 								className={`create-submit-container ${
 									isReady ? "ready-container" : ""
@@ -367,15 +345,12 @@ function CreateBrand({ onStart, onLogoSelect, onCreate }) {
 										</span>
 									</div>
 									<div
-										className={`create-btn 
-              ${isReady ? "ready-btn" : "h"} 
-              }`}
+										className={`create-btn ${isReady ? "ready-btn" : "h"}`}
 										onMouseDown={startCreateHold}
 										onMouseUp={endCreateHold}
 										onTouchStart={startCreateHold}
 										onTouchEnd={endCreateHold}
 									>
-										{/* The new progress overlay for create-button */}
 										<div
 											className="hold-progress-create"
 											style={{ width: `${createProgress}%` }}

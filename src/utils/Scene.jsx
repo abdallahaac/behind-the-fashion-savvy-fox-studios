@@ -1,45 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Text } from "@react-three/drei";
 import { EnvironmentWithCamera } from "../models/EnvironmentWIthCamera";
 import { useControls, Leva } from "leva";
 import * as THREE from "three";
 
-// Cube component with Leva controls for debugging and r3f animation.
-// Now the animation is triggered when the logo is selected (via the logoId prop),
-// not when the cube itself is clicked.
+// Import your font files
+import DMSans from "../assets/fonts/DMSans-Regular.ttf";
+import InstrumentSerif from "../assets/fonts/InstrumentSerif-Regular.ttf";
+import MuseoModerno from "../assets/fonts/MuseoModerno-Regular.ttf";
+import Orbitron from "../assets/fonts/Orbitron-Regular.ttf";
+import DynaPuff from "../assets/fonts/DynaPuff-Regular.ttf";
+import KodeMono from "../assets/fonts/KodeMono-Regular.ttf";
+
+// Map your font style names to the corresponding TTF files.
+const fontMapping = {
+	MINIMALIST: DMSans,
+	FUTURE: Orbitron,
+	RETRO: KodeMono,
+	ELEGANT: InstrumentSerif,
+	BOHEMIAN: MuseoModerno,
+	PLAYFUL: DynaPuff,
+};
+
+// Cube component with Leva controls for debugging.
 const Cube = ({ position, scale, logoId }) => {
-	// Use Leva to control initial position, scale, and color.
-	// We force the initial z value to -115.1.
 	const { cubePosition, cubeScale, cubeColor } = useControls("Cube", {
 		cubePosition: {
 			value: { x: position[0], y: position[1], z: -115.1 },
-			step: 0.1,
+			step: 0.001,
 		},
-		cubeScale: { value: scale, min: 0, max: 10, step: 0.1 },
+		cubeScale: { value: scale, min: 0, max: 10, step: 0.001 },
 		cubeColor: { value: "orange" },
 	});
 
-	const meshRef = useRef();
-	const [animate, setAnimate] = useState(false);
+	const meshRef = React.useRef();
+	const [animate, setAnimate] = React.useState(false);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		console.log("Cube: rendered with logoId:", logoId);
 		if (!logoId) {
 			console.error("Cube: logoId is not provided!");
 		}
-		// When the logoId equals "logo1", trigger the animation.
 		if (logoId === "logo1") {
 			setAnimate(true);
 		}
 	}, [logoId]);
 
-	// Animate the cube's z position on each frame using r3f's useFrame.
 	useFrame(() => {
 		if (!meshRef.current) return;
-		// Determine the target z: if animate is true, target is -48.1; otherwise, -115.1.
 		const targetZ = animate ? -48.1 : -115.1;
-		// Smoothly interpolate current z toward the target.
 		meshRef.current.position.z = THREE.MathUtils.lerp(
 			meshRef.current.position.z,
 			targetZ,
@@ -50,8 +60,6 @@ const Cube = ({ position, scale, logoId }) => {
 	return (
 		<mesh
 			ref={meshRef}
-			// We do not need an onClick handler here since the animation is triggered
-			// when the logo is selected.
 			position={[cubePosition.x, cubePosition.y, cubePosition.z]}
 			scale={cubeScale}
 		>
@@ -67,7 +75,9 @@ const Scene = ({
 	breakpoints,
 	currentBreakpointIndex,
 	onBreakpointHit,
-	selectedLogo, // Received from Room component
+	selectedLogo, // from Room
+	brandName, // from Room
+	fontStyle, // from Room (e.g. "MINIMALIST", "FUTURE", etc.)
 }) => {
 	useEffect(() => {
 		console.log("Scene: selectedLogo changed:", selectedLogo);
@@ -76,13 +86,37 @@ const Scene = ({
 		}
 	}, [selectedLogo]);
 
+	// Create separate Leva control groups for each text instance.
+	const text1Controls = useControls("Text 1", {
+		textPosition: { value: { x: -78.88, y: 12.2, z: -47.771 }, step: 0.01 },
+		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+		textColor: { value: "white" },
+	});
+	const text2Controls = useControls("Text 2", {
+		textPosition: { value: { x: -78.88, y: 10.0, z: -47.771 }, step: 0.01 },
+		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+		textColor: { value: "white" },
+	});
+	const text3Controls = useControls("Text 3", {
+		textPosition: { value: { x: -78.88, y: 7.46, z: -47.771 }, step: 0.01 },
+		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+		textColor: { value: "white" },
+	});
+	const text4Controls = useControls("Text 4", {
+		textPosition: { value: { x: -78.88, y: 4.9, z: -47.771 }, step: 0.01 },
+		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+		textColor: { value: "white" },
+	});
+
 	return (
 		<>
-			{/* Render Leva panel for debugging */}
-			{/* <Leva
-				style={{ position: "fixed", top: "10px", right: "10px", zIndex: 90000 }}
-				collapsed={false}
-			/> */}
+			{/* Leva panel for real-time controls */}
+			<Leva collapsed={false} />
+
 			<Canvas
 				gl={{ antialias: true }}
 				camera={{
@@ -96,11 +130,81 @@ const Scene = ({
 				{/* <OrbitControls /> */}
 				{selectedLogo && (
 					<Cube
-						position={[-78.88, 5.539, -47.771]} // x and y are from here; z is forced to -115.1 initially.
+						position={[-78.88, 5.539, -47.771]}
 						scale={2}
 						logoId={selectedLogo}
 					/>
 				)}
+
+				{/* Render multiple 3D Text objects with separate controls.
+            The brandName is converted to uppercase for display. */}
+				{brandName && (
+					<Text
+						position={[-69.12, 4.35, -49.51]}
+						rotation={[0.01, -4.69, -0.02]}
+						fontSize={1.9}
+						color={"white"}
+						font={fontMapping[fontStyle] || undefined}
+						anchorX="center"
+						anchorY="middle"
+					>
+						{brandName.toUpperCase()}
+					</Text>
+				)}
+				{brandName && (
+					<Text
+						position={[-69.12, 4.35, -49.51]}
+						rotation={[0.01, -4.69, -0.02]}
+						fontSize={1.9}
+						color={"black"}
+						font={fontMapping[fontStyle] || undefined}
+						anchorX="center"
+						anchorY="middle"
+					>
+						{brandName.toUpperCase()}
+					</Text>
+				)}
+				{brandName && (
+					<Text
+						position={[-69.12, 10.35, -49.51]}
+						rotation={[0.01, -4.69, -0.02]}
+						fontSize={1.9}
+						color={"white"}
+						font={fontMapping[fontStyle] || undefined}
+						anchorX="center"
+						anchorY="middle"
+					>
+						{brandName.toUpperCase()}
+					</Text>
+				)}
+				{brandName && (
+					<Text
+						position={[-69.12, 8.35, -49.51]}
+						rotation={[0.01, -4.69, -0.02]}
+						fontSize={1.9}
+						color={"white"}
+						font={fontMapping[fontStyle] || undefined}
+						anchorX="center"
+						anchorY="middle"
+					>
+						{brandName.toUpperCase()}
+					</Text>
+				)}
+
+				{brandName && (
+					<Text
+						position={[-69.12, 6.35, -49.51]}
+						rotation={[0.01, -4.69, -0.02]}
+						fontSize={1.9}
+						color={"white"}
+						font={fontMapping[fontStyle] || undefined}
+						anchorX="center"
+						anchorY="middle"
+					>
+						{brandName.toUpperCase()}
+					</Text>
+				)}
+
 				<EnvironmentWithCamera
 					playAnimation={playAnimation}
 					paused={paused}
