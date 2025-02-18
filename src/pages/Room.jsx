@@ -149,6 +149,13 @@ function Room() {
 					Continue
 				</button>
 
+				<div className="" style={{ position: "absolute", zIndex: "9999" }}>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo sunt
+					quas molestias ut quasi animi! Quam odit, quas saepe earum nostrum
+					blanditiis dolore ab. Nisi aliquid similique blanditiis eligendi
+					voluptates!
+				</div>
+
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
