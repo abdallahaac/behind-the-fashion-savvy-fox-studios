@@ -179,7 +179,7 @@ function Room() {
                             currentStep={currentStep}
                             onNext={() => handleNext(mode, setMode, questionIndex, setQuestionIndex, selectedQuestions, setCurrentStep, setResult, setFunding)}
                             onDone={handleHotseatDone}
-                            question={selectedQuestions[questionIndex]?.question}
+                            question={selectedQuestions[questionIndex]}
                             answers={selectedQuestions[questionIndex]?.answers}
                             funding={funding}
                             result={result}
