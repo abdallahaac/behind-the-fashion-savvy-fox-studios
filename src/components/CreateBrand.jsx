@@ -32,6 +32,7 @@ function CreateBrand({
 	onCreate,
 	onBrandNameChange,
 	onFontStyleChange,
+	isInputEnabled,
 }) {
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);

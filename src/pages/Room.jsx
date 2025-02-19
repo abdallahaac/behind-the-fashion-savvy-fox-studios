@@ -5,6 +5,7 @@ import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
 import VanguardTutorial from "../components/VanguardTutorial";
 import CreateBrand from "../components/CreateBrand";
+import FabricLab from "./FabricLabCanvas";
 
 function Room() {
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
@@ -79,6 +80,12 @@ function Room() {
 			setShowVanguardUI(true);
 		} else if (index === 3) {
 			setShowVanguardUI(true);
+			// Activate the vanguard at index 3
+			setVanguardActiveStates((prevStates) => {
+				const newStates = [...prevStates];
+				newStates[3] = true;
+				return newStates;
+			});
 		}
 		if (index === 1) {
 			setShowCreateBrand(true);
@@ -149,13 +156,6 @@ function Room() {
 					Continue
 				</button>
 
-				<div className="" style={{ position: "absolute", zIndex: "9999" }}>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo sunt
-					quas molestias ut quasi animi! Quam odit, quas saepe earum nostrum
-					blanditiis dolore ab. Nisi aliquid similique blanditiis eligendi
-					voluptates!
-				</div>
-
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
@@ -182,6 +182,8 @@ function Room() {
 						/>
 					</div>
 				)}
+
+				{/* <FabricLab /> */}
 
 				<Scene
 					playAnimation={playAnimation}
@@ -238,6 +240,7 @@ function Room() {
 							}}
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
+							isInputEnabled={currentBreakpointIndex >= 2} // input is enabled only when breakpoint 2 is reached
 						/>
 					</div>
 				)}

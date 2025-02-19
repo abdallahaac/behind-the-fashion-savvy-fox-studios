@@ -86,31 +86,31 @@ const Scene = ({
 		}
 	}, [selectedLogo]);
 
-	// Create separate Leva control groups for each text instance.
-	const text1Controls = useControls("Text 1", {
-		textPosition: { value: { x: -78.88, y: 12.2, z: -47.771 }, step: 0.01 },
-		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-		textColor: { value: "white" },
-	});
-	const text2Controls = useControls("Text 2", {
-		textPosition: { value: { x: -78.88, y: 10.0, z: -47.771 }, step: 0.01 },
-		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-		textColor: { value: "white" },
-	});
-	const text3Controls = useControls("Text 3", {
-		textPosition: { value: { x: -78.88, y: 7.46, z: -47.771 }, step: 0.01 },
-		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-		textColor: { value: "white" },
-	});
-	const text4Controls = useControls("Text 4", {
-		textPosition: { value: { x: -78.88, y: 4.9, z: -47.771 }, step: 0.01 },
-		textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-		textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-		textColor: { value: "white" },
-	});
+	// // Create separate Leva control groups for each text instance.
+	// const text1Controls = useControls("Text 1", {
+	// 	textPosition: { value: { x: -78.88, y: 12.2, z: -47.771 }, step: 0.01 },
+	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+	// 	textColor: { value: "white" },
+	// });
+	// const text2Controls = useControls("Text 2", {
+	// 	textPosition: { value: { x: -78.88, y: 10.0, z: -47.771 }, step: 0.01 },
+	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+	// 	textColor: { value: "white" },
+	// });
+	// const text3Controls = useControls("Text 3", {
+	// 	textPosition: { value: { x: -78.88, y: 7.46, z: -47.771 }, step: 0.01 },
+	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+	// 	textColor: { value: "white" },
+	// });
+	// const text4Controls = useControls("Text 4", {
+	// 	textPosition: { value: { x: -78.88, y: 4.9, z: -47.771 }, step: 0.01 },
+	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
+	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
+	// 	textColor: { value: "white" },
+	// });
 
 	return (
 		<>
