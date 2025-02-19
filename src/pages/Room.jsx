@@ -5,11 +5,14 @@ import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
 import VanguardTutorial from "../components/VanguardTutorial";
 import CreateBrand from "../components/CreateBrand";
+import Hotseat from "../components/Hotseat";
+import QuizQuestions from "../utils/QuizQuestions";
+import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
 
 function Room() {
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
 		true,
-		false,
+		false, 
 		false,
 		false,
 	]);
@@ -19,6 +22,7 @@ function Room() {
 
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
+	const [showHotseat, setShowHotseat] = useState(true);
 
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 	const breakpoints = [44, 183, 339, 550];
@@ -31,6 +35,14 @@ function Room() {
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
 	const tutorialContainerRef = useRef(null);
+
+    // Used for Hotseat questions
+    const [currentStep, setCurrentStep] = useState(0);
+    const [mode, setMode] = useState("Normal");
+    const [questionIndex, setQuestionIndex] = useState(0);
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+    const [result, setResult] = useState(0);
+    const [funding, setFunding] = useState("Funding");
 
 	useEffect(() => {
 		console.log("Room: selectedLogo updated:", selectedLogo);
@@ -70,6 +82,17 @@ function Room() {
 			);
 		}
 	}, [showTutorial]);
+
+	
+    useEffect(() => {
+        const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
+        setSelectedQuestions(shuffledQuestions.slice(0, 3));
+    }, []);
+
+	    const handleHotseatDone = () => {
+        setShowHotseat(false); // Hide the Hotseat component
+        handleDone(setMode, setCurrentStep, setQuestionIndex);
+    };
 
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
@@ -149,12 +172,21 @@ function Room() {
 					Continue
 				</button>
 
-				<div className="" style={{ position: "absolute", zIndex: "9999" }}>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo sunt
-					quas molestias ut quasi animi! Quam odit, quas saepe earum nostrum
-					blanditiis dolore ab. Nisi aliquid similique blanditiis eligendi
-					voluptates!
-				</div>
+				{showHotseat && (
+                    <div className="" style={{ position: "absolute", zIndex: "9999" }}>
+                        <Hotseat
+                            mode={mode}
+                            currentStep={currentStep}
+                            onNext={() => handleNext(mode, setMode, questionIndex, setQuestionIndex, selectedQuestions, setCurrentStep, setResult, setFunding)}
+                            onDone={handleHotseatDone}
+                            question={selectedQuestions[questionIndex]?.question}
+                            answers={selectedQuestions[questionIndex]?.answers}
+                            funding={funding}
+                            result={result}
+                            totalSteps={selectedQuestions.length + 1} // Including the start page
+                        />
+                    </div>
+                )}
 
 				{showTutorial && (
 					<div
