@@ -340,23 +340,35 @@
 	height: 16px;
 }
 
-.button {
-	display: flex;
+/* 
+NORMAL BUTTON CLASS STYLING  */
+.button-content{
+	display:flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	padding: 8px 8px 8px 16px !important;
-	width: 125px !important;
-	height: 56px;
-	background: #9b9b9b;
-	border-radius: 40px !important;
-	flex: none;
-	order: 1;
-	flex-grow: 0;
-	transition: background-color 0.2s ease;
 }
+
+.button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px !important;
+    width: 125px !important;
+    height: 56px;
+    background: #9b9b9b;
+    border: none;
+    border-radius: 40px !important;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    transition: background-color 0.2s ease;
+}
+
 .button-disabled {
 	cursor: not-allowed;
+	background-color: #505050;
 }
 
 #next-fabric-button{
@@ -373,6 +385,22 @@
 
 .button-active:hover {
     background-color: #E45F26;
+}
+.button-text {
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #fffefd;
+    margin-right: 8px; /* Add margin to the right of the text */
+}
+
+.button-icon {
+	display:flex;
+	align-items: center;
+    width: 24px;
+    height: 24px;
+    color: white; /* Ensure the icon is white */
 }
 
 
