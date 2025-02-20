@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import "../assets/styles/hot-seat.css"; // Make sure to create and style this CSS file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import right_arrow from "../assets/images/right-arrow.svg";
+
+import FundingDisplay from "./FundingDisplay";
+import NormalButton from "./NormalButton";
 
 const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding, result, totalSteps }) => {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -37,10 +41,16 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                                 </div>
                             ))}
                         </div>
-                        <button className="nav-button-tut nav-next" onClick={handleNext}>
-                            Answer
-                            <FontAwesomeIcon icon={faArrowRight} className="icon-right" />
-                        </button>
+                        <div className="hotseat-button-container">
+                            <NormalButton
+                                text="Answer"
+                                icon={right_arrow}
+                                size={{ minWidth: "132px", minHeight: "56px" }}
+                                active={true}
+                                onClick={handleNext}
+                            />
+                        </div>
+                        
                     </>
                 );
             case "Result":
@@ -48,18 +58,19 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                     <>
                         <div className="vanguard-tutorial-step-title accent-5">
                             {result > 0 ? "CORRECT!" : "WRONG!"}
-                            <p className="body-text-small">{question.reasoning}</p>
+                            <p className="body-text-small" style={{ fontWeight: 'normal' }}>{question.reasoning}</p>
                         </div>
-                        <div className="hotseat-result">
-                            <div className="hotseat-funding accent-5">$ FUNDING</div>
-                            <div className={`accent-3 hotseat-amount ${result > 0 ? "win" : "lose"}`}>
-                                {result > 0 ? `+${result}` : result}
-                            </div>
+                        <FundingDisplay result={result} />
+
+                        <div className="hotseat-button-container">
+                            <NormalButton
+                                text={currentStep < totalSteps - 1 ? "Next" : "Done"}
+                                icon={right_arrow}
+                                size={{ minWidth: "132px", minHeight: "56px" }}
+                                active={true}
+                                onClick={currentStep < totalSteps - 1 ? handleNext : onDone}
+                            />
                         </div>
-                        <button className="nav-button-tut nav-next" onClick={currentStep < totalSteps - 1 ? handleNext : onDone}>
-                            {currentStep < totalSteps - 1 ? "Next" : "Done"}
-                            <FontAwesomeIcon icon={faArrowRight} className="icon-right" />
-                        </button>
                     </>
                 );
             case "Normal":
@@ -67,11 +78,17 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                 return (
                     <>
                         <span className="vanguard-tutorial-step-title accent-5">THE HOT SEAT</span>
-                        <p className="tutorial-description">Get ready to answer some questions and win some money!</p>
-                        <button className="nav-button-tut nav-next" onClick={handleNext}>
-                            Start
-                            <FontAwesomeIcon icon={faArrowRight} className="icon-right" />
-                        </button>
+                        <p className="tutorial-description">Our turn to ask you questions!</p>
+
+                        <div className="hotseat-button-container">
+                            <NormalButton
+                                text="Let's Go"
+                                icon={right_arrow}
+                                size={{ minWidth: "132px", minHeight: "56px" }}
+                                active={true}
+                                onClick={handleNext}
+                            />
+                        </div>
                     </>
                 );
         }
@@ -92,13 +109,10 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                 <img src="../assets/images/Vanguards/sims-hotseat.svg" alt="Hotseat" />
             </div>
 
-            <div className="vanguard-tutorial-step-description">
+            <div className="vanguard-tutorial-step-description" id="hotseat-quiz-inner-content">
                 {renderContent()}
             </div>
 
-            <div className="next-btn">
-                {/* Removed the back button */}
-            </div>
         </div>
     );
 };
