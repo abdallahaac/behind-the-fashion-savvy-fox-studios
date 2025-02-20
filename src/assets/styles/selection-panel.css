@@ -368,6 +368,7 @@ NORMAL BUTTON CLASS STYLING  */
 
 .button-disabled {
 	cursor: not-allowed;
+	background-color: #505050;
 }
 
 #next-fabric-button{

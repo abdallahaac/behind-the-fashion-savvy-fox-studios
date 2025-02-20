@@ -47,10 +47,10 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                                 icon={right_arrow}
                                 size={{ minWidth: "132px", minHeight: "56px" }}
                                 active={true}
+                                disabled={selectedAnswer === null} // Disable if no answer is selected
                                 onClick={handleNext}
                             />
                         </div>
-                        
                     </>
                 );
             case "Result":
@@ -61,7 +61,6 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                             <p className="body-text-small" style={{ fontWeight: 'normal' }}>{question.reasoning}</p>
                         </div>
                         <FundingDisplay result={result} />
-
                         <div className="hotseat-button-container">
                             <NormalButton
                                 text={currentStep < totalSteps - 1 ? "Next" : "Done"}
@@ -78,8 +77,7 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                 return (
                     <>
                         <span className="vanguard-tutorial-step-title accent-5">THE HOT SEAT</span>
-                        <p className="tutorial-description">Our turn to ask you questions!</p>
-
+                        <p className="tutorial-description" id="start-description">Our turn to ask you questions!</p>
                         <div className="hotseat-button-container">
                             <NormalButton
                                 text="Let's Go"
@@ -113,6 +111,9 @@ const Hotseat = ({ mode, currentStep, onNext, onDone, question, answers, funding
                 {renderContent()}
             </div>
 
+            <div className="next-btn">
+                {/* Removed the back button */}
+            </div>
         </div>
     );
 };

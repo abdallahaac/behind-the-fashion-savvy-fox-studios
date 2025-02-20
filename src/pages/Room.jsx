@@ -172,7 +172,9 @@ function Room() {
 					Continue
 				</button>
 
-				{showHotseat && (
+				{/* HOT SEAT UI */}
+
+				{/* {showHotseat && (
                     <div className="" style={{ position: "absolute", zIndex: "9999" }}>
                         <Hotseat
                             mode={mode}
@@ -183,10 +185,10 @@ function Room() {
                             answers={selectedQuestions[questionIndex]?.answers}
                             funding={funding}
                             result={result}
-                            totalSteps={selectedQuestions.length + 1} // Including the start page
+                            totalSteps={selectedQuestions.length + 1} 
                         />
                     </div>
-                )}
+                )} */}
 
 				{showTutorial && (
 					<div
