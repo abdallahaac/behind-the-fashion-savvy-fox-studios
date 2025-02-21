@@ -4,7 +4,7 @@ import "../assets/styles/vanguard-tutorial.css"; // Reusing the same CSS for ste
 import "../assets/styles/VanguardPopUps.css";
 import BotSvg from "../assets/images/tutorial-bot.svg";
 
-function VanguardPopUp() {
+function VanguardPopUp({ onDeactivateActiveVanguard }) {
 	// Define your steps as an array.
 	const steps = [
 		{
@@ -28,7 +28,7 @@ function VanguardPopUp() {
 	// Refs for hold-to-complete and container
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
-	// Move the ref to the inner container you want to animate:
+	// Ref for the container we animate:
 	const containerRef = useRef(null);
 
 	// Fade in on mount:
@@ -88,7 +88,7 @@ function VanguardPopUp() {
 
 	const handleDone = () => {
 		setDoneClicked(true);
-		// Animate the inner container (tutorial-container) from opacity 1 to 0.
+		// Animate the container from opacity 1 to 0.
 		gsap.fromTo(
 			containerRef.current,
 			{ opacity: 1 },
@@ -99,7 +99,10 @@ function VanguardPopUp() {
 				ease: "power1.out",
 				onComplete: () => {
 					console.log("Tutorial done");
-					// Optionally, trigger additional actions here.
+					// Call the callback to deactivate the active vanguard.
+					if (onDeactivateActiveVanguard) {
+						onDeactivateActiveVanguard();
+					}
 				},
 			}
 		);

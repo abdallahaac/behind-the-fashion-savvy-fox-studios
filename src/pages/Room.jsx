@@ -111,7 +111,6 @@ function Room() {
 				return newStates;
 			});
 		}
-
 		if (index === 1) {
 			setShowCreateBrand(true);
 		}
@@ -280,7 +279,12 @@ function Room() {
 							zIndex: 1100,
 						}}
 					>
-						<VanguardPopUp />
+						<VanguardPopUp
+							onDeactivateActiveVanguard={() => {
+								// Update your vanguard active states here.
+								setVanguardActiveStates([true, false, false, false]);
+							}}
+						/>
 					</div>
 				)}
 
