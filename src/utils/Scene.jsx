@@ -115,7 +115,7 @@ const Scene = ({
 	return (
 		<>
 			{/* Leva panel for real-time controls */}
-			<Leva collapsed={false} />
+			{/* <Leva collapsed={false} /> */}
 
 			<Canvas
 				gl={{ antialias: true }}

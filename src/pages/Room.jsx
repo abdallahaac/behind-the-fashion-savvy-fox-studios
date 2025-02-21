@@ -100,15 +100,18 @@ function Room() {
 		setCurrentBreakpointIndex(index);
 		if (index === 0) {
 			setShowVanguardUI(true);
-		} else if (index === 3) {
+		} // In Room.js, inside handleBreakpointHit:
+		else if (index === 3) {
 			setShowVanguardUI(true);
-			// Activate the vanguard at index 3
-			setVanguardActiveStates((prevStates) => {
-				const newStates = [...prevStates];
-				newStates[3] = true;
+			// Randomly activate one vanguard from indices 1, 2, or 3:
+			const randomIndex = Math.floor(Math.random() * 3) + 1; // produces 1, 2, or 3
+			setVanguardActiveStates(() => {
+				const newStates = [false, false, false, false]; // All off
+				newStates[randomIndex] = true; // Only the random one is active
 				return newStates;
 			});
 		}
+
 		if (index === 1) {
 			setShowCreateBrand(true);
 		}
@@ -142,10 +145,12 @@ function Room() {
 
 	// Modified onVanguardClick: receives the clicked index.
 	const handleVanguardClick = (index) => {
-		if (index === 3 && currentBreakpointIndex === 3) {
-			setShowPopUp(true);
-		} else if (index === 0) {
+		if (index === 0) {
+			// For the first vanguard (index 0), open the tutorial.
 			openTutorial();
+		} else if (index > 0 && currentBreakpointIndex === 3) {
+			// For any active vanguard with index 1, 2, or 3 when breakpoint is 3, show the pop-up.
+			setShowPopUp(true);
 		}
 	};
 
