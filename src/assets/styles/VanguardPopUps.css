@@ -151,5 +151,17 @@
 	}
 }
 .step-content.active {
+	display: flex !important;
+	flex-direction: column !important;
 	text-align: center;
+	justify-content: center;
+	align-items: center !important;
+}
+.step-container {
+	justify-content: center;
+}
+
+img.step-image {
+	width: 200px;
+	height: 200px;
 }

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/vanguard-tutorial.css"; // Reusing the same CSS for steps
 import "../assets/styles/VanguardPopUps.css";
-import BotSvg from "../assets/images/tutorial-bot.svg";
 
 function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 	// Use the passed steps; if none, fallback to an empty array.
@@ -117,11 +116,6 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 					))}
 				</div>
 
-				{/* SVG or Image Section */}
-				<div className="vanguard-tutorial-svg">
-					<img src={BotSvg} alt="Tutorial Bot" />
-				</div>
-
 				{/* Steps Content */}
 				<div className="vanguard-tutorial-steps">
 					{_steps.map((step, index) => (
@@ -132,6 +126,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 							}`}
 							style={{ display: index === currentStep ? "block" : "none" }}
 						>
+							<img src={step.image} alt={step.title} className="step-image" />
 							<span>{step.title}</span>
 							<p className="tutorial-description">{step.description}</p>
 						</div>
