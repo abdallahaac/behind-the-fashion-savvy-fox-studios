@@ -4,22 +4,11 @@ import "../assets/styles/vanguard-tutorial.css"; // Reusing the same CSS for ste
 import "../assets/styles/VanguardPopUps.css";
 import BotSvg from "../assets/images/tutorial-bot.svg";
 
-function VanguardPopUp({ onDeactivateActiveVanguard }) {
-	// Define your steps as an array.
-	const steps = [
-		{
-			title: "ASSISTANT",
-			description:
-				"Hey there! Welcome to the Vanguard Pitch Office. I’m your assistant to guide and prepare you for your pitch to the Vanguards.",
-		},
-		{
-			title: "ASSISTANT",
-			description:
-				"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
-		},
-	];
+function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
+	// Use the passed steps; if none, fallback to an empty array.
+	const _steps = steps || [];
 
-	// State for current step and hold-to-complete logic
+	// State for current step index and hold-to-complete logic
 	const [currentStep, setCurrentStep] = useState(0);
 	const [doneClicked, setDoneClicked] = useState(false);
 	const [progress, setProgress] = useState(0);
@@ -28,10 +17,9 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 	// Refs for hold-to-complete and container
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
-	// Ref for the container we animate:
 	const containerRef = useRef(null);
 
-	// Fade in on mount:
+	// Fade in the container on mount
 	useEffect(() => {
 		gsap.fromTo(
 			containerRef.current,
@@ -42,7 +30,7 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 
 	// Navigation Handlers
 	const handleNext = () => {
-		if (currentStep < steps.length - 1) {
+		if (currentStep < _steps.length - 1) {
 			setCurrentStep(currentStep + 1);
 		}
 	};
@@ -53,8 +41,8 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 		}
 	};
 
-	// Hold-to-complete Logic
-	const HOLD_DURATION = 500; // Duration in milliseconds
+	// Hold-to-complete Logic (used on the final step "Done")
+	const HOLD_DURATION = 500; // milliseconds
 
 	const startHold = (e) => {
 		e.preventDefault();
@@ -88,7 +76,7 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 
 	const handleDone = () => {
 		setDoneClicked(true);
-		// Animate the container from opacity 1 to 0.
+		// Fade out the container, then call the deactivation callback.
 		gsap.fromTo(
 			containerRef.current,
 			{ opacity: 1 },
@@ -98,8 +86,7 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 				delay: 0.2,
 				ease: "power1.out",
 				onComplete: () => {
-					console.log("Tutorial done");
-					// Call the callback to deactivate the active vanguard.
+					console.log("Popup done");
 					if (onDeactivateActiveVanguard) {
 						onDeactivateActiveVanguard();
 					}
@@ -107,6 +94,10 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 			}
 		);
 	};
+
+	if (!_steps.length) {
+		return null; // Nothing to show if no steps are provided.
+	}
 
 	return (
 		<div
@@ -116,7 +107,7 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 			<div className="tutorial-container" ref={containerRef}>
 				{/* Step Indicators */}
 				<div className="step-container">
-					{steps.map((step, index) => (
+					{_steps.map((_, index) => (
 						<span
 							key={index}
 							className={`vanguard-tutorial-step ${
@@ -131,12 +122,20 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 					<img src={BotSvg} alt="Tutorial Bot" />
 				</div>
 
-				{/* Step Description */}
-				<div className="vanguard-tutorial-step-description">
-					<span>{steps[currentStep].title}</span>
-					<p className="tutorial-description">
-						{steps[currentStep].description}
-					</p>
+				{/* Steps Content */}
+				<div className="vanguard-tutorial-steps">
+					{_steps.map((step, index) => (
+						<div
+							key={index}
+							className={`step-content ${
+								index === currentStep ? "active" : "inactive"
+							}`}
+							style={{ display: index === currentStep ? "block" : "none" }}
+						>
+							<span>{step.title}</span>
+							<p className="tutorial-description">{step.description}</p>
+						</div>
+					))}
 				</div>
 
 				{/* Navigation Buttons */}
@@ -155,7 +154,7 @@ function VanguardPopUp({ onDeactivateActiveVanguard }) {
 							<div style={{ position: "relative", zIndex: 2 }}>Back</div>
 						</div>
 					)}
-					{currentStep === 0 ? (
+					{currentStep < _steps.length - 1 ? (
 						<div
 							className="nav-button-tut nav-next"
 							onClick={handleNext}

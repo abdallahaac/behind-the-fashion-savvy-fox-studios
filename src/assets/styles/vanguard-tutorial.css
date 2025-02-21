@@ -57,7 +57,7 @@
 .tutorial-description {
 	font-size: 12px !important;
 	text-align: center;
-	margin-bottom:16px !important;
+	margin-bottom: 16px !important;
 }
 
 .next-btn {
@@ -81,8 +81,10 @@
 
 /* Optional stylings for back/next */
 .nav-back {
+	padding: 10px 15px;
 }
 .nav-next {
+	padding: 10px 15px;
 }
 
 /* "Done" button with the light green background */

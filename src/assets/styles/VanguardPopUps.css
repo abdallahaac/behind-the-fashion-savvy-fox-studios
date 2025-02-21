@@ -150,3 +150,6 @@
 		background-color: rgba(0, 128, 0, 0.1);
 	}
 }
+.step-content.active {
+	text-align: center;
+}
