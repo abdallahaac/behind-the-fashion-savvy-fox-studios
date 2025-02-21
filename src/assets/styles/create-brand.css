@@ -330,3 +330,7 @@
 .create-btn {
 	cursor: pointer;
 }
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}

@@ -39,21 +39,22 @@ function CreateBrand({
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [fontStyle, setFontStyle] = useState("MINIMALIST");
 	const [brandName, setBrandName] = useState("");
-	const [selectedLogo, setSelectedLogo] = useState(null); // For logo selection
-
+	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
 
+	// New state to track when the createSubmitContainer is visible
+	const [isSubmitContainerVisible, setIsSubmitContainerVisible] =
+		useState(false);
+
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
-
 	const containerRef = useRef(null);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
-
 	const fontStyleHeaderRef = useRef(null);
 	const fontSelectionContainerRef = useRef(null);
 	const logoStyleHeaderRef = useRef(null);
@@ -137,7 +138,10 @@ function CreateBrand({
 				.from(fontSelectionContainerRef.current, { delay: 0.2 })
 				.from(logoStyleHeaderRef.current, { delay: 0.2 })
 				.from(logoContainerRef.current, { delay: 0.2 })
-				.from(createSubmitContainerRef.current, { delay: 0.2 });
+				.from(createSubmitContainerRef.current, {
+					delay: 0.2,
+					onComplete: () => setIsSubmitContainerVisible(true),
+				});
 		}
 	}, [isExpanded]);
 
@@ -186,7 +190,9 @@ function CreateBrand({
 		{ id: "logo2", src: LogoOne },
 	];
 
+	// Only allow logo selection when the submit container is visible.
 	const handleLogoClick = (logoId) => {
+		if (!isSubmitContainerVisible) return;
 		setSelectedLogo(logoId);
 		onLogoSelect?.(logoId);
 	};
@@ -311,7 +317,7 @@ function CreateBrand({
 											key={logo.id}
 											className={`logo ${
 												selectedLogo === logo.id ? "clicked" : ""
-											}`}
+											} ${!isSubmitContainerVisible ? "disabled" : ""}`}
 											onClick={() => handleLogoClick(logo.id)}
 										>
 											<img src={logo.src} alt={`Logo ${logo.id}`} />
