@@ -165,3 +165,34 @@ img.step-image {
 	width: 200px;
 	height: 200px;
 }
+
+.tutorial-funding-container {
+	padding: 20px;
+	width: 100%;
+}
+.funding-container {
+	background-color: #f0f0f0;
+	width: 100%;
+	height: 70px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.funding {
+	text-transform: uppercase;
+	margin: 15px;
+	background-color: white;
+	padding: 10px;
+	border-radius: 32px;
+	font-weight: 500;
+	font-family: "DM Sans", sans-serif;
+}
+
+.funding-amount {
+	padding: 10px;
+	margin: 15px;
+	font-size: 1.4rem;
+	color: #1d7b18;
+}

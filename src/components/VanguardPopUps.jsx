@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/vanguard-tutorial.css"; // Reusing the same CSS for steps
 import "../assets/styles/VanguardPopUps.css";
+import { FundingContext } from "../utils/FundingContext";
 
 function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 	// Use the passed steps; if none, fallback to an empty array.
@@ -12,6 +13,9 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 	const [doneClicked, setDoneClicked] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
+
+	// Use the global funding context
+	const { fundingAmount, generateFunding } = useContext(FundingContext);
 
 	// Refs for hold-to-complete and container
 	const intervalRef = useRef(null);
@@ -26,6 +30,16 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 			{ opacity: 1, duration: 0.5, ease: "power1.out" }
 		);
 	}, []);
+
+	// When the current step changes, if funding is needed, ensure a funding amount is generated.
+	useEffect(() => {
+		const step = _steps[currentStep];
+		if (step && step.funding) {
+			if (!fundingAmount) {
+				generateFunding();
+			}
+		}
+	}, [currentStep, _steps, fundingAmount, generateFunding]);
 
 	// Navigation Handlers
 	const handleNext = () => {
@@ -75,7 +89,6 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 
 	const handleDone = () => {
 		setDoneClicked(true);
-		// Fade out the container, then call the deactivation callback.
 		gsap.fromTo(
 			containerRef.current,
 			{ opacity: 1 },
@@ -118,19 +131,39 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 
 				{/* Steps Content */}
 				<div className="vanguard-tutorial-steps">
-					{_steps.map((step, index) => (
-						<div
-							key={index}
-							className={`step-content ${
-								index === currentStep ? "active" : "inactive"
-							}`}
-							style={{ display: index === currentStep ? "block" : "none" }}
-						>
-							<img src={step.image} alt={step.title} className="step-image" />
-							<span>{step.title}</span>
-							<p className="tutorial-description">{step.description}</p>
-						</div>
-					))}
+					{_steps.map((step, index) => {
+						// Update description if funding is required.
+						const description =
+							step.funding && fundingAmount
+								? step.description.replace(
+										"$100k",
+										`$${fundingAmount.toLocaleString()} grant`
+								  )
+								: step.description;
+						return (
+							<div
+								key={index}
+								className={`step-content ${
+									index === currentStep ? "active" : "inactive"
+								}`}
+								style={{ display: index === currentStep ? "block" : "none" }}
+							>
+								<img src={step.image} alt={step.title} className="step-image" />
+								<span>{step.title}</span>
+								<p className="tutorial-description">{description}</p>
+								{step.funding && fundingAmount && (
+									<span className="tutorial-funding-container">
+										<div className="funding-container">
+											<span className="funding">$&nbsp;&nbsp;</span>
+											<div className="funding-amount">
+												{`+${fundingAmount.toLocaleString()}`}
+											</div>
+										</div>
+									</span>
+								)}
+							</div>
+						);
+					})}
 				</div>
 
 				{/* Navigation Buttons */}

@@ -25,6 +25,7 @@ const vanguardContents = {
 					description:
 						"Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
 					image: BotSvg,
+					funding: true,
 				},
 				{
 					title: "EXO",
