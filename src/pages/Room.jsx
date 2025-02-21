@@ -9,22 +9,22 @@ import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
 import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
 import FabricLab from "./FabricLabCanvas";
+import VanguardPopUp from "../components/VanguardPopUps";
 
 function Room() {
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
 		true,
-		false, 
+		false,
 		false,
 		false,
 	]);
 	const [showTutorial, setShowTutorial] = useState(false);
+	const [showPopUp, setShowPopUp] = useState(false);
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
-
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(true);
-
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 	const breakpoints = [44, 183, 339, 550];
 
@@ -37,13 +37,13 @@ function Room() {
 	const vanguardContainerRef = useRef(null);
 	const tutorialContainerRef = useRef(null);
 
-    // Used for Hotseat questions
-    const [currentStep, setCurrentStep] = useState(0);
-    const [mode, setMode] = useState("Normal");
-    const [questionIndex, setQuestionIndex] = useState(0);
-    const [selectedQuestions, setSelectedQuestions] = useState([]);
-    const [result, setResult] = useState(0);
-    const [funding, setFunding] = useState("Funding");
+	// Used for Hotseat questions
+	const [currentStep, setCurrentStep] = useState(0);
+	const [mode, setMode] = useState("Normal");
+	const [questionIndex, setQuestionIndex] = useState(0);
+	const [selectedQuestions, setSelectedQuestions] = useState([]);
+	const [result, setResult] = useState(0);
+	const [funding, setFunding] = useState("Funding");
 
 	useEffect(() => {
 		console.log("Room: selectedLogo updated:", selectedLogo);
@@ -84,16 +84,15 @@ function Room() {
 		}
 	}, [showTutorial]);
 
-	
-    useEffect(() => {
-        const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
-        setSelectedQuestions(shuffledQuestions.slice(0, 3));
-    }, []);
+	useEffect(() => {
+		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
+		setSelectedQuestions(shuffledQuestions.slice(0, 3));
+	}, []);
 
-	    const handleHotseatDone = () => {
-        setShowHotseat(false); // Hide the Hotseat component
-        handleDone(setMode, setCurrentStep, setQuestionIndex);
-    };
+	const handleHotseatDone = () => {
+		setShowHotseat(false); // Hide the Hotseat component
+		handleDone(setMode, setCurrentStep, setQuestionIndex);
+	};
 
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
@@ -141,6 +140,15 @@ function Room() {
 		handleContinue();
 	};
 
+	// Modified onVanguardClick: receives the clicked index.
+	const handleVanguardClick = (index) => {
+		if (index === 3 && currentBreakpointIndex === 3) {
+			setShowPopUp(true);
+		} else if (index === 0) {
+			openTutorial();
+		}
+	};
+
 	useEffect(() => {
 		handlePlayClick();
 	}, []);
@@ -179,24 +187,6 @@ function Room() {
 					Continue
 				</button>
 
-				{/* HOT SEAT UI */}
-
-				{/* {showHotseat && (
-                    <div className="" style={{ position: "absolute", zIndex: "9999" }}>
-                        <Hotseat
-                            mode={mode}
-                            currentStep={currentStep}
-                            onNext={() => handleNext(mode, setMode, questionIndex, setQuestionIndex, selectedQuestions, setCurrentStep, setResult, setFunding)}
-                            onDone={handleHotseatDone}
-                            question={selectedQuestions[questionIndex]}
-                            answers={selectedQuestions[questionIndex]?.answers}
-                            funding={funding}
-                            result={result}
-                            totalSteps={selectedQuestions.length + 1} 
-                        />
-                    </div>
-                )} */}
-
 				{showTutorial && (
 					<div
 						ref={tutorialContainerRef}
@@ -219,23 +209,10 @@ function Room() {
 					>
 						<Vanguard
 							activeStates={vanguardActiveStates}
-							onVanguardClick={openTutorial}
+							onVanguardClick={handleVanguardClick}
 						/>
 					</div>
 				)}
-
-				{/* <FabricLab /> */}
-
-				<Scene
-					playAnimation={playAnimation}
-					paused={paused}
-					breakpoints={breakpoints}
-					currentBreakpointIndex={currentBreakpointIndex}
-					onBreakpointHit={handleBreakpointHit}
-					selectedLogo={selectedLogo}
-					brandName={brandName}
-					fontStyle={fontStyle}
-				/>
 
 				{showCreateBrand && (
 					<div
@@ -281,10 +258,37 @@ function Room() {
 							}}
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
-							isInputEnabled={currentBreakpointIndex >= 2} // input is enabled only when breakpoint 2 is reached
+							isInputEnabled={currentBreakpointIndex >= 2} // enabled only when breakpoint 2 is reached
 						/>
 					</div>
 				)}
+
+				{/* Render the PopUp when conditions are met */}
+				{showPopUp && (
+					<div
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 1100,
+						}}
+					>
+						<VanguardPopUp />
+					</div>
+				)}
+
+				<Scene
+					playAnimation={playAnimation}
+					paused={paused}
+					breakpoints={breakpoints}
+					currentBreakpointIndex={currentBreakpointIndex}
+					onBreakpointHit={handleBreakpointHit}
+					selectedLogo={selectedLogo}
+					brandName={brandName}
+					fontStyle={fontStyle}
+				/>
 			</div>
 		</>
 	);

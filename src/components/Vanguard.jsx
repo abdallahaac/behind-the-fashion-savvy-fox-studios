@@ -16,9 +16,8 @@ function Vanguard({ activeStates, onVanguardClick }) {
 							activeStates[vIndex] ? "vanguard-active" : ""
 						}`}
 						onClick={() => {
-							// For the first vanguard (index 0), if active, open the tutorial.
-							if (vIndex === 0 && activeStates[0]) {
-								onVanguardClick();
+							if (activeStates[vIndex]) {
+								onVanguardClick(vIndex);
 							}
 						}}
 					>
