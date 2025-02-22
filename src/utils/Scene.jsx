@@ -1,11 +1,25 @@
-import React, { useEffect } from "react";
+// Scene.js
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
-import { EnvironmentWithCamera } from "../models/EnvironmentWIthCamera";
-import { useControls, Leva } from "leva";
+import { OrbitControls, Text, useProgress } from "@react-three/drei";
+import { useControls } from "leva";
 import * as THREE from "three";
+import LoadingOverlay from "./LoadingOverlay";
+import gsap from "gsap";
 
-// Import your font files
+// ----- LAZY LOAD YOUR LARGE ASSETS / MODELS -----
+// Correctly import EnvironmentWithCamera as a named export:
+// Lazy load EnvironmentWithCamera as a named export (unchanged)
+const EnvironmentWithCamera = lazy(() =>
+	import("../models/EnvironmentWithCamera").then((module) => ({
+		default: module.EnvironmentWithCamera,
+	}))
+);
+
+// Lazy load AvantGardeBloom as a default export (if applicable)
+const AvantGardeBloom = lazy(() => import("../models/Meshes/AvantGardeBloom"));
+
+// Import TTF fonts
 import DMSans from "../assets/fonts/DMSans-Regular.ttf";
 import InstrumentSerif from "../assets/fonts/InstrumentSerif-Regular.ttf";
 import MuseoModerno from "../assets/fonts/MuseoModerno-Regular.ttf";
@@ -13,7 +27,7 @@ import Orbitron from "../assets/fonts/Orbitron-Regular.ttf";
 import DynaPuff from "../assets/fonts/DynaPuff-Regular.ttf";
 import KodeMono from "../assets/fonts/KodeMono-Regular.ttf";
 
-// Map your font style names to the corresponding TTF files.
+// Map your style strings to the TTF imports
 const fontMapping = {
 	MINIMALIST: DMSans,
 	FUTURE: Orbitron,
@@ -23,21 +37,21 @@ const fontMapping = {
 	PLAYFUL: DynaPuff,
 };
 
-// Cube component with Leva controls for debugging.
+// ----- Example Cube component with Leva controls -----
 const Cube = ({ position, scale, logoId }) => {
 	const { cubePosition, cubeScale, cubeColor } = useControls("Cube", {
 		cubePosition: {
-			value: { x: position[0], y: position[1], z: -115.1 },
+			value: { x: position[0], y: position[1], z: position[2] },
 			step: 0.001,
 		},
 		cubeScale: { value: scale, min: 0, max: 10, step: 0.001 },
 		cubeColor: { value: "orange" },
 	});
 
-	const meshRef = React.useRef();
-	const [animate, setAnimate] = React.useState(false);
+	const meshRef = useRef();
+	const [animate, setAnimate] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		console.log("Cube: rendered with logoId:", logoId);
 		if (!logoId) {
 			console.error("Cube: logoId is not provided!");
@@ -82,41 +96,16 @@ const Scene = ({
 	useEffect(() => {
 		console.log("Scene: selectedLogo changed:", selectedLogo);
 		if (!selectedLogo) {
-			console.error("Scene: No logo selected, cube will not render.");
+			console.error("Scene: No logo selected, Cube will not render.");
 		}
 	}, [selectedLogo]);
 
-	// // Create separate Leva control groups for each text instance.
-	// const text1Controls = useControls("Text 1", {
-	// 	textPosition: { value: { x: -78.88, y: 12.2, z: -47.771 }, step: 0.01 },
-	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-	// 	textColor: { value: "white" },
-	// });
-	// const text2Controls = useControls("Text 2", {
-	// 	textPosition: { value: { x: -78.88, y: 10.0, z: -47.771 }, step: 0.01 },
-	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-	// 	textColor: { value: "white" },
-	// });
-	// const text3Controls = useControls("Text 3", {
-	// 	textPosition: { value: { x: -78.88, y: 7.46, z: -47.771 }, step: 0.01 },
-	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-	// 	textColor: { value: "white" },
-	// });
-	// const text4Controls = useControls("Text 4", {
-	// 	textPosition: { value: { x: -78.88, y: 4.9, z: -47.771 }, step: 0.01 },
-	// 	textRotation: { value: { x: -0.02, y: -4.8, z: 0 }, step: 0.01 },
-	// 	textFontSize: { value: 2.9, min: 0.1, max: 10, step: 0.001 },
-	// 	textColor: { value: "white" },
-	// });
-
 	return (
 		<>
-			{/* Leva panel for real-time controls */}
-			{/* <Leva collapsed={false} /> */}
+			{/* 1. Always show the loading overlay. It fades out once loading = 100%. */}
+			<LoadingOverlay />
 
+			{/* 2. Set up the 3D Canvas */}
 			<Canvas
 				gl={{ antialias: true }}
 				camera={{
@@ -126,92 +115,85 @@ const Scene = ({
 					position: [2, 7, 5],
 				}}
 			>
-				<ambientLight intensity={0.5} />
-				{/* <OrbitControls /> */}
-				{selectedLogo && (
-					<Cube
-						position={[-78.88, 5.539, -47.771]}
-						scale={2}
-						logoId={selectedLogo}
+				{/* 3. Use Suspense so that large models are loaded in the background.
+               We already have the overlay as a visual fallback, so just use null here. */}
+				<Suspense fallback={null}>
+					<ambientLight intensity={0.5} />
+					{/* <OrbitControls /> */}
+
+					{/* Example Cube usage */}
+					{selectedLogo && (
+						<Cube
+							position={[-78.88, 5.539, -115.1]}
+							scale={2}
+							logoId={selectedLogo}
+						/>
+					)}
+
+					{/* Example multiple 3D Text objects */}
+					{brandName && (
+						<Text
+							position={[-69.12, 10.35, -49.51]}
+							rotation={[0.01, -4.69, -0.02]}
+							fontSize={1.9}
+							color={"white"}
+							font={fontMapping[fontStyle] || undefined}
+							anchorX="center"
+							anchorY="middle"
+						>
+							{brandName.toUpperCase()}
+						</Text>
+					)}
+					{brandName && (
+						<Text
+							position={[-69.12, 8.35, -49.51]}
+							rotation={[0.01, -4.69, -0.02]}
+							fontSize={1.9}
+							color={"white"}
+							font={fontMapping[fontStyle] || undefined}
+							anchorX="center"
+							anchorY="middle"
+						>
+							{brandName.toUpperCase()}
+						</Text>
+					)}
+					{brandName && (
+						<Text
+							position={[-69.12, 6.35, -49.51]}
+							rotation={[0.01, -4.69, -0.02]}
+							fontSize={1.9}
+							color={"white"}
+							font={fontMapping[fontStyle] || undefined}
+							anchorX="center"
+							anchorY="middle"
+						>
+							{brandName.toUpperCase()}
+						</Text>
+					)}
+					{brandName && (
+						<Text
+							position={[-69.12, 4.35, -49.51]}
+							rotation={[0.01, -4.69, -0.02]}
+							fontSize={1.9}
+							color={"white"}
+							font={fontMapping[fontStyle] || undefined}
+							anchorX="center"
+							anchorY="middle"
+						>
+							{brandName.toUpperCase()}
+						</Text>
+					)}
+
+					{/* Lazy-loaded environment and special effect */}
+					<EnvironmentWithCamera
+						playAnimation={playAnimation}
+						paused={paused}
+						breakpoints={breakpoints}
+						currentBreakpointIndex={currentBreakpointIndex}
+						onBreakpointHit={onBreakpointHit}
 					/>
-				)}
-
-				{/* Render multiple 3D Text objects with separate controls.
-            The brandName is converted to uppercase for display. */}
-				{brandName && (
-					<Text
-						position={[-69.12, 4.35, -49.51]}
-						rotation={[0.01, -4.69, -0.02]}
-						fontSize={1.9}
-						color={"white"}
-						font={fontMapping[fontStyle] || undefined}
-						anchorX="center"
-						anchorY="middle"
-					>
-						{brandName.toUpperCase()}
-					</Text>
-				)}
-				{brandName && (
-					<Text
-						position={[-69.12, 4.35, -49.51]}
-						rotation={[0.01, -4.69, -0.02]}
-						fontSize={1.9}
-						color={"black"}
-						font={fontMapping[fontStyle] || undefined}
-						anchorX="center"
-						anchorY="middle"
-					>
-						{brandName.toUpperCase()}
-					</Text>
-				)}
-				{brandName && (
-					<Text
-						position={[-69.12, 10.35, -49.51]}
-						rotation={[0.01, -4.69, -0.02]}
-						fontSize={1.9}
-						color={"white"}
-						font={fontMapping[fontStyle] || undefined}
-						anchorX="center"
-						anchorY="middle"
-					>
-						{brandName.toUpperCase()}
-					</Text>
-				)}
-				{brandName && (
-					<Text
-						position={[-69.12, 8.35, -49.51]}
-						rotation={[0.01, -4.69, -0.02]}
-						fontSize={1.9}
-						color={"white"}
-						font={fontMapping[fontStyle] || undefined}
-						anchorX="center"
-						anchorY="middle"
-					>
-						{brandName.toUpperCase()}
-					</Text>
-				)}
-
-				{brandName && (
-					<Text
-						position={[-69.12, 6.35, -49.51]}
-						rotation={[0.01, -4.69, -0.02]}
-						fontSize={1.9}
-						color={"white"}
-						font={fontMapping[fontStyle] || undefined}
-						anchorX="center"
-						anchorY="middle"
-					>
-						{brandName.toUpperCase()}
-					</Text>
-				)}
-
-				<EnvironmentWithCamera
-					playAnimation={playAnimation}
-					paused={paused}
-					breakpoints={breakpoints}
-					currentBreakpointIndex={currentBreakpointIndex}
-					onBreakpointHit={onBreakpointHit}
-				/>
+					<AvantGardeBloom />
+				</Suspense>
 			</Canvas>
 		</>
 	);

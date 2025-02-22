@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
+import "../assets/styles/CHooseSelectionCanvas.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import FontStyleSelection from "../utils/FontSelection";
 import LogoOne from "../assets/images/logo-one-preview.svg";
+import CanvasBarSelection from "./CanvasBarSelection";
 
 // Helper function to return a dynamic description based on the font selection.
 function getBrandDesc(font) {
@@ -215,7 +217,7 @@ function CanvasChooseOutfits({
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
 						<div className="steps">
-							Step 1 <span>/ 4</span>
+							Step 2 <span>/ 4</span>
 						</div>
 						<div className="step-parent-container">
 							<div className="step-containers"></div>
@@ -224,7 +226,7 @@ function CanvasChooseOutfits({
 							<div className="step-containers"></div>
 						</div>
 					</div>
-					<div className="brand-create">CREATE YOUR BRAND</div>
+					<div className="brand-create">CHOOSE OUTFIT DESIGNS</div>
 				</div>
 
 				<div className="body-create">
@@ -257,74 +259,33 @@ function CanvasChooseOutfits({
 							style={{ opacity: 0 }}
 						>
 							<div className="section-one">
-								<div>BRAND NAME</div>
-								<div style={{ position: "relative", width: "92%" }}>
-									<input
-										type="text"
-										placeholder="Brand Name..."
-										maxLength="12"
-										value={brandName}
-										onChange={(e) => {
-											setBrandName(e.target.value);
-											onBrandNameChange && onBrandNameChange(e.target.value);
-										}}
-										style={{
-											color: "white",
-											width: "100%",
-											padding: "16px",
-											border: "1.1px solid rgba(240, 240, 240, 0.51)",
-											borderRadius: "16px",
-											boxSizing: "border-box",
-											outline: "none",
-											fontSize: "14px",
-											background: "#222222",
-											letterSpacing: "1px",
-											margin: "20px 0px",
-											textTransform: "uppercase",
-										}}
-									/>
-									<div
-										style={{
-											position: "absolute",
-											right: "10px",
-											top: "50%",
-											transform: "translateY(-50%)",
-											color: "#CCC",
-											fontSize: "12px",
-											fontFamily: "'DM Sans', sans-serif",
-										}}
-									>
-										{brandName.length} / 12
+								<div>MY COLLECTION</div>
+								<div
+									style={{ position: "relative", width: "92%" }}
+									className="collection-container"
+								>
+									<div className="selection-choice">
+										<span className="plus">+</span>
+									</div>
+									<div className="selection-choice">
+										<span className="plus">+</span>
+									</div>
+									<div className="selection-choice">
+										<span className="plus">+</span>
 									</div>
 								</div>
 
 								<div className="font-style" ref={fontStyleHeaderRef}>
-									Font Style
+									COLLECTION BREAKDOWN
 								</div>
-								<div ref={fontSelectionContainerRef}>
-									<FontStyleSelection
-										selectedOption={fontStyle}
-										setSelectedOption={setFontStyle}
-									/>
-								</div>
-
-								<div className="logo-style" ref={logoStyleHeaderRef}>
-									Logo
-								</div>
-								<div className="logo-container" ref={logoContainerRef}>
-									{logoOptions.map((logo) => (
-										<div
-											key={logo.id}
-											className={`logo ${
-												selectedLogo === logo.id ? "clicked" : ""
-											} ${!isSubmitContainerVisible ? "disabled" : ""}`}
-											onClick={() => handleLogoClick(logo.id)}
-										>
-											<img src={logo.src} alt={`Logo ${logo.id}`} />
-										</div>
-									))}
+								<div ref={fontSelectionContainerRef} className="breakdown">
+									<span className="breakdown-desc">
+										Select 3 Outfits to View Smart Breakdown
+									</span>
 								</div>
 							</div>
+							<br />
+							<br />
 
 							<div
 								className={`create-submit-container ${
@@ -341,14 +302,14 @@ function CanvasChooseOutfits({
 										<span
 											className={`brand-title ${isReady ? "brand-ready" : ""}`}
 										>
-											{brandName || "brand title"}
+											$ - - - -
 										</span>
 										<span
 											className={`brand-desc ${
 												isReady ? "brand-desc-ready" : ""
 											}`}
 										>
-											{getBrandDesc(fontStyle)}
+											Total Design Price
 										</span>
 									</div>
 									<div
@@ -363,15 +324,16 @@ function CanvasChooseOutfits({
 											style={{ width: `${createProgress}%` }}
 										/>
 										<div style={{ position: "relative", zIndex: 2 }}>
-											Create
+											Purchase
 											<FontAwesomeIcon
-												icon={faArrowRight}
+												icon={faBagShopping}
 												className="icon-right"
 											/>
 										</div>
 									</div>
 								</div>
 							</div>
+							<CanvasBarSelection />
 						</div>
 					)}
 				</div>

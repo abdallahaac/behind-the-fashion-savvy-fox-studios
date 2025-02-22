@@ -21,7 +21,7 @@
 
 /* Expands up to 81vh upon hold completion */
 .expanded-container {
-	height: 71vh;
+	height: 80vh;
 	display: flex;
 }
 

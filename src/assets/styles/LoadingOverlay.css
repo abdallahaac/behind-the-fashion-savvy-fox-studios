@@ -1,0 +1,33 @@
+/* LoadingOverlay.css */
+.overlay-container {
+	width: 100%;
+	height: 100%;
+	background: rgba(
+		0,
+		0,
+		0,
+		0.9
+	); /* dark background covering the whole viewport */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.5s ease;
+	opacity: 1;
+}
+
+.overlay-fade-out {
+	opacity: 0;
+}
+
+.loading-message h2,
+.enter-container h2 {
+	margin: 0 0 1rem;
+	font-size: 2rem;
+}
+
+.enter-container button {
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	cursor: pointer;
+}

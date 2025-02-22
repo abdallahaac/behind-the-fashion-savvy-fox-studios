@@ -11,7 +11,7 @@ import CreateBrand from "../components/CreateBrand";
 import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
 import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
-import FabricLab from "./FabricLabCanvas";
+import CanvasChooseOutfits from "../components/CanvasChooseOutfits"; // outfit selection screen
 
 // Our new content mapping
 import vanguardContents from "../utils/VanguardContents";
@@ -41,6 +41,7 @@ function Room() {
 
 	// Additional UI states
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
+	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(true);
 
@@ -135,17 +136,21 @@ function Room() {
 		if (index === 0) {
 			setShowVanguardUI(true);
 		} else if (index === 1) {
-			setShowCreateBrand(true);
+			// Show the brand creation UI
+			// setShowCreateBrand(true);
+			setShowOutfitSelection(true);
 		} else if (index === 3) {
 			setShowVanguardUI(true);
-			const randomIndex = Math.floor(Math.random() * 3) + 1; // 1,2,or 3
+			const randomIndex = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
 			setVanguardActiveStates(() => {
 				const newStates = [false, false, false, false];
 				newStates[randomIndex] = true;
 				return newStates;
 			});
 		} else if (index === 4) {
-			setShowCreateBrand(true);
+			// You can toggle between brand creation and outfit selection here.
+			// For example, to show outfit selection instead of CreateBrand:
+			setShowOutfitSelection(true);
 		} else if (index === 6) {
 			setShowVanguardUI(true);
 		}
@@ -352,6 +357,50 @@ function Room() {
 					</div>
 				)}
 
+				{/* Outfit selection UI */}
+				{showOutfitSelection && (
+					<div
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 1,
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+						}}
+					>
+						<CanvasChooseOutfits
+							onStart={() => {
+								if (vanguardContainerRef.current) {
+									gsap.to(vanguardContainerRef.current, {
+										duration: 1,
+										x: -200,
+										opacity: 0,
+										ease: "power3.inOut",
+										onComplete: () => {
+											setShowVanguardUI(false);
+											handleContinue();
+										},
+									});
+								} else {
+									handleContinue();
+								}
+							}}
+							onLogoSelect={(logoId) => setSelectedLogo(logoId)}
+							onCreate={() => {
+								setShowOutfitSelection(false);
+								handleContinue();
+							}}
+							onBrandNameChange={setBrandName}
+							onFontStyleChange={setFontStyle}
+							isInputEnabled={currentBreakpointIndex >= 2}
+						/>
+					</div>
+				)}
+
 				{/* Dynamic Vanguard Popup */}
 				{showPopUp && activeVanguardIndex !== null && (
 					<div
@@ -391,7 +440,7 @@ function Room() {
 				/>
 
 				{/* Optional Hotseat UI */}
-				{showHotseat && (
+				{/* {showHotseat && (
 					<div style={{ position: "absolute", zIndex: 9999 }}>
 						<Hotseat
 							mode={mode}
@@ -416,7 +465,7 @@ function Room() {
 							totalSteps={selectedQuestions.length + 1}
 						/>
 					</div>
-				)}
+				)} */}
 			</div>
 		</>
 	);

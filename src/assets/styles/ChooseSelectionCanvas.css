@@ -1,0 +1,39 @@
+.collection-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.selection-choice {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 3px dashed rgba(255, 255, 255, 0.391);
+	border-spacing: 100px;
+	background-color: #222222;
+	width: 109px;
+	height: 145px;
+	border-radius: 8px;
+}
+
+.plus {
+	font-size: 4rem;
+	color: rgba(255, 255, 255, 0.391);
+}
+
+.breakdown {
+	background-color: #3d3d3d;
+	height: 153px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
+}
+
+.breakdown-desc {
+	max-width: 200px;
+	text-align: center;
+	font-family: "DM Sans", sans-serif;
+}
