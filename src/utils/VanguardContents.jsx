@@ -27,11 +27,6 @@ const vanguardContents = {
 					image: BotSvg,
 					funding: true,
 				},
-				{
-					title: "EXO",
-					description: "Remember: bold moves impress us the most!",
-					image: BotSvg,
-				},
 			],
 		],
 	},

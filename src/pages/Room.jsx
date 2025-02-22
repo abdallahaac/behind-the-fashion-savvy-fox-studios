@@ -48,7 +48,9 @@ function Room() {
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
-	const breakpoints = [44, 183, 339, 550];
+	const breakpoints = [
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
+	];
 
 	// Branding states
 	const [selectedLogo, setSelectedLogo] = useState(null);
@@ -210,22 +212,27 @@ function Room() {
 	/**
 	 * When the popup "Done" is pressed, we want to:
 	 * - Hide the popup.
-	 * - Force Vanguard 0 to reappear.
-	 * - Ensure that its activation count is updated to trigger the second activation scenario.
+	 * - Force Vanguard 0 to reappear with its second activation.
+	 * - Advance the camera to the next breakpoint.
 	 */
 	const handleDeactivateActiveVanguard = () => {
+		// Save the current active index before resetting it.
+		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
 		// Force Vanguard 0 to appear with its second activation:
 		setVanguardActiveStates([true, false, false, false]);
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
-			// If the first activation count is less than 2, set it to 2
 			if (newCounts[0] < 2) {
 				newCounts[0] = 2;
 			}
 			return newCounts;
 		});
+		// If the previous active was Vanguard 0, advance to the next breakpoint.
+		if (prevActive === 0) {
+			handleContinue();
+		}
 	};
 
 	return (
@@ -348,7 +355,6 @@ function Room() {
 						}}
 					>
 						<VanguardPopUp
-							// Select the correct scenario based on activation count.
 							steps={
 								vanguardContents[activeVanguardIndex].scenarios[
 									Math.min(
