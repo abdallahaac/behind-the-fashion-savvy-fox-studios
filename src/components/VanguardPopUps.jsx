@@ -154,7 +154,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 								{step.funding && fundingAmount && (
 									<span className="tutorial-funding-container">
 										<div className="funding-container">
-											<span className="funding">$&nbsp;&nbsp;</span>
+											<span className="funding">$&nbsp;&nbsp;Funding</span>
 											<div className="funding-amount">
 												{`+${fundingAmount.toLocaleString()}`}
 											</div>

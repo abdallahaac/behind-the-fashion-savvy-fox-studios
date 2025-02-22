@@ -144,6 +144,10 @@ function Room() {
 				newStates[randomIndex] = true;
 				return newStates;
 			});
+		} else if (index === 4) {
+			setShowCreateBrand(true);
+		} else if (index === 6) {
+			setShowVanguardUI(true);
 		}
 	};
 
@@ -183,21 +187,20 @@ function Room() {
 	 * - Otherwise, show the popup with the appropriate scenario.
 	 */
 	const handleVanguardClick = (index) => {
+		// Ignore clicks on inactive Vanguards
 		if (!vanguardActiveStates[index]) return;
 
-		if (index === 0) {
-			if (vanguardActivationCounts[0] === 0) {
-				openTutorial();
-			} else {
-				setActiveVanguardIndex(0);
-				incrementVanguardActivation(index);
-				setShowPopUp(true);
-			}
-		} else {
-			setActiveVanguardIndex(index);
-			incrementVanguardActivation(index);
-			setShowPopUp(true);
+		// If Vanguard 0 is clicked for the first time, open the tutorial.
+		if (index === 0 && vanguardActivationCounts[0] === 0) {
+			openTutorial();
+			return;
 		}
+
+		// For Vanguard 0 (after the first activation) or any other Vanguard,
+		// set the active index, increment the activation count, and show the pop-up.
+		setActiveVanguardIndex(index);
+		incrementVanguardActivation(index);
+		setShowPopUp(true);
 	};
 
 	// Increment the activation count for a given Vanguard
@@ -212,7 +215,9 @@ function Room() {
 	/**
 	 * When the popup "Done" is pressed, we want to:
 	 * - Hide the popup.
-	 * - Force Vanguard 0 to reappear with its second activation.
+	 * - For Vanguard 0:
+	 *    - If this is the second activation (first content 0 second activation), set its active state to false.
+	 *    - Otherwise, force it to reappear with its second activation.
 	 * - Advance the camera to the next breakpoint.
 	 */
 	const handleDeactivateActiveVanguard = () => {
@@ -220,8 +225,13 @@ function Room() {
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
-		// Force Vanguard 0 to appear with its second activation:
-		setVanguardActiveStates([true, false, false, false]);
+		// If the previous active was Vanguard 0 and it's the second activation, set its state to false.
+		if (prevActive === 0 && vanguardActivationCounts[0] >= 2) {
+			setVanguardActiveStates([false, false, false, false]);
+		} else {
+			// Otherwise, force Vanguard 0 to appear.
+			setVanguardActiveStates([true, false, false, false]);
+		}
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
 			if (newCounts[0] < 2) {
