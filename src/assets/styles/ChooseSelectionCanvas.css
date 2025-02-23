@@ -37,3 +37,297 @@
 	text-align: center;
 	font-family: "DM Sans", sans-serif;
 }
+/* Parent flex container for the expanded state */
+.expanded-parent {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 20px; /* Adjust spacing as needed */
+}
+
+/* Additional column on the left */
+.additional-column {
+	width: 300px; /* Adjust width as necessary */
+	background-color: #f0f0f0; /* Example background */
+	padding: 20px;
+	border-radius: 8px;
+	/* Additional styling as needed */
+}
+
+.left-component {
+	position: absolute;
+	transform: translate(-480px);
+	width: 460px;
+	min-height: 500px;
+	max-height: fit-content;
+	margin-top: -20px;
+	border-radius: 8px;
+	background: linear-gradient(
+		90.39deg,
+		rgba(241, 242, 242, 0.648) -0.63%,
+		rgba(229, 240, 243, 0.4) 100%
+	);
+	backdrop-filter: blur(20px);
+	/* Note: backdrop-filter has minimal browser support */
+	border-radius: 16px 0px 0px 16px;
+	border-left: 1px solid white;
+}
+
+.left-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	justify-content: center;
+}
+
+.header-info {
+	display: flex;
+	flex-direction: row;
+	width: 80%;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px;
+}
+
+.span-price {
+	background-color: #ffeeeb;
+	color: #c83c00;
+	padding: 10px;
+	border-radius: 35px;
+	font-size: 20px;
+	letter-spacing: 1px;
+}
+
+.model-title {
+	display: flex;
+	font-size: 1.7rem;
+	color: black;
+}
+.left-component {
+	position: absolute;
+	/* Shift the component left by 480px (adjust as needed) */
+	transform: translate(-480px);
+
+	width: 460px;
+	min-height: 500px;
+	margin-top: -20px;
+
+	/* Rounded corners on the left side */
+	border-radius: 16px 0 0 16px;
+
+	/* Semi-transparent gradient & backdrop blur */
+	background: linear-gradient(
+		90.39deg,
+		rgba(241, 242, 242, 0.648) -0.63%,
+		rgba(229, 240, 243, 0.4) 100%
+	);
+	backdrop-filter: blur(20px);
+	/* Note: backdrop-filter has limited browser support */
+
+	/* Optional left border line */
+	border-left: 1px solid white;
+
+	/* Add padding so inner content isn't flush against the edges */
+	padding: 24px;
+	box-sizing: border-box;
+}
+
+.left-container {
+	/* Stack children vertically */
+	display: flex;
+	flex-direction: column;
+	gap: 20px; /* spacing between sections */
+}
+
+.header-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.model-title {
+	font-size: 1.7rem;
+	color: black;
+	/* Customize font-family if needed */
+}
+
+.span-price {
+	background-color: #ffeeeb;
+	color: #c83c00;
+	padding: 10px 16px;
+	border-radius: 35px;
+	font-size: 1.2rem;
+	font-weight: 500;
+	letter-spacing: 1px;
+}
+
+/* Info Items (e.g., 80% Original, Environment, etc.) */
+.info-item {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-family: "DM Sans", sans-serif !important;
+}
+
+.info-title {
+	font-size: 1.2rem;
+	margin: 10px 0px;
+	color: black;
+}
+
+.info-description {
+	font-size: 0.9rem;
+	color: #333;
+	line-height: 1.4;
+}
+
+/* Progress Bar */
+.progress-bar {
+	position: relative;
+	width: 100%;
+	height: 10px;
+	background-color: #e0e0e0;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.progress-fill {
+	height: 100%;
+	background-color: #5cb85c; /* green fill */
+	border-radius: 4px 0 0 4px;
+}
+
+/* CTA (Add to Collection) */
+.cta-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: auto; /* pushes CTA to the bottom if container is taller than content */
+}
+
+.cta-button {
+	background-color: #d73f3f; /* or any color you prefer */
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 24px;
+	font-size: 1.3rem;
+	cursor: pointer;
+}
+
+.cta-price {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: black;
+}
+
+.cta-button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 40px;
+
+	width: 100%;
+}
+
+.cta-button-price {
+	font-family: "Kode Mono", serif;
+	font-weight: light !important;
+}
+/* Flex container for each info item */
+.info-flex {
+	display: flex;
+	align-items: center;
+}
+
+/* Icon container with fixed width */
+.info-icon {
+	flex: 0 0 30px; /* Adjust width as needed */
+	text-align: center;
+	margin-right: 30px;
+	font-size: 2rem; /* Adjust icon size if necessary */
+}
+
+/* Content container takes the remaining width */
+.info-content {
+	flex: 1;
+}
+
+.progress-bar {
+	margin-bottom: 10px;
+}
+
+.selection-choice.active {
+	border: 1px solid white;
+	background-color: white;
+}
+.plus.imgae {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.plus.image > img {
+}
+.plus.image > img {
+	max-width: 80%;
+	max-height: 80%;
+	object-fit: contain;
+	display: block;
+	margin: auto;
+}
+/* When active, turn background white and text black */
+.selection-choice.active {
+	position: relative; /* for positioning child elements like the remove button */
+	border: 1px solid white;
+	background-color: white;
+	color: black;
+}
+
+/* The plus icon (when it's an image container) */
+.plus.image {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+/* The outfit image inside the active slot */
+.plus.image > img {
+	max-width: 80%;
+	max-height: 80%;
+	object-fit: contain;
+	display: block;
+	margin: auto;
+}
+
+/* The remove button that sits at the bottom center on top of the image */
+.remove-button {
+	position: absolute;
+	bottom: 5px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #d73f3f;
+	color: white;
+	border: none;
+	border-radius: 15px;
+	padding: 6px 14px;
+	z-index: 2;
+	cursor: pointer;
+	font-size: 0.9rem;
+	text-align: center;
+}
+.cta-button.disabled-button {
+	background-color: #fff;
+	color: #000;
+	cursor: pointer; /* or pointer-events: none; */
+}
+
+button.cta-button.remove {
+	justify-content: center;
+	background-color: white;
+	color: black;
+}
+
+.breakdown {
+	padding: 30px !important;
+}

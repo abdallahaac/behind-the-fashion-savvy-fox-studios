@@ -1,19 +1,49 @@
+// CanvasBarSelection.jsx
 import React from "react";
+import { useModels } from "../utils/ModelsContext";
+
 import "../assets/styles/ModelList.css";
 import "../assets/styles/CanvasBarList.css";
 
-const CanvasBarSelection = () => {
+const CanvasBarSelection = ({ selectedModelIndex, setSelectedModelIndex }) => {
+	const { CanvasOutfitsData } = useModels();
+
+	const handlePrev = () => {
+		setSelectedModelIndex((prev) =>
+			prev === 0 ? CanvasOutfitsData.length - 1 : prev - 1
+		);
+	};
+
+	const handleNext = () => {
+		setSelectedModelIndex((prev) =>
+			prev === CanvasOutfitsData.length - 1 ? 0 : prev + 1
+		);
+	};
+
 	return (
 		<div className="canvas-list">
 			<div className="model-list-container canvas-list">
-				<button className="nav-button">&lt;</button>
+				<button className="nav-button" onClick={handlePrev}>
+					&lt;
+				</button>
+
 				<div className="model-buttons">
-					{/* Place your canvas bar content here */}
-					<button class="accent-6 model-button ">03</button>
-					<button class="accent-6 model-button ">01</button>
-					<button class="accent-6 model-button ">01</button>
+					{CanvasOutfitsData.map((outfit, idx) => (
+						<button
+							key={outfit.id}
+							className={`accent-6 model-button ${
+								idx === selectedModelIndex ? "active" : ""
+							}`}
+							onClick={() => setSelectedModelIndex(idx)}
+						>
+							{outfit.id < 10 ? `0${outfit.id}` : outfit.id}
+						</button>
+					))}
 				</div>
-				<button className="nav-button">&gt;</button>
+
+				<button className="nav-button" onClick={handleNext}>
+					&gt;
+				</button>
 			</div>
 		</div>
 	);
