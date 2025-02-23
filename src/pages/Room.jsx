@@ -121,7 +121,8 @@ function Room() {
 		setCurrentBreakpointIndex(index);
 
 		if (index === 0) {
-			setShowVanguardUI(true);
+			// setShowVanguardUI(true);
+			setShowFabricLabs(true);
 		} else if (index === 1) {
 			// Show the brand creation UI
 			setShowCreateBrand(true);

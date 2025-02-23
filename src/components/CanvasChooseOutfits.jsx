@@ -372,8 +372,14 @@ function CanvasChooseOutfits({
 							Step 2 <span>/ 4</span>
 						</div>
 						<div className="step-parent-container">
-							<div className="step-containers"></div>
-							<div className="step-containers"></div>
+							<div
+								className="step-containers"
+								style={{ backgroundColor: "white" }}
+							></div>
+							<div
+								className="step-containers"
+								style={{ backgroundColor: "white" }}
+							></div>
 							<div className="step-containers"></div>
 							<div className="step-containers"></div>
 						</div>

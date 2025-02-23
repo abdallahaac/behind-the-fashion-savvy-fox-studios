@@ -1,4 +1,4 @@
-// CanvasBarSelection.jsx
+// CanvasBarSelection.jsx (OUTFITS Version, unchanged)
 import React from "react";
 import { useModels } from "../utils/ModelsContext";
 
