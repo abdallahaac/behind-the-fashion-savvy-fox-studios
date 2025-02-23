@@ -53,31 +53,41 @@ function CanvasChooseOutfits({
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
+
+	// We’ll keep these in case you eventually want them:
 	const [fontStyle, setFontStyle] = useState("MINIMALIST");
 	const [brandName, setBrandName] = useState("");
 	const [selectedLogo, setSelectedLogo] = useState(null);
+
+	// Second “purchase” hold states
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
+
 	const [isSubmitContainerVisible, setIsSubmitContainerVisible] =
 		useState(false);
 
-	// -- A 3-slot array for "My Collection"
+	// A 3-slot array for "My Collection"
 	const [collection, setCollection] = useState([null, null, null]);
-	// -- Track which outfits are "added"
+	// Track which outfits are "added"
 	const [addedOutfits, setAddedOutfits] = useState(Array(9).fill(false));
 
 	// Refs for GSAP
 	const containerRef = useRef(null);
 	const holdStartRef = useRef(null);
 	const intervalRef = useRef(null);
+
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
+
 	const fontStyleHeaderRef = useRef(null);
 	const fontSelectionContainerRef = useRef(null);
+
 	const logoStyleHeaderRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const createSubmitContainerRef = useRef(null);
+
+	// For the second hold:
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
 
@@ -98,6 +108,7 @@ function CanvasChooseOutfits({
 		setIsBlinking(false);
 		setProgress(0);
 		holdStartRef.current = Date.now();
+
 		intervalRef.current = setInterval(() => {
 			const elapsed = Date.now() - holdStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
@@ -165,11 +176,14 @@ function CanvasChooseOutfits({
 
 	// ========== Second hold: Purchase ==========
 	const startCreateHold = (e) => {
-		if (!isReady) return;
+		// For simplicity, require user to have 3 outfits before purchase
+		if (!isCollectionActive) return;
+
 		e.preventDefault();
 		setIsCreateBlinking(false);
 		setCreateProgress(0);
 		createHoldStartRef.current = Date.now();
+
 		createIntervalRef.current = setInterval(() => {
 			const elapsed = Date.now() - createHoldStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
@@ -184,7 +198,8 @@ function CanvasChooseOutfits({
 	};
 
 	const endCreateHold = (e) => {
-		if (!isReady) return;
+		if (!isCollectionActive) return;
+
 		e.preventDefault();
 		clearInterval(createIntervalRef.current);
 		if (createProgress < 100) {
@@ -194,6 +209,7 @@ function CanvasChooseOutfits({
 	};
 
 	const handleCreateDone = () => {
+		// Fade out the entire container
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -211,17 +227,105 @@ function CanvasChooseOutfits({
 		onLogoSelect?.(logoId);
 	};
 
-	// ========== Ready to "Purchase"? ==========
-	const isReady =
-		brandName.trim() !== "" && fontStyle !== "" && selectedLogo !== null;
+	// ========== Collection Logic ==========
+	const isCollectionFull = collection.every((slot) => slot !== null);
 
-	useEffect(() => {
-		if (onFontStyleChange) {
-			onFontStyleChange(fontStyle);
+	// ADD an outfit
+	const addToCollection = (outfit, index) => {
+		setCollection((prev) => {
+			const idx = prev.findIndex((item) => item === null);
+			if (idx === -1) return prev; // no space
+			const newArr = [...prev];
+			newArr[idx] = { ...outfit, outfitIndex: index };
+			return newArr;
+		});
+
+		setAddedOutfits((prev) => {
+			const updated = [...prev];
+			updated[index] = true;
+			return updated;
+		});
+
+		// Update fundingAmount by subtracting outfit.price
+		setFundingAmount((prev) => (prev || 0) - outfit.price);
+	};
+
+	// REMOVE an outfit
+	const removeBySlotIndex = (slotIndex) => {
+		setCollection((prev) => {
+			const newArr = [...prev];
+			const removedOutfit = newArr[slotIndex];
+			if (removedOutfit) {
+				const realIndex = removedOutfit.outfitIndex;
+				setAddedOutfits((old) => {
+					const updated = [...old];
+					updated[realIndex] = false;
+					return updated;
+				});
+				// Give the cost back
+				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
+			}
+			newArr[slotIndex] = null;
+			return newArr;
+		});
+	};
+
+	// Toggle outfit in/out of collection
+	const toggleOutfit = () => {
+		if (!selectedOutfit) return;
+		if (addedOutfits[selectedModelIndex]) {
+			// Already added -> find and remove
+			const slotIndex = collection.findIndex(
+				(slot) => slot && slot.outfitIndex === selectedModelIndex
+			);
+			if (slotIndex !== -1) {
+				removeBySlotIndex(slotIndex);
+			}
+		} else {
+			if (isCollectionFull) return;
+			addToCollection(selectedOutfit, selectedModelIndex);
 		}
-	}, [fontStyle, onFontStyleChange]);
+	};
 
-	// ========== Thumbs Up/Down Helper ==========
+	// Collection breakdown logic
+	const currentCollectionCount = collection.filter(
+		(item) => item !== null
+	).length;
+	let breakdownText = "";
+	if (currentCollectionCount === 0) {
+		breakdownText = "Select 3 Outfits to View Smart Breakdown";
+	} else if (currentCollectionCount > 0 && currentCollectionCount < 3) {
+		breakdownText = `${currentCollectionCount} Outfit${
+			currentCollectionCount > 1 ? "s" : ""
+		} Selected — Add ${
+			3 - currentCollectionCount
+		} More to View Smart Breakdown`;
+	}
+
+	// Compute Combined Originality when 3 are chosen
+	let averageOriginal = 0;
+	if (currentCollectionCount === 3) {
+		const sumOriginal = collection.reduce(
+			(acc, item) => acc + item.originalDesignPct,
+			0
+		);
+		averageOriginal = Math.round(sumOriginal / 3);
+	}
+	const averagePlagiarized = 100 - averageOriginal;
+
+	const getSummaryText = (avg) => {
+		if (avg >= 80) {
+			return "Your collection is highly original! You've chosen truly innovative designs.";
+		} else if (avg >= 50) {
+			return "Your collection strikes a balance of originality and existing influences.";
+		}
+		return "Your collection borrows heavily from existing designs. Consider more unique pieces!";
+	};
+
+	// For the purchase button, require all 3 outfits
+	const isCollectionActive = currentCollectionCount === 3;
+
+	// Thumb Up/Down images
 	const thumbsUpImage = "/images/green-thumb.svg";
 	const thumbsDownImage = "/images/red-thumb.svg";
 
@@ -249,74 +353,7 @@ function CanvasChooseOutfits({
 		);
 	};
 
-	// ========== Collection Logic ==========
-	const isCollectionFull = collection.every((slot) => slot !== null);
-
-	/**
-	 * ADD AN OUTFIT
-	 */
-	const addToCollection = (outfit, index) => {
-		setCollection((prev) => {
-			const idx = prev.findIndex((item) => item === null);
-			if (idx === -1) return prev; // no space
-			const newArr = [...prev];
-			newArr[idx] = { ...outfit, outfitIndex: index };
-			return newArr;
-		});
-
-		setAddedOutfits((prev) => {
-			const updated = [...prev];
-			updated[index] = true;
-			return updated;
-		});
-
-		// ADDED: Update fundingAmount by subtracting outfit.price
-		setFundingAmount((prev) => (prev || 0) - outfit.price);
-	};
-
-	/**
-	 * REMOVE AN OUTFIT
-	 */
-	const removeBySlotIndex = (slotIndex) => {
-		setCollection((prev) => {
-			const newArr = [...prev];
-			const removedOutfit = newArr[slotIndex];
-			if (removedOutfit) {
-				const realIndex = removedOutfit.outfitIndex;
-
-				setAddedOutfits((old) => {
-					const updated = [...old];
-					updated[realIndex] = false;
-					return updated;
-				});
-
-				// ADDED: Give the cost back to the user
-				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
-			}
-			newArr[slotIndex] = null;
-			return newArr;
-		});
-	};
-
-	/**
-	 * ADD / REMOVE an outfit depending on current state
-	 */
-	const toggleOutfit = () => {
-		if (!selectedOutfit) return;
-		if (addedOutfits[selectedModelIndex]) {
-			// Already added -> find and remove
-			const slotIndex = collection.findIndex(
-				(slot) => slot && slot.outfitIndex === selectedModelIndex
-			);
-			if (slotIndex !== -1) {
-				removeBySlotIndex(slotIndex);
-			}
-		} else {
-			if (isCollectionFull) return;
-			addToCollection(selectedOutfit, selectedModelIndex);
-		}
-	};
-
+	// ========== RENDER ==========
 	let ctaLabel = "Add to Collection";
 	if (addedOutfits[selectedModelIndex]) {
 		ctaLabel = "Remove from Collection";
@@ -324,47 +361,6 @@ function CanvasChooseOutfits({
 		ctaLabel = "Max Reached";
 	}
 
-	// ========== Dynamic Breakdown Text (no text if all 3 are chosen) ==========
-	const currentCollectionCount = collection.filter(
-		(item) => item !== null
-	).length;
-	let breakdownText = "";
-	if (currentCollectionCount === 0) {
-		breakdownText = "Select 3 Outfits to View Smart Breakdown";
-	} else if (currentCollectionCount > 0 && currentCollectionCount < 3) {
-		breakdownText = `${currentCollectionCount} Outfit${
-			currentCollectionCount > 1 ? "s" : ""
-		} Selected — Add ${
-			3 - currentCollectionCount
-		} More to View Smart Breakdown`;
-	}
-	// Note: if (currentCollectionCount === 3) we omit any text
-
-	// ========== Compute Combined Originality Once 3 Are Chosen ==========
-	let averageOriginal = 0;
-	if (currentCollectionCount === 3) {
-		const sumOriginal = collection.reduce(
-			(acc, item) => acc + item.originalDesignPct,
-			0
-		);
-		averageOriginal = Math.round(sumOriginal / 3);
-	}
-	const averagePlagiarized = 100 - averageOriginal;
-
-	// Simple example of dynamic summary text
-	const getSummaryText = (avg) => {
-		if (avg >= 80) {
-			return "Your collection is highly original! You've chosen truly innovative designs.";
-		} else if (avg >= 50) {
-			return "Your collection strikes a balance of originality and existing influences.";
-		}
-		return "Your collection borrows heavily from existing designs. Consider more unique pieces!";
-	};
-
-	// For the purchase section, highlight when user has selected all 3 outfits
-	const isCollectionActive = currentCollectionCount === 3;
-
-	// ========== RENDER ==========
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
@@ -454,7 +450,7 @@ function CanvasChooseOutfits({
 
 								{/* The .breakdown container */}
 								<div ref={fontSelectionContainerRef} className="breakdown">
-									{/* Only show text if collectionCount < 3 */}
+									{/* Only show text if < 3 outfits */}
 									{currentCollectionCount < 3 && (
 										<span className="breakdown-desc">{breakdownText}</span>
 									)}
@@ -477,9 +473,7 @@ function CanvasChooseOutfits({
 
 							{/* =========== Purchase Section =========== */}
 							<div
-								className={`create-submit-container ${
-									isReady ? "ready-container" : ""
-								}`}
+								className="create-submit-container"
 								ref={createSubmitContainerRef}
 							>
 								<div
@@ -492,7 +486,6 @@ function CanvasChooseOutfits({
 											isCollectionActive ? "active" : ""
 										}`}
 									>
-										{/* NOTE: You could also show real-time updated 'fundingAmount' here if desired */}
 										<span
 											className={`brand-title ${
 												isCollectionActive ? "active" : ""
@@ -509,8 +502,8 @@ function CanvasChooseOutfits({
 										</span>
 									</div>
 									<div
-										className={`create-btn ${isReady ? "ready-btn" : "h"} ${
-											isCollectionActive ? "active" : ""
+										className={`button-start ${
+											isCollectionActive ? "blink-start" : "blink-none"
 										}`}
 										onMouseDown={startCreateHold}
 										onMouseUp={endCreateHold}
@@ -518,10 +511,15 @@ function CanvasChooseOutfits({
 										onTouchEnd={endCreateHold}
 									>
 										<div
-											className="hold-progress-create"
+											className={`${
+												isCollectionActive ? "hold-progress-start" : "not-start"
+											}`}
 											style={{ width: `${createProgress}%` }}
 										/>
-										<div style={{ position: "relative", zIndex: 2 }}>
+										<div
+											style={{ position: "relative" }}
+											className="purchase-btn"
+										>
 											Purchase
 											<FontAwesomeIcon
 												icon={faArrowRight}

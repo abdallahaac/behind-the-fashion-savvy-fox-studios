@@ -352,33 +352,76 @@ button.cta-button.remove {
 
 /* Breakdown Padding */
 .breakdown {
+	opacity: 1 !important;
 	padding: 30px !important;
 	transition: all 300ms ease-in-out;
 }
 
 /* Purchase Section Transitions */
+/* Limit transition properties to background-color and border-color
+   so border-radius is applied immediately when active */
 .create-submit {
-	transition: all 300ms ease-in-out;
+	box-sizing: border-box;
+	transition: background-color 300ms ease-in-out, border-color 300ms ease-in-out;
 }
+
 .create-submit.active {
 	background-color: #ffeeeb;
-	border-radius: 20px;
 	border: 1px solid #c83c00;
-	transition: all 300ms ease-in-out;
+	border-radius: 20px; /* This applies instantly without transition */
 }
+
 .create-description > * {
 	transition: all 300ms ease-in-out;
 }
+
 .create-description.active > * {
 	color: black !important;
 	opacity: 1;
 	transition: all 300ms ease-in-out;
 }
+
 .create-btn {
-	transition: all 300ms ease-in-out;
+	box-sizing: border-box;
+	transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
+
 .create-btn.h.active {
 	background-color: #c83c00;
 	color: white;
 	transition: all 300ms ease-in-out;
+}
+
+/* Button Start for Hold-to-Complete */
+.button-start.blink-none {
+	background-color: #505050 !important;
+	cursor: auto;
+	display: flex;
+	text-align: center !important;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.not-start {
+	display: flex;
+	color: rgba(255, 255, 255, 0.078) !important;
+	box-sizing: border-box;
+	z-index: 0;
+	cursor: none;
+}
+
+.not-start > * {
+	opacity: 0.2 !important;
+}
+
+.purchase-btn {
+	display: flex;
+	align-items: center;
+}
+
+/* Ensure proper box-sizing for key elements */
+.button-start,
+.create-submit,
+.create-btn {
+	box-sizing: border-box;
 }
