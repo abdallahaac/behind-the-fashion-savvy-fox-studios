@@ -305,20 +305,24 @@ function CanvasChooseOutfits({
 	}
 
 	// ========== Dynamic Breakdown Text (no text if all 3 are chosen) ==========
-	const collectionCount = collection.filter((item) => item !== null).length;
+	const currentCollectionCount = collection.filter(
+		(item) => item !== null
+	).length;
 	let breakdownText = "";
-	if (collectionCount === 0) {
+	if (currentCollectionCount === 0) {
 		breakdownText = "Select 3 Outfits to View Smart Breakdown";
-	} else if (collectionCount > 0 && collectionCount < 3) {
-		breakdownText = `${collectionCount} Outfit${
-			collectionCount > 1 ? "s" : ""
-		} Selected — Add ${3 - collectionCount} More to View Smart Breakdown`;
+	} else if (currentCollectionCount > 0 && currentCollectionCount < 3) {
+		breakdownText = `${currentCollectionCount} Outfit${
+			currentCollectionCount > 1 ? "s" : ""
+		} Selected — Add ${
+			3 - currentCollectionCount
+		} More to View Smart Breakdown`;
 	}
-	// Note: if (collectionCount === 3) we omit any text, so breakdownText = ""
+	// Note: if (currentCollectionCount === 3) we omit any text, so breakdownText = ""
 
 	// ========== Compute Combined Originality Once 3 Are Chosen ==========
 	let averageOriginal = 0;
-	if (collectionCount === 3) {
+	if (currentCollectionCount === 3) {
 		const sumOriginal = collection.reduce(
 			(acc, item) => acc + item.originalDesignPct,
 			0
@@ -336,6 +340,9 @@ function CanvasChooseOutfits({
 		}
 		return "Your collection borrows heavily from existing designs. Consider more unique pieces!";
 	};
+
+	// Determine if purchase section should use active styles when three outfits have been selected
+	const isCollectionActive = currentCollectionCount === 3;
 
 	// ========== RENDER ==========
 	return (
@@ -428,12 +435,12 @@ function CanvasChooseOutfits({
 								{/* The .breakdown container */}
 								<div ref={fontSelectionContainerRef} className="breakdown">
 									{/* Only show the text if collectionCount < 3 */}
-									{collectionCount < 3 && (
+									{currentCollectionCount < 3 && (
 										<span className="breakdown-desc">{breakdownText}</span>
 									)}
 
 									{/* Show the metric only if 3 outfits are selected */}
-									{collectionCount === 3 && (
+									{currentCollectionCount === 3 && (
 										<CollectionOriginalityMetric
 											label="Collection Originality Metric"
 											originalPercentage={averageOriginal}
@@ -455,27 +462,35 @@ function CanvasChooseOutfits({
 								}`}
 								ref={createSubmitContainerRef}
 							>
-								<div className="create-submit">
+								<div
+									className={`create-submit ${
+										isCollectionActive ? "active" : ""
+									}`}
+								>
 									<div
 										className={`create-description ${
-											isReady ? "ready-text" : ""
+											isCollectionActive ? "active" : ""
 										}`}
 									>
 										<span
-											className={`brand-title ${isReady ? "brand-ready" : ""}`}
+											className={`brand-title ${
+												isCollectionActive ? "active" : ""
+											}`}
 										>
 											$ - - - -
 										</span>
 										<span
 											className={`brand-desc ${
-												isReady ? "brand-desc-ready" : ""
+												isCollectionActive ? "active" : ""
 											}`}
 										>
 											Total Design Price
 										</span>
 									</div>
 									<div
-										className={`create-btn ${isReady ? "ready-btn" : "h"}`}
+										className={`create-btn ${isReady ? "ready-btn" : "h"} ${
+											isCollectionActive ? "active" : ""
+										}`}
 										onMouseDown={startCreateHold}
 										onMouseUp={endCreateHold}
 										onTouchStart={startCreateHold}

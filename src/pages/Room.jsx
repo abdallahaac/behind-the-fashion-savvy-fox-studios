@@ -137,8 +137,7 @@ function Room() {
 			setShowVanguardUI(true);
 		} else if (index === 1) {
 			// Show the brand creation UI
-			// setShowCreateBrand(true);
-			setShowOutfitSelection(true);
+			setShowCreateBrand(true);
 		} else if (index === 3) {
 			setShowVanguardUI(true);
 			const randomIndex = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
