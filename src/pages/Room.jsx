@@ -5,7 +5,7 @@ import gsap from "gsap";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
-import VanguardTutorial from "../components/VanguardTutorial";
+// Removed VanguardTutorial import since we no longer use it
 import VanguardPopUp from "../components/VanguardPopUps";
 import CreateBrand from "../components/CreateBrand";
 import Hotseat from "../components/Hotseat";
@@ -34,11 +34,8 @@ function Room() {
 	// Which Vanguard is currently selected (for pop-up)
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 
-	// Control the pop-up for Vanguards 1, 2, 3 (or for subsequent activations)
+	// Control the pop-up for any Vanguard
 	const [showPopUp, setShowPopUp] = useState(false);
-
-	// Control the tutorial for Vanguard 0 (first activation)
-	const [showTutorial, setShowTutorial] = useState(false);
 
 	// Additional UI states
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
@@ -63,7 +60,7 @@ function Room() {
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
-	const tutorialContainerRef = useRef(null);
+	// tutorialContainerRef removed since we no longer show a tutorial
 
 	// Hotseat states
 	const [currentStep, setCurrentStep] = useState(0);
@@ -106,17 +103,6 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
-	// Animate tutorial container in
-	useEffect(() => {
-		if (showTutorial && tutorialContainerRef.current) {
-			gsap.fromTo(
-				tutorialContainerRef.current,
-				{ autoAlpha: 0 },
-				{ duration: 1, autoAlpha: 1, ease: "power3.out" }
-			);
-		}
-	}, [showTutorial]);
-
 	// Auto-play (optional)
 	useEffect(() => {
 		handlePlayClick();
@@ -141,18 +127,17 @@ function Room() {
 			setShowCreateBrand(true);
 		} else if (index === 3) {
 			setShowVanguardUI(true);
-			const randomIndex = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
-			setVanguardActiveStates(() => {
-				const newStates = [false, false, false, false];
-				newStates[randomIndex] = true;
-				return newStates;
-			});
+			// Activate only Vanguard 0 at this breakpoint.
+			setVanguardActiveStates(() => [true, false, false, false]);
 		} else if (index === 4) {
-			// You can toggle between brand creation and outfit selection here.
-			// For example, to show outfit selection instead of CreateBrand:
+			// Show outfit selection instead of CreateBrand:
 			setShowOutfitSelection(true);
 		} else if (index === 6) {
 			setShowVanguardUI(true);
+			// At this breakpoint, we want to rely on popups.
+			// For example, if Vanguard 0 was already activated once,
+			// we now want to activate the other 3:
+			setVanguardActiveStates(() => [false, true, true, true]);
 		}
 	};
 
@@ -166,49 +151,23 @@ function Room() {
 		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
 
-	// Open the tutorial (for Vanguard 0)
-	const openTutorial = () => {
-		setShowTutorial(true);
-	};
-
-	// Close the tutorial and deactivate Vanguard 0
-	const closeTutorial = () => {
-		setShowTutorial(false);
-		setVanguardActiveStates((prev) => {
-			const newState = [...prev];
-			newState[0] = false;
-			return newState;
-		});
-	};
-
-	const handleTutorialDone = () => {
-		closeTutorial();
-		handleContinue();
-	};
-
 	/**
 	 * When a Vanguard is clicked:
-	 * - For Vanguard 0, if it’s the first activation, show the tutorial.
-	 * - Otherwise, show the popup with the appropriate scenario.
+	 * Now, regardless of which Vanguard is clicked, we simply:
+	 *  - Set the active index,
+	 *  - Increment its activation count, and
+	 *  - Show its popup.
 	 */
 	const handleVanguardClick = (index) => {
-		// Ignore clicks on inactive Vanguards
+		// Ignore clicks on inactive Vanguards.
 		if (!vanguardActiveStates[index]) return;
 
-		// If Vanguard 0 is clicked for the first time, open the tutorial.
-		if (index === 0 && vanguardActivationCounts[0] === 0) {
-			openTutorial();
-			return;
-		}
-
-		// For Vanguard 0 (after the first activation) or any other Vanguard,
-		// set the active index, increment the activation count, and show the pop-up.
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
 	};
 
-	// Increment the activation count for a given Vanguard
+	// Increment the activation count for a given Vanguard.
 	const incrementVanguardActivation = (index) => {
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
@@ -220,33 +179,36 @@ function Room() {
 	/**
 	 * When the popup "Done" is pressed, we want to:
 	 * - Hide the popup.
-	 * - For Vanguard 0:
-	 *    - If this is the second activation (first content 0 second activation), set its active state to false.
-	 *    - Otherwise, force it to reappear with its second activation.
-	 * - Advance the camera to the next breakpoint.
+	 * - If Vanguard 0 was active and this was its first activation,
+	 *   then activate Vanguards 1, 2, and 3.
+	 * - Otherwise, simply deactivate the current Vanguard.
+	 * - Finally, advance the scene (by calling handleContinue).
 	 */
 	const handleDeactivateActiveVanguard = () => {
-		// Save the current active index before resetting it.
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
-		// If the previous active was Vanguard 0 and it's the second activation, set its state to false.
-		if (prevActive === 0 && vanguardActivationCounts[0] >= 2) {
-			setVanguardActiveStates([false, false, false, false]);
-		} else {
-			// Otherwise, force Vanguard 0 to appear.
-			setVanguardActiveStates([true, false, false, false]);
-		}
-		setVanguardActivationCounts((prev) => {
-			const newCounts = [...prev];
-			if (newCounts[0] < 2) {
-				newCounts[0] = 2;
-			}
-			return newCounts;
-		});
-		// If the previous active was Vanguard 0, advance to the next breakpoint.
+
 		if (prevActive === 0) {
-			handleContinue();
+			// For Vanguard 0: if this is its first activation, then activate Vanguards 1–3.
+			if (vanguardActivationCounts[0] === 1) {
+				setVanguardActiveStates([false, true, true, true]);
+			} else if (vanguardActivationCounts[0] >= 2) {
+				// If Vanguard 0 has been activated more than once, simply deactivate all and advance.
+				setVanguardActiveStates([false, false, false, false]);
+				handleContinue();
+			}
+		} else {
+			// For secondary vanguards (indexes 1, 2, 3):
+			setVanguardActiveStates((prevStates) => {
+				const newStates = [...prevStates];
+				newStates[prevActive] = false;
+				// If all secondary vanguards are off, then advance.
+				if (!newStates[1] && !newStates[2] && !newStates[3]) {
+					handleContinue();
+				}
+				return newStates;
+			});
 		}
 	};
 
@@ -284,22 +246,6 @@ function Room() {
 				>
 					Continue
 				</button>
-
-				{/* Tutorial for Vanguard 0 (first activation) */}
-				{showTutorial && (
-					<div
-						ref={tutorialContainerRef}
-						style={{
-							opacity: 0,
-							position: "relative",
-							top: "50%",
-							left: 0,
-							zIndex: 999,
-						}}
-					>
-						<VanguardTutorial onDone={handleTutorialDone} />
-					</div>
-				)}
 
 				{/* Vanguard UI (clickable circles) */}
 				{showVanguardUI && (
@@ -442,31 +388,31 @@ function Room() {
 
 				{/* Optional Hotseat UI */}
 				{/* {showHotseat && (
-					<div style={{ position: "absolute", zIndex: 9999 }}>
-						<Hotseat
-							mode={mode}
-							currentStep={currentStep}
-							onNext={() =>
-								handleNext(
-									mode,
-									setMode,
-									questionIndex,
-									setQuestionIndex,
-									selectedQuestions,
-									setCurrentStep,
-									setResult,
-									setFunding
-								)
-							}
-							onDone={handleHotseatDone}
-							question={selectedQuestions[questionIndex]}
-							answers={selectedQuestions[questionIndex]?.answers}
-							funding={funding}
-							result={result}
-							totalSteps={selectedQuestions.length + 1}
-						/>
-					</div>
-				)} */}
+          <div style={{ position: "absolute", zIndex: 9999 }}>
+            <Hotseat
+              mode={mode}
+              currentStep={currentStep}
+              onNext={() =>
+                handleNext(
+                  mode,
+                  setMode,
+                  questionIndex,
+                  setQuestionIndex,
+                  selectedQuestions,
+                  setCurrentStep,
+                  setResult,
+                  setFunding
+                )
+              }
+              onDone={handleHotseatDone}
+              question={selectedQuestions[questionIndex]}
+              answers={selectedQuestions[questionIndex]?.answers}
+              funding={funding}
+              result={result}
+              totalSteps={selectedQuestions.length + 1}
+            />
+          </div>
+        )} */}
 			</div>
 		</>
 	);

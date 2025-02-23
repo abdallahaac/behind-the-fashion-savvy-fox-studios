@@ -28,6 +28,20 @@ const vanguardContents = {
 					funding: true,
 				},
 			],
+			[
+				{
+					title: "THE VANGUARDS",
+					description:
+						"Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+					image: BotSvg,
+				},
+				{
+					title: "THE VANGUARDS",
+					description:
+						"Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+					image: BotSvg,
+				},
+			],
 		],
 	},
 

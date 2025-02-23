@@ -196,3 +196,9 @@ img.step-image {
 	font-size: 1.4rem;
 	color: #1d7b18;
 }
+p.tutorial-description {
+	max-width: 300px;
+}
+.tutorial-container {
+	width: 400px;
+}

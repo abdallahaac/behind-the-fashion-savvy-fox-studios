@@ -141,7 +141,8 @@ function VanguardTutorial({ onDone }) {
 			ease: "power1.out",
 			onComplete: () => {
 				setIsTutorialVisible(false);
-				if (onDone) onDone();
+				// Update the activation count for Vanguard 0 by notifying the parent.
+				if (onDone) onDone({ tutorialCompleted: true });
 			},
 		});
 	};
