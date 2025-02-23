@@ -1,10 +1,15 @@
 import React from "react";
 import "../assets/styles/vanguard.css";
-import LogoSVG from "../assets/images/logo.svg";
+import Vanguard1 from "../assets/images/logo.svg";
+
+import Vanguard2 from "../assets/images/Vanguard-1.svg";
+import Vanguard3 from "../assets/images/Vanguard-2.svg";
+import Vanguard4 from "../assets/images/Vanguard-3.svg";
 
 function Vanguard({ activeStates, onVanguardClick }) {
 	// Define indices for the vanguards (e.g., 0: Exo, 1: Sustainable, 2: Capitalist, etc.)
 	const vanguards = [0, 1, 2, 3];
+	const vanguardImages = [Vanguard1, Vanguard2, Vanguard3, Vanguard4];
 
 	return (
 		<div className="vanguard-parent-container">
@@ -26,7 +31,11 @@ function Vanguard({ activeStates, onVanguardClick }) {
 								activeStates[vIndex] ? "blink-animation" : ""
 							}`}
 						>
-							<img src={LogoSVG} alt="Logo" className="logo-vanguard" />
+							<img
+								src={vanguardImages[vIndex]}
+								alt={`Vanguard ${vIndex + 1}`}
+								className="logo-vanguard"
+							/>
 						</div>
 					</div>
 				))}

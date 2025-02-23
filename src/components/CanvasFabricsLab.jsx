@@ -460,7 +460,10 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 											</span>
 											<div className="span-price">${currentFabric.cost}</div>
 										</div>
-										<div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+										<div
+											style={{ marginTop: "1rem", marginBottom: "1rem" }}
+											className="fabric-description"
+										>
 											<p>
 												{currentFabric.env_title
 													? currentFabric.env_title

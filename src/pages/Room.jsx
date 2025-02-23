@@ -121,8 +121,7 @@ function Room() {
 		setCurrentBreakpointIndex(index);
 
 		if (index === 0) {
-			// setShowVanguardUI(true);
-			setShowFabricLabs(true);
+			setShowVanguardUI(true);
 		} else if (index === 1) {
 			// Show the brand creation UI
 			setShowCreateBrand(true);
@@ -140,6 +139,10 @@ function Room() {
 		} else if (index === 7) {
 			// IMPORTANT: Pass a value (true) so that Fabric Labs is activated.
 			setShowFabricLabs(true);
+		} else if (index === 9) {
+			// IMPORTANT: Pass a value (true) so that Fabric Labs is activated.
+			setShowVanguardUI(true);
+			setVanguardActiveStates(() => [true, false, false, false]);
 		}
 	};
 
