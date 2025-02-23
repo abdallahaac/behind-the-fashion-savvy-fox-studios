@@ -263,15 +263,15 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 								className={`step-containers ${
 									currentSection >= 1 ? "active-step" : ""
 								}`}
-								style={{ backgroundColor: currentSection >= 1 ? "white" : "" }}
+								style={{ backgroundColor: "white" }}
 							></div>
 							<div
 								className="step-containers"
-								style={{ backgroundColor: currentSection >= 2 ? "white" : "" }}
+								style={{ backgroundColor: "white" }}
 							></div>
 							<div
 								className="step-containers"
-								style={{ backgroundColor: currentSection >= 3 ? "white" : "" }}
+								style={{ backgroundColor: "white" }}
 							></div>
 							<div className="step-containers"></div>
 						</div>

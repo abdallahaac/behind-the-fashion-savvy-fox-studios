@@ -9,7 +9,7 @@ import CanvasBarSelection from "../components/CanvasBarSelection";
 import CollectionOriginalityMetric from "../components/CollectionOrigMetric"; // new metric
 
 import { useModels } from "../utils/ModelsContext";
-import { FundingContext } from "../utils/FundingContext"; // <-- ADDED
+import { FundingContext } from "../utils/FundingContext";
 
 function getBrandDesc(font) {
 	switch (font) {
@@ -234,7 +234,7 @@ function CanvasChooseOutfits({
 	const addToCollection = (outfit, index) => {
 		setCollection((prev) => {
 			const idx = prev.findIndex((item) => item === null);
-			if (idx === -1) return prev; // no space
+			if (idx === -1) return prev; // no space left
 			const newArr = [...prev];
 			newArr[idx] = { ...outfit, outfitIndex: index };
 			return newArr;
@@ -246,7 +246,7 @@ function CanvasChooseOutfits({
 			return updated;
 		});
 
-		// Update fundingAmount by subtracting outfit.price
+		// Decrease player's funding by the outfit's price
 		setFundingAmount((prev) => (prev || 0) - outfit.price);
 	};
 
@@ -324,6 +324,12 @@ function CanvasChooseOutfits({
 
 	// For the purchase button, require all 3 outfits
 	const isCollectionActive = currentCollectionCount === 3;
+
+	// ================== TOTAL PRICE for the 3 outfits ==================
+	const totalDesignPrice = collection.reduce(
+		(acc, item) => acc + (item ? item.price : 0),
+		0
+	);
 
 	// Thumb Up/Down images
 	const thumbsUpImage = "/images/green-thumb.svg";
@@ -492,19 +498,22 @@ function CanvasChooseOutfits({
 											isCollectionActive ? "active" : ""
 										}`}
 									>
+										{/* ONLY show total price if all 3 outfits are chosen */}
 										<span
 											className={`brand-title ${
 												isCollectionActive ? "active" : ""
 											}`}
 										>
-											$ - - - -
+											{isCollectionActive
+												? `$${totalDesignPrice.toLocaleString()}`
+												: "$ ---"}
 										</span>
 										<span
 											className={`brand-desc ${
 												isCollectionActive ? "active" : ""
 											}`}
 										>
-											Total Design Price
+											{isCollectionActive ? "Total Design Price" : ""}
 										</span>
 									</div>
 									<div

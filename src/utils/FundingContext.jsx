@@ -3,18 +3,20 @@ import React, { createContext, useState } from "react";
 export const FundingContext = createContext();
 
 export function FundingProvider({ children }) {
-	const [fundingAmount, setFundingAmount] = useState(null);
+	// Initialize fundingAmount to 100000 (or 0, or whatever).
+	// If you leave it as null, your BudgetBar shows "$ ---" initially.
+	const [fundingAmount, setFundingAmount] = useState(0);
 
-	// Generate a random funding amount between 45,000 and 100,000
+	// Example function to randomize or set a higher initial funding:
 	const generateFunding = () => {
-		const amount = Math.floor(Math.random() * (100000 - 45000 + 1)) + 45000;
+		const amount = 100000;
 		setFundingAmount(amount);
 		return amount;
 	};
 
 	return (
 		<FundingContext.Provider
-			value={{ fundingAmount, generateFunding, setFundingAmount }}
+			value={{ fundingAmount, setFundingAmount, generateFunding }}
 		>
 			{children}
 		</FundingContext.Provider>

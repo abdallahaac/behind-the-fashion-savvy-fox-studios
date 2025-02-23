@@ -6,17 +6,18 @@ function BudgetBar() {
 	const { fundingAmount } = useContext(FundingContext);
 	const [animate, setAnimate] = useState(false);
 
-	// Trigger the flip animation whenever fundingAmount changes.
+	// Whenever fundingAmount changes, trigger flip animation
 	useEffect(() => {
 		setAnimate(true);
-		const timer = setTimeout(() => setAnimate(false), 600); // match the duration of the CSS animation
+		const timer = setTimeout(() => setAnimate(false), 600);
 		return () => clearTimeout(timer);
 	}, [fundingAmount]);
 
-	// Format the display amount.
-	const displayAmount = fundingAmount
-		? `$${fundingAmount.toLocaleString()}`
-		: "$ ---";
+	// If fundingAmount is 0 or null, we show "$ ---"; otherwise format it.
+	const displayAmount =
+		fundingAmount && fundingAmount !== 0
+			? `$${fundingAmount.toLocaleString()}`
+			: "$ ---";
 
 	return (
 		<div className="metric-budget-container">

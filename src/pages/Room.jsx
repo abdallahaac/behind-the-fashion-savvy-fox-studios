@@ -1,49 +1,41 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 
-// Components and utilities
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
-// Removed VanguardTutorial import since we no longer use it
 import VanguardPopUp from "../components/VanguardPopUps";
 import CreateBrand from "../components/CreateBrand";
 import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
 import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
-import CanvasChooseOutfits from "../components/CanvasChooseOutfits"; // outfit selection screen
+import CanvasChooseOutfits from "../components/CanvasChooseOutfits";
 import vanguardContents from "../utils/VanguardContents";
 import BudgetBar from "../components/BudgetBar";
-import CanvasFabricLabs from "../components/CanvasFabricsLab"; // Fabric Labs component
+import CanvasFabricLabs from "../components/CanvasFabricsLab";
+
+// Import the FundingContext
+import { FundingContext } from "../utils/FundingContext";
 
 function Room() {
-	// Example states for Vanguard UI
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
-		true, // Vanguard 0 initially active
-		false, // Vanguard 1
-		false, // Vanguard 2
-		false, // Vanguard 3
+		true,
+		false,
+		false,
+		false,
 	]);
-
-	// Track how many times each Vanguard has been activated
 	const [vanguardActivationCounts, setVanguardActivationCounts] = useState([
 		0, 0, 0, 0,
 	]);
-
-	// Which Vanguard is currently selected (for pop-up)
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
-
-	// Control the pop-up for any Vanguard
 	const [showPopUp, setShowPopUp] = useState(false);
 
-	// Additional UI states
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
 	const [showFabricLabs, setShowFabricLabs] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
-	const [showHotseat, setShowHotseat] = useState(true);
+	const [showHotseat, setShowHotseat] = useState(false);
 
-	// Scene / animation states
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
@@ -51,32 +43,33 @@ function Room() {
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
 
-	// Branding states
 	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [brandName, setBrandName] = useState("");
 	const [fontStyle, setFontStyle] = useState("");
 
-	// Refs for animation
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
-	// Removed tutorialContainerRef since we no longer use a tutorial
 
-	// Hotseat states
 	const [currentStep, setCurrentStep] = useState(0);
 	const [mode, setMode] = useState("Normal");
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedQuestions, setSelectedQuestions] = useState([]);
 	const [result, setResult] = useState(0);
-	const [funding, setFunding] = useState("Funding");
 
-	// Shuffle questions on mount
+	// Pull from context instead of local state
+	const { fundingAmount, setFundingAmount, generateFunding } =
+		useContext(FundingContext);
+
 	useEffect(() => {
+		// Example: automatically generate initial funding if you want
+		// generateFunding();
+
+		// Or shuffle questions:
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
 
-	// Initial fade in for canvas and logo
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
@@ -90,7 +83,6 @@ function Room() {
 		);
 	}, []);
 
-	// Animate Vanguard UI in
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
 			gsap.set(vanguardContainerRef.current, { x: -100, opacity: 0 });
@@ -103,46 +95,41 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
-	// Auto-play (optional)
 	useEffect(() => {
+		// Auto-play the scene when Room mounts (optional).
 		handlePlayClick();
 	}, []);
 
-	// Hotseat callbacks
 	const handleHotseatDone = () => {
 		setShowHotseat(false);
 		handleDone(setMode, setCurrentStep, setQuestionIndex);
 	};
 
-	// Breakpoint handler
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
 
 		if (index === 0) {
+			// setShowHotseat(true);
+			setShowOutfitSelection(true);
+
 			setShowVanguardUI(true);
 		} else if (index === 1) {
-			// Show the brand creation UI
 			setShowCreateBrand(true);
 		} else if (index === 3) {
 			setShowVanguardUI(true);
-			// Activate only Vanguard 0 at this breakpoint.
-			setVanguardActiveStates(() => [true, false, false, false]);
+			setVanguardActiveStates([true, false, false, false]);
 		} else if (index === 4) {
-			// Show outfit selection instead of CreateBrand:
 			setShowOutfitSelection(true);
 		} else if (index === 6) {
 			setShowVanguardUI(true);
-			// Activate secondary vanguards.
-			setVanguardActiveStates(() => [false, true, true, true]);
+			setVanguardActiveStates([false, true, true, true]);
 		} else if (index === 7) {
-			// IMPORTANT: Pass a value (true) so that Fabric Labs is activated.
 			setShowFabricLabs(true);
 		} else if (index === 9) {
-			// IMPORTANT: Pass a value (true) so that Fabric Labs is activated.
 			setShowVanguardUI(true);
-			setVanguardActiveStates(() => [true, false, false, false]);
+			setVanguardActiveStates([true, false, false, false]);
 		}
 	};
 
@@ -156,59 +143,43 @@ function Room() {
 		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
 
-	/**
-	 * When a Vanguard is clicked:
-	 * Now, regardless of which Vanguard is clicked, we simply:
-	 *  - Set the active index,
-	 *  - Increment its activation count, and
-	 *  - Show its popup.
-	 */
 	const handleVanguardClick = (index) => {
-		// Ignore clicks on inactive Vanguards.
 		if (!vanguardActiveStates[index]) return;
+
+		if (currentBreakpointIndex === 9 && index === 0) {
+			setShowHotseat(true);
+			return;
+		}
 
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
 	};
 
-	// Increment the activation count for a given Vanguard.
 	const incrementVanguardActivation = (index) => {
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
-			newCounts[index] += 1;
+			newCounts[index]++;
 			return newCounts;
 		});
 	};
 
-	/**
-	 * When the popup "Done" is pressed, we want to:
-	 * - Hide the popup.
-	 * - If Vanguard 0 was active and this was its first activation,
-	 *   then activate Vanguards 1, 2, and 3.
-	 * - Otherwise, simply deactivate the current Vanguard.
-	 * - Finally, advance the scene (by calling handleContinue).
-	 */
 	const handleDeactivateActiveVanguard = () => {
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
 
 		if (prevActive === 0) {
-			// For Vanguard 0: if this is its first activation, then activate Vanguards 1–3.
 			if (vanguardActivationCounts[0] === 1) {
 				setVanguardActiveStates([false, true, true, true]);
 			} else if (vanguardActivationCounts[0] >= 2) {
-				// If Vanguard 0 has been activated more than once, simply deactivate all and advance.
 				setVanguardActiveStates([false, false, false, false]);
 				handleContinue();
 			}
 		} else {
-			// For secondary vanguards (indexes 1, 2, 3):
 			setVanguardActiveStates((prevStates) => {
 				const newStates = [...prevStates];
 				newStates[prevActive] = false;
-				// If all secondary vanguards are off, then advance.
 				if (!newStates[1] && !newStates[2] && !newStates[3]) {
 					handleContinue();
 				}
@@ -221,6 +192,7 @@ function Room() {
 		<>
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
+				{/* Shows the dynamic "Funds Raised" amount from context */}
 				<BudgetBar />
 			</div>
 
@@ -252,7 +224,6 @@ function Room() {
 					Continue
 				</button>
 
-				{/* Vanguard UI (clickable circles) */}
 				{showVanguardUI && (
 					<div
 						ref={vanguardContainerRef}
@@ -265,7 +236,6 @@ function Room() {
 					</div>
 				)}
 
-				{/* Brand creation UI */}
 				{showCreateBrand && (
 					<div
 						style={{
@@ -309,7 +279,6 @@ function Room() {
 					</div>
 				)}
 
-				{/* Outfit selection UI */}
 				{showOutfitSelection && (
 					<div
 						style={{
@@ -353,7 +322,6 @@ function Room() {
 					</div>
 				)}
 
-				{/* Fabric Labs UI */}
 				{showFabricLabs && (
 					<div
 						style={{
@@ -397,7 +365,6 @@ function Room() {
 					</div>
 				)}
 
-				{/* Dynamic Vanguard Popup */}
 				{showPopUp && activeVanguardIndex !== null && (
 					<div
 						style={{
@@ -423,7 +390,43 @@ function Room() {
 					</div>
 				)}
 
-				{/* Scene component with breakpoints */}
+				{showHotseat && (
+					<div
+						style={{
+							position: "absolute",
+							zIndex: 9999,
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							width: "100%",
+							height: "100%",
+						}}
+					>
+						<Hotseat
+							mode={mode}
+							currentStep={currentStep}
+							onNext={() =>
+								handleNext(
+									mode,
+									setMode,
+									questionIndex,
+									setQuestionIndex,
+									selectedQuestions,
+									setCurrentStep,
+									setResult,
+									setFundingAmount // pass context setter
+								)
+							}
+							onDone={handleHotseatDone}
+							question={selectedQuestions[questionIndex]}
+							answers={selectedQuestions[questionIndex]?.answers}
+							funding={fundingAmount}
+							result={result}
+							totalSteps={selectedQuestions.length + 1}
+						/>
+					</div>
+				)}
+
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
@@ -434,34 +437,6 @@ function Room() {
 					brandName={brandName}
 					fontStyle={fontStyle}
 				/>
-
-				{/* Optional Hotseat UI */}
-				{/* {showHotseat && (
-          <div style={{ position: "absolute", zIndex: 9999 }}>
-            <Hotseat
-              mode={mode}
-              currentStep={currentStep}
-              onNext={() =>
-                handleNext(
-                  mode,
-                  setMode,
-                  questionIndex,
-                  setQuestionIndex,
-                  selectedQuestions,
-                  setCurrentStep,
-                  setResult,
-                  setFunding
-                )
-              }
-              onDone={handleHotseatDone}
-              question={selectedQuestions[questionIndex]}
-              answers={selectedQuestions[questionIndex]?.answers}
-              funding={funding}
-              result={result}
-              totalSteps={selectedQuestions.length + 1}
-            />
-          </div>
-        )} */}
 			</div>
 		</>
 	);

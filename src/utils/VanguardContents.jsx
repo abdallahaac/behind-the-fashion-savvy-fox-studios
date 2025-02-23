@@ -11,6 +11,8 @@ import Ethics1 from "../assets/images/Ethics-1.svg";
 import Cap1 from "../assets/images/cap-1.svg";
 import Cap2 from "../assets/images/cap-2.svg";
 
+import Funding from "../assets/images/funding.svg";
+
 const vanguardContents = {
 	// Vanguard 0: "Exo"
 	0: {
@@ -48,7 +50,7 @@ const vanguardContents = {
 					title: "THE VANGUARDS",
 					description:
 						"Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
-					image: BotSvg,
+					image: Funding,
 					funding: true,
 				},
 			],

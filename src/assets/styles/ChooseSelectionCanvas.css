@@ -425,3 +425,6 @@ button.cta-button.remove {
 .create-btn {
 	box-sizing: border-box;
 }
+.expanded-container {
+	height: 81vh;
+}
