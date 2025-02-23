@@ -12,10 +12,9 @@ import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
 import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
 import CanvasChooseOutfits from "../components/CanvasChooseOutfits"; // outfit selection screen
-
-// Our new content mapping
 import vanguardContents from "../utils/VanguardContents";
 import BudgetBar from "../components/BudgetBar";
+import CanvasFabricLabs from "../components/CanvasFabricsLab"; // Fabric Labs component
 
 function Room() {
 	// Example states for Vanguard UI
@@ -40,6 +39,7 @@ function Room() {
 	// Additional UI states
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
+	const [showFabricLabs, setShowFabricLabs] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(true);
 
@@ -60,7 +60,7 @@ function Room() {
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
-	// tutorialContainerRef removed since we no longer show a tutorial
+	// Removed tutorialContainerRef since we no longer use a tutorial
 
 	// Hotseat states
 	const [currentStep, setCurrentStep] = useState(0);
@@ -134,10 +134,11 @@ function Room() {
 			setShowOutfitSelection(true);
 		} else if (index === 6) {
 			setShowVanguardUI(true);
-			// At this breakpoint, we want to rely on popups.
-			// For example, if Vanguard 0 was already activated once,
-			// we now want to activate the other 3:
+			// Activate secondary vanguards.
 			setVanguardActiveStates(() => [false, true, true, true]);
+		} else if (index === 7) {
+			// IMPORTANT: Pass a value (true) so that Fabric Labs is activated.
+			setShowFabricLabs(true);
 		}
 	};
 
@@ -339,6 +340,50 @@ function Room() {
 							onLogoSelect={(logoId) => setSelectedLogo(logoId)}
 							onCreate={() => {
 								setShowOutfitSelection(false);
+								handleContinue();
+							}}
+							onBrandNameChange={setBrandName}
+							onFontStyleChange={setFontStyle}
+							isInputEnabled={currentBreakpointIndex >= 2}
+						/>
+					</div>
+				)}
+
+				{/* Fabric Labs UI */}
+				{showFabricLabs && (
+					<div
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 1,
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+						}}
+					>
+						<CanvasFabricLabs
+							onStart={() => {
+								if (vanguardContainerRef.current) {
+									gsap.to(vanguardContainerRef.current, {
+										duration: 1,
+										x: -200,
+										opacity: 0,
+										ease: "power3.inOut",
+										onComplete: () => {
+											setShowVanguardUI(false);
+											handleContinue();
+										},
+									});
+								} else {
+									handleContinue();
+								}
+							}}
+							onLogoSelect={(logoId) => setSelectedLogo(logoId)}
+							onCreate={() => {
+								setShowFabricLabs(false);
 								handleContinue();
 							}}
 							onBrandNameChange={setBrandName}
