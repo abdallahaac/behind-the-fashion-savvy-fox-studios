@@ -111,9 +111,6 @@ function Room() {
 		setCurrentBreakpointIndex(index);
 
 		if (index === 0) {
-			// setShowHotseat(true);
-			setShowOutfitSelection(true);
-
 			setShowVanguardUI(true);
 		} else if (index === 1) {
 			setShowCreateBrand(true);
