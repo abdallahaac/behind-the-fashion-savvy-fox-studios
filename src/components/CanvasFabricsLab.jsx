@@ -6,7 +6,9 @@ import "../assets/styles/canvasFabricLabs.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-import BotSvg from "../assets/images/tutorial-bot.svg";
+// Removed import of BotSvg:
+// import BotSvg from "../assets/images/tutorial-bot.svg";
+
 import CanvasBarFabrics from "../components/CanvasBarFabrics";
 
 import { useModels } from "../utils/ModelsContext";
@@ -358,7 +360,9 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 													handleFabricSelect(fabric);
 												}}
 											>
-												<img src={BotSvg} alt="fabric" />
+												{/* Use the fabric's image path here */}
+												<img src={fabric.img_path} alt={fabric.name} />
+
 												<div className="fabric-option-title">{fabric.name}</div>
 												<div className="fabric-option-price">
 													${fabric.cost}

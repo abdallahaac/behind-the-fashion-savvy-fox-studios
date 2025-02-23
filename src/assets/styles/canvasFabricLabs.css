@@ -42,8 +42,13 @@
 .fabric-container {
 	color: white;
 	background-color: grey;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
 	width: 160px;
-	height: 190px;
+	height: 222px;
 	border-radius: 20px;
 	margin: 10px;
 	padding: 10px;
@@ -57,9 +62,8 @@
 	justify-content: center;
 	background-color: #c83c00;
 	border: 1px solid white;
-	align-items: baseline;
+	align-items: center;
 	flex-direction: column;
-	padding: 10px;
 }
 .fabric-container > img {
 	max-width: 90%;
@@ -71,12 +75,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	text-align: center;
 
 	transition: all 300ms ease-in-out;
 }
 
 .fabric-option-price,
 .fabric-option-title {
+	text-align: center;
+
 	font-size: 0.75rem;
 	margin-bottom: 10px;
 	margin-top: 10px;
