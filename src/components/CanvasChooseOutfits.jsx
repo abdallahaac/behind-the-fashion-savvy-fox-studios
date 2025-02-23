@@ -91,7 +91,7 @@ function CanvasChooseOutfits({
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
 
-	const HOLD_DURATION = 500;
+	const HOLD_DURATION = 0;
 
 	// ==================== Initial GSAP Fade In ====================
 	useEffect(() => {

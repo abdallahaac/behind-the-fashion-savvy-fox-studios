@@ -12,7 +12,11 @@ import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
 import CanvasChooseOutfits from "../components/CanvasChooseOutfits";
 import vanguardContents from "../utils/VanguardContents";
 import BudgetBar from "../components/BudgetBar";
+import HeartsUI from "../components/HeartsUI";
 import CanvasFabricLabs from "../components/CanvasFabricsLab";
+import ecoVanguard from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg"; 
+import wealthVanguard from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg"; 
+import ethicsVanguard from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg"; 
 
 // Import the FundingContext
 import { FundingContext } from "../utils/FundingContext";
@@ -191,6 +195,22 @@ function Room() {
 				<Logo />
 				{/* Shows the dynamic "Funds Raised" amount from context */}
 				<BudgetBar />
+				<HeartsUI
+					title="ECO VANGUARD"
+					fillNumber={0}
+					imageSrc={ecoVanguard}
+            	/>
+				<HeartsUI
+					title="WEALTH VANGUARD"
+					fillNumber={0}
+					imageSrc={wealthVanguard}
+            	/>
+				<HeartsUI
+					title="ETHICS VANGUARD"
+					fillNumber={0}
+					imageSrc={ethicsVanguard}
+            	/>
+				
 			</div>
 
 			<div

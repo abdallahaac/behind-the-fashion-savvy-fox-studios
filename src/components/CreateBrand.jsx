@@ -61,7 +61,7 @@ function CreateBrand({
 	const logoContainerRef = useRef(null);
 	const createSubmitContainerRef = useRef(null);
 
-	const HOLD_DURATION = 500;
+	const HOLD_DURATION = 0;
 
 	// Fade in the entire CreateBrand component on mount.
 	useEffect(() => {
