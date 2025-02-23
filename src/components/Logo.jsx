@@ -11,7 +11,7 @@ const Logo = () => {
 		<button
 			className="logo-button"
 			style={{
-				width: "300px",
+				width: "100%",
 				fontSize: "25px",
 				borderRadius: "20px",
 				overflow: "hidden",

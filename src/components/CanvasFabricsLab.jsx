@@ -14,7 +14,7 @@ import CanvasBarFabrics from "../components/CanvasBarFabrics";
 import { useModels } from "../utils/ModelsContext";
 import { FundingContext } from "../utils/FundingContext";
 
-const HOLD_DURATION = 500;
+const HOLD_DURATION = 0;
 
 function CanvasFabricLabs({ onStart, onCreate }) {
 	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();

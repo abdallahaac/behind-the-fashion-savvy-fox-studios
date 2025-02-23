@@ -22,10 +22,13 @@ function BudgetBar() {
 	return (
 		<div className="metric-budget-container">
 			<div className="metric-child-container">
-				<div className="metric-title">Funds Raised</div>
-				<div className={`metric-amount ${animate ? "flip" : ""}`}>
-					{displayAmount}
+				<div className="metric-details">
+					<div className="metric-title label-large">Funds Raised</div>
+					<div className={`metric-amount accent-2 ${animate ? "flip" : ""}`}>
+						{displayAmount}
+					</div>
 				</div>
+			
 			</div>
 		</div>
 	);

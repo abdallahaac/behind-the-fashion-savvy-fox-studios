@@ -55,7 +55,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard }) {
 	};
 
 	// Hold-to-complete Logic (used on the final step "Done")
-	const HOLD_DURATION = 500; // milliseconds
+	const HOLD_DURATION = 0; // milliseconds
 
 	const startHold = (e) => {
 		e.preventDefault();

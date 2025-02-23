@@ -1,83 +1,57 @@
 .metric-budget-container {
-	margin-left: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px; 
+	width:100%;
 }
 
 .metric-child-container {
-	background-color: #2e2e2e;
-	padding: 10px;
-	border-radius: 20px;
-	display: flex;
-	flex-direction: column;
-	min-width: 240px;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 240px;
+	width:100%;
+    height: 100%; 
+    box-sizing: border-box; 
 }
 
 .metric-title {
-	background-color: #3d3d3d;
-	width: fit-content;
-	padding: 10px;
-	color: white;
-	font-family: "DM Sans", sans-serif;
-	text-transform: uppercase;
-	border-radius: 32px;
-	font-size: 0.8rem;
-	letter-spacing: 1px;
-}
-button.logo-button {
-	height: 90px !important;
+    background-color: #3d3d3d;
+    width: fit-content;
+    padding: 10px;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 32px;
+    letter-spacing: 1px;
+	white-space: nowrap;
+    margin-bottom: 4px; 
+
 }
 
 .metric-amount {
-	font-size: 1.8rem;
-	font-family: "Kode Mono", monospace;
-	color: white;
+    color: white;
 }
-.metric-budget-container {
-	margin-left: 10px;
+.metric-details{
+	margin:4px;
 }
-
-.metric-child-container {
-	background-color: #2e2e2e;
-	padding: 10px;
-	border-radius: 20px;
-	display: flex;
-	flex-direction: column;
-	min-width: 240px;
-}
-
-.metric-title {
-	background-color: #3d3d3d;
-	width: fit-content;
-	padding: 10px;
-	color: white;
-	font-family: "DM Sans", sans-serif;
-	text-transform: uppercase;
-	border-radius: 32px;
-	font-size: 0.8rem;
-	letter-spacing: 1px;
-}
-
-button.logo-button {
-	height: 90px !important;
-}
-
-.metric-amount {
-	font-size: 1.8rem;
-	font-family: "Kode Mono", monospace;
-	color: white;
-}
-
 /* Flip Animation */
 @keyframes flipAnimation {
-	0% {
-		transform: rotateX(90deg);
-		opacity: 0;
-	}
-	100% {
-		transform: rotateX(0deg);
-		opacity: 1;
-	}
+    0% {
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
 }
 
 .flip {
-	animation: flipAnimation 0.6s ease-out;
+    animation: flipAnimation 0.6s ease-out;
 }

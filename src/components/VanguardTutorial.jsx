@@ -97,7 +97,7 @@ function VanguardTutorial({ onDone }) {
 	// ---------------------------
 	// Hold-to-Complete Logic
 	// ---------------------------
-	const HOLD_DURATION = 500; // Duration in ms
+	const HOLD_DURATION = 0; // Duration in ms
 
 	const startHold = (e) => {
 		e.preventDefault();

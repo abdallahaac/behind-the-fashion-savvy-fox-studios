@@ -1,0 +1,50 @@
+.hearts-ui-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    background-color: #2E2E2E;
+    border-radius: 16px;
+    padding: 8px;
+}
+
+.hearts-ui-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hearts-ui-title {
+    color: #FFFFFF;
+    margin-bottom: 4px;
+
+}
+
+.hearts-ui-hearts {
+    display: flex;
+}
+
+.heart {
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+}
+
+.heart-icon {
+    width: 24px;
+    height: 24px;
+    margin:4px;
+}
+
+.hearts-ui-right {
+    display: flex;
+    align-items: center;
+}
+
+.hearts-ui-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin:8px;
+}
