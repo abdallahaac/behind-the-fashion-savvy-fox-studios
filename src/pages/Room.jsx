@@ -15,6 +15,7 @@ import CanvasChooseOutfits from "../components/CanvasChooseOutfits"; // outfit s
 
 // Our new content mapping
 import vanguardContents from "../utils/VanguardContents";
+import BudgetBar from "../components/BudgetBar";
 
 function Room() {
 	// Example states for Vanguard UI
@@ -253,6 +254,7 @@ function Room() {
 		<>
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
+				<BudgetBar />
 			</div>
 
 			<div

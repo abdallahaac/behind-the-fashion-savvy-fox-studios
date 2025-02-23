@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
 import "../assets/styles/CHooseSelectionCanvas.css";
@@ -9,6 +9,7 @@ import CanvasBarSelection from "../components/CanvasBarSelection";
 import CollectionOriginalityMetric from "../components/CollectionOrigMetric"; // new metric
 
 import { useModels } from "../utils/ModelsContext";
+import { FundingContext } from "../utils/FundingContext"; // <-- ADDED
 
 function getBrandDesc(font) {
 	switch (font) {
@@ -38,6 +39,9 @@ function CanvasChooseOutfits({
 	isInputEnabled,
 }) {
 	const { CanvasOutfitsData } = useModels(); // fetch the 9 outfits from context
+
+	// ================== ADD: Funding Context ==================
+	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
 	// --- Local States ---
 	const [selectedModelIndex, setSelectedModelIndex] = useState(0);
@@ -248,6 +252,9 @@ function CanvasChooseOutfits({
 	// ========== Collection Logic ==========
 	const isCollectionFull = collection.every((slot) => slot !== null);
 
+	/**
+	 * ADD AN OUTFIT
+	 */
 	const addToCollection = (outfit, index) => {
 		setCollection((prev) => {
 			const idx = prev.findIndex((item) => item === null);
@@ -262,25 +269,38 @@ function CanvasChooseOutfits({
 			updated[index] = true;
 			return updated;
 		});
+
+		// ADDED: Update fundingAmount by subtracting outfit.price
+		setFundingAmount((prev) => (prev || 0) - outfit.price);
 	};
 
+	/**
+	 * REMOVE AN OUTFIT
+	 */
 	const removeBySlotIndex = (slotIndex) => {
 		setCollection((prev) => {
 			const newArr = [...prev];
 			const removedOutfit = newArr[slotIndex];
 			if (removedOutfit) {
 				const realIndex = removedOutfit.outfitIndex;
+
 				setAddedOutfits((old) => {
 					const updated = [...old];
 					updated[realIndex] = false;
 					return updated;
 				});
+
+				// ADDED: Give the cost back to the user
+				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
 			}
 			newArr[slotIndex] = null;
 			return newArr;
 		});
 	};
 
+	/**
+	 * ADD / REMOVE an outfit depending on current state
+	 */
 	const toggleOutfit = () => {
 		if (!selectedOutfit) return;
 		if (addedOutfits[selectedModelIndex]) {
@@ -318,7 +338,7 @@ function CanvasChooseOutfits({
 			3 - currentCollectionCount
 		} More to View Smart Breakdown`;
 	}
-	// Note: if (currentCollectionCount === 3) we omit any text, so breakdownText = ""
+	// Note: if (currentCollectionCount === 3) we omit any text
 
 	// ========== Compute Combined Originality Once 3 Are Chosen ==========
 	let averageOriginal = 0;
@@ -331,7 +351,7 @@ function CanvasChooseOutfits({
 	}
 	const averagePlagiarized = 100 - averageOriginal;
 
-	// Simple example of dynamic summary text based on averageOriginal
+	// Simple example of dynamic summary text
 	const getSummaryText = (avg) => {
 		if (avg >= 80) {
 			return "Your collection is highly original! You've chosen truly innovative designs.";
@@ -341,7 +361,7 @@ function CanvasChooseOutfits({
 		return "Your collection borrows heavily from existing designs. Consider more unique pieces!";
 	};
 
-	// Determine if purchase section should use active styles when three outfits have been selected
+	// For the purchase section, highlight when user has selected all 3 outfits
 	const isCollectionActive = currentCollectionCount === 3;
 
 	// ========== RENDER ==========
@@ -434,7 +454,7 @@ function CanvasChooseOutfits({
 
 								{/* The .breakdown container */}
 								<div ref={fontSelectionContainerRef} className="breakdown">
-									{/* Only show the text if collectionCount < 3 */}
+									{/* Only show text if collectionCount < 3 */}
 									{currentCollectionCount < 3 && (
 										<span className="breakdown-desc">{breakdownText}</span>
 									)}
@@ -472,6 +492,7 @@ function CanvasChooseOutfits({
 											isCollectionActive ? "active" : ""
 										}`}
 									>
+										{/* NOTE: You could also show real-time updated 'fundingAmount' here if desired */}
 										<span
 											className={`brand-title ${
 												isCollectionActive ? "active" : ""
