@@ -426,5 +426,133 @@ button.cta-button.remove {
 	box-sizing: border-box;
 }
 .expanded-container {
-	height: 81vh;
+	max-height: fit-content;
+}
+
+/* factory */
+/* Make the expanded container taller so we see the factory section */
+.expanded-container.factory {
+	height: 700px;
+}
+/* factory */
+/* Make the expanded container taller so we see the factory section */
+.expanded-container.factory {
+	height: 784px;
+}
+
+/* The main factory container layout */
+.factory-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.factory-title {
+	text-transform: uppercase;
+	font-size: 1.4rem;
+	margin-bottom: 3px;
+}
+
+/* Container for the two toggle buttons */
+.factory-about-products-container {
+	position: relative;
+	width: 401px; /* Adjust as desired */
+	height: 48px; /* Adjust as desired */
+	border-radius: 30px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #292929; /* Dark background around the pill */
+}
+
+/* The sliding "pill" behind the active button */
+.toggle-slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%; /* Because we have two toggles, each half of the container */
+	height: 100%;
+	background-color: #cc2c2f; /* The red color for the active portion */
+	border-radius: 30px;
+	transition: left 0.3s ease; /* Smooth slide */
+	z-index: 1; /* Behind text, above the container background */
+}
+
+/* Each toggle button is on top of the slider, fully transparent background */
+.factory-toggle {
+	position: relative;
+	z-index: 2; /* Appear above .toggle-slider */
+	flex: 1;
+	text-align: center;
+	color: #fff;
+	border: none;
+	outline: none;
+	background: none;
+	cursor: pointer;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	padding: 0; /* We can control vertical space with line-height or container height */
+}
+
+.factory-toggle.left {
+	/* No special rules needed unless you want */
+}
+.factory-toggle.right {
+	/* No special rules needed unless you want */
+}
+
+/* Example content sections for the selected tab */
+.about-container {
+	display: flex;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.factory-audit-container {
+	font-size: 1rem;
+	margin: 1rem 0;
+}
+
+.factory-toggle-switch {
+	display: flex;
+	justify-content: center;
+}
+
+.factory-location-container {
+	display: flex;
+	flex-direction: row;
+	background-color: #222222;
+	align-items: center;
+	border-radius: 10px;
+	padding: 7px;
+	margin: 5px;
+	justify-content: space-evenly;
+}
+
+.location .location-container {
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.location-container {
+	margin: 10px;
+}
+
+#factory-img {
+	width: 50px !important;
+	height: 50px !important;
+	border-radius: 50%;
+	background-color: white;
+}
+
+.location-title,
+.location-description {
+	margin: 10px;
+	font-size: 11px;
+}
+.create-submit-container.factory {
+	margin-top: 10px;
 }

@@ -1,66 +1,37 @@
+// src/components/CanvasManufactorer.jsx
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
 import "../assets/styles/CHooseSelectionCanvas.css";
+import "../assets/styles/CanvasManufacturer.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-// Removed import of BotSvg:
-// import BotSvg from "../assets/images/tutorial-bot.svg";
-
-import CanvasBarFabrics from "./CanvasBarFabrics";
-
+import CanvasFactoryBarSelection from "./CanvasFactoryBarSelection";
 import { useModels } from "../utils/ModelsContext";
+import botSvg from "../assets/images/tutorial-bot.svg"; // example only
+
 import { FundingContext } from "../utils/FundingContext";
 
 const HOLD_DURATION = 0;
 
 function CanvasManufactorer({ onStart, onCreate }) {
-	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();
+	const { CanvasManufacturer } = useModels(); // from your context
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
-	// Which section (1=Light, 2=Knit, 3=Shiny)
-	const [currentSection, setCurrentSection] = useState(1);
-
-	// Fabric arrays for each section
-	const getFabricsForSection = () => {
-		if (currentSection === 1) return CottonChoices;
-		if (currentSection === 2) return HeavyChoices;
-		if (currentSection === 3) return SyntheticChoices;
-		return [];
-	};
-
-	// Track selected fabric (object) per section
-	const [selectedFabrics, setSelectedFabrics] = useState({
-		1: null,
-		2: null,
-		3: null,
-	});
-
-	// Current array of possible fabrics for the active section
-	const fabricsData = getFabricsForSection();
-
-	// Index of the currently highlighted fabric
-	const [selectedFabricIndex, setSelectedFabricIndex] = useState(0);
-
-	// The actual highlighted fabric object
-	const currentFabric =
-		fabricsData && fabricsData.length > 0
-			? fabricsData[selectedFabricIndex]
+	// Selected factory index
+	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
+	const currentFactory =
+		CanvasManufacturer && CanvasManufacturer.length > 0
+			? CanvasManufacturer[selectedFactoryIndex]
 			: null;
 
-	// --------------------------------------------------
-	// Calculate total cost of all selected fabrics
-	// --------------------------------------------------
-	const totalCost = Object.values(selectedFabrics).reduce(
-		(acc, fabric) => (fabric ? acc + fabric.cost : acc),
-		0
-	);
+	// About vs. Factory Audit toggle
+	const [isAbout, setIsAbout] = useState(true);
 
-	// --------------------------------------------------
-	// Intro "Start" button long-press logic
-	// --------------------------------------------------
+	// "Start" button expansion logic
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
@@ -135,57 +106,53 @@ function CanvasManufactorer({ onStart, onCreate }) {
 		}
 	}, [isExpanded]);
 
-	// --------------------------------------------------
-	// Final (3rd) section Purchase hold logic
-	// --------------------------------------------------
-	const [createProgress, setCreateProgress] = useState(0);
-	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
-	const createHoldStartRef = useRef(null);
-	const createIntervalRef = useRef(null);
+	// Purchase hold logic (optional); you can keep or remove the "hold" approach
+	const [purchaseProgress, setPurchaseProgress] = useState(0);
+	const [isPurchaseBlinking, setIsPurchaseBlinking] = useState(false);
+	const purchaseHoldStartRef = useRef(null);
+	const purchaseIntervalRef = useRef(null);
 
-	// Are we on the last section?
-	const isOnLastSection = currentSection === 3;
-	// Check if user selected a fabric in the current section
-	const isFabricChosenThisSection = !!selectedFabrics[currentSection];
+	// Only let user Purchase if the user is toggled on the "factory audit"
+	const isPurchaseActive = !isAbout && currentFactory;
 
-	const startCreateHold = (e) => {
-		if (!isOnLastSection || !isFabricChosenThisSection) return;
+	const startPurchaseHold = (e) => {
+		if (!isPurchaseActive) return;
 		e.preventDefault();
-		setIsCreateBlinking(false);
-		setCreateProgress(0);
-		createHoldStartRef.current = Date.now();
+		setIsPurchaseBlinking(false);
+		setPurchaseProgress(0);
+		purchaseHoldStartRef.current = Date.now();
 
-		createIntervalRef.current = setInterval(() => {
-			const elapsed = Date.now() - createHoldStartRef.current;
+		purchaseIntervalRef.current = setInterval(() => {
+			const elapsed = Date.now() - purchaseHoldStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
 			if (newProgress >= 100) {
-				setCreateProgress(100);
-				handleCreateDone();
-				clearInterval(createIntervalRef.current);
+				setPurchaseProgress(100);
+				handlePurchase();
+				clearInterval(purchaseIntervalRef.current);
 			} else {
-				setCreateProgress(newProgress);
+				setPurchaseProgress(newProgress);
 			}
 		}, 30);
 	};
 
-	const endCreateHold = (e) => {
-		if (!isOnLastSection || !isFabricChosenThisSection) return;
+	const endPurchaseHold = (e) => {
+		if (!isPurchaseActive) return;
 		e.preventDefault();
-		clearInterval(createIntervalRef.current);
-		if (createProgress < 100) {
-			setCreateProgress(0);
-			setIsCreateBlinking(true);
+		clearInterval(purchaseIntervalRef.current);
+		if (purchaseProgress < 100) {
+			setPurchaseProgress(0);
+			setIsPurchaseBlinking(true);
 		}
 	};
 
-	const handleCreateDone = () => {
-		// Subtract the cost of the 3rd fabric from the budget
-		const finalFabric = selectedFabrics[3];
-		if (finalFabric) {
-			setFundingAmount((prev) => (prev !== null ? prev - finalFabric.cost : 0));
-		}
+	const handlePurchase = () => {
+		if (!currentFactory) return;
+		const cost = Number(currentFactory.manufacturingCost) || 0;
 
-		// Fade out the entire container
+		// Deduct from funding
+		setFundingAmount((prev) => (prev !== null ? prev - cost : 0));
+
+		// Then fade out and call onCreate
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -196,62 +163,19 @@ function CanvasManufactorer({ onStart, onCreate }) {
 		});
 	};
 
-	// --------------------------------------------------
-	// On "Purchase" click for sections 1 & 2 -> next & subtract cost
-	// On section 3 -> do the hold logic instead
-	// --------------------------------------------------
-	const handlePurchaseClick = () => {
-		if (!isFabricChosenThisSection) return;
-
-		if (currentSection < 3) {
-			const chosenFabric = selectedFabrics[currentSection];
-			if (chosenFabric) {
-				setFundingAmount((prev) =>
-					prev !== null ? prev - chosenFabric.cost : 0
-				);
-			}
-			setCurrentSection((prevSec) => prevSec + 1);
-			setSelectedFabricIndex(0);
-		}
-		// If currentSection === 3, we rely on the hold logic
-	};
-
-	// --------------------------------------------------
-	// Fabric selection logic
-	// --------------------------------------------------
-	const handleFabricSelect = (fabric) => {
-		console.log("clicked");
-		if (!fabric) return;
-		setSelectedFabrics((prev) => ({
-			...prev,
-			[currentSection]: fabric,
-		}));
-	};
-
-	// --------------------------------------------------
-	// Section Title
-	// --------------------------------------------------
-	const getSectionTitle = () => {
-		switch (currentSection) {
-			case 1:
-				return "1. CHOOSE A LIGHT FABRIC";
-			case 2:
-				return "2. CHOOSE A KNIT FABRIC";
-			case 3:
-				return "3. CHOOSE A SHINY FABRIC";
-			default:
-				return "";
-		}
-	};
-
-	// Button label and active styling
-	const buttonLabel = currentSection < 3 ? "Purchase" : "Purchase";
-	const isButtonActive = isFabricChosenThisSection;
+	// Simple click alternative (instead of hold)
+	// const handlePurchaseClick = () => {
+	//   if (isPurchaseActive) {
+	//     handlePurchase();
+	//   }
+	// };
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container ${
+					isExpanded ? "expanded-container factory" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
@@ -260,36 +184,33 @@ function CanvasManufactorer({ onStart, onCreate }) {
 						</div>
 						<div className="step-parent-container">
 							<div
-								className={`step-containers ${
-									currentSection >= 1 ? "active-step" : ""
-								}`}
+								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 							<div
 								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 							<div
 								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 							<div
 								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 						</div>
 					</div>
 					<div className="brand-create">Factory Selection</div>
 				</div>
 
 				<div className="body-create">
-					{/* === Screen #1: The big "Start" button (not yet expanded) === */}
+					{/* Screen #1: The big "Start" button */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
 								Choose a manufacturer from anywhere in the world and explore the
-								various standards they follow.{" "}
-								{/* <strong>${fundingAmount ?? "N/A"}</strong> */}
+								various standards they follow.
 							</div>
 							<div
 								className={`button-start ${isBlinking ? "blink-start" : ""}`}
@@ -309,132 +230,251 @@ function CanvasManufactorer({ onStart, onCreate }) {
 							</div>
 						</div>
 					) : (
-						// === Screen #2: The multi-section fabric selection ===
+						// Screen #2: Show the manufacturer selection, toggles, etc.
 						<div
 							className="new-container"
 							ref={loremContainerRef}
 							style={{ opacity: 0 }}
 						>
-							{/* Top nav: clickable section numbers */}
-							<div className="fabric-nav-container">
-								<div className="fabric-nav-child-container">
-									<div
-										className={`section-number ${
-											currentSection === 1 ? "active" : ""
-										}`}
-										onClick={() => setCurrentSection(1)}
-									>
-										1
-									</div>
-									<div className="section-number line"></div>
-									<div
-										className={`section-number ${
-											currentSection === 2 ? "active" : ""
-										}`}
-										onClick={() => setCurrentSection(2)}
-									>
-										2
-									</div>
-									<div className="section-number line"></div>
-									<div
-										className={`section-number ${
-											currentSection === 3 ? "active" : ""
-										}`}
-										onClick={() => setCurrentSection(3)}
-									>
-										3
-									</div>
-								</div>
-							</div>
+							{/* Manufacturer selection bar */}
+							<CanvasFactoryBarSelection
+								items={CanvasManufacturer}
+								selectedIndex={selectedFactoryIndex}
+								setSelectedIndex={setSelectedFactoryIndex}
+								onFactorySelect={() => {}}
+							/>
 
-							{/* Title / fabric grid */}
-							<div className="fabric-title-container">
-								<div>
-									<div className="fabric-title">{getSectionTitle()}</div>
-									<div className="fabric-selection-container">
-										{fabricsData.map((fabric, idx) => (
+							{/* Current factory info */}
+							{currentFactory && (
+								<div className="factory-container">
+									<div className="factory-title">{currentFactory.title}</div>
+
+									{/* Toggle switch for About / Factory Audit */}
+									<div className="factory-toggle-switch">
+										<div className="factory-about-products-container">
 											<div
-												key={fabric.id}
-												className={`fabric-container ${
-													idx === selectedFabricIndex ? "active" : ""
-												}`}
-												onClick={() => {
-													setSelectedFabricIndex(idx);
-													handleFabricSelect(fabric);
-												}}
-											>
-												{/* Use the fabric's image path here */}
-												<img src={fabric.img_path} alt={fabric.name} />
+												className="toggle-slider"
+												style={{ left: isAbout ? "0%" : "50%" }}
+											></div>
 
-												<div className="fabric-option-title">{fabric.name}</div>
-												<div className="fabric-option-price">
-													${fabric.cost}
+											<button
+												className="factory-toggle left"
+												onClick={() => setIsAbout(true)}
+											>
+												ABOUT
+											</button>
+											<button
+												className="factory-toggle right"
+												onClick={() => setIsAbout(false)}
+											>
+												FACTORY AUDIT
+											</button>
+										</div>
+									</div>
+
+									{/* Conditionally render the About or Factory Audit sections */}
+									{isAbout && (
+										<div className="about-container">
+											{/* Some example of how to show "about" fields */}
+											<div className="factory-location-container">
+												<img
+													className="factory-img"
+													width="75"
+													height="75"
+													src={
+														currentFactory.about?.locationImage?.botSvg ||
+														botSvg
+													}
+													alt="factory"
+												/>
+												<div className="location-container">
+													<div className="location-title">
+														{currentFactory.about?.locationTitle}
+													</div>
+													<div className="location-description">
+														{currentFactory.about?.locationDescription}
+													</div>
 												</div>
 											</div>
-										))}
-									</div>
-								</div>
-							</div>
 
-							{/* Purchase button area */}
-							<div className="create-submit-container">
+											<div className="factory-location-container">
+												{/* Standard Info */}
+												{currentFactory.about?.standardImage && (
+													<img
+														className="factory-img"
+														width="75"
+														height="75"
+														src={
+															currentFactory.about?.standardImage?.botSvg ||
+															botSvg
+														}
+														alt=""
+													/>
+												)}
+												<div className="location-container">
+													<div className="location-title">
+														{currentFactory.about?.standardTitle}
+													</div>
+													<div className="location-description">
+														{currentFactory.about?.standardDescription}
+													</div>
+												</div>
+											</div>
+
+											{/* ETI info, if it exists */}
+											{currentFactory.about?.etiImage && (
+												<div className="factory-location-container">
+													<img
+														className="factory-img"
+														width="75"
+														height="75"
+														src={currentFactory.about?.etiImage?.botSvg}
+														alt=""
+													/>
+													<div className="location-container">
+														<div className="location-title">
+															{currentFactory.about?.etiBaseTitle}
+														</div>
+														<div className="location-description">
+															{currentFactory.about?.etiBaseDescription}
+														</div>
+													</div>
+												</div>
+											)}
+										</div>
+									)}
+
+									{!isAbout && (
+										<div className="factory-audit-container">
+											{/* Example: Show factory audit fields if they exist */}
+											<div className="factory-location-container">
+												<img
+													className="factory-img"
+													width="75"
+													height="75"
+													src={
+														currentFactory.factoryAudit?.fairWageImage
+															?.botSvg || botSvg
+													}
+													alt="fair-wage"
+												/>
+												<div className="location-container">
+													<div className="location-title">
+														{currentFactory.factoryAudit?.fairWageTitle}
+													</div>
+													<div className="location-description">
+														{currentFactory.factoryAudit?.fairWageDescription}
+													</div>
+												</div>
+											</div>
+											<div className="factory-location-container">
+												<img
+													className="factory-img"
+													width="75"
+													height="75"
+													src={
+														currentFactory.factoryAudit?.energyImage?.botSvg ||
+														botSvg
+													}
+													alt="energy"
+												/>
+												<div className="location-container">
+													<div className="location-title">
+														{currentFactory.factoryAudit?.energyEfficiencyTitle}
+													</div>
+													<div className="location-description">
+														{
+															currentFactory.factoryAudit
+																?.energyEfficiencyDescription
+														}
+													</div>
+												</div>
+											</div>
+											<div className="factory-location-container">
+												<img
+													className="factory-img"
+													width="75"
+													height="75"
+													src={
+														currentFactory.factoryAudit?.wasteImage?.botSvg ||
+														botSvg
+													}
+													alt="waste"
+												/>
+												<div className="location-container">
+													<div className="location-title">
+														{currentFactory.factoryAudit?.wasteEfficiencyTitle}
+													</div>
+													<div className="location-description">
+														{
+															currentFactory.factoryAudit
+																?.wasteEfficiencyDescription
+														}
+													</div>
+												</div>
+											</div>
+										</div>
+									)}
+								</div>
+							)}
+
+							{/* Purchase button area (only active if "factory audit" is toggled) */}
+							<div className="create-submit-container factory">
 								<div
-									className={`create-submit ${isButtonActive ? "active" : ""}`}
+									className={`create-submit ${
+										isPurchaseActive ? "active" : ""
+									}`}
 								>
 									<div
 										className={`create-description ${
-											isButtonActive ? "active" : ""
+											isPurchaseActive ? "active" : ""
 										}`}
 									>
-										{/* Display total cost instead of budget */}
 										<span
 											className={`brand-title ${
-												isButtonActive ? "active" : ""
+												isPurchaseActive ? "active" : ""
 											}`}
 										>
-											${totalCost}
+											$
+											{currentFactory
+												? currentFactory.manufacturingCost
+												: "00000"}
 										</span>
 										<span
-											className={`brand-desc ${isButtonActive ? "active" : ""}`}
+											className={`brand-desc ${
+												isPurchaseActive ? "active" : ""
+											}`}
 										>
-											{currentSection < 3
-												? "Click Purchase to Advance"
-												: "Hold Purchase to Complete"}
+											{isPurchaseActive
+												? "Click or Hold Purchase to Confirm"
+												: "Factory Audit Must Be Selected"}
 										</span>
 									</div>
 									<div
 										className={`button-start ${
-											isButtonActive
-												? isOnLastSection
-													? // For 3rd section, blink if user hasn't fully held the button
-													  isCreateBlinking
-														? "blink-start"
-														: ""
+											isPurchaseActive
+												? isPurchaseBlinking
+													? "blink-start"
 													: ""
 												: "blink-none"
 										}`}
-										onClick={handlePurchaseClick}
-										onMouseDown={startCreateHold}
-										onMouseUp={endCreateHold}
-										onTouchStart={startCreateHold}
-										onTouchEnd={endCreateHold}
+										onMouseDown={startPurchaseHold}
+										onMouseUp={endPurchaseHold}
+										onTouchStart={startPurchaseHold}
+										onTouchEnd={endPurchaseHold}
+										// onClick={handlePurchaseClick} // Alternative single-click approach
 									>
-										{/* Show hold progress only on the last section */}
-										{isOnLastSection && (
+										{isPurchaseActive && (
 											<div
-												className={`${
-													isFabricChosenThisSection
-														? "hold-progress-start"
-														: "not-start"
-												}`}
-												style={{ width: `${createProgress}%` }}
+												className="hold-progress-start"
+												style={{ width: `${purchaseProgress}%` }}
 											/>
 										)}
 										<div
 											style={{ position: "relative" }}
 											className="purchase-btn"
 										>
-											{buttonLabel}
+											Purchase
 											<FontAwesomeIcon
 												icon={faArrowRight}
 												className="icon-right"
@@ -442,44 +482,6 @@ function CanvasManufactorer({ onStart, onCreate }) {
 										</div>
 									</div>
 								</div>
-							</div>
-
-							{/* CanvasBarFabrics with prev/next */}
-							<CanvasBarFabrics
-								items={fabricsData}
-								selectedIndex={selectedFabricIndex}
-								setSelectedIndex={setSelectedFabricIndex}
-								// Pass down our fabric selection callback:
-								onFabricSelect={handleFabricSelect}
-							/>
-
-							{/* Left-hand info panel for the currently highlighted fabric */}
-							<div className="left-component">
-								{currentFabric && (
-									<div className="left-container">
-										<div className="header-info">
-											<span className="model-title">
-												{currentFabric.name.toUpperCase()}
-											</span>
-											<div className="span-price">${currentFabric.cost}</div>
-										</div>
-										<div
-											style={{ marginTop: "1rem", marginBottom: "1rem" }}
-											className="fabric-description"
-										>
-											<p>
-												{currentFabric.env_title
-													? currentFabric.env_title
-													: "Environment info..."}
-											</p>
-											<p>
-												{currentFabric.env_description
-													? currentFabric.env_description
-													: "Description..."}
-											</p>
-										</div>
-									</div>
-								)}
 							</div>
 						</div>
 					)}

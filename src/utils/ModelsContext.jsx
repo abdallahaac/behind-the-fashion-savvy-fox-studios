@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import botSvg from "../assets/images/tutorial-bot.svg";
 
 // Optional: This cameraAnimation is from your snippet; keep if still needed
 const cameraAnimation = {
@@ -8,6 +9,198 @@ const cameraAnimation = {
 };
 
 const modelsData = {
+	CanvasManufacturer: [
+		{
+			id: 1,
+			title: "artisthread textiles",
+			manufacturingCost: "60000",
+
+			about: {
+				locationImage: { botSvg },
+				locationTitle: "Located in Europe",
+				locationDescription:
+					"ArtistThread Textiles is renowned for its exceptional craftsmanship, skilled workforce, and dedication to sustainable practices. Its strategic location within Europe also offers easy access to key markets, making it an ideal choice for brands seeking reliable and efficient production.",
+				standardImage: { botSvg },
+
+				standardTitle: "SA8000 Standard",
+				standardDescription:
+					"A standard that organizations meet to show their commitment to treating workers fairly. ",
+				etiImage: { botSvg },
+				etiBaseTitle: "ETI Base Code",
+
+				etiBaseDescription:
+					"A set of labour standards organizations follow to improve working conditions",
+			},
+			factoryAudit: {
+				fairWageTitle: "Fair Wage & Conditions to Workers",
+				fairWageDescription:
+					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
+				fairWageImage: { botSvg },
+				energyEfficiencyTitle: "Energy Efficient ",
+
+				energyEfficiencyDescription:
+					"Factory uses renewable energy sources and has low carbon footprints",
+				energyImage: { botSvg },
+
+				wasteEfficiencyTitle: "Waste Reduction ",
+				wasteEfficiencyDescription:
+					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices",
+				wasteImage: { botSvg },
+			},
+		},
+		{
+			id: 2,
+			title: "phoenix garments co",
+			manufacturingCost: "20000",
+
+			about: {
+				locationImage: { botSvg },
+				locationTitle: "Located in Asia",
+				locationDescription:
+					"Pheonix Garmets Co. is a major hub for clothing manufacturing, offering cost-effective and large-scale production. While challenges remain around environmental and labor practices, many manufacturers are shifting toward more sustainable and ethical approaches.",
+				standardImage: { botSvg },
+
+				standardTitle: "Low Transparency into Practices",
+				standardDescription:
+					"This factory has little to no disclosure into it’s practices. Audits have rarely been conducted and are inconclusive  ",
+				etiImage: false,
+				etiBaseTitle: false,
+
+				etiBaseDescription: false,
+			},
+			factoryAudit: {
+				fairWageTitle: "Fast Lead Time",
+				fairWageDescription:
+					"Garments can be made in large quantities with quick turn-around time, allowing you to capitalize quickly on trends",
+				fairWageImage: { botSvg },
+				energyEfficiencyTitle: "High Waste Production",
+
+				energyEfficiencyDescription:
+					"An inefficient use of resources leads to a large amount of waste being produced as a byproduct of production.",
+				energyImage: { botSvg },
+
+				wasteEfficiencyTitle: "Risk of Sweatshops",
+				wasteEfficiencyDescription:
+					"Factories with low transparency risk the use of outsourcing their labor to sweatshops to ensure low costs ",
+				wasteImage: { botSvg },
+			},
+		},
+		{
+			id: 3,
+			title: "Sundar Apparel Works",
+			manufacturingCost: "78000",
+
+			about: {
+				locationImage: { botSvg },
+				locationTitle: "Located in Asia",
+				locationDescription:
+					"Sundar Apparel Works is a leading manufacturer in Bangladesh, recognized for its commitment to cost-effective, large-scale production. The factory places a strong emphasis on sustainability and ethical practices, ensuring that both environmental impact and labor conditions are prioritized in its operations.",
+				standardImage: { botSvg },
+
+				standardTitle: "SA8000 Standard",
+				standardDescription:
+					"A standard that organizations meet to show their commitment to treating workers fairly. ",
+				etiImage: false,
+				etiBaseTitle: false,
+
+				etiBaseDescription: false,
+			},
+			factoryAudit: {
+				fairWageTitle: "Fair Wage & Conditions to Workers",
+				fairWageDescription:
+					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
+				fairWageImage: { botSvg },
+
+				energyEfficiencyTitle: "Waste Reduction",
+
+				energyEfficiencyDescription:
+					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices.",
+				energyImage: { botSvg },
+
+				wasteEfficiencyTitle: "Use of Coal as Energy Source",
+				wasteEfficiencyDescription:
+					"Coal is the primary source of electricity that is used to power production.",
+				wasteImage: { botSvg },
+			},
+		},
+		{
+			id: 4,
+			title: "Silver oak manufacturing",
+			manufacturingCost: "40000",
+
+			about: {
+				locationImage: { botSvg },
+				locationTitle: "Located in North America",
+				locationDescription:
+					"Silver Oak Manufacturing is known for its balanced approach to sustainability and ethical production. The factory integrates eco-friendly materials and energy-efficient processes while ensuring fair labor practices. With a focus on quality and responsibility, ",
+				standardImage: { botSvg },
+
+				standardTitle: "SA8000 Standard",
+				standardDescription:
+					"A standard that organizations meet to show their commitment to treating workers fairly. ",
+				etiImage: { botSvg },
+				etiBaseTitle: "ISO 14001",
+
+				etiBaseDescription:
+					"A standard for environmental management to minimize environmental impact.",
+			},
+			factoryAudit: {
+				fairWageTitle: "High-Quality Craftsmanship",
+				fairWageDescription:
+					"The factory maintains strict quality control measures throughout the production process.",
+				fairWageImage: { botSvg },
+
+				energyEfficiencyTitle: "Environmentally Responsible",
+
+				energyEfficiencyDescription:
+					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
+				energyImage: { botSvg },
+
+				wasteEfficiencyTitle: "Limited Production Scale",
+				wasteEfficiencyDescription:
+					"This factory may struggle with scaling up quickly to meet very large orders.",
+				wasteImage: { botSvg },
+			},
+		},
+		{
+			id: 5,
+			title: "Anadolu Textile Works",
+			manufacturingCost: "22000",
+
+			about: {
+				locationImage: { botSvg },
+				locationTitle: "Located in Europe",
+				locationDescription:
+					"Anadolu Textile Works specializes in garment production, while provides a reasonable option for brands seeking a moderately sustainable solution at a competitive price, though there are areas for improvement in both labor and overall environmental impact.",
+				standardImage: { botSvg },
+
+				standardTitle: "OEKO-TEX Standard 100",
+				standardDescription:
+					"Ensures that the textiles produced are free from harmful chemicals, making them safe for consumer use.",
+				etiImage: false,
+				etiBaseTitle: false,
+
+				etiBaseDescription: false,
+			},
+			factoryAudit: {
+				fairWageTitle: "High-Quality Craftsmanship",
+				fairWageDescription:
+					"The factory maintains strict quality control measures throughout the production process.",
+				fairWageImage: { botSvg },
+
+				energyEfficiencyTitle: "Environmentally Responsible",
+
+				energyEfficiencyDescription:
+					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
+				energyImage: { botSvg },
+
+				wasteEfficiencyTitle: "Low Transparency into Practices",
+				wasteEfficiencyDescription:
+					"This factory has little to no disclosure into it’s practices. Audits have rarely been conducted and are inconclusive ",
+				wasteImage: { botSvg },
+			},
+		},
+	],
 	// -------------------------
 	// The 9 new outfits for your CanvasChooseOutfits
 	// -------------------------
@@ -823,6 +1016,7 @@ const modelsData = {
 			cost_icon: "neutral",
 		},
 	],
+
 	Manufacturers: [
 		{
 			id: 1,

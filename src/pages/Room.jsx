@@ -133,8 +133,7 @@ function Room() {
 			setShowVanguardUI(true);
 
 			// Example: show the Manufactorer flow at index 0 as well
-			// setShowManufactorer(true);
-			setShowFabricLabs(true);
+			setShowManufactorer(true);
 		} else if (index === 1) {
 			setShowCreateBrand(true);
 		} else if (index === 2) {
