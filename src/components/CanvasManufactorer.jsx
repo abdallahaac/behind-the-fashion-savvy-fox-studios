@@ -446,8 +446,8 @@ function CanvasManufactorer({ onStart, onCreate }) {
 											}`}
 										>
 											{isPurchaseActive
-												? "Click or Hold Purchase to Confirm"
-												: "Factory Audit Must Be Selected"}
+												? "Manufacturing Cost"
+												: "Manufacturing Cost"}
 										</span>
 									</div>
 									<div
