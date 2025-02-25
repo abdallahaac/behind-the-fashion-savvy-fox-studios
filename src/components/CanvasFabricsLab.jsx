@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
-import "../assets/styles/create-brand.css";
-import "../assets/styles/CHooseSelectionCanvas.css";
 import "../assets/styles/canvasFabricLabs.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -251,7 +249,9 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container ${
+					isExpanded ? "expanded-container fabric" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
@@ -285,8 +285,9 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
 								Source a lightweight, knit, and shiny fabric to use for your
-								outfits. Current Budget:{" "}
-								<strong>${fundingAmount ?? "N/A"}</strong>
+								outfits.
+								{/* Current Budget:{" "}
+								<strong>${fundingAmount ?? "N/A"}</strong> */}
 							</div>
 							<div
 								className={`button-start ${isBlinking ? "blink-start" : ""}`}
@@ -361,11 +362,21 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 												}}
 											>
 												{/* Use the fabric's image path here */}
-												<img src={fabric.img_path} alt={fabric.name} />
+												<img
+													className="fabric-img"
+													width={"100px"}
+													height={"100px"}
+													src={fabric.img_path}
+													alt={fabric.name}
+												/>
 
-												<div className="fabric-option-title">{fabric.name}</div>
-												<div className="fabric-option-price">
-													${fabric.cost}
+												<div className="fabric-options">
+													<div className="fabric-option-title">
+														{fabric.name}
+													</div>
+													<div className="fabric-option-price">
+														${fabric.cost}
+													</div>
 												</div>
 											</div>
 										))}

@@ -6,6 +6,9 @@
 	align-items: end;
 	font-family: "Kode Mono", serif;
 }
+.brand-create {
+	text-transform: uppercase;
+}
 
 .create-container {
 	background-color: #2e2e2e;
