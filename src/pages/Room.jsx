@@ -14,7 +14,6 @@ import vanguardContents from "../utils/VanguardContents";
 import BudgetBar from "../components/BudgetBar";
 import HeartsUI from "../components/HeartsUI";
 import CanvasFabricLabs from "../components/CanvasFabricsLab";
-// NEW: Import CanvasManufactorer
 import CanvasManufactorer from "../components/CanvasManufactorer";
 
 import ecoVanguard from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
@@ -41,7 +40,6 @@ function Room() {
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
 	const [showFabricLabs, setShowFabricLabs] = useState(false);
-	// NEW: Add showManufactorer for CanvasManufactorer
 	const [showManufactorer, setShowManufactorer] = useState(false);
 
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
@@ -51,7 +49,7 @@ function Room() {
 	const [paused, setPaused] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 
-	// Your breakpoints in Scene
+	// Breakpoints in Scene
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
@@ -63,22 +61,24 @@ function Room() {
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
+	const hotseatRef = useRef(null);
 
+	// Hot Seat & quiz tracking
 	const [currentStep, setCurrentStep] = useState(0);
 	const [mode, setMode] = useState("Normal");
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedQuestions, setSelectedQuestions] = useState([]);
 	const [result, setResult] = useState(0);
 
-	// Pull from FundingContext instead of local state
+	// FundingContext
 	const { fundingAmount, setFundingAmount, generateFunding } =
 		useContext(FundingContext);
 
 	useEffect(() => {
-		// Example: automatically generate initial funding if you want
+		// Optional: generateFunding() if you want an initial amount
 		// generateFunding();
 
-		// Shuffle questions for Hotseat
+		// Shuffle questions for the Hotseat
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
@@ -109,49 +109,92 @@ function Room() {
 	}, [showVanguardUI]);
 
 	useEffect(() => {
-		// Auto-play the scene when Room mounts (optional).
+		// Auto-play the scene on mount (optional)
 		handlePlayClick();
 	}, []);
 
+	// === Hotseat: fade out overlay, then set vanguard states ===
 	const handleHotseatDone = () => {
-		setShowHotseat(false);
-		handleDone(setMode, setCurrentStep, setQuestionIndex);
+		if (hotseatRef.current) {
+			gsap.to(hotseatRef.current, {
+				duration: 1,
+				opacity: 0,
+				ease: "power2.out",
+				onComplete: () => {
+					setShowHotseat(false);
+
+					// If Vanguard 0 was in the hot seat:
+					if (activeVanguardIndex === 0) {
+						// Deactivate Vanguard 0 and activate the others
+						setVanguardActiveStates([false, true, true, true]);
+						// Force them all to third scenario
+						setVanguardActivationCounts((prev) => {
+							return [prev[0], 3, 3, 3];
+						});
+					}
+
+					// Normal finishing logic for the Hotseat
+					handleDone(setMode, setCurrentStep, setQuestionIndex);
+				},
+			});
+		} else {
+			// Fallback if no hotseatRef
+			setShowHotseat(false);
+
+			if (activeVanguardIndex === 0) {
+				setVanguardActiveStates([false, true, true, true]);
+				setVanguardActivationCounts((prev) => {
+					return [prev[0], 3, 3, 3];
+				});
+			}
+
+			handleDone(setMode, setCurrentStep, setQuestionIndex);
+		}
 	};
 
-	// Called by Scene whenever it reaches a breakpoint
+	// Called by Scene whenever we hit a breakpoint
 	const handleBreakpointHit = (index) => {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
 
-		/*
-		 * Your custom logic for each breakpoint:
-		 * Add or move these lines as you see fit.
-		 */
-		if (index === 0) {
-			// Show the Vanguard UI
-			setShowVanguardUI(true);
-
-			// Example: show the Manufactorer flow at index 0 as well
-			setShowManufactorer(true);
-		} else if (index === 1) {
-			setShowCreateBrand(true);
-		} else if (index === 2) {
-			// OR you could show it here if you want:
-			// setShowManufactorer(true);
-		} else if (index === 3) {
-			setShowVanguardUI(true);
-			setVanguardActiveStates([true, false, false, false]);
-		} else if (index === 4) {
-			setShowOutfitSelection(true);
-		} else if (index === 6) {
-			setShowVanguardUI(true);
-			setVanguardActiveStates([false, true, true, true]);
-		} else if (index === 7) {
-			setShowFabricLabs(true);
-		} else if (index === 9) {
-			setShowVanguardUI(true);
-			setVanguardActiveStates([true, false, false, false]);
+		switch (index) {
+			case 0:
+				setShowVanguardUI(true);
+				break;
+			case 1:
+				setShowCreateBrand(true);
+				break;
+			case 2:
+				// Possibly show the manufactorer pop-up if you want
+				// setShowManufactorer(true);
+				break;
+			case 3:
+				setShowVanguardUI(true);
+				setVanguardActiveStates([true, false, false, false]);
+				break;
+			case 4:
+				setShowOutfitSelection(true);
+				break;
+			case 6:
+				setShowVanguardUI(true);
+				setVanguardActiveStates([false, true, true, true]);
+				break;
+			case 7:
+				setShowFabricLabs(true);
+				break;
+			case 9:
+				// At breakpoint 9 -> show Vanguard 0 (for the Hot Seat).
+				setShowVanguardUI(true);
+				setVanguardActiveStates([true, false, false, false]);
+				break;
+			case 10:
+				// Another example if you want something at 10
+				setShowVanguardUI(true);
+				setShowManufactorer(true);
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -165,15 +208,19 @@ function Room() {
 		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
 
+	// Clicking on a Vanguard
 	const handleVanguardClick = (index) => {
+		// If that Vanguard is not active, do nothing
 		if (!vanguardActiveStates[index]) return;
 
-		// e.g., at breakpoint 9, Vanguard #0 triggers the Hotseat
+		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
 		if (currentBreakpointIndex === 9 && index === 0) {
 			setShowHotseat(true);
+			setActiveVanguardIndex(0);
 			return;
 		}
 
+		// Otherwise, normal flow
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
@@ -187,28 +234,28 @@ function Room() {
 		});
 	};
 
-	// Called once user closes a Vanguard PopUp
+	// Closing the Vanguard PopUp
 	const handleDeactivateActiveVanguard = () => {
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
 
-		// If the first Vanguard was active
+		// If we just closed Vanguard 0
 		if (prevActive === 0) {
 			if (vanguardActivationCounts[0] === 1) {
-				// Turn off the first Vanguard, enable the others
+				// Turn off Vanguard 0, enable 1..3
 				setVanguardActiveStates([false, true, true, true]);
 			} else if (vanguardActivationCounts[0] >= 2) {
-				// Turn them all off, go to next step
+				// Turn them all off, continue
 				setVanguardActiveStates([false, false, false, false]);
 				handleContinue();
 			}
 		} else {
-			// If it was one of the other vanguards (1, 2, 3)
+			// If one of vanguards (1..3) is closed
 			setVanguardActiveStates((prevStates) => {
 				const newStates = [...prevStates];
 				newStates[prevActive] = false;
-				// If all secondary vanguards are now off => continue
+				// If all 1..3 are off => continue
 				if (!newStates[1] && !newStates[2] && !newStates[3]) {
 					handleContinue();
 				}
@@ -221,7 +268,7 @@ function Room() {
 		<>
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
-				{/* Shows the dynamic "Funds Raised" amount from context */}
+				{/* Funding Amount UI */}
 				<BudgetBar />
 				<HeartsUI title="ECO VANGUARD" fillNumber={0} imageSrc={ecoVanguard} />
 				<HeartsUI
@@ -365,7 +412,7 @@ function Room() {
 					</div>
 				)}
 
-				{/* NEW: CanvasManufactorer Pop-up */}
+				{/* CanvasManufactorer Pop-up */}
 				{showManufactorer && (
 					<div
 						style={{
@@ -399,9 +446,7 @@ function Room() {
 							}}
 							onLogoSelect={(logoId) => setSelectedLogo(logoId)}
 							onCreate={() => {
-								// Close the Manufactorer pop-up
 								setShowManufactorer(false);
-								// Continue story
 								handleContinue();
 							}}
 							onBrandNameChange={setBrandName}
@@ -484,6 +529,7 @@ function Room() {
 				{/* Hotseat Overlay */}
 				{showHotseat && (
 					<div
+						ref={hotseatRef}
 						style={{
 							position: "absolute",
 							zIndex: 9999,
@@ -492,6 +538,7 @@ function Room() {
 							alignItems: "center",
 							width: "100%",
 							height: "100%",
+							opacity: 1, // Start fully visible
 						}}
 					>
 						<Hotseat
@@ -506,7 +553,7 @@ function Room() {
 									selectedQuestions,
 									setCurrentStep,
 									setResult,
-									setFundingAmount // pass context setter
+									setFundingAmount
 								)
 							}
 							onDone={handleHotseatDone}

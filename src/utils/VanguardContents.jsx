@@ -53,7 +53,16 @@ const vanguardContents = {
 					image: Funding,
 					funding: true,
 				},
+				{
+					title: "THE VANGUARDS",
+					description:
+						"Third Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+					image: Funding,
+					funding: true,
+				},
 			],
+			// Second activation
+
 			[
 				{
 					title: "THE VANGUARDS",
@@ -95,6 +104,13 @@ const vanguardContents = {
 					image: BotSvg,
 				},
 			],
+			[
+				{
+					title: "SUSTAINABLE (Round 2)",
+					description: "third again? Let’s see if you stayed eco-friendly.",
+					image: BotSvg,
+				},
+			],
 		],
 	},
 
@@ -119,6 +135,13 @@ const vanguardContents = {
 				{
 					title: "ANOTHER_VANGUARD (Round 2)",
 					description: "Second-time dialogue here...",
+					image: BotSvg,
+				},
+			],
+			[
+				{
+					title: "ANOTHER_VANGUARD (Round 2)",
+					description: "third-time dialogue here...",
 					image: BotSvg,
 				},
 			],
