@@ -346,6 +346,7 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 							</div>
 
 							{/* Title / fabric grid */}
+							{/*  */}
 							<div className="fabric-title-container">
 								<div>
 									<div className="fabric-title">{getSectionTitle()}</div>
