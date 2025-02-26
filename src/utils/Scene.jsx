@@ -1,32 +1,31 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text } from "@react-three/drei";
+import {
+	OrbitControls,
+	Text,
+	Environment, // <-- import from drei
+} from "@react-three/drei";
 import { useControls } from "leva";
 import * as THREE from "three";
 import LoadingOverlay from "./LoadingOverlay";
-import gsap from "gsap";
 
 // ----- LAZY LOAD YOUR LARGE ASSETS -----
-// Environment component is lazy loaded as a named export.
 const EnvironmentWithCamera = lazy(() =>
 	import("../models/EnvironmentWithCamera").then((module) => ({
 		default: module.EnvironmentWithCamera,
 	}))
 );
 
-// AvantGardeBloom is lazy loaded. Its internal loader (shown in AvantGardeBloom.js)
-// will take care of using Draco compression.
+// Example: If you have other models
 const AvantGardeBloom = lazy(() => import("../models/Meshes/AvantGardeBloom"));
 
-// Import TTF fonts
+// Fonts
 import DMSans from "../assets/fonts/DMSans-Regular.ttf";
 import InstrumentSerif from "../assets/fonts/InstrumentSerif-Regular.ttf";
 import MuseoModerno from "../assets/fonts/MuseoModerno-Regular.ttf";
 import Orbitron from "../assets/fonts/Orbitron-Regular.ttf";
 import DynaPuff from "../assets/fonts/DynaPuff-Regular.ttf";
 import KodeMono from "../assets/fonts/KodeMono-Regular.ttf";
-import Earthy from "../models/Meshes/EarthyBound";
-import Pin from "../models/Logos/Pin";
 
 // Map style strings to font files
 const fontMapping = {
@@ -107,17 +106,15 @@ const Scene = ({
 			<LoadingOverlay />
 
 			{/* 3D Canvas setup */}
-			<Canvas
-				gl={{ antialias: true }}
-				camera={{
-					fov: 34,
-					near: 0.1,
-					far: 100,
-					position: [2, 7, 5],
-				}}
-			>
+			<Canvas gl={{ antialias: true }}>
 				<Suspense fallback={null}>
+					{/* Soft, global ambient light */}
 					<ambientLight intensity={0.5} />
+
+					{/*
+           Optionally, use orbit controls for debugging or free-flight around the scene
+           <OrbitControls makeDefault />
+          */}
 
 					{/* Example Cube usage */}
 					{selectedLogo && (
@@ -182,7 +179,7 @@ const Scene = ({
 						</Text>
 					)}
 
-					{/* Lazy-loaded environment */}
+					{/* Our environment model with camera and animations */}
 					<EnvironmentWithCamera
 						playAnimation={playAnimation}
 						paused={paused}
@@ -191,7 +188,17 @@ const Scene = ({
 						onBreakpointHit={onBreakpointHit}
 					/>
 
-					{/* Draco-compressed AvantGardeBloom model */}
+					{/* Example: Another lazy-loaded model
+          <AvantGardeBloom /> 
+          */}
+
+					{/* 
+            HDR Environment: 
+            - files="/path/to/hdrFile.hdr" must match your actual file location
+            - background={true} if you want the HDR to show as the sky
+            - If background={false}, you'll still get reflections, but no HDR sky
+          */}
+					<Environment files="/assets/images/hdrFile.hdr" background={false} />
 				</Suspense>
 			</Canvas>
 		</>
