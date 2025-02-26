@@ -14,10 +14,10 @@ import Cap2 from "../assets/images/cap-2.svg";
 import Funding from "../assets/images/funding.svg";
 
 const vanguardContents = {
-	// Vanguard 0: "Exo"
+	// 0 represents the assistant bot
 	0: {
 		scenarios: [
-			// First activation
+			// First round of activation, all these messages are in one vanguard popup
 			[
 				{
 					title: "ASSISTANT",
@@ -61,7 +61,7 @@ const vanguardContents = {
 					funding: true,
 				},
 			],
-			// Second activation
+			// THIRD activation
 
 			[
 				{
@@ -80,10 +80,11 @@ const vanguardContents = {
 		],
 	},
 
-	// Vanguard 1: "Sustainable"
+	// 1 represents the  Eco-Vanguard Text
 	1: {
 		scenarios: [
 			[
+				// First round of activation, all these messages are in one vanguard popup
 				{
 					title: "ECO VANGUARD",
 					description:
@@ -97,6 +98,7 @@ const vanguardContents = {
 					image: Eco2,
 				},
 			],
+			// Second round of activation 
 			[
 				{
 					title: "SUSTAINABLE (Round 2)",
@@ -104,6 +106,7 @@ const vanguardContents = {
 					image: BotSvg,
 				},
 			],
+			// third round of activation
 			[
 				{
 					title: "SUSTAINABLE (Round 2)",
@@ -114,9 +117,10 @@ const vanguardContents = {
 		],
 	},
 
-	// Vanguard 2: "Another Vanguard"
+	// 2 represents the Ethics-Vanguard Text
 	2: {
 		scenarios: [
+			// First round of activation
 			[
 				{
 					title: "ETHICS VANGUARD",
@@ -131,6 +135,7 @@ const vanguardContents = {
 					image: Ethics1,
 				},
 			],
+			// Second round of activation
 			[
 				{
 					title: "ANOTHER_VANGUARD (Round 2)",
@@ -138,6 +143,7 @@ const vanguardContents = {
 					image: BotSvg,
 				},
 			],
+			//Third round of activation
 			[
 				{
 					title: "ANOTHER_VANGUARD (Round 2)",
@@ -148,9 +154,10 @@ const vanguardContents = {
 		],
 	},
 
-	// Vanguard 3: "Capitalist"
+	// 3 represents the Wealth Vanguard Text
 	3: {
 		scenarios: [
+			//first round of activation
 			[
 				{
 					title: "WEALTH VANGUARD",
@@ -165,6 +172,7 @@ const vanguardContents = {
 					image: Cap2,
 				},
 			],
+			//second round of activation
 			[
 				{
 					title: "CAPITALIST (Round 2)",

@@ -16,9 +16,9 @@ import HeartsUI from "../components/HeartsUI";
 import CanvasFabricLabs from "../components/CanvasFabricsLab";
 import CanvasManufactorer from "../components/CanvasManufactorer";
 
-import ecoVanguard from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
-import wealthVanguard from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
-import ethicsVanguard from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
+import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
+import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
 
 // Import the FundingContext
 import { FundingContext } from "../utils/FundingContext";
@@ -70,6 +70,15 @@ function Room() {
 	const [selectedQuestions, setSelectedQuestions] = useState([]);
 	const [result, setResult] = useState(0);
 
+	// Average Scores and Items selected from Stages
+	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
+	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
+
+	const [averageEthics, setAverageEthics] = useState(0);
+	const [averageSustainability, setAverageSustainability] = useState(0);
+	const [averageCost, setAverageCost] = useState(0);
+
 	// FundingContext
 	const { fundingAmount, setFundingAmount, generateFunding } =
 		useContext(FundingContext);
@@ -112,6 +121,54 @@ function Room() {
 		// Auto-play the scene on mount (optional)
 		handlePlayClick();
 	}, []);
+
+	//Calculating average scores of metrics : cost, ethics, sustainability
+	const calculateAverageScores = (selectedItems) => {
+		const totalEthics = selectedItems.reduce((sum, item) => sum + (item.ethics || 0), 0);
+		const totalSustainability = selectedItems.reduce((sum, item) => sum + (item.sustainability || 0), 0);
+		const totalCost = selectedItems.reduce((sum, item) => sum + (item.cost || 0), 0);
+	
+		const itemCount = selectedItems.length;
+		const sustainabilityCount = selectedItems.filter(item => item.sustainability !== undefined).length;
+	
+		const averageEthics = totalEthics / itemCount;
+		const averageSustainability = sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
+		const averageCost = totalCost / itemCount;
+
+		console.log("Average Ethics:", averageEthics);
+		console.log("Average Sustainability:", averageSustainability);
+		console.log("Average Cost:", averageCost);
+	
+		return {
+			averageEthics,
+			averageSustainability,
+			averageCost,
+		};
+	};
+
+	const handleClothingSelection = (selectedItems) => {
+		setSelectedClothingItems(selectedItems);
+		const averages = calculateAverageScores(selectedItems);
+		setAverageEthics(averages.averageEthics);
+		setAverageSustainability(averages.averageSustainability);
+		setAverageCost(averages.averageCost);
+	};
+	
+	const handleFabricSelection = (selectedItems) => {
+		setSelectedFabricItems(selectedItems);
+		const averages = calculateAverageScores(selectedItems);
+		setAverageEthics(averages.averageEthics);
+		setAverageSustainability(averages.averageSustainability);
+		setAverageCost(averages.averageCost);
+	};
+	
+	const handleManufacturingSelection = (selectedItems) => {
+		setSelectedManufacturingItems(selectedItems);
+		const averages = calculateAverageScores(selectedItems);
+		setAverageEthics(averages.averageEthics);
+		setAverageSustainability(averages.averageSustainability);
+		setAverageCost(averages.averageCost);
+	};
 
 	// === Hotseat: fade out overlay, then set vanguard states ===
 	const handleHotseatDone = () => {
@@ -270,16 +327,16 @@ function Room() {
 				<Logo />
 				{/* Funding Amount UI */}
 				<BudgetBar />
-				<HeartsUI title="ECO VANGUARD" fillNumber={0} imageSrc={ecoVanguard} />
+				<HeartsUI title="ECO VANGUARD" fillNumber={0} imageSrc={ecoVanguard_pfp} />
 				<HeartsUI
 					title="WEALTH VANGUARD"
 					fillNumber={0}
-					imageSrc={wealthVanguard}
+					imageSrc={wealthVanguard_pfp}
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
 					fillNumber={0}
-					imageSrc={ethicsVanguard}
+					imageSrc={ethicsVanguard_pfp}
 				/>
 			</div>
 
@@ -408,6 +465,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onClothingSelection={handleClothingSelection}
 						/>
 					</div>
 				)}

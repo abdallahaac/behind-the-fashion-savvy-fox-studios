@@ -37,6 +37,7 @@ function CanvasChooseOutfits({
 	onBrandNameChange,
 	onFontStyleChange,
 	isInputEnabled,
+	onClothingSelection, 
 }) {
 	const { CanvasOutfitsData } = useModels(); // fetch the 9 outfits from context
 
@@ -209,6 +210,7 @@ function CanvasChooseOutfits({
 	};
 
 	const handleCreateDone = () => {
+		onClothingSelection(collection);
 		// Fade out the entire container
 		gsap.to(containerRef.current, {
 			duration: 1,
