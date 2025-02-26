@@ -26,6 +26,7 @@ import MuseoModerno from "../assets/fonts/MuseoModerno-Regular.ttf";
 import Orbitron from "../assets/fonts/Orbitron-Regular.ttf";
 import DynaPuff from "../assets/fonts/DynaPuff-Regular.ttf";
 import KodeMono from "../assets/fonts/KodeMono-Regular.ttf";
+import FilmGrain from "./MakeItGrain";
 
 // Map style strings to font files
 const fontMapping = {
@@ -199,6 +200,7 @@ const Scene = ({
             - If background={false}, you'll still get reflections, but no HDR sky
           */}
 					<Environment files="/assets/images/hdrFile.hdr" background={false} />
+					<FilmGrain />
 				</Suspense>
 			</Canvas>
 		</>

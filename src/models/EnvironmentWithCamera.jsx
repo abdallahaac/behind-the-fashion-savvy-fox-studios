@@ -36,7 +36,7 @@ export function EnvironmentWithCamera({
 				// Ensure color textures use sRGBEncoding
 				if (material.map) {
 					material.map.encoding = THREE.sRGBEncoding;
-					material.map.anisotropy = 16;
+					material.map.anisotropy = 36;
 				}
 				// If using normal maps, increase anisotropy as well
 				if (material.normalMap) {
@@ -120,8 +120,8 @@ export function EnvironmentWithCamera({
 				/>
 				<directionalLight
 					name="Light"
-					intensity={0}
-					decay={100}
+					intensity={2}
+					decay={0}
 					position={[5.019, 183.52, 3.295]}
 					rotation={[-1.154, 0.324, 0.496]}
 				>
