@@ -13,7 +13,9 @@ const modelsData = {
 		{
 			id: 1,
 			title: "artisthread textiles",
-			manufacturingCost: "60000",
+			cost: "60000",
+			ethics:3,
+			sustainability:3,
 
 			about: {
 				locationImage: { botSvg },
@@ -51,7 +53,9 @@ const modelsData = {
 		{
 			id: 2,
 			title: "phoenix garments co",
-			manufacturingCost: "20000",
+			cost: "20000",
+			ethics:1,
+			sustainability:1,
 
 			about: {
 				locationImage: { botSvg },
@@ -88,7 +92,9 @@ const modelsData = {
 		{
 			id: 3,
 			title: "Sundar Apparel Works",
-			manufacturingCost: "78000",
+			cost: "78000",
+			ethics:2,
+			sustainability:2,
 
 			about: {
 				locationImage: { botSvg },
@@ -126,7 +132,9 @@ const modelsData = {
 		{
 			id: 4,
 			title: "Silver oak manufacturing",
-			manufacturingCost: "40000",
+			cost: "40000",
+			ethics:2,
+			sustainability:3,
 
 			about: {
 				locationImage: { botSvg },
@@ -165,7 +173,9 @@ const modelsData = {
 		{
 			id: 5,
 			title: "Anadolu Textile Works",
-			manufacturingCost: "22000",
+			cost: "36000",
+			ethics:2,
+			sustainability:2,
 
 			about: {
 				locationImage: { botSvg },
@@ -208,7 +218,7 @@ const modelsData = {
 		{
 			id: 1,
 			name: "Space Gothic Chromatica",
-			price: 17500, // $17.5K
+			cost: 17500, // $17.5K
 			originalDesignPct: 80, // for a progress bar
 			bulletPoints: [
 				"80% Original Design",
@@ -226,11 +236,12 @@ const modelsData = {
 			],
 			// Use the image path from NeutralChoices for Space Gothic Chromatica
 			img_path: "./images/spaceGothic.png",
+			ethics: 3,
 		},
 		{
 			id: 2,
 			name: "Avant Garde Bloom",
-			price: 20000,
+			cost: 20000,
 			originalDesignPct: 80,
 			bulletPoints: [
 				"80% Original Design",
@@ -247,11 +258,12 @@ const modelsData = {
 			],
 			// Use the image from CapitalisticChoices (id:2) for Avant Garde Bloom
 			img_path: "./images/avantGarde.png",
+			ethics: 2,
 		},
 		{
 			id: 3,
 			name: "Neo y2k shimmer",
-			price: 14000,
+			cost: 14000,
 			originalDesignPct: 40,
 			bulletPoints: [
 				"40% Original Design",
@@ -268,11 +280,12 @@ const modelsData = {
 			],
 			// Assign a new image for Neo y2k shimmer
 			img_path: "./images/neoY2kShimmer.png",
+			ethics:1,
 		},
 		{
 			id: 4,
 			name: "Midnight grunge edge",
-			price: 16000,
+			cost: 16000,
 			originalDesignPct: 85,
 			bulletPoints: [
 				"85% Original Design",
@@ -289,11 +302,12 @@ const modelsData = {
 			],
 			// Use image from NeutralChoices (id:5) for Midnight grunge edge
 			img_path: "./images/midNightEdge.png",
+			ethics:2.75,
 		},
 		{
 			id: 5,
 			name: "SOLARPUNK",
-			price: 15000,
+			cost: 15000,
 			originalDesignPct: 75,
 			bulletPoints: [
 				"75% Original Design",
@@ -310,11 +324,12 @@ const modelsData = {
 			],
 			// Assign a new image for SOLARPUNK
 			img_path: "./images/solarpunk.png",
+			ethics: 1.5,
 		},
 		{
 			id: 6,
 			name: "EARTHBOUND NOMAD",
-			price: 17000,
+			cost: 17000,
 			originalDesignPct: 50,
 			bulletPoints: [
 				"50% Original Design",
@@ -331,11 +346,12 @@ const modelsData = {
 			],
 			// Use image from EthicallyStrongOptions for EARTHBOUND NOMAD
 			img_path: "./images/earthynomad.png",
+			ethics:1.75,
 		},
 		{
 			id: 7,
 			name: "Industrial Luxe",
-			price: 13000,
+			cost: 13000,
 			originalDesignPct: 10,
 			bulletPoints: [
 				"10% Original Design",
@@ -352,11 +368,12 @@ const modelsData = {
 			],
 			// Use image from CapitalisticChoices (id:3) for Industrial Luxe
 			img_path: "./images/industrialLuxe.png",
+			ethics:0.25,
 		},
 		{
 			id: 8,
 			name: "STREET ROYALE",
-			price: 12500,
+			cost: 12500,
 			originalDesignPct: 20,
 			bulletPoints: [
 				"20% Original Design",
@@ -373,6 +390,7 @@ const modelsData = {
 			],
 			// Use image from CapitalisticChoices (id:4) for STREET ROYALE
 			img_path: "./images/plushStreetRoyale.png",
+			ethics:0.5,
 		},
 		{
 			id: 9,
@@ -394,6 +412,7 @@ const modelsData = {
 			],
 			// Assign a new image for NEO VINTAGE EDGE
 			img_path: "./images/neoVintageEdge.png",
+			ethics: 2.5,
 		},
 	],
 
@@ -407,7 +426,7 @@ const modelsData = {
 			budget: 4512333,
 			cost: 4300,
 			sustainability: 4.9,
-			ethics: 4.8,
+			ethics: 1.75,
 			popularity: 3.2,
 			description: "Affordable and ethical, but less trendy.",
 			orig_percentage: 80,
@@ -433,7 +452,7 @@ const modelsData = {
 			budget: 47000,
 			cost: 4400,
 			sustainability: 2.1,
-			ethics: 1.8,
+			ethics: 1,
 			popularity: 5.0,
 			description: "Ultra-trendy but ethically low.",
 			orig_percentage: 30,
@@ -457,7 +476,7 @@ const modelsData = {
 			budget: 43000,
 			cost: 4000,
 			sustainability: 1.5,
-			ethics: 1.7,
+			ethics: 0.25,
 			popularity: 5.0,
 			description: "Expensive, low ethics, very popular.",
 			orig_percentage: 40,
@@ -481,7 +500,7 @@ const modelsData = {
 			budget: 49000,
 			cost: 4500,
 			sustainability: 2.8,
-			ethics: 3.0,
+			ethics: 0.5,
 			popularity: 4.9,
 			description: "Capitalistic but somewhat neutral.",
 			orig_percentage: 50,
@@ -507,7 +526,7 @@ const modelsData = {
 			budget: 46500,
 			cost: 4300,
 			sustainability: 2.5,
-			ethics: 2.8,
+			ethics: 2.75,
 			popularity: 4.0,
 			description: "Trendy with average ethics.",
 			orig_percentage: 60,
@@ -531,7 +550,7 @@ const modelsData = {
 			budget: 46500,
 			cost: 4300,
 			sustainability: 4.7,
-			ethics: 4.7,
+			ethics: 3,
 			popularity: 4.7,
 			description: "A balanced option.",
 			orig_percentage: 70,
@@ -657,6 +676,8 @@ const modelsData = {
 			water_description:
 				"~1,320 gallons of water is used to produce one pound of cotton",
 			img_path: "../assets/images/Cotton/conventional.svg",
+			ethics: 2,
+			sustainability:1.5,
 		},
 		{
 			id: 2,
@@ -690,6 +711,8 @@ const modelsData = {
 			ethics_icon: "positive",
 			water_icon: "positive",
 			cost_icon: "negative",
+			ethics: 2.5,
+			sustainability:2,
 		},
 		{
 			id: 3,
@@ -719,11 +742,13 @@ const modelsData = {
 			ethics_icon: "negative",
 			water_icon: "negative",
 			cost_icon: "positive",
+			ethics: 1,
+			sustainability: 0,
 		},
 		{
 			id: 4,
-			name: "Bamboo",
-			description: "Simple leaf-based design for eco-friendly vibes.",
+			name: "Recycled Cotton",
+			description: "CHANGE ME: Simple leaf-based design for eco-friendly vibes.",
 			model: "/models/logo-04.glb",
 			transform: {
 				position: [0, 0, 0],
@@ -752,6 +777,8 @@ const modelsData = {
 			ethics_icon: "positive",
 			water_icon: "positive",
 			cost_icon: "negative",
+			ethics: 3,
+			sustainability: 3,
 		},
 	],
 	HeavyChoices: [
@@ -780,6 +807,8 @@ const modelsData = {
 			water_icon: "negative",
 			cost_icon: "positive",
 			additional_cons_icon: "negative",
+			ethics: 1,
+			sustainability:0,
 		},
 		{
 			id: 2,
@@ -813,6 +842,8 @@ const modelsData = {
 			water_icon: "negative",
 			cost_icon: "negative",
 			mat_icon: "positive",
+			ethics: 3,
+			sustainability:1.5,
 		},
 		{
 			id: 3,
@@ -854,6 +885,8 @@ const modelsData = {
 			water_icon: "positive",
 			cost_icon: "negative",
 			mat_icon: "positive",
+			ethics: 3,
+			sustainability: 3,
 		},
 		{
 			id: 4,
@@ -887,6 +920,8 @@ const modelsData = {
 			ethics_icon: "neutral",
 			water_icon: "neutral",
 			cost_icon: "neutral",
+			ethics: 2,
+			sustainability:1,
 		},
 	],
 	SyntheticChoices: [
@@ -917,6 +952,8 @@ const modelsData = {
 			ethics_icon: "negative",
 			water_icon: "negative",
 			mat_icon: "positive",
+			ethics: 1,
+			sustainability: 0,
 		},
 		{
 			id: 2,
@@ -948,6 +985,8 @@ const modelsData = {
 			ethics_icon: "positive",
 			water_icon: "neutral",
 			cost_icon: "negative",
+			ethics: 3,
+			sustainability:3,
 		},
 		{
 			id: 3,
@@ -981,6 +1020,8 @@ const modelsData = {
 			mat_icon: "positive",
 			ethics_icon: "negative",
 			cost_icon: "neutral",
+			ethics: 2,
+			sustainability:1,
 		},
 		{
 			id: 4,
@@ -1014,6 +1055,8 @@ const modelsData = {
 			sus_icon: "neutral",
 			ethics_icon: "negative",
 			cost_icon: "neutral",
+			ethics: 1.5,
+			sustainability:2,
 		},
 	],
 
@@ -1033,7 +1076,7 @@ const modelsData = {
 				roughness: 0,
 				color: "#ffffff",
 			},
-			cost: 130000,
+			cost: 60000,
 			location_icon: "../assets/images/Manufacturing/portugal.svg",
 			location: "Located in Portugal",
 			location_description:
@@ -1059,10 +1102,13 @@ const modelsData = {
 			env_icon: "negative",
 			ethics_icon: "negative",
 			read: false,
+			ethics: 1,
+			sustainability:2,
 		},
 		{
 			id: 2,
 			name: "FACTORY 2",
+			location: "Turkey",
 			description: "Simple leaf-based design for eco-friendly vibes.",
 			model: "/models/logo-2.glb",
 			transform: {
@@ -1076,11 +1122,12 @@ const modelsData = {
 				color: "#ffffff",
 			},
 			read: false,
-			cost: 130000,
+			cost: 22000,
 		},
 		{
 			id: 3,
 			name: "FACTORY 3",
+			location: "Bangladesh",
 			description: "Simple leaf-based design for eco-friendly vibes.",
 			model: "/models/logo-3.glb",
 			transform: {
@@ -1094,7 +1141,7 @@ const modelsData = {
 				color: "#ffffff",
 			},
 			read: false,
-			cost: 130000,
+			cost: 36000,
 		},
 	],
 };

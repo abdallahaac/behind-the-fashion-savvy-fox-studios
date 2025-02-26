@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei"; // <-- Use progress in Room now
-
+import { updateVanguardStatus } from "../utils/VanguardStatus";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -16,9 +16,10 @@ import BudgetBar from "../components/BudgetBar";
 import HeartsUI from "../components/HeartsUI";
 import CanvasFabricLabs from "../components/CanvasFabricsLab";
 import CanvasManufactorer from "../components/CanvasManufactorer";
-import ecoVanguard from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
-import wealthVanguard from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
-import ethicsVanguard from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+
+import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
+import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
+import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
 
 // Import the FundingContext
 import { FundingContext } from "../utils/FundingContext";
@@ -36,6 +37,17 @@ function Room() {
 	const [vanguardActivationCounts, setVanguardActivationCounts] = useState([
 		0, 0, 0, 0,
 	]);
+
+	const STAGES = {
+		INTRO: 'introduction',
+		BRAND: 'brand',
+		FABRIC: 'fabric',
+		CLOTHING: 'clothing',
+		MANUFACTURING: 'manufacturing'
+	};
+
+	const [stage, setStage] = useState(STAGES.INTRO);
+	
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 	const [showPopUp, setShowPopUp] = useState(false);
 
@@ -146,6 +158,22 @@ function Room() {
 		setSelectedLogo(newLogoId);
 	}
 
+	// Average Scores and Items selected from Stages
+	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
+	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
+	// const [selectItems, setSelectedItems] = useState([]);
+	const [averageEthics, setAverageEthics] = useState(0);
+	const [averageSustainability, setAverageSustainability] = useState(0);
+	const [averageCost, setAverageCost] = useState(0);
+	// control hearts fill
+	const [ethicsHearts, setEthicsHearts] = useState(3);
+	let ethics_feedback = useRef(null);
+	const [ecoHearts, setEcoHearts] = useState(3);
+	let eco_feedback = useRef(null);
+	const [wealthHearts, setWealthHearts] = useState(3);
+	let wealth_feedback = useRef(null);
+
 	// FundingContext
 	const { fundingAmount, setFundingAmount, generateFunding } =
 		useContext(FundingContext);
@@ -155,6 +183,11 @@ function Room() {
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
+	useEffect(() => {
+        console.log("Updated eco hearts:", ecoHearts);
+		console.log("Updated ethics hearts:", ethicsHearts);
+		console.log("Updated wealth hearts:", wealthHearts);
+    }, [ecoHearts, ethicsHearts, wealthHearts]);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -185,6 +218,73 @@ function Room() {
 		// Auto-play the scene on mount (optional)
 		handlePlayClick();
 	}, []);
+
+	//Calculating average scores of metrics : cost, ethics, sustainability
+	const calculateAverageScores = (selectedItems) => {
+		// Convert selectedItems to an array if it's an object
+		const itemsArray = Array.isArray(selectedItems) ? selectedItems : Object.values(selectedItems);
+	
+		const totalEthics = itemsArray.reduce((sum, item) => sum + (item.ethics || 0), 0);
+		const totalSustainability = itemsArray.reduce((sum, item) => sum + (item.sustainability || 0), 0);
+		const totalCost = itemsArray.reduce((sum, item) => sum + (item.cost || 0), 0);
+	
+		const itemCount = itemsArray.length;
+		const sustainabilityCount = itemsArray.filter(item => item.sustainability !== undefined).length;
+	
+		const averageEthics = totalEthics / itemCount;
+		const averageSustainability = sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
+		const averageCost = totalCost / itemCount;
+	
+		console.log("Average Ethics:", averageEthics);
+		console.log("Average Sustainability:", averageSustainability);
+		console.log("Average Cost:", averageCost);
+	
+		return {
+			averageEthics,
+			averageSustainability,
+			averageCost,
+		};
+	};
+
+	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
+		setSelectedItems(selectedItems);
+		const averages = calculateAverageScores(selectedItems);
+		console.log("Averages:", averages);
+		setAverageEthics(averages.averageEthics);
+		setAverageSustainability(averages.averageSustainability);
+		setAverageCost(averages.averageCost);
+		console.log("current stage", currentStage);
+
+		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
+		// use max to make sure hearts don't go below 0
+		setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
+		console.log("Ethics Vanguard Feedback:", ethics_feedback);
+
+		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
+		setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
+		console.log("Eco Vanguard Feedback:", eco_feedback);
+
+		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
+		setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
+		console.log("Wealth Vanguard Feedback:", wealth_feedback);
+	};
+	const handleClothingSelection = (selectedItems) => {
+		const newStage = STAGES.CLOTHING;
+        setStage(newStage);
+		handleSelectionCalculations(selectedItems, setSelectedClothingItems, newStage);
+	};
+	
+	const handleFabricSelection = (selectedItems) => {
+		const newStage = STAGES.FABRIC;
+        setStage(newStage);
+        handleSelectionCalculations(selectedItems, setSelectedFabricItems, newStage);
+	};
+	
+	const handleManufacturingSelection = (selectedItems) => {
+		const newStage = STAGES.MANUFACTURING;
+        setStage(newStage);
+        handleSelectionCalculations(selectedItems, setSelectedManufacturingItems, newStage);
+	};
 
 	// === Overlays & Popups logic ===
 	const handleOverlayEnter = () => {
@@ -342,16 +442,16 @@ function Room() {
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 				<BudgetBar />
-				<HeartsUI title="ECO VANGUARD" fillNumber={0} imageSrc={ecoVanguard} />
+				<HeartsUI title="ECO VANGUARD" fillNumber={ecoHearts} imageSrc={ecoVanguard_pfp} />
 				<HeartsUI
 					title="WEALTH VANGUARD"
-					fillNumber={0}
-					imageSrc={wealthVanguard}
+					fillNumber={wealthHearts}
+					imageSrc={wealthVanguard_pfp}
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
-					fillNumber={0}
-					imageSrc={ethicsVanguard}
+					fillNumber={ethicsHearts}
+					imageSrc={ethicsVanguard_pfp}
 				/>
 			</div>
 
@@ -461,6 +561,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onClothingSelection={handleClothingSelection}
 						/>
 					</div>
 				)}
@@ -505,6 +606,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onManufacturingSelection={handleManufacturingSelection}
 						/>
 					</div>
 				)}
@@ -549,6 +651,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onFabricSelection={handleFabricSelection}
 						/>
 					</div>
 				)}
