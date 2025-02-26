@@ -210,6 +210,7 @@ function CanvasChooseOutfits({
 	};
 
 	const handleCreateDone = () => {
+		console.log("collection items", collection);
 		onClothingSelection(collection);
 		// Fade out the entire container
 		gsap.to(containerRef.current, {

@@ -74,7 +74,7 @@ function Room() {
 	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
 	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
 	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
-
+	// const [selectItems, setSelectedItems] = useState([]);
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
@@ -124,17 +124,20 @@ function Room() {
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
-		const totalEthics = selectedItems.reduce((sum, item) => sum + (item.ethics || 0), 0);
-		const totalSustainability = selectedItems.reduce((sum, item) => sum + (item.sustainability || 0), 0);
-		const totalCost = selectedItems.reduce((sum, item) => sum + (item.cost || 0), 0);
+		// Convert selectedItems to an array if it's an object
+		const itemsArray = Array.isArray(selectedItems) ? selectedItems : Object.values(selectedItems);
 	
-		const itemCount = selectedItems.length;
-		const sustainabilityCount = selectedItems.filter(item => item.sustainability !== undefined).length;
+		const totalEthics = itemsArray.reduce((sum, item) => sum + (item.ethics || 0), 0);
+		const totalSustainability = itemsArray.reduce((sum, item) => sum + (item.sustainability || 0), 0);
+		const totalCost = itemsArray.reduce((sum, item) => sum + (item.cost || 0), 0);
+	
+		const itemCount = itemsArray.length;
+		const sustainabilityCount = itemsArray.filter(item => item.sustainability !== undefined).length;
 	
 		const averageEthics = totalEthics / itemCount;
 		const averageSustainability = sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost / itemCount;
-
+	
 		console.log("Average Ethics:", averageEthics);
 		console.log("Average Sustainability:", averageSustainability);
 		console.log("Average Cost:", averageCost);
@@ -146,28 +149,32 @@ function Room() {
 		};
 	};
 
-	const handleClothingSelection = (selectedItems) => {
-		setSelectedClothingItems(selectedItems);
+	// const handleClothingSelection = (selectedItems) => {
+	// 	setSelectedClothingItems(selectedItems);
+	// 	const averages = calculateAverageScores(selectedItems);
+	// 	setAverageEthics(averages.averageEthics);
+	// 	setAverageSustainability(averages.averageSustainability);
+	// 	setAverageCost(averages.averageCost);
+	// };
+	
+
+	const handleSelectionCalculations = (selectedItems, setSelectedItems) => {
+		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
+	};
+	const handleClothingSelection = (selectedItems) => {
+		handleSelectionCalculations(selectedItems, setSelectedClothingItems);
 	};
 	
 	const handleFabricSelection = (selectedItems) => {
-		setSelectedFabricItems(selectedItems);
-		const averages = calculateAverageScores(selectedItems);
-		setAverageEthics(averages.averageEthics);
-		setAverageSustainability(averages.averageSustainability);
-		setAverageCost(averages.averageCost);
+		handleSelectionCalculations(selectedItems, setSelectedFabricItems);
 	};
 	
 	const handleManufacturingSelection = (selectedItems) => {
-		setSelectedManufacturingItems(selectedItems);
-		const averages = calculateAverageScores(selectedItems);
-		setAverageEthics(averages.averageEthics);
-		setAverageSustainability(averages.averageSustainability);
-		setAverageCost(averages.averageCost);
+		handleSelectionCalculations(selectedItems, setSelectedManufacturingItems);
 	};
 
 	// === Hotseat: fade out overlay, then set vanguard states ===
@@ -510,6 +517,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onManufacturingSelection={handleManufacturingSelection}
 						/>
 					</div>
 				)}
@@ -554,6 +562,7 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
+							onFabricSelection={handleFabricSelection}
 						/>
 					</div>
 				)}

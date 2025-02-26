@@ -13,7 +13,9 @@ const modelsData = {
 		{
 			id: 1,
 			title: "artisthread textiles",
-			manufacturingCost: "60000",
+			cost: "60000",
+			ethics:3,
+			sustainability:3,
 
 			about: {
 				locationImage: { botSvg },
@@ -51,7 +53,9 @@ const modelsData = {
 		{
 			id: 2,
 			title: "phoenix garments co",
-			manufacturingCost: "20000",
+			cost: "20000",
+			ethics:1,
+			sustainability:1,
 
 			about: {
 				locationImage: { botSvg },
@@ -88,7 +92,9 @@ const modelsData = {
 		{
 			id: 3,
 			title: "Sundar Apparel Works",
-			manufacturingCost: "78000",
+			cost: "78000",
+			ethics:2,
+			sustainability:2,
 
 			about: {
 				locationImage: { botSvg },
@@ -126,7 +132,9 @@ const modelsData = {
 		{
 			id: 4,
 			title: "Silver oak manufacturing",
-			manufacturingCost: "40000",
+			cost: "40000",
+			ethics:2,
+			sustainability:3,
 
 			about: {
 				locationImage: { botSvg },
@@ -165,7 +173,9 @@ const modelsData = {
 		{
 			id: 5,
 			title: "Anadolu Textile Works",
-			manufacturingCost: "22000",
+			cost: "36000",
+			ethics:2,
+			sustainability:2,
 
 			about: {
 				locationImage: { botSvg },
@@ -249,7 +259,6 @@ const modelsData = {
 			// Use the image from CapitalisticChoices (id:2) for Avant Garde Bloom
 			img_path: "./images/avantGarde.png",
 			ethics: 2,
-			sustainability: 2,
 		},
 		{
 			id: 3,

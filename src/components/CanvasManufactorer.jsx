@@ -17,7 +17,7 @@ import { FundingContext } from "../utils/FundingContext";
 
 const HOLD_DURATION = 0;
 
-function CanvasManufactorer({ onStart, onCreate }) {
+function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 	const { CanvasManufacturer } = useModels(); // from your context
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
@@ -42,6 +42,8 @@ function CanvasManufactorer({ onStart, onCreate }) {
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
+	
+	const [selectedFactory, setSelectedFactory] = useState(null);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -94,6 +96,8 @@ function CanvasManufactorer({ onStart, onCreate }) {
 				onStart?.();
 			},
 		});
+		setSelectedFactory(currentFactory);
+	
 	};
 
 	useEffect(() => {
@@ -147,10 +151,15 @@ function CanvasManufactorer({ onStart, onCreate }) {
 
 	const handlePurchase = () => {
 		if (!currentFactory) return;
-		const cost = Number(currentFactory.manufacturingCost) || 0;
+		const cost = Number(currentFactory.cost) || 0;
 
 		// Deduct from funding
 		setFundingAmount((prev) => (prev !== null ? prev - cost : 0));
+
+		console.log("Purchased factory", currentFactory);
+		const selectedFactoryArray = [currentFactory];
+		// Call the onManufacturingSelection callback with the selected factory
+		onManufacturingSelection(selectedFactoryArray);
 
 		// Then fade out and call onCreate
 		gsap.to(containerRef.current, {
@@ -437,7 +446,7 @@ function CanvasManufactorer({ onStart, onCreate }) {
 										>
 											$
 											{currentFactory
-												? currentFactory.manufacturingCost
+												? currentFactory.cost
 												: "00000"}
 										</span>
 										<span

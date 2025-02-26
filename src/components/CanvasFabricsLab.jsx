@@ -14,7 +14,7 @@ import { FundingContext } from "../utils/FundingContext";
 
 const HOLD_DURATION = 0;
 
-function CanvasFabricLabs({ onStart, onCreate }) {
+function CanvasFabricLabs({ onStart, onCreate, onFabricSelection }) {
 	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
@@ -177,11 +177,16 @@ function CanvasFabricLabs({ onStart, onCreate }) {
 	};
 
 	const handleCreateDone = () => {
+		const selectedFabricsArray = Object.values(selectedFabrics);
 		// Subtract the cost of the 3rd fabric from the budget
 		const finalFabric = selectedFabrics[3];
 		if (finalFabric) {
 			setFundingAmount((prev) => (prev !== null ? prev - finalFabric.cost : 0));
 		}
+		console.log("Selected fabrics:", selectedFabricsArray);
+
+		// Call the onFabricSelection callback with the final selections
+		onFabricSelection(selectedFabricsArray);
 
 		// Fade out the entire container
 		gsap.to(containerRef.current, {
