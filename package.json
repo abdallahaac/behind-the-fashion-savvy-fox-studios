@@ -1,32 +1,35 @@
 {
-  "name": "threejs-journey-exercise",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "4.3",
-    "vite-plugin-restart": "^0.4.1"
-  },
-  "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "@react-three/drei": "^9.120.4",
-    "@react-three/fiber": "^8.16.8",
-    "@react-three/postprocessing": "^3.0.4",
-    "gsap": "^3.12.7",
-    "leva": "^0.9.35",
-    "postprocessing": "^6.36.7",
-    "prop-types": "^15.8.1",
-    "r3f-perf": "^7.2.3",
-    "react": "18.3",
-    "react-dom": "18.3",
-    "react-fast-marquee": "^1.6.5",
-    "react-router-dom": "^7.1.1",
-    "three": "^0.166.1",
-    "vite": "^5.4.11"
-  }
+	"name": "behind-the-fashion-savvy-fox-studios",
+	"version": "1.0.0",
+	"description": "",
+	"main": "vite.config.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "vite",
+		"build": "vite build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/abdallahaac/behind-the-fashion-savvy-fox-studios.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/abdallahaac/behind-the-fashion-savvy-fox-studios/issues"
+	},
+	"homepage": "https://github.com/abdallahaac/behind-the-fashion-savvy-fox-studios#readme",
+	"dependencies": {
+		"@fortawesome/free-solid-svg-icons": "^6.7.2",
+		"@fortawesome/react-fontawesome": "^0.2.2",
+		"@react-three/drei": "^10.0.3",
+		"@vitejs/plugin-react": "^4.3.4",
+		"gsap": "^3.12.7",
+		"leva": "^0.10.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"react-fast-marquee": "^1.6.5",
+		"vite": "^6.2.0",
+		"vite-plugin-restart": "^0.4.2"
+	}
 }
