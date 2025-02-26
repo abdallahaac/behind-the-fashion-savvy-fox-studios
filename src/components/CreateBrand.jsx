@@ -1,3 +1,6 @@
+/*****************************************************
+ * src/components/CreateBrand.jsx
+ *****************************************************/
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
@@ -42,8 +45,6 @@ function CreateBrand({
 	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
-
-	// New state to track when the createSubmitContainer is visible
 	const [isSubmitContainerVisible, setIsSubmitContainerVisible] =
 		useState(false);
 
@@ -61,9 +62,9 @@ function CreateBrand({
 	const logoContainerRef = useRef(null);
 	const createSubmitContainerRef = useRef(null);
 
+	// Adjust as needed
 	const HOLD_DURATION = 0;
 
-	// Fade in the entire CreateBrand component on mount.
 	useEffect(() => {
 		gsap.fromTo(
 			containerRef.current,
@@ -100,7 +101,6 @@ function CreateBrand({
 	};
 
 	const handleDone = () => {
-		console.log("CreateBrand: hold-to-complete -> expanding container!");
 		gsap.to(createParentRef.current, {
 			duration: 1,
 			backgroundColor: "black",
@@ -185,12 +185,16 @@ function CreateBrand({
 		});
 	};
 
+	// Example logos you’re displaying as clickable.
+	// IMPORTANT: You can map these IDs to real logos in "Room.jsx".
 	const logoOptions = [
-		{ id: "logo1", src: LogoOne },
-		{ id: "logo2", src: LogoOne },
+		{ id: "Butterfly", src: LogoOne },
+		{ id: "Heart", src: LogoOne },
+		{ id: "MainLogo", src: LogoOne },
+		{ id: "Pin", src: LogoOne },
+		{ id: "Shard", src: LogoOne },
 	];
 
-	// Only allow logo selection when the submit container is visible.
 	const handleLogoClick = (logoId) => {
 		if (!isSubmitContainerVisible) return;
 		setSelectedLogo(logoId);
@@ -200,7 +204,6 @@ function CreateBrand({
 	const isReady =
 		brandName.trim() !== "" && fontStyle !== "" && selectedLogo !== null;
 
-	// Lift the fontStyle changes to the parent.
 	useEffect(() => {
 		if (onFontStyleChange) {
 			onFontStyleChange(fontStyle);
@@ -311,7 +314,7 @@ function CreateBrand({
 								<div className="logo-style" ref={logoStyleHeaderRef}>
 									Logo
 								</div>
-								<div className="logo-container" ref={logoContainerRef}>
+								<div className="logo-container logos" ref={logoContainerRef}>
 									{logoOptions.map((logo) => (
 										<div
 											key={logo.id}

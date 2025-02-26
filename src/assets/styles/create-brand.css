@@ -337,3 +337,9 @@
 	pointer-events: none;
 	opacity: 0.5;
 }
+
+.logo-container.logos {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}

@@ -1,14 +1,17 @@
-// LoadingOverlay.js
+// src/utils/LoadingOverlay.js
 import React, { useRef, useEffect, useState } from "react";
-import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 
-function LoadingOverlay() {
+/**
+ * @param {number} progress - The "clamped" progress from 1..99 or 100
+ * @param {boolean} hasReachedFirstBreakpoint - Whether we've hit breakpoint 0 (frame 44)
+ * @param {Function} onEnter - Called when the user clicks the Enter button
+ */
+function LoadingOverlay({ progress, hasReachedFirstBreakpoint, onEnter }) {
 	const overlayRef = useRef(null);
 	const messageRef = useRef(null);
 	const barRef = useRef(null);
 	const buttonRef = useRef(null);
-	const { progress } = useProgress();
 
 	// Define a set of aesthetic messages.
 	const messages = [
@@ -25,15 +28,18 @@ function LoadingOverlay() {
 	);
 	const [showEnter, setShowEnter] = useState(false);
 
-	// Randomly cycle through messages while progress is less than 100.
+	// Randomly cycle through messages while progress < 100.
 	useEffect(() => {
 		let interval;
+		// If progress < 100, keep cycling messages
 		if (progress < 100) {
 			interval = setInterval(() => {
+				// Fade out old message
 				gsap.to(messageRef.current, {
 					duration: 0.5,
 					opacity: 0,
 					onComplete: () => {
+						// Pick a random message & fade in
 						const randomIndex = Math.floor(Math.random() * messages.length);
 						setMessage(messages[randomIndex]);
 						gsap.to(messageRef.current, { duration: 0.5, opacity: 1 });
@@ -41,10 +47,11 @@ function LoadingOverlay() {
 				});
 			}, 3000);
 		}
+
 		return () => clearInterval(interval);
 	}, [progress, messages]);
 
-	// Animate the loading bar width as progress changes.
+	// Animate the loading bar width as "progress" changes.
 	useEffect(() => {
 		gsap.to(barRef.current, {
 			duration: 0.5,
@@ -53,9 +60,11 @@ function LoadingOverlay() {
 		});
 	}, [progress]);
 
-	// When progress reaches 100, fade out the message and loading bar, then animate in the Enter button.
+	// Show Enter button ONLY when we've reached the first breakpoint.
+	// This is your custom logic that REPLACES the old "progress === 100" check.
 	useEffect(() => {
-		if (progress === 100) {
+		if (hasReachedFirstBreakpoint) {
+			// First fade out the message quickly (optional)
 			gsap.to(messageRef.current, {
 				duration: 0.5,
 				opacity: 0,
@@ -67,7 +76,7 @@ function LoadingOverlay() {
 						{ opacity: 0, scale: 0.9 },
 						{ duration: 1, opacity: 1, scale: 1, ease: "elastic.out(1, 0.5)" }
 					);
-					// Add a subtle pulsating border effect.
+					// Subtle pulsating border effect
 					gsap.to(buttonRef.current, {
 						duration: 1,
 						scale: 1.05,
@@ -78,12 +87,14 @@ function LoadingOverlay() {
 				},
 			});
 		}
-	}, [progress]);
+	}, [hasReachedFirstBreakpoint]);
 
-	// On clicking Enter, perform a stylistic button click animation then fade out the overlay.
+	// On clicking Enter, fade out the overlay, then trigger onEnter callback.
 	const handleEnterClick = () => {
+		// Button click animation
 		const tl = gsap.timeline({
 			onComplete: () => {
+				// Fade out entire overlay
 				gsap.to(overlayRef.current, {
 					duration: 1,
 					opacity: 0,
@@ -91,11 +102,12 @@ function LoadingOverlay() {
 						if (overlayRef.current) {
 							overlayRef.current.style.display = "none";
 						}
+						// Notify parent that we're done
+						onEnter();
 					},
 				});
 			},
 		});
-		// Button click effect: shrink then bounce back.
 		tl.to(buttonRef.current, {
 			duration: 0.3,
 			scale: 0.8,

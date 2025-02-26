@@ -11,9 +11,9 @@ vec2 iResolution = vec2(1000.0);   //<---------- Kinda the graininess/rng seed P
 #define BLEND_MODE 0
 
 //0 to 1
-#define SPEED 1
+#define SPEED 0.4
 
-#define INTENSITY 0.03
+#define INTENSITY 0.02
 // What gray level noise should tend to.
 #define MEAN 0.0
 
