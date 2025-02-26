@@ -48,7 +48,9 @@ const logosMap = {
 	Pin: PinLogo,
 	Shard: Shard,
 };
-
+//
+//
+//
 // Default control values for each logo
 const defaultLogoControls = {
 	Butterfly: {
