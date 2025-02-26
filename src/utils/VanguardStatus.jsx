@@ -1,7 +1,6 @@
 import { ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
 export const updateVanguardStatus = (vanguard, stage, scores) => {
-    let newStatus = { eco: 'neutral', ethics: 'neutral', wealth: 'neutral' };
 
     switch (vanguard) {
         case 'eco':
@@ -21,8 +20,9 @@ export const updateVanguardStatus = (vanguard, stage, scores) => {
                 } else {
                     return ecoVanguard[0].manufacturingFeedback.bad;
                 }
+            } else {
+                return { img_path: '', description: 'No feedback available for this stage.', funding: 0, hearts: 0 };
             }
-            break;
         case 'ethics':
             if (stage === 'clothing') {
                 if (scores.ethics >= 2) {
@@ -78,9 +78,6 @@ export const updateVanguardStatus = (vanguard, stage, scores) => {
             }
             break;
         default:
-            break;
+            return { img_path: '', description: 'No feedback available for this vanguard.', funding: 0, hearts: 0 };
     }
-
-    // setVanguardStatus(newStatus);
-};
-
+}

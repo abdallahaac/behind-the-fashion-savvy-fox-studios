@@ -92,6 +92,10 @@ function Room() {
 	// control hearts fill
 	const [ethicsHearts, setEthicsHearts] = useState(3);
 	let ethics_feedback = useRef(null);
+	const [ecoHearts, setEcoHearts] = useState(3);
+	let eco_feedback = useRef(null);
+	const [wealthHearts, setWealthHearts] = useState(3);
+	let wealth_feedback = useRef(null);
 
 	// FundingContext
 	const { fundingAmount, setFundingAmount, generateFunding } =
@@ -169,9 +173,19 @@ function Room() {
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
+		// console.log("current stage", currentStage);
 
 		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
 		setEthicsHearts((prevHearts) => prevHearts + ethics_feedback.hearts);
+		// console.log("Ethics Vanguard Feedback:", ethics_feedback);
+
+		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
+		setEcoHearts((prevHearts) => prevHearts + eco_feedback.hearts);
+		// console.log("Eco Vanguard Feedback:", eco_feedback);
+
+		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
+		setWealthHearts((prevHearts) => prevHearts + wealth_feedback.hearts);
+		// console.log("Wealth Vanguard Feedback:", wealth_feedback);
 	};
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
@@ -351,12 +365,12 @@ function Room() {
 				<HeartsUI title="ECO VANGUARD" fillNumber={ethicsHearts} imageSrc={ecoVanguard_pfp} />
 				<HeartsUI
 					title="WEALTH VANGUARD"
-					fillNumber={0}
+					fillNumber={ecoHearts}
 					imageSrc={wealthVanguard_pfp}
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
-					fillNumber={0}
+					fillNumber={wealthHearts}
 					imageSrc={ethicsVanguard_pfp}
 				/>
 			</div>
