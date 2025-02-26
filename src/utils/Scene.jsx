@@ -169,7 +169,7 @@ const Scene = ({
 					)}
 					{brandName && (
 						<Text
-							position={[-69.12, 4.75, -49.51]}
+							position={[-69.12, 4.85, -49.51]}
 							rotation={[0.01, -4.69, -0.02]}
 							fontSize={1.4}
 							color={"black"}
