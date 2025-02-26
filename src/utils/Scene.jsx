@@ -27,6 +27,7 @@ import Orbitron from "../assets/fonts/Orbitron-Regular.ttf";
 import DynaPuff from "../assets/fonts/DynaPuff-Regular.ttf";
 import KodeMono from "../assets/fonts/KodeMono-Regular.ttf";
 import FilmGrain from "./MakeItGrain";
+import Pin from "../models/Logos/Pin";
 
 // Map style strings to font files
 const fontMapping = {
@@ -129,9 +130,9 @@ const Scene = ({
 					{/* Example multiple 3D Text objects */}
 					{brandName && (
 						<Text
-							position={[-69.12, 10.35, -49.51]}
+							position={[-69.12, 10.75, -49.51]}
 							rotation={[0.01, -4.69, -0.02]}
-							fontSize={1.9}
+							fontSize={1.4}
 							color={"white"}
 							font={fontMapping[fontStyle] || undefined}
 							anchorX="center"
@@ -142,9 +143,9 @@ const Scene = ({
 					)}
 					{brandName && (
 						<Text
-							position={[-69.12, 8.35, -49.51]}
+							position={[-69.12, 8.75, -49.51]}
 							rotation={[0.01, -4.69, -0.02]}
-							fontSize={1.9}
+							fontSize={1.4}
 							color={"white"}
 							font={fontMapping[fontStyle] || undefined}
 							anchorX="center"
@@ -155,9 +156,9 @@ const Scene = ({
 					)}
 					{brandName && (
 						<Text
-							position={[-69.12, 6.35, -49.51]}
+							position={[-69.12, 6.75, -49.51]}
 							rotation={[0.01, -4.69, -0.02]}
-							fontSize={1.9}
+							fontSize={1.4}
 							color={"white"}
 							font={fontMapping[fontStyle] || undefined}
 							anchorX="center"
@@ -168,10 +169,10 @@ const Scene = ({
 					)}
 					{brandName && (
 						<Text
-							position={[-69.12, 4.35, -49.51]}
+							position={[-69.12, 4.75, -49.51]}
 							rotation={[0.01, -4.69, -0.02]}
-							fontSize={1.9}
-							color={"white"}
+							fontSize={1.4}
+							color={"black"}
 							font={fontMapping[fontStyle] || undefined}
 							anchorX="center"
 							anchorY="middle"
@@ -201,6 +202,7 @@ const Scene = ({
           */}
 					<Environment files="/assets/images/hdrFile.hdr" background={false} />
 					<FilmGrain />
+					<Pin />
 				</Suspense>
 			</Canvas>
 		</>
