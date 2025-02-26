@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
-// import updateVanguardStatus from "../utils/VanguardStatus";
+import { updateVanguardStatus } from "../utils/VanguardStatus";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -89,6 +89,9 @@ function Room() {
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
+	// control hearts fill
+	const [ethicsHearts, setEthicsHearts] = useState(3);
+	let ethics_feedback = useRef(null);
 
 	// FundingContext
 	const { fundingAmount, setFundingAmount, generateFunding } =
@@ -160,32 +163,32 @@ function Room() {
 		};
 	};
 
-	const handleSelectionCalculations = (selectedItems, setSelectedItems) => {
+	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
 
-		// const ethics_feedback = updateVanguardStatus("ethics", stage, averages);
-        // console.log("Ethics Vanguard Feedback:", ethics_feedback);
+		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
+		setEthicsHearts((prevHearts) => prevHearts + ethics_feedback.hearts);
 	};
 	const handleClothingSelection = (selectedItems) => {
-		setStage(STAGES.CLOTHING);
-		console.log("currentstage", stage);
-		handleSelectionCalculations(selectedItems, setSelectedClothingItems);
+		const newStage = STAGES.CLOTHING;
+        setStage(newStage);
+		handleSelectionCalculations(selectedItems, setSelectedClothingItems, newStage);
 	};
 	
 	const handleFabricSelection = (selectedItems) => {
-		setStage(STAGES.FABRIC);
-		console.log("currentstage", stage);
-		handleSelectionCalculations(selectedItems, setSelectedFabricItems);
+		const newStage = STAGES.FABRIC;
+        setStage(newStage);
+        handleSelectionCalculations(selectedItems, setSelectedFabricItems, newStage);
 	};
 	
 	const handleManufacturingSelection = (selectedItems) => {
-		setStage(STAGES.MANUFACTURING);
-		console.log("currentstage", stage);
-		handleSelectionCalculations(selectedItems, setSelectedManufacturingItems);
+		const newStage = STAGES.MANUFACTURING;
+        setStage(newStage);
+        handleSelectionCalculations(selectedItems, setSelectedManufacturingItems, newStage);
 	};
 
 	// === Hotseat: fade out overlay, then set vanguard states ===
@@ -345,7 +348,7 @@ function Room() {
 				<Logo />
 				{/* Funding Amount UI */}
 				<BudgetBar />
-				<HeartsUI title="ECO VANGUARD" fillNumber={0} imageSrc={ecoVanguard_pfp} />
+				<HeartsUI title="ECO VANGUARD" fillNumber={ethicsHearts} imageSrc={ecoVanguard_pfp} />
 				<HeartsUI
 					title="WEALTH VANGUARD"
 					fillNumber={0}

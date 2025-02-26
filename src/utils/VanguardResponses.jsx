@@ -30,7 +30,6 @@ import Ethics1 from "../assets/images/Ethics-1.svg";
 import Cap1 from "../assets/images/cap-1.svg";
 import Cap2 from "../assets/images/cap-2.svg";
 
-import { build } from "vite";
 
 const assistantData = [
     {

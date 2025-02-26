@@ -1,6 +1,6 @@
 import { ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
-const updateVanguardStatus = (vanguard, stage, scores) => {
+export const updateVanguardStatus = (vanguard, stage, scores) => {
     let newStatus = { eco: 'neutral', ethics: 'neutral', wealth: 'neutral' };
 
     switch (vanguard) {
@@ -84,4 +84,3 @@ const updateVanguardStatus = (vanguard, stage, scores) => {
     // setVanguardStatus(newStatus);
 };
 
-export default updateVanguardStatus;
