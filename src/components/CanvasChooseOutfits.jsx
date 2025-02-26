@@ -37,7 +37,7 @@ function CanvasChooseOutfits({
 	onBrandNameChange,
 	onFontStyleChange,
 	isInputEnabled,
-	onClothingSelection, 
+	onClothingSelection,
 }) {
 	const { CanvasOutfitsData } = useModels(); // fetch the 9 outfits from context
 
@@ -250,9 +250,11 @@ function CanvasChooseOutfits({
 		});
 
 		// Decrease player's funding by the outfit's price
-		setFundingAmount((prev) => (prev || 0) - outfit.price);
+		// Decrease player's funding by the outfit's price
+		setFundingAmount((prev) => (prev || 0) - (outfit.price || outfit.cost));
 	};
 
+	// REMOVE an outfit
 	// REMOVE an outfit
 	const removeBySlotIndex = (slotIndex) => {
 		setCollection((prev) => {
@@ -265,8 +267,10 @@ function CanvasChooseOutfits({
 					updated[realIndex] = false;
 					return updated;
 				});
-				// Give the cost back
-				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
+				// Refund the outfit's price/cost
+				setFundingAmount(
+					(prev) => (prev || 0) + (removedOutfit.price || removedOutfit.cost)
+				);
 			}
 			newArr[slotIndex] = null;
 			return newArr;
@@ -330,7 +334,7 @@ function CanvasChooseOutfits({
 
 	// ================== TOTAL PRICE for the 3 outfits ==================
 	const totalDesignPrice = collection.reduce(
-		(acc, item) => acc + (item ? item.price : 0),
+		(acc, item) => acc + (item ? item.price || item.cost : 0),
 		0
 	);
 
@@ -373,7 +377,9 @@ function CanvasChooseOutfits({
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container higher ${
+					isExpanded ? "expanded-container outfit" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
@@ -553,14 +559,16 @@ function CanvasChooseOutfits({
 								setSelectedModelIndex={setSelectedModelIndex}
 							/>
 
-							<div className="left-component">
+							<div className="left-component outfit">
 								{selectedOutfit && (
 									<div className="left-container">
 										<div className="header-info">
 											<span className="model-title">
 												{selectedOutfit.name.toUpperCase()}
 											</span>
-											<div className="span-price">${selectedOutfit.price}</div>
+											<div className="span-price">
+												${selectedOutfit.price || selectedOutfit.cost}
+											</div>
 										</div>
 
 										<div className="info-item">

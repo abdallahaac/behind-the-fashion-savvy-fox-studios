@@ -39,15 +39,15 @@ function Room() {
 	]);
 
 	const STAGES = {
-		INTRO: 'introduction',
-		BRAND: 'brand',
-		FABRIC: 'fabric',
-		CLOTHING: 'clothing',
-		MANUFACTURING: 'manufacturing'
+		INTRO: "introduction",
+		BRAND: "brand",
+		FABRIC: "fabric",
+		CLOTHING: "clothing",
+		MANUFACTURING: "manufacturing",
 	};
 
 	const [stage, setStage] = useState(STAGES.INTRO);
-	
+
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 	const [showPopUp, setShowPopUp] = useState(false);
 
@@ -161,7 +161,9 @@ function Room() {
 	// Average Scores and Items selected from Stages
 	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
 	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
-	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
+		[]
+	);
 	// const [selectItems, setSelectedItems] = useState([]);
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
@@ -184,10 +186,10 @@ function Room() {
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
 	useEffect(() => {
-        console.log("Updated eco hearts:", ecoHearts);
+		console.log("Updated eco hearts:", ecoHearts);
 		console.log("Updated ethics hearts:", ethicsHearts);
 		console.log("Updated wealth hearts:", wealthHearts);
-    }, [ecoHearts, ethicsHearts, wealthHearts]);
+	}, [ecoHearts, ethicsHearts, wealthHearts]);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -222,23 +224,37 @@ function Room() {
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
 		// Convert selectedItems to an array if it's an object
-		const itemsArray = Array.isArray(selectedItems) ? selectedItems : Object.values(selectedItems);
-	
-		const totalEthics = itemsArray.reduce((sum, item) => sum + (item.ethics || 0), 0);
-		const totalSustainability = itemsArray.reduce((sum, item) => sum + (item.sustainability || 0), 0);
-		const totalCost = itemsArray.reduce((sum, item) => sum + (item.cost || 0), 0);
-	
+		const itemsArray = Array.isArray(selectedItems)
+			? selectedItems
+			: Object.values(selectedItems);
+
+		const totalEthics = itemsArray.reduce(
+			(sum, item) => sum + (item.ethics || 0),
+			0
+		);
+		const totalSustainability = itemsArray.reduce(
+			(sum, item) => sum + (item.sustainability || 0),
+			0
+		);
+		const totalCost = itemsArray.reduce(
+			(sum, item) => sum + (item.cost || 0),
+			0
+		);
+
 		const itemCount = itemsArray.length;
-		const sustainabilityCount = itemsArray.filter(item => item.sustainability !== undefined).length;
-	
+		const sustainabilityCount = itemsArray.filter(
+			(item) => item.sustainability !== undefined
+		).length;
+
 		const averageEthics = totalEthics / itemCount;
-		const averageSustainability = sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
+		const averageSustainability =
+			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost / itemCount;
-	
+
 		console.log("Average Ethics:", averageEthics);
 		console.log("Average Sustainability:", averageSustainability);
 		console.log("Average Cost:", averageCost);
-	
+
 		return {
 			averageEthics,
 			averageSustainability,
@@ -246,7 +262,11 @@ function Room() {
 		};
 	};
 
-	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
+	const handleSelectionCalculations = (
+		selectedItems,
+		setSelectedItems,
+		currentStage
+	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
 		console.log("Averages:", averages);
@@ -257,7 +277,9 @@ function Room() {
 
 		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
 		// use max to make sure hearts don't go below 0
-		setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
+		setEthicsHearts((prevHearts) =>
+			Math.max(0, prevHearts + ethics_feedback.hearts)
+		);
 		console.log("Ethics Vanguard Feedback:", ethics_feedback);
 
 		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
@@ -265,25 +287,39 @@ function Room() {
 		console.log("Eco Vanguard Feedback:", eco_feedback);
 
 		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
-		setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
+		setWealthHearts((prevHearts) =>
+			Math.max(0, prevHearts + wealth_feedback.hearts)
+		);
 		console.log("Wealth Vanguard Feedback:", wealth_feedback);
 	};
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
-        setStage(newStage);
-		handleSelectionCalculations(selectedItems, setSelectedClothingItems, newStage);
+		setStage(newStage);
+		handleSelectionCalculations(
+			selectedItems,
+			setSelectedClothingItems,
+			newStage
+		);
 	};
-	
+
 	const handleFabricSelection = (selectedItems) => {
 		const newStage = STAGES.FABRIC;
-        setStage(newStage);
-        handleSelectionCalculations(selectedItems, setSelectedFabricItems, newStage);
+		setStage(newStage);
+		handleSelectionCalculations(
+			selectedItems,
+			setSelectedFabricItems,
+			newStage
+		);
 	};
-	
+
 	const handleManufacturingSelection = (selectedItems) => {
 		const newStage = STAGES.MANUFACTURING;
-        setStage(newStage);
-        handleSelectionCalculations(selectedItems, setSelectedManufacturingItems, newStage);
+		setStage(newStage);
+		handleSelectionCalculations(
+			selectedItems,
+			setSelectedManufacturingItems,
+			newStage
+		);
 	};
 
 	// === Overlays & Popups logic ===
@@ -442,7 +478,11 @@ function Room() {
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 				<BudgetBar />
-				<HeartsUI title="ECO VANGUARD" fillNumber={ecoHearts} imageSrc={ecoVanguard_pfp} />
+				<HeartsUI
+					title="ECO VANGUARD"
+					fillNumber={ecoHearts}
+					imageSrc={ecoVanguard_pfp}
+				/>
 				<HeartsUI
 					title="WEALTH VANGUARD"
 					fillNumber={wealthHearts}
