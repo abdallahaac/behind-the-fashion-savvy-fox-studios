@@ -109,6 +109,11 @@ function Room() {
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
+	useEffect(() => {
+        console.log("Updated eco hearts:", ecoHearts);
+		console.log("Updated ethics hearts:", ethicsHearts);
+		console.log("Updated wealth hearts:", wealthHearts);
+    }, [ecoHearts, ethicsHearts, wealthHearts]);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -170,22 +175,24 @@ function Room() {
 	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
+		console.log("Averages:", averages);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
-		// console.log("current stage", currentStage);
+		console.log("current stage", currentStage);
 
 		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
-		setEthicsHearts((prevHearts) => prevHearts + ethics_feedback.hearts);
-		// console.log("Ethics Vanguard Feedback:", ethics_feedback);
+		// use max to make sure hearts don't go below 0
+		setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
+		console.log("Ethics Vanguard Feedback:", ethics_feedback);
 
 		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
-		setEcoHearts((prevHearts) => prevHearts + eco_feedback.hearts);
-		// console.log("Eco Vanguard Feedback:", eco_feedback);
+		setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
+		console.log("Eco Vanguard Feedback:", eco_feedback);
 
 		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
-		setWealthHearts((prevHearts) => prevHearts + wealth_feedback.hearts);
-		// console.log("Wealth Vanguard Feedback:", wealth_feedback);
+		setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
+		console.log("Wealth Vanguard Feedback:", wealth_feedback);
 	};
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
@@ -362,15 +369,15 @@ function Room() {
 				<Logo />
 				{/* Funding Amount UI */}
 				<BudgetBar />
-				<HeartsUI title="ECO VANGUARD" fillNumber={ethicsHearts} imageSrc={ecoVanguard_pfp} />
+				<HeartsUI title="ECO VANGUARD" fillNumber={ecoHearts} imageSrc={ecoVanguard_pfp} />
 				<HeartsUI
 					title="WEALTH VANGUARD"
-					fillNumber={ecoHearts}
+					fillNumber={wealthHearts}
 					imageSrc={wealthVanguard_pfp}
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
-					fillNumber={wealthHearts}
+					fillNumber={ethicsHearts}
 					imageSrc={ethicsVanguard_pfp}
 				/>
 			</div>
