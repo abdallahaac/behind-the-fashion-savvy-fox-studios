@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
-
+// import updateVanguardStatus from "../utils/VanguardStatus";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -33,6 +33,17 @@ function Room() {
 	const [vanguardActivationCounts, setVanguardActivationCounts] = useState([
 		0, 0, 0, 0,
 	]);
+
+	const STAGES = {
+		INTRO: 'introduction',
+		BRAND: 'brand',
+		FABRIC: 'fabric',
+		CLOTHING: 'clothing',
+		MANUFACTURING: 'manufacturing'
+	};
+
+	const [stage, setStage] = useState(STAGES.INTRO);
+	
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 	const [showPopUp, setShowPopUp] = useState(false);
 
@@ -149,31 +160,31 @@ function Room() {
 		};
 	};
 
-	// const handleClothingSelection = (selectedItems) => {
-	// 	setSelectedClothingItems(selectedItems);
-	// 	const averages = calculateAverageScores(selectedItems);
-	// 	setAverageEthics(averages.averageEthics);
-	// 	setAverageSustainability(averages.averageSustainability);
-	// 	setAverageCost(averages.averageCost);
-	// };
-	
-
 	const handleSelectionCalculations = (selectedItems, setSelectedItems) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
+
+		// const ethics_feedback = updateVanguardStatus("ethics", stage, averages);
+        // console.log("Ethics Vanguard Feedback:", ethics_feedback);
 	};
 	const handleClothingSelection = (selectedItems) => {
+		setStage(STAGES.CLOTHING);
+		console.log("currentstage", stage);
 		handleSelectionCalculations(selectedItems, setSelectedClothingItems);
 	};
 	
 	const handleFabricSelection = (selectedItems) => {
+		setStage(STAGES.FABRIC);
+		console.log("currentstage", stage);
 		handleSelectionCalculations(selectedItems, setSelectedFabricItems);
 	};
 	
 	const handleManufacturingSelection = (selectedItems) => {
+		setStage(STAGES.MANUFACTURING);
+		console.log("currentstage", stage);
 		handleSelectionCalculations(selectedItems, setSelectedManufacturingItems);
 	};
 
