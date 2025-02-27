@@ -82,7 +82,7 @@ function Room() {
 
 	// Breakpoints in Scene
 	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084,
 	];
 
 	const [brandName, setBrandName] = useState("MYBRAND");
@@ -394,6 +394,10 @@ function Room() {
 			case 10:
 				setShowVanguardUI(true);
 				setShowManufactorer(true);
+				break;
+			case 12:
+				setShowVanguardUI(true);
+				setVanguardActiveStates([false, true, true, true]);
 				break;
 			default:
 				break;
