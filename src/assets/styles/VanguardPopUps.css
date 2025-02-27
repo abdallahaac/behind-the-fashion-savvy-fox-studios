@@ -162,8 +162,8 @@
 }
 
 img.step-image {
-	width: 200px;
-	height: 200px;
+	width: 150px !important;
+	height: 150px !important;
 }
 
 .tutorial-funding-container {
@@ -199,6 +199,6 @@ img.step-image {
 p.tutorial-description {
 	max-width: 300px;
 }
-.tutorial-container {
+/* .tutorial-container {
 	width: 400px;
-}
+} */

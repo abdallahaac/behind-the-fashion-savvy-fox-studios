@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei"; // <-- Use progress in Room now
 import { updateVanguardStatus } from "../utils/VanguardStatus";
+import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from '../utils/VanguardResponses';
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -109,6 +110,70 @@ function Room() {
 		logoMeshRefs.current[logoKey] = ref;
 	};
 
+	// Average Scores and Items selected from Stages
+	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
+	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
+	// const [selectItems, setSelectedItems] = useState([]);
+	const [averageEthics, setAverageEthics] = useState(0);
+	const [averageSustainability, setAverageSustainability] = useState(0);
+	const [averageCost, setAverageCost] = useState(0);
+	// control hearts fill
+	const [ethicsHearts, setEthicsHearts] = useState(3);
+	let ethics_feedback = useRef(null);
+	const [ecoHearts, setEcoHearts] = useState(3);
+	let eco_feedback = useRef(null);
+	const [wealthHearts, setWealthHearts] = useState(3);
+	let wealth_feedback = useRef(null);
+	//set feedback
+	const [ethicsFeedback, setEthicsFeedback] = useState(null);
+    const [ecoFeedback, setEcoFeedback] = useState(null);
+    const [wealthFeedback, setWealthFeedback] = useState(null);
+
+
+	// FundingContext
+	const { fundingAmount, setFundingAmount, generateFunding } =
+		useContext(FundingContext);
+
+	const getVanguardData = (activeVanguardIndex, stage) => {
+		console.log("current stage", stage);
+		switch (activeVanguardIndex) {
+			case 0:
+				if (stage === STAGES.INTRO){
+					return assistantData[0].introduction;
+				}
+				else if (stage === STAGES.BRAND){
+					return allVanguards[0].brand;
+				}
+			case 1:
+				if(stage === STAGES.INTRO){
+					return ecoVanguard[0].introduction;
+				}
+				else if (stage === STAGES.FABRIC || stage === STAGES.MANUFACTURING){	
+					return ecoFeedback;
+				}
+			case 2:
+				if(stage === STAGES.INTRO){
+					return ethicsVanguard[0].introduction;
+				}
+				else{
+					return ethicsFeedback;
+				}
+			case 3:
+				if(stage === STAGES.INTRO){
+					return wealthVanguard[0].introduction;
+				}
+				else{
+					return wealthFeedback;
+				}
+			default:
+				return null;
+
+		}
+		
+	};
+	
+
 	// Once the Scene (and all logos) mount, set them to z = -200 by default.
 	useEffect(() => {
 		// A small timeout can ensure all refs are assigned
@@ -158,25 +223,7 @@ function Room() {
 		setSelectedLogo(newLogoId);
 	}
 
-	// Average Scores and Items selected from Stages
-	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
-	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
-	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
-	// const [selectItems, setSelectedItems] = useState([]);
-	const [averageEthics, setAverageEthics] = useState(0);
-	const [averageSustainability, setAverageSustainability] = useState(0);
-	const [averageCost, setAverageCost] = useState(0);
-	// control hearts fill
-	const [ethicsHearts, setEthicsHearts] = useState(3);
-	let ethics_feedback = useRef(null);
-	const [ecoHearts, setEcoHearts] = useState(3);
-	let eco_feedback = useRef(null);
-	const [wealthHearts, setWealthHearts] = useState(3);
-	let wealth_feedback = useRef(null);
 
-	// FundingContext
-	const { fundingAmount, setFundingAmount, generateFunding } =
-		useContext(FundingContext);
 
 	useEffect(() => {
 		// Shuffle questions for the Hotseat
@@ -247,27 +294,32 @@ function Room() {
 	};
 
 	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
-		setSelectedItems(selectedItems);
-		const averages = calculateAverageScores(selectedItems);
-		console.log("Averages:", averages);
-		setAverageEthics(averages.averageEthics);
-		setAverageSustainability(averages.averageSustainability);
-		setAverageCost(averages.averageCost);
-		console.log("current stage", currentStage);
+        setSelectedItems(selectedItems);
+        const averages = calculateAverageScores(selectedItems);
+        console.log("Averages:", averages);
+        setAverageEthics(averages.averageEthics);
+        setAverageSustainability(averages.averageSustainability);
+        setAverageCost(averages.averageCost);
+        console.log("current stage", currentStage);
 
-		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
-		// use max to make sure hearts don't go below 0
-		setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
-		console.log("Ethics Vanguard Feedback:", ethics_feedback);
+        const ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
+        // use max to make sure hearts don't go below 0
+        setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
+        console.log("Ethics Vanguard Feedback:", ethics_feedback);
+        setEthicsFeedback(ethics_feedback);
 
-		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
-		setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
-		console.log("Eco Vanguard Feedback:", eco_feedback);
+        const eco_feedback = updateVanguardStatus("eco", currentStage, averages);
+        setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
+        console.log("Eco Vanguard Feedback:", eco_feedback);
+        setEcoFeedback(eco_feedback);
 
-		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
-		setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
-		console.log("Wealth Vanguard Feedback:", wealth_feedback);
-	};
+        const wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
+        setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
+        console.log("Wealth Vanguard Feedback:", wealth_feedback);
+        setWealthFeedback(wealth_feedback);
+
+    };
+	
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
         setStage(newStage);
@@ -330,7 +382,7 @@ function Room() {
 				break;
 			case 6:
 				setShowVanguardUI(true);
-				setVanguardActiveStates([false, true, true, true]);
+				setVanguardActiveStates([false, false, true, true]);
 				break;
 			case 7:
 				setShowFabricLabs(true);
@@ -511,6 +563,7 @@ function Room() {
 							}}
 							onCreate={() => {
 								setShowCreateBrand(false);
+								setStage(STAGES.BRAND);
 								handleContinue();
 							}}
 							onBrandNameChange={setBrandName}
@@ -669,6 +722,11 @@ function Room() {
 						}}
 					>
 						<VanguardPopUp
+                        steps={[getVanguardData(activeVanguardIndex, stage)]}
+                        onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
+                    />
+
+						{/* <VanguardPopUp
 							steps={
 								vanguardContents[activeVanguardIndex].scenarios[
 									Math.min(
@@ -678,7 +736,7 @@ function Room() {
 								]
 							}
 							onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
-						/>
+						/> */}
 					</div>
 				)}
 

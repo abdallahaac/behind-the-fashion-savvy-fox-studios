@@ -250,7 +250,7 @@ function CanvasChooseOutfits({
 		});
 
 		// Decrease player's funding by the outfit's price
-		setFundingAmount((prev) => (prev || 0) - outfit.price);
+		setFundingAmount((prev) => (prev || 0) - outfit.cost);
 	};
 
 	// REMOVE an outfit
@@ -266,7 +266,7 @@ function CanvasChooseOutfits({
 					return updated;
 				});
 				// Give the cost back
-				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
+				setFundingAmount((prev) => (prev || 0) + removedOutfit.cost);
 			}
 			newArr[slotIndex] = null;
 			return newArr;
@@ -330,7 +330,7 @@ function CanvasChooseOutfits({
 
 	// ================== TOTAL PRICE for the 3 outfits ==================
 	const totalDesignPrice = collection.reduce(
-		(acc, item) => acc + (item ? item.price : 0),
+		(acc, item) => acc + (item ? item.cost : 0),
 		0
 	);
 
@@ -560,7 +560,7 @@ function CanvasChooseOutfits({
 											<span className="model-title">
 												{selectedOutfit.name.toUpperCase()}
 											</span>
-											<div className="span-price">${selectedOutfit.price}</div>
+											<div className="span-price">${selectedOutfit.cost}</div>
 										</div>
 
 										<div className="info-item">

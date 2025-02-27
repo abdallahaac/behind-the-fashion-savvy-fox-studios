@@ -1,8 +1,18 @@
-import { ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
+import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
 export const updateVanguardStatus = (vanguard, stage, scores) => {
 
     switch (vanguard) {
+        case 'assistant':
+            if(stage === 'introduction'){
+                return assistantData[0].introduction;
+        }
+        
+        case 'allVanguards':
+            if(stage === 'brand'){
+                return allVanguards[0].brand;
+        }
+        
         case 'eco':
             if (stage === 'fabric') {
                 if (scores.averageSustainability > 2.25) {

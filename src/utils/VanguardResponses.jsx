@@ -60,17 +60,16 @@ const assistantData = [
 const allVanguards = [
     {
         title:"THE VANGUARDS",
-        buildBrand: [
+        brand: [
         {
             description:
                 "Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
-            imgPath: Funding,
-            funding: true,
+            img_path: Funding,
         },
         {
             description:
                 "Third Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
-            image: Funding,
+            img_path: Funding,
             funding: 100000,
         },
     ]
@@ -85,12 +84,12 @@ const ecoVanguard = [
             {
                 description:
                     "Hi, so glad you’re here! I’m the Vanguard that’s all about the environment...",
-                image: Eco1,
+                img_path: Eco1,
             },
             {
                 description:
                     "I've seen the destruction caused by greedy corporations. I’m not interested in empty promises of sustainability. Show me a brand that respects the planet and you'll have my attention.",
-                image: Eco2,
+                img_path: Eco2,
             },
         ],
         fabricFeedback: {
