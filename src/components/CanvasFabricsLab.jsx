@@ -468,7 +468,7 @@ function CanvasFabricLabs({ onStart, onCreate, onFabricSelection }) {
 							/>
 
 							{/* Left-hand info panel for the currently highlighted fabric */}
-							<div className="left-component">
+							<div className="left-component fabrics">
 								{currentFabric && (
 									<div className="left-container">
 										<div className="header-info">
@@ -477,20 +477,22 @@ function CanvasFabricLabs({ onStart, onCreate, onFabricSelection }) {
 											</span>
 											<div className="span-price">${currentFabric.cost}</div>
 										</div>
-										<div
-											style={{ marginTop: "1rem", marginBottom: "1rem" }}
-											className="fabric-description"
-										>
-											<p>
-												{currentFabric.env_title
-													? currentFabric.env_title
-													: "Environment info..."}
-											</p>
-											<p>
-												{currentFabric.env_description
-													? currentFabric.env_description
-													: "Description..."}
-											</p>
+										<div style={{}} className="fabric-description">
+											<div className="fabric-info-container">
+												<div className="img-fabric">img</div>
+												<div className="fabric-info">
+													<p>
+														{currentFabric.env_title
+															? currentFabric.env_title
+															: "Environment info..."}
+													</p>
+													<p>
+														{currentFabric.env_description
+															? currentFabric.env_description
+															: "Description..."}
+													</p>
+												</div>
+											</div>
 										</div>
 									</div>
 								)}
