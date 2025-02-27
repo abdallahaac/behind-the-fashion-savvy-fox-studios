@@ -230,8 +230,10 @@ const modelsData = {
 			// bullet #2 (thumbs down), bullet #3 (thumbs down).
 			iconBullets: [
 				{ index: 0, icon: "up" },
+				{ index: 1, icon: "none" },
 				{ index: 2, icon: "down" },
 				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" }
 			],
 			// Use the image path from NeutralChoices for Space Gothic Chromatica
 			img_path: "./images/spaceGothic.png",
@@ -247,13 +249,15 @@ const modelsData = {
 				"The designer of the garment has been properly compensated for their innovative work",
 				"Innovative Design and Textures",
 				"Patented Design",
-				"The designer’s unique pattern on the jacket has been patented...",
+				"The designer’s unique pattern on the jacket has been patented and grants exclusive rights for a certain period",
 			],
 			// "thumbs up, thumbs up, thumbs up"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
+				{ index: 1, icon: "none" },
 				{ index: 2, icon: "up" },
+				{ index: 3, icon: "up" },
+				{ index: 4, icon: "none" },
 			],
 			// Use the image from CapitalisticChoices (id:2) for Avant Garde Bloom
 			img_path: "./images/avantGarde.png",
@@ -269,13 +273,15 @@ const modelsData = {
 				"The design has been heavily influenced by trends seen online",
 				"Trending Design on Social Media",
 				"Cultural Appropriation",
-				"The design borrows from Japanese Kimono garments. Proper research not done",
+				"The design borrows designs commonly seen in Japanese Kimono garments. Proper research and attribution to the culture has not been done",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for Neo y2k shimmer
 			img_path: "./images/neoY2kShimmer.png",
@@ -285,19 +291,21 @@ const modelsData = {
 			id: 4,
 			name: "Midnight grunge edge",
 			cost: 16000,
-			originalDesignPct: 85,
+			originalDesignPct: 90,
 			bulletPoints: [
-				"85% Original Design",
+				"90% Original Design",
 				"The designer of the garment has been properly compensated for their innovative work",
 				"Trending Design on Social Media",
 				"Infringes on Copyrighted Material",
-				"The logo uses the design without permission",
+				"The logo on the jacket resembles another existing brand and uses the design without permission ",
 			],
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from NeutralChoices (id:5) for Midnight grunge edge
 			img_path: "./images/midNightEdge.png",
@@ -313,13 +321,15 @@ const modelsData = {
 				"This design features original designs while drawing inspiration",
 				"Versatile Appeal Across Styles",
 				"Trendy but Not Timeless",
-				"The design may quickly become outdated as trends change",
+				"The design may quickly become outdated as trends change, reducing its long-term appeal.",
 			],
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for SOLARPUNK
 			img_path: "./images/solarpunk.png",
@@ -332,7 +342,7 @@ const modelsData = {
 			originalDesignPct: 50,
 			bulletPoints: [
 				"50% Original Design",
-				"Heavily inspired by couture aesthetics",
+				"This design is heavily inspired by couture aesthetics while incorporating unique elements.",
 				"Modern and Culturally Conscious Style",
 				"Lacks Personalization",
 				"The design's blend of trends may result in a generic look",
@@ -340,8 +350,10 @@ const modelsData = {
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from EthicallyStrongOptions for EARTHBOUND NOMAD
 			img_path: "./images/earthynomad.png",
@@ -354,16 +366,18 @@ const modelsData = {
 			originalDesignPct: 10,
 			bulletPoints: [
 				"10% Original Design",
-				"This outfit closely mimics established fashion designs",
+				"This outfit closely mimics established fashion designs, offering little to no original input, which raises concerns about its authenticity and creativity.",
 				"Affordable Design to Recreate",
 				"Copyright Concerns",
-				"This outfit risks infringing on intellectual property",
+				"this outfit risks infringing on intellectual property, challenging its originality and legal and ethical standing.",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from CapitalisticChoices (id:3) for Industrial Luxe
 			img_path: "./images/industrialLuxe.png",
@@ -376,16 +390,18 @@ const modelsData = {
 			originalDesignPct: 20,
 			bulletPoints: [
 				"20% Original Design",
-				"This outfit closely mimics established fashion designs",
+				"This outfit closely mimics established fashion designs, offering little original input, which raises concerns about its authenticity and creativity.",
 				"Affordable Design to Recreate",
 				"Copyright Concerns",
-				"This outfit risks infringing on intellectual property",
+				"This outfit risks infringing on intellectual property, challenging its originality and legal and ethical standing.",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from CapitalisticChoices (id:4) for STREET ROYALE
 			img_path: "./images/plushStreetRoyale.png",
@@ -398,16 +414,18 @@ const modelsData = {
 			originalDesignPct: 85,
 			bulletPoints: [
 				"85% Original Design",
-				"This outfit showcases a high level of creativity while drawing from trends",
+				"This outfit showcases a high level of creativity while subtly drawing inspiration from contemporary trends to ensure both freshness and relevance.",
 				"Niche Design Appeal",
 				"Design Reinvention",
-				"Merges vintage aesthetics with modern craftsmanship",
+				"This piece merges vintage aesthetics with modern craftsmanship, offering a fresh yet nostalgic take on classic fashion while staying ethically produced.",
 			],
 			// "thumbs up, thumbs down, thumbs up"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "down" },
-				{ index: 2, icon: "up" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "down" },
+				{ index: 3, icon: "up" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for NEO VINTAGE EDGE
 			img_path: "./images/neoVintageEdge.png",

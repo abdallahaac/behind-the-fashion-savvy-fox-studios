@@ -328,12 +328,16 @@ function CanvasChooseOutfits({
 	const thumbsUpImage = "/images/green-thumb.svg";
 	const thumbsDownImage = "/images/red-thumb.svg";
 
-	const renderBulletLine = (bulletIndex, isUp) => {
+	const renderBulletLine = (bulletIndex, iconBullets) => {
 		if (!selectedOutfit || !selectedOutfit.bulletPoints) return null;
 		if (bulletIndex < 0 || bulletIndex >= selectedOutfit.bulletPoints.length) {
 			return null;
 		}
 		const bulletText = selectedOutfit.bulletPoints[bulletIndex];
+		const iconBullet = iconBullets.find(bullet => bullet.index === bulletIndex);
+		const showIcon = iconBullet && iconBullet.icon !== "none";
+		const isUp = iconBullet && iconBullet.icon === "up";
+	
 		return (
 			<div className="info-item">
 				<div className="info-flex">
@@ -341,11 +345,11 @@ function CanvasChooseOutfits({
 						<img
 							src={isUp ? thumbsUpImage : thumbsDownImage}
 							alt={isUp ? "thumbs up" : "thumbs down"}
-							style={{ width: "24px", height: "24px" }}
+							style={{ width: "24px", height: "24px", visibility: showIcon ? "visible" : "hidden" }}
 						/>
 					</div>
 					<div className="info-content">
-						<div className="info-title">{bulletText}</div>
+						<div className={`info-title ${showIcon ? "" : "body-text-small"}`}>{bulletText}</div>
 					</div>
 				</div>
 			</div>
@@ -593,7 +597,7 @@ function CanvasChooseOutfits({
 												<>
 													{renderBulletLine(
 														selectedOutfit.iconBullets[1].index,
-														selectedOutfit.iconBullets[1].icon === "up"
+														selectedOutfit.iconBullets
 													)}
 												</>
 											)}
@@ -602,14 +606,32 @@ function CanvasChooseOutfits({
 												<>
 													{renderBulletLine(
 														selectedOutfit.iconBullets[2].index,
-														selectedOutfit.iconBullets[2].icon === "up"
+														selectedOutfit.iconBullets
+													)}
+												</>
+											)}
+										{selectedOutfit.iconBullets &&
+											selectedOutfit.iconBullets[3] && (
+												<>
+													{renderBulletLine(
+														selectedOutfit.iconBullets[3].index,
+														selectedOutfit.iconBullets
+													)}
+												</>
+											)}
+										{selectedOutfit.iconBullets &&
+											selectedOutfit.iconBullets[4] && (
+												<>
+													{renderBulletLine(
+														selectedOutfit.iconBullets[4].index,
+														selectedOutfit.iconBullets
 													)}
 												</>
 											)}
 
 										<div className="cta-container">
 											<button
-												className={`cta-button ${
+												className={`cta-button body-text-medium ${
 													ctaLabel === "Remove from Collection"
 														? "remove"
 														: ctaLabel === "Max Reached"
