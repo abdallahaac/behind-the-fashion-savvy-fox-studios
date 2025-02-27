@@ -795,6 +795,7 @@ function Room() {
 						<VanguardPopUp
                         steps={[getVanguardData(activeVanguardIndex, stage)]}
                         onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
+						currentStage={stage}
                     />
 
 						{/* <VanguardPopUp

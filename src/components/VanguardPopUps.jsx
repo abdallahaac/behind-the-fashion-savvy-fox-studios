@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/vanguard-tutorial.css";
 import "../assets/styles/VanguardPopUps.css";
+import right_arrow from "../assets/images/right-arrow.svg";
 import { FundingContext } from "../utils/FundingContext";
+import NormalButton from "./NormalButton";
 
-function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
+function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage}) {
     // Flatten the steps array
     const _steps = steps.flat(2) || [];
 
@@ -54,6 +56,9 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
             setCurrentStep(currentStep + 1);
         }
     };
+    const handleHello=()=>{}
+        console.log("hello");
+    ;
 
     const handleBack = () => {
         if (currentStep > 0) {
@@ -95,6 +100,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
     };
 
     const handleDone = () => {
+        console.log("handleDones")
         setDoneClicked(true);
         gsap.fromTo(
             containerRef.current,
@@ -138,12 +144,19 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
 				{step.funding && (
 					<span className="tutorial-funding-container">
 						<div className="funding-container">
-							<span className="funding">$&nbsp;&nbsp;Funding</span>
+							<span className="funding label-large"
+                             style={{ color: "black" }}
+                            >
+                                $&nbsp;&nbsp;Funding</span>
 							<div
                                 className="funding-amount"
                                 style={{ color: step.funding > 0 ? "#1D7B18" : "#C83C00" }}
                             >
-                                {step.funding > 0
+                                {currentStage === "final"
+                                    ? step.funding > 0
+                                        ? `+${step.fundTitle}`
+                                        : `${step.fundTitle}`
+                                    : step.funding > 0
                                     ? `+${step.funding.toLocaleString()}`
                                     : `${step.funding.toLocaleString()}`}
                             </div>
@@ -159,7 +172,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
             className="vanguard-tutorial--parent-container"
             onContextMenu={(e) => e.preventDefault()}
         >
-            <div className="tutorial-container" ref={containerRef}>
+            <div className="tutorial-container" ref={containerRef} id={currentStage === "final" ? "hotseat" : undefined}>
                 {/* Step Indicators */}
                 <div className="step-container">
                     {_steps.map((_, index) => (
@@ -191,7 +204,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
                 <div
                     className="navigation-buttons"
                     style={{
-                        justifyContent: currentStep === 0 ? "flex-end" : "space-between",
+                        justifyContent: currentStage === "final" ? "center" : currentStep === 0 ? "flex-end" : "space-between",
                     }}
                 >
                     {currentStep > 0 && (
@@ -211,11 +224,24 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
                         >
                             <div style={{ position: "relative", zIndex: 2 }}>Next</div>
                         </div>
+                    ) : currentStage === "final" ? (
+                        <div
+                            className={`nav-button-tut nav-done`}
+                            onMouseDown={startHold}
+                            onMouseUp={endHold}
+                            onTouchStart={startHold}
+                            onTouchEnd={endHold}
+                            style={{ cursor: "pointer" , backgroundColor: "white"}}
+                        >
+                            <div
+                                className="hold-progress"
+                                style={{ width: `${progress}%` }}
+                            />
+                            <div style={{ position: "relative", zIndex: 2 }}>Next</div>
+                        </div>
                     ) : (
                         <div
-                            className={`nav-button-tut nav-done ${
-                                isBlinking ? "blink-done" : ""
-                            }`}
+                            className={`nav-button-tut nav-done`}
                             onMouseDown={startHold}
                             onMouseUp={endHold}
                             onTouchStart={startHold}
