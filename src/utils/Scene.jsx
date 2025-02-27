@@ -166,6 +166,7 @@ const defaultOutfitControls = {
 	Outfit8: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
 	Outfit9: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
 };
+//
 
 function OutfitGroup({
 	outfitKey,
