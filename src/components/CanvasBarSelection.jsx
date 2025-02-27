@@ -8,6 +8,7 @@ const CanvasBarSelection = ({
 	selectedModelIndex,
 	setSelectedModelIndex,
 	onOutfitSelect, // <--- NEW: callback from Room to animate outfits
+	//
 }) => {
 	const { CanvasOutfitsData } = useModels();
 
