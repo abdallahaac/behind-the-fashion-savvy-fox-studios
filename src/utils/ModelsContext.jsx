@@ -395,7 +395,7 @@ const modelsData = {
 		{
 			id: 9,
 			name: "NEO VINTAGE EDGE",
-			price: 18000,
+			cost: 18000,
 			originalDesignPct: 85,
 			bulletPoints: [
 				"85% Original Design",
