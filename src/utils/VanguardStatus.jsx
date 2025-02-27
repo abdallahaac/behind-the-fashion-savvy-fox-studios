@@ -1,17 +1,22 @@
 import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
-export const updateVanguardStatus = (vanguard, stage, scores) => {
+export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
 
     switch (vanguard) {
         case 'assistant':
             if(stage === 'introduction'){
                 return assistantData[0].introduction;
-        }
+           
+            } else if(stage === 'final'){
+                return assistantData[0].finalFeedback;
+
+            }
         
         case 'allVanguards':
             if(stage === 'brand'){
                 return allVanguards[0].brand;
         }
+        
         
         case 'eco':
             if (stage === 'fabric') {
@@ -30,7 +35,18 @@ export const updateVanguardStatus = (vanguard, stage, scores) => {
                 } else {
                     return ecoVanguard[0].manufacturingFeedback.bad;
                 }
-            } else {
+            } else if (stage=='final'){
+                if (hearts >= 4){
+                    return ecoVanguard[0].finalFeedback.good;
+                }
+                else if (hearts > 2 && hearts < 4){
+                    return ecoVanguard[0].finalFeedback.neutral;
+                }
+                else{
+                    return ecoVanguard[0].finalFeedback.bad;
+                }
+
+            }else {
                 return { img_path: '', description: 'No feedback available for this stage.', funding: 0, hearts: 0 };
             }
         case 'ethics':
@@ -58,6 +74,17 @@ export const updateVanguardStatus = (vanguard, stage, scores) => {
                 } else {
                     return ethicsVanguard[0].manufacturingFeedback.bad;
                 }
+            } else if (stage=='final'){
+                if (hearts >= 4){
+                    return ethicsVanguard[0].finalFeedback.good;
+                }
+                else if (hearts > 2 && hearts < 4){
+                    return ethicsVanguard[0].finalFeedback.neutral;
+                }
+                else{
+                    return ethicsVanguard[0].finalFeedback.bad;
+                }
+
             }
             break;
         case 'wealth':
@@ -85,6 +112,17 @@ export const updateVanguardStatus = (vanguard, stage, scores) => {
                 } else {
                     return wealthVanguard[0].manufacturingFeedback.bad;
                 }
+            } else if (stage=='final'){
+                if (hearts >= 4){
+                    return ethicsVanguard[0].finalFeedback.good;
+                }
+                else if (hearts > 2 && hearts < 4){
+                    return ethicsVanguard[0].finalFeedback.neutral;
+                }
+                else{
+                    return ethicsVanguard[0].finalFeedback.bad;
+                }
+
             }
             break;
         default:
