@@ -1,13 +1,21 @@
-/*****************************************************
- * src/utils/Scene.jsx
- *****************************************************/
-import React, { useEffect, lazy, Suspense, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { useEffect, lazy, Suspense } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
+import { Leva } from "leva";
 import * as THREE from "three";
+
+import Outfit1 from "../models/OutfiitsTest/Outfit1";
+import Outfit2 from "../models/OutfiitsTest/Outfit2";
+import Outfit3 from "../models/OutfiitsTest/Outfit3";
+import Outfit4 from "../models/OutfiitsTest/Outfit4";
+import Outfit5 from "../models/OutfiitsTest/Outfit5";
+import Outfit6 from "../models/OutfiitsTest/Outfit6";
+import Outfit7 from "../models/OutfiitsTest/Outfit7";
+import Outfit8 from "../models/OutfiitsTest/Outfit8";
+import Outfit9 from "../models/OutfiitsTest/Outfit9";
 import FilmGrain from "./MakeItGrain";
 
-// ----- LAZY LOAD YOUR LARGE ASSETS -----
+// LAZY LOAD
 const EnvironmentWithCamera = lazy(() =>
 	import("../models/EnvironmentWithCamera").then((module) => ({
 		default: module.EnvironmentWithCamera,
@@ -15,14 +23,14 @@ const EnvironmentWithCamera = lazy(() =>
 );
 const AvantGardeBloom = lazy(() => import("../models/Meshes/AvantGardeBloom"));
 
-// ----- Import your logo models -----
+// Logos
 import Butterfly from "../models/Logos/Butterfly";
 import Heart from "../models/Logos/Heart";
 import MainLogo from "../models/Logos/MainLogo";
 import PinLogo from "../models/Logos/Pin";
 import Shard from "../models/Logos/Shard";
 
-// ---- Font imports ----
+// Fonts
 import DMSans from "../assets/fonts/DMSans-Regular.ttf";
 import InstrumentSerif from "../assets/fonts/InstrumentSerif-Regular.ttf";
 import MuseoModerno from "../assets/fonts/MuseoModerno-Regular.ttf";
@@ -40,16 +48,15 @@ const fontMapping = {
 	PLAYFUL: DynaPuff,
 };
 
-// Simple lookup for your 5 possible logos
+// ----- All LOGOs -----
 const logosMap = {
-	Butterfly: Butterfly,
-	Heart: Heart,
-	MainLogo: MainLogo,
+	Butterfly,
+	Heart,
+	MainLogo,
 	Pin: PinLogo,
-	Shard: Shard,
+	Shard,
 };
 
-// Default control values for each logo
 const defaultLogoControls = {
 	Butterfly: {
 		position: [0, -5.5, 0],
@@ -83,10 +90,8 @@ const defaultLogoControls = {
 	},
 };
 
-// A component for an individual logo group.
-// It creates a ref for its <group> and calls onLogoMeshMounted to send the ref upward.
 function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
-	const groupRef = useRef();
+	const groupRef = React.useRef();
 
 	useEffect(() => {
 		if (onLogoMeshMounted) {
@@ -94,14 +99,12 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 		}
 	}, [logoKey, onLogoMeshMounted]);
 
-	// Use x & y from our default controls and force z = 0 initially.
 	const controls = defaultLogoControls[logoKey];
 	const finalPosition = [
 		basePosition[0] + controls.position[0],
 		basePosition[1] + controls.position[1],
-		-120, // All logos start at z = 0
+		-120, // Force z = -120 for logos
 	];
-
 	const finalRotation = [
 		baseRotation[0] + controls.rotation[0],
 		baseRotation[1] + controls.rotation[1],
@@ -121,7 +124,6 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 }
 
 function AllLogos({ onLogoMeshMounted }) {
-	// Base position and rotation taken from the text positions in your scene
 	const basePosition = [-69.12, 10.75, -49.51];
 	const baseRotation = [0.01, -4.69, -0.02];
 
@@ -140,6 +142,104 @@ function AllLogos({ onLogoMeshMounted }) {
 	);
 }
 
+// ----- All OUTFITS -----
+const outfitsMap = {
+	Outfit1,
+	Outfit2,
+	Outfit3,
+	Outfit4,
+	Outfit5,
+	Outfit6,
+	Outfit7,
+	Outfit8,
+	Outfit9,
+};
+
+const defaultOutfitControls = {
+	Outfit1: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit2: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit3: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit4: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit5: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit6: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit7: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit8: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+	Outfit9: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
+};
+//
+
+function OutfitGroup({
+	outfitKey,
+	basePosition,
+	baseRotation,
+	onOutfitMeshMounted,
+}) {
+	const groupRef = React.useRef();
+
+	useEffect(() => {
+		if (onOutfitMeshMounted) {
+			onOutfitMeshMounted(outfitKey, groupRef);
+		}
+	}, [outfitKey, onOutfitMeshMounted]);
+
+	const controls = defaultOutfitControls[outfitKey] || {};
+	// For initial state: if this is Outfit1, use the base z position (with any control offset),
+	// otherwise force z = -75.
+	const finalZ =
+		outfitKey === "Outfit1"
+			? basePosition[2] + (controls.position[2] || 0)
+			: -115;
+	const finalPosition = [
+		basePosition[0] + (controls.position[0] || 0),
+		basePosition[1] + (controls.position[1] || 0),
+		finalZ,
+	];
+	const finalRotation = [
+		baseRotation[0] + (controls.rotation?.[0] || 0),
+		baseRotation[1] + (controls.rotation?.[1] || 0),
+		baseRotation[2] + (controls.rotation?.[2] || 0),
+	];
+
+	return (
+		<group
+			ref={groupRef}
+			position={finalPosition}
+			rotation={finalRotation}
+			scale={controls.scale || [1, 1, 1]}
+		>
+			{React.createElement(outfitsMap[outfitKey])}
+		</group>
+	);
+}
+
+function AllOutfits({ onOutfitMeshMounted }) {
+	const basePosition = [-39, 7, -45];
+	const baseRotation = [0.01, -4.69, -0.02];
+
+	return (
+		<>
+			{Object.keys(outfitsMap).map((outfitKey) => (
+				<OutfitGroup
+					key={outfitKey}
+					outfitKey={outfitKey}
+					basePosition={basePosition}
+					baseRotation={baseRotation}
+					onOutfitMeshMounted={onOutfitMeshMounted}
+				/>
+			))}
+		</>
+	);
+}
+
+function CameraLogger() {
+	const { camera } = useThree();
+	useFrame(() => {
+		// Uncomment for debugging:
+		// console.log(`Camera Position: x:${camera.position.x.toFixed(3)} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`);
+	});
+	return null;
+}
+
 const Scene = ({
 	playAnimation,
 	paused,
@@ -149,24 +249,27 @@ const Scene = ({
 	brandName,
 	fontStyle,
 	onLogoMeshMounted,
+	onOutfitMeshMounted,
 }) => {
 	useEffect(() => {
-		console.log(
-			"Scene: Rendering all logos at the text position. (Initial z = 0)"
-		);
+		console.log("Scene: Rendering scene with logo and outfit meshes.");
 	}, []);
 
 	return (
 		<>
+			<Leva collapsed={false} />
+
 			<Canvas gl={{ antialias: true }}>
 				<Suspense fallback={null}>
-					{/* Global ambient light */}
 					<ambientLight intensity={0.5} />
 
-					{/* Render all logos without Leva controls */}
+					{/* All Outfits */}
+					<AllOutfits onOutfitMeshMounted={onOutfitMeshMounted} />
+
+					{/* All Logos */}
 					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
-					{/* Display the brand name as stacked text */}
+					{/* Display brand name text */}
 					{brandName && (
 						<>
 							<Text
@@ -216,7 +319,6 @@ const Scene = ({
 						</>
 					)}
 
-					{/* Environment and camera */}
 					<EnvironmentWithCamera
 						playAnimation={playAnimation}
 						paused={paused}
@@ -225,10 +327,7 @@ const Scene = ({
 						onBreakpointHit={onBreakpointHit}
 					/>
 
-					{/* Optional HDR background (set background to true if desired) */}
 					<Environment files="/assets/images/hdrFile.hdr" background={false} />
-
-					{/* Optional film grain effect */}
 					<FilmGrain />
 				</Suspense>
 			</Canvas>

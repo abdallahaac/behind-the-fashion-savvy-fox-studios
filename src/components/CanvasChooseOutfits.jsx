@@ -32,14 +32,14 @@ function getBrandDesc(font) {
 
 function CanvasChooseOutfits({
 	onStart,
-	onLogoSelect,
+	onOutfitSelect, // <-- NEW: callback from Room
 	onCreate,
 	onBrandNameChange,
 	onFontStyleChange,
 	isInputEnabled,
-	onClothingSelection, 
+	onClothingSelection,
 }) {
-	const { CanvasOutfitsData } = useModels(); // fetch the 9 outfits from context
+	const { CanvasOutfitsData } = useModels();
 
 	// ================== ADD: Funding Context ==================
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
@@ -55,21 +55,17 @@ function CanvasChooseOutfits({
 	const [isBlinking, setIsBlinking] = useState(true);
 	const [isExpanded, setIsExpanded] = useState(false);
 
-	// We’ll keep these in case you eventually want them:
-	const [fontStyle, setFontStyle] = useState("MINIMALIST");
-	const [brandName, setBrandName] = useState("");
+	const [fontStyle, setFontStyleLocal] = useState("MINIMALIST");
+	const [brandName, setBrandNameLocal] = useState("");
 	const [selectedLogo, setSelectedLogo] = useState(null);
 
-	// Second “purchase” hold states
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
-
 	const [isSubmitContainerVisible, setIsSubmitContainerVisible] =
 		useState(false);
 
 	// A 3-slot array for "My Collection"
 	const [collection, setCollection] = useState([null, null, null]);
-	// Track which outfits are "added"
 	const [addedOutfits, setAddedOutfits] = useState(Array(9).fill(false));
 
 	// Refs for GSAP
@@ -88,13 +84,11 @@ function CanvasChooseOutfits({
 	const logoContainerRef = useRef(null);
 	const createSubmitContainerRef = useRef(null);
 
-	// For the second hold:
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
 
-	const HOLD_DURATION = 0;
+	const HOLD_DURATION = 0; // Adjust if you want a real "hold to proceed"
 
-	// ==================== Initial GSAP Fade In ====================
 	useEffect(() => {
 		gsap.fromTo(
 			containerRef.current,
@@ -177,7 +171,7 @@ function CanvasChooseOutfits({
 
 	// ========== Second hold: Purchase ==========
 	const startCreateHold = (e) => {
-		// For simplicity, require user to have 3 outfits before purchase
+		// For simplicity, require user to have 3 outfits in the collection
 		if (!isCollectionActive) return;
 
 		e.preventDefault();
@@ -200,7 +194,6 @@ function CanvasChooseOutfits({
 
 	const endCreateHold = (e) => {
 		if (!isCollectionActive) return;
-
 		e.preventDefault();
 		clearInterval(createIntervalRef.current);
 		if (createProgress < 100) {
@@ -210,7 +203,6 @@ function CanvasChooseOutfits({
 	};
 
 	const handleCreateDone = () => {
-		console.log("collection items", collection);
 		onClothingSelection(collection);
 		// Fade out the entire container
 		gsap.to(containerRef.current, {
@@ -223,11 +215,10 @@ function CanvasChooseOutfits({
 		});
 	};
 
-	// ========== Logo Click ==========
+	// ========== Logo click (if relevant) ==========
 	const handleLogoClick = (logoId) => {
 		if (!isSubmitContainerVisible) return;
 		setSelectedLogo(logoId);
-		onLogoSelect?.(logoId);
 	};
 
 	// ========== Collection Logic ==========
@@ -250,7 +241,7 @@ function CanvasChooseOutfits({
 		});
 
 		// Decrease player's funding by the outfit's price
-		setFundingAmount((prev) => (prev || 0) - outfit.price);
+		setFundingAmount((prev) => (prev || 0) - (outfit.price || outfit.cost));
 	};
 
 	// REMOVE an outfit
@@ -265,8 +256,10 @@ function CanvasChooseOutfits({
 					updated[realIndex] = false;
 					return updated;
 				});
-				// Give the cost back
-				setFundingAmount((prev) => (prev || 0) + removedOutfit.price);
+				// Refund the outfit's price/cost
+				setFundingAmount(
+					(prev) => (prev || 0) + (removedOutfit.price || removedOutfit.cost)
+				);
 			}
 			newArr[slotIndex] = null;
 			return newArr;
@@ -290,7 +283,7 @@ function CanvasChooseOutfits({
 		}
 	};
 
-	// Collection breakdown logic
+	// The “smart breakdown” text
 	const currentCollectionCount = collection.filter(
 		(item) => item !== null
 	).length;
@@ -305,7 +298,7 @@ function CanvasChooseOutfits({
 		} More to View Smart Breakdown`;
 	}
 
-	// Compute Combined Originality when 3 are chosen
+	// Original/Plagiarized metric
 	let averageOriginal = 0;
 	if (currentCollectionCount === 3) {
 		const sumOriginal = collection.reduce(
@@ -325,16 +318,15 @@ function CanvasChooseOutfits({
 		return "Your collection borrows heavily from existing designs. Consider more unique pieces!";
 	};
 
-	// For the purchase button, require all 3 outfits
+	// For the purchase button, require 3 outfits
 	const isCollectionActive = currentCollectionCount === 3;
 
-	// ================== TOTAL PRICE for the 3 outfits ==================
+	// Total design price
 	const totalDesignPrice = collection.reduce(
-		(acc, item) => acc + (item ? item.price : 0),
+		(acc, item) => acc + (item ? item.price || item.cost : 0),
 		0
 	);
 
-	// Thumb Up/Down images
 	const thumbsUpImage = "/images/green-thumb.svg";
 	const thumbsDownImage = "/images/red-thumb.svg";
 
@@ -362,7 +354,7 @@ function CanvasChooseOutfits({
 		);
 	};
 
-	// ========== RENDER ==========
+	// The CTA label
 	let ctaLabel = "Add to Collection";
 	if (addedOutfits[selectedModelIndex]) {
 		ctaLabel = "Remove from Collection";
@@ -373,7 +365,9 @@ function CanvasChooseOutfits({
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container higher ${
+					isExpanded ? "expanded-container outfit" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
@@ -465,12 +459,10 @@ function CanvasChooseOutfits({
 
 								{/* The .breakdown container */}
 								<div ref={fontSelectionContainerRef} className="breakdown">
-									{/* Only show text if < 3 outfits */}
 									{currentCollectionCount < 3 && (
 										<span className="breakdown-desc">{breakdownText}</span>
 									)}
 
-									{/* Show the metric only if 3 outfits are selected */}
 									{currentCollectionCount === 3 && (
 										<CollectionOriginalityMetric
 											label="Collection Originality Metric"
@@ -501,7 +493,6 @@ function CanvasChooseOutfits({
 											isCollectionActive ? "active" : ""
 										}`}
 									>
-										{/* ONLY show total price if all 3 outfits are chosen */}
 										<span
 											className={`brand-title ${
 												isCollectionActive ? "active" : ""
@@ -548,19 +539,23 @@ function CanvasChooseOutfits({
 								</div>
 							</div>
 
+							{/* The bar of 9 outfits (buttons) */}
 							<CanvasBarSelection
 								selectedModelIndex={selectedModelIndex}
 								setSelectedModelIndex={setSelectedModelIndex}
+								onOutfitSelect={onOutfitSelect} // <-- pass callback down
 							/>
 
-							<div className="left-component">
+							<div className="left-component outfit">
 								{selectedOutfit && (
 									<div className="left-container">
 										<div className="header-info">
 											<span className="model-title">
 												{selectedOutfit.name.toUpperCase()}
 											</span>
-											<div className="span-price">${selectedOutfit.price}</div>
+											<div className="span-price">
+												${selectedOutfit.price || selectedOutfit.cost}
+											</div>
 										</div>
 
 										<div className="info-item">
@@ -596,7 +591,7 @@ function CanvasChooseOutfits({
 											</div>
 										</div>
 
-										{/* Render any "thumbs up/down" bullet lines */}
+										{/* Render thumbs up/down bullet lines, if any */}
 										{selectedOutfit.iconBullets &&
 											selectedOutfit.iconBullets[1] && (
 												<>

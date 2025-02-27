@@ -62,9 +62,9 @@
 }
 
 /* Left Component */
-.left-component {
+.left-component.outfit {
 	position: absolute;
-	transform: translate(-480px);
+	transform: translate(-530px);
 	width: 460px;
 	min-height: 500px;
 	max-height: fit-content;
@@ -125,7 +125,7 @@
 	/* Shift the component left by 480px (adjust as needed) */
 	position: absolute;
 	transform: translate(-480px);
-	width: 460px;
+	width: 480px;
 	min-height: 500px;
 	margin-top: -20px;
 	/* Rounded corners on the left side */
@@ -142,8 +142,12 @@
 	/* Padding for inner content */
 	padding: 24px;
 	transition: all 300ms ease-in-out;
+	z-index: 1;
 }
 
+.cta-container {
+	max-width: 400px;
+}
 .left-container {
 	/* Stack children vertically */
 	display: flex;
@@ -418,6 +422,14 @@ button.cta-button.remove {
 .create-btn {
 	box-sizing: border-box;
 }
-.expanded-container {
-	height: 81vh;
+.expanded-container.outfit {
+	height: 790px;
+}
+.higher {
+	position: relative; /* or absolute/fixed if needed */
+	z-index: 9999; /* a high number to ensure it sits above the left component */
+}
+
+.lower {
+	position: absolute; /* or absolute/fixed if needed */
 }
