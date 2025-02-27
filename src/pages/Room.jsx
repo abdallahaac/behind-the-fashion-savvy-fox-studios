@@ -330,21 +330,21 @@ function Room() {
 		
     
 
-        const ethics_feedback = updateVanguardStatus("ethics", currentStage, averages, ethicsHearts);
-        // use max to make sure hearts don't go below 0
-        setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
-        console.log("Ethics Vanguard Feedback:", ethics_feedback);
-        setEthicsFeedback(ethics_feedback);
-
-        const eco_feedback = updateVanguardStatus("eco", currentStage, averages, ecoHearts);
-        setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
-        console.log("Eco Vanguard Feedback:", eco_feedback);
-        setEcoFeedback(eco_feedback);
-
-        const wealth_feedback = updateVanguardStatus("wealth", currentStage, averages, wealthHearts);
-        setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
-        console.log("Wealth Vanguard Feedback:", wealth_feedback);
-        setWealthFeedback(wealth_feedback);
+		const ethics_feedback = updateVanguardStatus("ethics", currentStage, averages, ethicsHearts);
+		// use max to make sure hearts don't go below 0 and min to make sure hearts don't exceed 5
+		setEthicsHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts)));
+		console.log("Ethics Vanguard Feedback:", ethics_feedback);
+		setEthicsFeedback(ethics_feedback);
+		
+		const eco_feedback = updateVanguardStatus("eco", currentStage, averages, ecoHearts);
+		setEcoHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts)));
+		console.log("Eco Vanguard Feedback:", eco_feedback);
+		setEcoFeedback(eco_feedback);
+		
+		const wealth_feedback = updateVanguardStatus("wealth", currentStage, averages, wealthHearts);
+		setWealthHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts)));
+		console.log("Wealth Vanguard Feedback:", wealth_feedback);
+		setWealthFeedback(wealth_feedback);
 
 		
 
