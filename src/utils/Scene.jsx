@@ -255,6 +255,7 @@ const Scene = ({
 		console.log("Scene: Rendering scene with logo and outfit meshes.");
 	}, []);
 
+	//
 	return (
 		<>
 			<Leva collapsed={false} />
