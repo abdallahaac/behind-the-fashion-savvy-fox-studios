@@ -1,23 +1,47 @@
-// CanvasBarSelection.jsx (OUTFITS Version, unchanged)
 import React from "react";
 import { useModels } from "../utils/ModelsContext";
 
 import "../assets/styles/ModelList.css";
 import "../assets/styles/CanvasBarList.css";
 
-const CanvasBarSelection = ({ selectedModelIndex, setSelectedModelIndex }) => {
+const CanvasBarSelection = ({
+	selectedModelIndex,
+	setSelectedModelIndex,
+	onOutfitSelect, // <--- NEW: callback from Room to animate outfits
+}) => {
 	const { CanvasOutfitsData } = useModels();
 
 	const handlePrev = () => {
-		setSelectedModelIndex((prev) =>
-			prev === 0 ? CanvasOutfitsData.length - 1 : prev - 1
-		);
+		const newIndex =
+			selectedModelIndex === 0
+				? CanvasOutfitsData.length - 1
+				: selectedModelIndex - 1;
+		setSelectedModelIndex(newIndex);
+		if (onOutfitSelect) {
+			const outfitKey = `Outfit${CanvasOutfitsData[newIndex].id}`;
+			onOutfitSelect(outfitKey);
+		}
 	};
 
 	const handleNext = () => {
-		setSelectedModelIndex((prev) =>
-			prev === CanvasOutfitsData.length - 1 ? 0 : prev + 1
-		);
+		const newIndex =
+			selectedModelIndex === CanvasOutfitsData.length - 1
+				? 0
+				: selectedModelIndex + 1;
+		setSelectedModelIndex(newIndex);
+		if (onOutfitSelect) {
+			const outfitKey = `Outfit${CanvasOutfitsData[newIndex].id}`;
+			onOutfitSelect(outfitKey);
+		}
+	};
+
+	const handleButtonClick = (outfit, idx) => {
+		setSelectedModelIndex(idx);
+		if (onOutfitSelect) {
+			// Convert numeric ID (1..9) to the actual outfit key "Outfit1".. "Outfit9"
+			const outfitKey = `Outfit${outfit.id}`;
+			onOutfitSelect(outfitKey);
+		}
 	};
 
 	return (
@@ -34,7 +58,7 @@ const CanvasBarSelection = ({ selectedModelIndex, setSelectedModelIndex }) => {
 							className={`accent-6 model-button ${
 								idx === selectedModelIndex ? "active" : ""
 							}`}
-							onClick={() => setSelectedModelIndex(idx)}
+							onClick={() => handleButtonClick(outfit, idx)}
 						>
 							{outfit.id < 10 ? `0${outfit.id}` : outfit.id}
 						</button>

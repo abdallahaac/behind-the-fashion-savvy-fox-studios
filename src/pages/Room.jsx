@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
-import { useProgress } from "@react-three/drei"; // <-- Use progress in Room now
+import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
@@ -66,20 +66,15 @@ function Room() {
 
 	// Track model loading progress via Drei
 	const { progress: rawProgress } = useProgress();
-	// We'll clamp it to 1–99% if we haven't hit the first breakpoint,
-	// or 100% once we've hit it.
+
 	const [hasReachedFirstBreakpoint, setHasReachedFirstBreakpoint] =
 		useState(false);
-
-	// To control whether the overlay is visible at all
 	const [showOverlay, setShowOverlay] = useState(true);
 
-	// You might want to clamp to at least 1% so the bar is never fully empty
 	const displayedProgress = hasReachedFirstBreakpoint
 		? 100
 		: Math.min(Math.max(rawProgress, 1), 99);
 
-	// Breakpoints in Scene
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858,
 	];
@@ -102,29 +97,22 @@ function Room() {
 	// LOGO references and selection
 	const logoMeshRefs = useRef({});
 	const [selectedLogo, setSelectedLogo] = useState(null);
-	const [usedLogos, setUsedLogos] = useState(new Set());
 
-	// Callback to capture logo mesh refs from Scene
+	// === OUTFIT references and selection (NEW) ===
+	const outfitMeshRefs = useRef({});
+	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
+
+	// Called by Scene for each logo
 	const handleLogoMeshMounted = (logoKey, ref) => {
 		logoMeshRefs.current[logoKey] = ref;
 	};
 
-	// Once the Scene (and all logos) mount, set them to z = -200 by default.
-	useEffect(() => {
-		// A small timeout can ensure all refs are assigned
-		const timeout = setTimeout(() => {
-			const keys = Object.keys(logoMeshRefs.current);
-			keys.forEach((key) => {
-				const groupRef = logoMeshRefs.current[key];
-				if (groupRef && groupRef.current) {
-					groupRef.current.position.z = -120;
-				}
-			});
-		}, 50);
+	// Called by Scene for each outfit (NEW)
+	const handleOutfitMeshMounted = (outfitKey, ref) => {
+		outfitMeshRefs.current[outfitKey] = ref;
+	};
 
-		return () => clearTimeout(timeout);
-	}, []);
-
+	// Animate a given logo's Z position
 	function animateLogoTo(logoId, newZ) {
 		const ref = logoMeshRefs.current[logoId];
 		if (ref && ref.current) {
@@ -135,25 +123,45 @@ function Room() {
 		}
 	}
 
-	// When a logo is selected in CreateBrand, we swap it with whatever is currently active:
-	// When a logo is selected, animate it to z = -49.51.
-	// If another logo is already active, animate that one back to z = 0.
+	// Animate a given outfit's Z position (unchanged)
+	function animateOutfitTo(outfitId, newZ) {
+		const ref = outfitMeshRefs.current[outfitId];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+			});
+		}
+	}
+
+	// OUTFIT selection logic: swap the current active outfit with the clicked outfit
+	function handleOutfitSelect(newOutfitId) {
+		// If the clicked outfit is already active, do nothing.
+		if (selectedOutfit === newOutfitId) {
+			return;
+		}
+		// Animate the currently active outfit (initially "Outfit1") back to z = -75.
+		animateOutfitTo(selectedOutfit, -120);
+		// Animate the newly clicked outfit forward to z = -45.
+		animateOutfitTo(newOutfitId, -45);
+		// Update the active outfit state.
+		setSelectedOutfit(newOutfitId);
+	}
+	// LOGO selection logic
 	function handleLogoSelect(newLogoId) {
-		// If no logo is currently active, animate the clicked logo to -49.51.
+		// If no logo is currently active, animate the clicked logo to z = -49.51
 		if (!selectedLogo) {
 			animateLogoTo(newLogoId, -49.51);
 			setSelectedLogo(newLogoId);
 			return;
 		}
-
 		// If the clicked logo is already active, do nothing.
 		if (selectedLogo === newLogoId) {
 			return;
 		}
-
-		// Animate the previously active logo back to 0...
-		animateLogoTo(selectedLogo, -75);
-		// ...and animate the newly clicked logo to -49.51.
+		// Animate the previously active logo back to z = -75 (for example).
+		animateLogoTo(selectedLogo, -100);
+		// Animate the newly clicked logo to z = -49.51.
 		animateLogoTo(newLogoId, -49.51);
 		setSelectedLogo(newLogoId);
 	}
@@ -164,27 +172,25 @@ function Room() {
 	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
 		[]
 	);
-	// const [selectItems, setSelectedItems] = useState([]);
+
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
+
 	// control hearts fill
 	const [ethicsHearts, setEthicsHearts] = useState(3);
-	let ethics_feedback = useRef(null);
 	const [ecoHearts, setEcoHearts] = useState(3);
-	let eco_feedback = useRef(null);
 	const [wealthHearts, setWealthHearts] = useState(3);
-	let wealth_feedback = useRef(null);
 
 	// FundingContext
-	const { fundingAmount, setFundingAmount, generateFunding } =
-		useContext(FundingContext);
+	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
 	useEffect(() => {
 		// Shuffle questions for the Hotseat
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
+
 	useEffect(() => {
 		console.log("Updated eco hearts:", ecoHearts);
 		console.log("Updated ethics hearts:", ethicsHearts);
@@ -223,7 +229,6 @@ function Room() {
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
-		// Convert selectedItems to an array if it's an object
 		const itemsArray = Array.isArray(selectedItems)
 			? selectedItems
 			: Object.values(selectedItems);
@@ -251,10 +256,6 @@ function Room() {
 			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost / itemCount;
 
-		console.log("Average Ethics:", averageEthics);
-		console.log("Average Sustainability:", averageSustainability);
-		console.log("Average Cost:", averageCost);
-
 		return {
 			averageEthics,
 			averageSustainability,
@@ -269,29 +270,34 @@ function Room() {
 	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
-		console.log("Averages:", averages);
+
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
-		console.log("current stage", currentStage);
 
-		ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
-		// use max to make sure hearts don't go below 0
+		// Update hearts based on the new stage & selection
+		const ethics_feedback = updateVanguardStatus(
+			"ethics",
+			currentStage,
+			averages
+		);
 		setEthicsHearts((prevHearts) =>
 			Math.max(0, prevHearts + ethics_feedback.hearts)
 		);
-		console.log("Ethics Vanguard Feedback:", ethics_feedback);
 
-		eco_feedback = updateVanguardStatus("eco", currentStage, averages);
+		const eco_feedback = updateVanguardStatus("eco", currentStage, averages);
 		setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
-		console.log("Eco Vanguard Feedback:", eco_feedback);
 
-		wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
+		const wealth_feedback = updateVanguardStatus(
+			"wealth",
+			currentStage,
+			averages
+		);
 		setWealthHearts((prevHearts) =>
 			Math.max(0, prevHearts + wealth_feedback.hearts)
 		);
-		console.log("Wealth Vanguard Feedback:", wealth_feedback);
 	};
+
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
 		setStage(newStage);
@@ -387,14 +393,12 @@ function Room() {
 	// Vanguard click
 	const handleVanguardClick = (index) => {
 		if (!vanguardActiveStates[index]) return;
-
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
 		if (currentBreakpointIndex === 9 && index === 0) {
 			setShowHotseat(true);
 			setActiveVanguardIndex(0);
 			return;
 		}
-
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
@@ -444,11 +448,9 @@ function Room() {
 				ease: "power2.out",
 				onComplete: () => {
 					setShowHotseat(false);
-					// If Vanguard 0 was in the hot seat:
 					if (activeVanguardIndex === 0) {
 						// Deactivate Vanguard 0 and activate the others
 						setVanguardActiveStates([false, true, true, true]);
-						// Force them all to third scenario
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
 					}
 					handleDone(setMode, setCurrentStep, setQuestionIndex);
@@ -593,7 +595,7 @@ function Room() {
 									handleContinue();
 								}
 							}}
-							onLogoSelect={handleLogoSelect}
+							onOutfitSelect={handleOutfitSelect} // NEW
 							onCreate={() => {
 								setShowOutfitSelection(false);
 								handleContinue();
@@ -771,7 +773,10 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 					brandName={brandName}
 					fontStyle={fontStyle}
+					// LOGOs
 					onLogoMeshMounted={handleLogoMeshMounted}
+					// OUTFITs
+					onOutfitMeshMounted={handleOutfitMeshMounted}
 				/>
 			</div>
 		</>
