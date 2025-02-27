@@ -781,7 +781,6 @@ function Room() {
 
 				{/* Vanguard Pop-up */}
 				{showPopUp && activeVanguardIndex !== null && (
-					console.log("aTHEEEctive vanguard index BEFORE PRESSING IT", activeVanguardIndex),
 					<div
 						style={{
 							position: "absolute",

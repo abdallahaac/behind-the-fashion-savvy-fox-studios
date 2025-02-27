@@ -473,7 +473,7 @@ button.cta-button.remove {
 	left: 0;
 	width: 50%; /* Because we have two toggles, each half of the container */
 	height: 100%;
-	background-color: #cc2c2f; /* The red color for the active portion */
+	background-color: #C83C00; /* The red color for the active portion */
 	border-radius: 30px;
 	transition: left 0.3s ease; /* Smooth slide */
 	z-index: 1; /* Behind text, above the container background */
