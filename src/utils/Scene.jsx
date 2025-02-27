@@ -1,9 +1,10 @@
 /*****************************************************
  * src/utils/Scene.jsx
  *****************************************************/
-import React, { useEffect, lazy, Suspense, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { useEffect, lazy, Suspense } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
+import { Leva, useControls } from "leva";
 import * as THREE from "three";
 import FilmGrain from "./MakeItGrain";
 
@@ -48,9 +49,7 @@ const logosMap = {
 	Pin: PinLogo,
 	Shard: Shard,
 };
-//
-//
-//
+
 // Default control values for each logo
 const defaultLogoControls = {
 	Butterfly: {
@@ -86,9 +85,8 @@ const defaultLogoControls = {
 };
 
 // A component for an individual logo group.
-// It creates a ref for its <group> and calls onLogoMeshMounted to send the ref upward.
 function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
-	const groupRef = useRef();
+	const groupRef = React.useRef();
 
 	useEffect(() => {
 		if (onLogoMeshMounted) {
@@ -96,12 +94,12 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 		}
 	}, [logoKey, onLogoMeshMounted]);
 
-	// Use x & y from our default controls and force z = 0 initially.
+	// Use x & y from our default controls and force z = -120.
 	const controls = defaultLogoControls[logoKey];
 	const finalPosition = [
 		basePosition[0] + controls.position[0],
 		basePosition[1] + controls.position[1],
-		-120, // All logos start at z = 0
+		-120, // Fixed z position for logos
 	];
 
 	const finalRotation = [
@@ -142,6 +140,43 @@ function AllLogos({ onLogoMeshMounted }) {
 	);
 }
 
+// Cube component with Leva controls defined in the same file.
+function Cube() {
+	// Leva control for the cube's position.
+	const { position } = useControls("Cube", {
+		position: { value: [-39.3, 8.1, -44.3], step: 0.1 },
+	});
+
+	return (
+		<mesh position={position}>
+			{/* Option 1: Use boxGeometry which is automatically recognized */}
+			<boxGeometry args={[2, 2, 2]} />
+			{/* 
+      Option 2: If you prefer using boxBufferGeometry, uncomment the following line 
+      and add the extension below.
+      
+      <boxBufferGeometry args={[2, 2, 2]} />
+      */}
+			<meshStandardMaterial color="orange" />
+		</mesh>
+	);
+}
+
+// Constantly log the camera position on every frame.
+function CameraLogger() {
+	const { camera } = useThree();
+	useFrame(() => {
+		console.log(
+			`Camera Position: x: ${camera.position.x.toFixed(
+				3
+			)}, y: ${camera.position.y.toFixed(3)}, z: ${camera.position.z.toFixed(
+				3
+			)}`
+		);
+	});
+	return null;
+}
+
 const Scene = ({
 	playAnimation,
 	paused,
@@ -153,19 +188,26 @@ const Scene = ({
 	onLogoMeshMounted,
 }) => {
 	useEffect(() => {
-		console.log(
-			"Scene: Rendering all logos at the text position. (Initial z = 0)"
-		);
+		console.log("Scene: Rendering scene with Cube and logos.");
 	}, []);
 
 	return (
 		<>
+			{/* Display the Leva controls panel */}
+			<Leva collapsed={false} />
+
 			<Canvas gl={{ antialias: true }}>
 				<Suspense fallback={null}>
 					{/* Global ambient light */}
 					<ambientLight intensity={0.5} />
 
-					{/* Render all logos without Leva controls */}
+					{/* Constantly log the camera position */}
+					{/* <CameraLogger /> */}
+
+					{/* Render the cube with Leva controls */}
+					<Cube />
+
+					{/* Render all logos */}
 					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
 					{/* Display the brand name as stacked text */}
@@ -227,7 +269,7 @@ const Scene = ({
 						onBreakpointHit={onBreakpointHit}
 					/>
 
-					{/* Optional HDR background (set background to true if desired) */}
+					{/* Optional HDR background */}
 					<Environment files="/assets/images/hdrFile.hdr" background={false} />
 
 					{/* Optional film grain effect */}
