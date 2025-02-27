@@ -146,6 +146,7 @@ function Room() {
 		animateOutfitTo(newOutfitId, -45);
 		// Update the active outfit state.
 		setSelectedOutfit(newOutfitId);
+		//
 	}
 	// LOGO selection logic
 	function handleLogoSelect(newLogoId) {
