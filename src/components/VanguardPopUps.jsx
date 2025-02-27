@@ -139,9 +139,14 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard}) {
 					<span className="tutorial-funding-container">
 						<div className="funding-container">
 							<span className="funding">$&nbsp;&nbsp;Funding</span>
-							<div className="funding-amount">
-								{`+${step.funding.toLocaleString()}`}
-							</div>
+							<div
+                                className="funding-amount"
+                                style={{ color: step.funding > 0 ? "#1D7B18" : "#C83C00" }}
+                            >
+                                {step.funding > 0
+                                    ? `+${step.funding.toLocaleString()}`
+                                    : `${step.funding.toLocaleString()}`}
+                            </div>
 						</div>
 					</span>
 				)}
