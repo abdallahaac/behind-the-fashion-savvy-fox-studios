@@ -7,6 +7,8 @@ import "../assets/styles/CHooseSelectionCanvas.css";
 import "../assets/styles/CanvasManufacturer.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import shopping_bag from "../assets/images/shopping_bag.svg";
+
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 import CanvasFactoryBarSelection from "./CanvasFactoryBarSelection";
@@ -267,13 +269,13 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											></div>
 
 											<button
-												className="factory-toggle left"
+												className="factory-toggle left accent-6"
 												onClick={() => setIsAbout(true)}
 											>
 												ABOUT
 											</button>
 											<button
-												className="factory-toggle right"
+												className="factory-toggle right accent-6"
 												onClick={() => setIsAbout(false)}
 											>
 												FACTORY AUDIT
@@ -291,16 +293,15 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 													width="75"
 													height="75"
 													src={
-														currentFactory.about?.locationImage?.botSvg ||
-														botSvg
+														currentFactory.about?.locationImage
 													}
 													alt="factory"
 												/>
 												<div className="location-container">
-													<div className="location-title">
+													<div className="location-title body-text-medium">
 														{currentFactory.about?.locationTitle}
 													</div>
-													<div className="location-description">
+													<div className="location-description body-text-small">
 														{currentFactory.about?.locationDescription}
 													</div>
 												</div>
@@ -311,20 +312,19 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 												{currentFactory.about?.standardImage && (
 													<img
 														className="factory-img"
-														width="75"
-														height="75"
+														width="40"
+														height="40"
 														src={
-															currentFactory.about?.standardImage?.botSvg ||
-															botSvg
+															currentFactory.about?.standardImage
 														}
 														alt=""
 													/>
 												)}
-												<div className="location-container">
-													<div className="location-title">
+												<div className="location-container ">
+													<div className="location-title body-text-medium">
 														{currentFactory.about?.standardTitle}
 													</div>
-													<div className="location-description">
+													<div className="location-description body-text-small">
 														{currentFactory.about?.standardDescription}
 													</div>
 												</div>
@@ -335,16 +335,16 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 												<div className="factory-location-container">
 													<img
 														className="factory-img"
-														width="75"
-														height="75"
-														src={currentFactory.about?.etiImage?.botSvg}
+														width="40"
+														height="40"
+														src={currentFactory.about?.etiImage}
 														alt=""
 													/>
 													<div className="location-container">
-														<div className="location-title">
+														<div className="location-title body-text-medium">
 															{currentFactory.about?.etiBaseTitle}
 														</div>
-														<div className="location-description">
+														<div className="location-description body-text-small">
 															{currentFactory.about?.etiBaseDescription}
 														</div>
 													</div>
@@ -359,19 +359,18 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											<div className="factory-location-container">
 												<img
 													className="factory-img"
-													width="75"
-													height="75"
+													width="24"
+													height="24"
 													src={
 														currentFactory.factoryAudit?.fairWageImage
-															?.botSvg || botSvg
 													}
 													alt="fair-wage"
 												/>
 												<div className="location-container">
-													<div className="location-title">
+													<div className="location-title body-text-medium">
 														{currentFactory.factoryAudit?.fairWageTitle}
 													</div>
-													<div className="location-description">
+													<div className="location-description body-text-small">
 														{currentFactory.factoryAudit?.fairWageDescription}
 													</div>
 												</div>
@@ -379,19 +378,18 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											<div className="factory-location-container">
 												<img
 													className="factory-img"
-													width="75"
-													height="75"
+													width="24"
+													height="24"
 													src={
-														currentFactory.factoryAudit?.energyImage?.botSvg ||
-														botSvg
+														currentFactory.factoryAudit?.energyImage
 													}
 													alt="energy"
 												/>
 												<div className="location-container">
-													<div className="location-title">
+													<div className="location-title body-text-medium">
 														{currentFactory.factoryAudit?.energyEfficiencyTitle}
 													</div>
-													<div className="location-description">
+													<div className="location-description body-text-small">
 														{
 															currentFactory.factoryAudit
 																?.energyEfficiencyDescription
@@ -402,19 +400,18 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											<div className="factory-location-container">
 												<img
 													className="factory-img"
-													width="75"
-													height="75"
+													width="24"
+													height="24"
 													src={
-														currentFactory.factoryAudit?.wasteImage?.botSvg ||
-														botSvg
+														currentFactory.factoryAudit?.wasteImage
 													}
 													alt="waste"
 												/>
 												<div className="location-container">
-													<div className="location-title">
+													<div className="location-title body-text-medium">
 														{currentFactory.factoryAudit?.wasteEfficiencyTitle}
 													</div>
-													<div className="location-description">
+													<div className="location-description body-text-small">
 														{
 															currentFactory.factoryAudit
 																?.wasteEfficiencyDescription
@@ -483,11 +480,10 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											style={{ position: "relative" }}
 											className="purchase-btn"
 										>
-											Purchase
-											<FontAwesomeIcon
-												icon={faArrowRight}
-												className="icon-right"
-											/>
+											Select
+											<div className="button-icon">
+												<img src={shopping_bag} alt="Shopping Bag Icon" />
+											</div>
 										</div>
 									</div>
 								</div>

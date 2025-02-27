@@ -87,6 +87,7 @@
 	background-color: #222222;
 	margin: 5px 10px;
 	position: relative;
+	padding:10px;
 }
 
 .hotseat-answer input[type="radio"]:checked {
@@ -97,7 +98,7 @@
 	content: "";
 	position: absolute;
 	top: 2px; /* Adjusted to center the inner circle */
-	left: 2.3px; /* Adjusted to center the inner circle */
+	left: 2.2px; /* Adjusted to center the inner circle */
 	width: 16px; /* Adjusted size of the inner circle */
 	height: 16px; /* Adjusted size of the inner circle */
 	border-radius: 50%;

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import botSvg from "../assets/images/tutorial-bot.svg";
 
+
 // Optional: This cameraAnimation is from your snippet; keep if still needed
 const cameraAnimation = {
 	first: {
@@ -18,18 +19,16 @@ const modelsData = {
 			sustainability:3,
 
 			about: {
-				locationImage: { botSvg },
+				locationImage: "../assets/images/Manufacturing/Europe.png",
 				locationTitle: "Located in Europe",
 				locationDescription:
 					"ArtistThread Textiles is renowned for its exceptional craftsmanship, skilled workforce, and dedication to sustainable practices. Its strategic location within Europe also offers easy access to key markets, making it an ideal choice for brands seeking reliable and efficient production.",
-				standardImage: { botSvg },
-
+				standardImage: "../assets/images/Manufacturing/sa8000.svg",
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment to treating workers fairly. ",
-				etiImage: { botSvg },
+				etiImage:  "../assets/images/Manufacturing/eti_base_code.svg",
 				etiBaseTitle: "ETI Base Code",
-
 				etiBaseDescription:
 					"A set of labour standards organizations follow to improve working conditions",
 			},
@@ -37,17 +36,17 @@ const modelsData = {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
 					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
-				fairWageImage: { botSvg },
+				fairWageImage: "../assets/images/green-thumb.svg",
 				energyEfficiencyTitle: "Energy Efficient ",
 
 				energyEfficiencyDescription:
 					"Factory uses renewable energy sources and has low carbon footprints",
-				energyImage: { botSvg },
+				energyImage: "../assets/images/green-thumb.svg",
 
 				wasteEfficiencyTitle: "Waste Reduction ",
 				wasteEfficiencyDescription:
 					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices",
-				wasteImage: { botSvg },
+				wasteImage: "../assets/images/green-thumb.svg",
 			},
 		},
 		{
@@ -58,11 +57,11 @@ const modelsData = {
 			sustainability:1,
 
 			about: {
-				locationImage: { botSvg },
+				locationImage: "../assets/images/Manufacturing/Asia.svg",
 				locationTitle: "Located in Asia",
 				locationDescription:
 					"Pheonix Garmets Co. is a major hub for clothing manufacturing, offering cost-effective and large-scale production. While challenges remain around environmental and labor practices, many manufacturers are shifting toward more sustainable and ethical approaches.",
-				standardImage: { botSvg },
+				standardImage: "../assets/images/Manufacturing/warning.svg",
 
 				standardTitle: "Low Transparency into Practices",
 				standardDescription:
@@ -76,17 +75,17 @@ const modelsData = {
 				fairWageTitle: "Fast Lead Time",
 				fairWageDescription:
 					"Garments can be made in large quantities with quick turn-around time, allowing you to capitalize quickly on trends",
-				fairWageImage: { botSvg },
+				fairWageImage: "../assets/images/green-thumb.svg",
 				energyEfficiencyTitle: "High Waste Production",
 
 				energyEfficiencyDescription:
 					"An inefficient use of resources leads to a large amount of waste being produced as a byproduct of production.",
-				energyImage: { botSvg },
+				energyImage: "../assets/images/red-thumb.svg",
 
 				wasteEfficiencyTitle: "Risk of Sweatshops",
 				wasteEfficiencyDescription:
 					"Factories with low transparency risk the use of outsourcing their labor to sweatshops to ensure low costs ",
-				wasteImage: { botSvg },
+				wasteImage: "../assets/images/Manufacturing/warning.svg",
 			},
 		},
 		{
@@ -97,11 +96,11 @@ const modelsData = {
 			sustainability:2,
 
 			about: {
-				locationImage: { botSvg },
+				locationImage: "../assets/images/Manufacturing/Asia.svg",
 				locationTitle: "Located in Asia",
 				locationDescription:
 					"Sundar Apparel Works is a leading manufacturer in Bangladesh, recognized for its commitment to cost-effective, large-scale production. The factory places a strong emphasis on sustainability and ethical practices, ensuring that both environmental impact and labor conditions are prioritized in its operations.",
-				standardImage: { botSvg },
+				standardImage: "../assets/images/Manufacturing/sa8000.svg",
 
 				standardTitle: "SA8000 Standard",
 				standardDescription:
@@ -115,18 +114,18 @@ const modelsData = {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
 					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
-				fairWageImage: { botSvg },
+				fairWageImage: "../assets/images/green-thumb.svg",
 
 				energyEfficiencyTitle: "Waste Reduction",
 
 				energyEfficiencyDescription:
 					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices.",
-				energyImage: { botSvg },
+				energyImage: "../assets/images/green-thumb.svg",
 
 				wasteEfficiencyTitle: "Use of Coal as Energy Source",
 				wasteEfficiencyDescription:
 					"Coal is the primary source of electricity that is used to power production.",
-				wasteImage: { botSvg },
+				wasteImage: "../assets/images/red-thumb.svg",
 			},
 		},
 		{
@@ -137,16 +136,16 @@ const modelsData = {
 			sustainability:3,
 
 			about: {
-				locationImage: { botSvg },
+				locationImage: "../assets/images/Manufacturing/NorthAmerica.svg",
 				locationTitle: "Located in North America",
 				locationDescription:
 					"Silver Oak Manufacturing is known for its balanced approach to sustainability and ethical production. The factory integrates eco-friendly materials and energy-efficient processes while ensuring fair labor practices. With a focus on quality and responsibility, ",
-				standardImage: { botSvg },
+				standardImage: "../assets/images/Manufacturing/sa8000.svg",
 
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment to treating workers fairly. ",
-				etiImage: { botSvg },
+				etiImage: "../assets/images/Manufacturing/ISO.svg",
 				etiBaseTitle: "ISO 14001",
 
 				etiBaseDescription:
@@ -156,18 +155,18 @@ const modelsData = {
 				fairWageTitle: "High-Quality Craftsmanship",
 				fairWageDescription:
 					"The factory maintains strict quality control measures throughout the production process.",
-				fairWageImage: { botSvg },
+				fairWageImage: "../assets/images/green-thumb.svg",
 
 				energyEfficiencyTitle: "Environmentally Responsible",
 
 				energyEfficiencyDescription:
 					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
-				energyImage: { botSvg },
+				energyImage: "../assets/images/green-thumb.svg",
 
 				wasteEfficiencyTitle: "Limited Production Scale",
 				wasteEfficiencyDescription:
 					"This factory may struggle with scaling up quickly to meet very large orders.",
-				wasteImage: { botSvg },
+				wasteImage: "../assets/images/red-thumb.svg",
 			},
 		},
 		{
@@ -178,11 +177,11 @@ const modelsData = {
 			sustainability:2,
 
 			about: {
-				locationImage: { botSvg },
+				locationImage: "../assets/images/Manufacturing/Europe.png",
 				locationTitle: "Located in Europe",
 				locationDescription:
 					"Anadolu Textile Works specializes in garment production, while provides a reasonable option for brands seeking a moderately sustainable solution at a competitive price, though there are areas for improvement in both labor and overall environmental impact.",
-				standardImage: { botSvg },
+				standardImage: "../assets/images/Certifications/oeko.png",
 
 				standardTitle: "OEKO-TEX Standard 100",
 				standardDescription:
@@ -196,18 +195,18 @@ const modelsData = {
 				fairWageTitle: "High-Quality Craftsmanship",
 				fairWageDescription:
 					"The factory maintains strict quality control measures throughout the production process.",
-				fairWageImage: { botSvg },
+				fairWageImage: "../assets/images/green-thumb.svg",
 
 				energyEfficiencyTitle: "Environmentally Responsible",
 
 				energyEfficiencyDescription:
 					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
-				energyImage: { botSvg },
+				energyImage: "../assets/images/green-thumb.svg",
 
 				wasteEfficiencyTitle: "Low Transparency into Practices",
 				wasteEfficiencyDescription:
 					"This factory has little to no disclosure into it’s practices. Audits have rarely been conducted and are inconclusive ",
-				wasteImage: { botSvg },
+				wasteImage: "../assets/images/Manufacturing/warning.svg",
 			},
 		},
 	],
@@ -231,8 +230,10 @@ const modelsData = {
 			// bullet #2 (thumbs down), bullet #3 (thumbs down).
 			iconBullets: [
 				{ index: 0, icon: "up" },
+				{ index: 1, icon: "none" },
 				{ index: 2, icon: "down" },
 				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" }
 			],
 			// Use the image path from NeutralChoices for Space Gothic Chromatica
 			img_path: "./images/spaceGothic.png",
@@ -248,13 +249,15 @@ const modelsData = {
 				"The designer of the garment has been properly compensated for their innovative work",
 				"Innovative Design and Textures",
 				"Patented Design",
-				"The designer’s unique pattern on the jacket has been patented...",
+				"The designer’s unique pattern on the jacket has been patented and grants exclusive rights for a certain period",
 			],
 			// "thumbs up, thumbs up, thumbs up"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
+				{ index: 1, icon: "none" },
 				{ index: 2, icon: "up" },
+				{ index: 3, icon: "up" },
+				{ index: 4, icon: "none" },
 			],
 			// Use the image from CapitalisticChoices (id:2) for Avant Garde Bloom
 			img_path: "./images/avantGarde.png",
@@ -270,13 +273,15 @@ const modelsData = {
 				"The design has been heavily influenced by trends seen online",
 				"Trending Design on Social Media",
 				"Cultural Appropriation",
-				"The design borrows from Japanese Kimono garments. Proper research not done",
+				"The design borrows designs commonly seen in Japanese Kimono garments. Proper research and attribution to the culture has not been done",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for Neo y2k shimmer
 			img_path: "./images/neoY2kShimmer.png",
@@ -286,19 +291,21 @@ const modelsData = {
 			id: 4,
 			name: "Midnight grunge edge",
 			cost: 16000,
-			originalDesignPct: 85,
+			originalDesignPct: 90,
 			bulletPoints: [
-				"85% Original Design",
+				"90% Original Design",
 				"The designer of the garment has been properly compensated for their innovative work",
 				"Trending Design on Social Media",
 				"Infringes on Copyrighted Material",
-				"The logo uses the design without permission",
+				"The logo on the jacket resembles another existing brand and uses the design without permission ",
 			],
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from NeutralChoices (id:5) for Midnight grunge edge
 			img_path: "./images/midNightEdge.png",
@@ -314,13 +321,15 @@ const modelsData = {
 				"This design features original designs while drawing inspiration",
 				"Versatile Appeal Across Styles",
 				"Trendy but Not Timeless",
-				"The design may quickly become outdated as trends change",
+				"The design may quickly become outdated as trends change, reducing its long-term appeal.",
 			],
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for SOLARPUNK
 			img_path: "./images/solarpunk.png",
@@ -333,7 +342,7 @@ const modelsData = {
 			originalDesignPct: 50,
 			bulletPoints: [
 				"50% Original Design",
-				"Heavily inspired by couture aesthetics",
+				"This design is heavily inspired by couture aesthetics while incorporating unique elements.",
 				"Modern and Culturally Conscious Style",
 				"Lacks Personalization",
 				"The design's blend of trends may result in a generic look",
@@ -341,8 +350,10 @@ const modelsData = {
 			// "thumbs up, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from EthicallyStrongOptions for EARTHBOUND NOMAD
 			img_path: "./images/earthynomad.png",
@@ -355,16 +366,18 @@ const modelsData = {
 			originalDesignPct: 10,
 			bulletPoints: [
 				"10% Original Design",
-				"This outfit closely mimics established fashion designs",
+				"This outfit closely mimics established fashion designs, offering little to no original input, which raises concerns about its authenticity and creativity.",
 				"Affordable Design to Recreate",
 				"Copyright Concerns",
-				"This outfit risks infringing on intellectual property",
+				"this outfit risks infringing on intellectual property, challenging its originality and legal and ethical standing.",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from CapitalisticChoices (id:3) for Industrial Luxe
 			img_path: "./images/industrialLuxe.png",
@@ -377,16 +390,18 @@ const modelsData = {
 			originalDesignPct: 20,
 			bulletPoints: [
 				"20% Original Design",
-				"This outfit closely mimics established fashion designs",
+				"This outfit closely mimics established fashion designs, offering little original input, which raises concerns about its authenticity and creativity.",
 				"Affordable Design to Recreate",
 				"Copyright Concerns",
-				"This outfit risks infringing on intellectual property",
+				"This outfit risks infringing on intellectual property, challenging its originality and legal and ethical standing.",
 			],
 			// "thumbs down, thumbs up, thumbs down"
 			iconBullets: [
 				{ index: 0, icon: "down" },
-				{ index: 1, icon: "up" },
-				{ index: 2, icon: "down" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "up" },
+				{ index: 3, icon: "down" },
+				{ index: 4, icon: "none" },
 			],
 			// Use image from CapitalisticChoices (id:4) for STREET ROYALE
 			img_path: "./images/plushStreetRoyale.png",
@@ -399,16 +414,18 @@ const modelsData = {
 			originalDesignPct: 85,
 			bulletPoints: [
 				"85% Original Design",
-				"This outfit showcases a high level of creativity while drawing from trends",
+				"This outfit showcases a high level of creativity while subtly drawing inspiration from contemporary trends to ensure both freshness and relevance.",
 				"Niche Design Appeal",
 				"Design Reinvention",
-				"Merges vintage aesthetics with modern craftsmanship",
+				"This piece merges vintage aesthetics with modern craftsmanship, offering a fresh yet nostalgic take on classic fashion while staying ethically produced.",
 			],
 			// "thumbs up, thumbs down, thumbs up"
 			iconBullets: [
 				{ index: 0, icon: "up" },
-				{ index: 1, icon: "down" },
-				{ index: 2, icon: "up" },
+				{ index: 1, icon: "none" },
+				{ index: 2, icon: "down" },
+				{ index: 3, icon: "up" },
+				{ index: 4, icon: "none" },
 			],
 			// Assign a new image for NEO VINTAGE EDGE
 			img_path: "./images/neoVintageEdge.png",

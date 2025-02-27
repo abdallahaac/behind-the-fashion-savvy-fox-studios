@@ -53,6 +53,14 @@ const assistantData = [
                     img_path: BotSvg4,
                 },
             ],
+        ],
+        
+    finalFeedback: [
+            {
+                description:"And now ... the moment we’ve all been waiting for. It’s time to find out how much The Vanguards are going to invest into your brand",
+                img_path: BotSvg,
+            },
+                
         ]
 
     }
@@ -130,6 +138,26 @@ const ecoVanguard = [
                 description: "Your factory follows harmful practices that significantly impact the environment. Improving them is crucial to reducing the factory’s carbon footprint and overall ecological damage.",
                 funding: -20000,
                 hearts: -1,
+            },
+        },
+        finalFeedback: {
+            good: {
+                img_path: eco_good,
+                description: "I’m impressed by your commitment to a brand that is good for the planet. As such, today I am willing to invest $10 Million into the business!",
+                funding: 10000000,
+                fundTitle:"$10 MILLION",
+            },
+            neutral: {
+                img_path: eco_neutral,
+                description: "I can see some effort to bring in sustainable practices into your brand. I will start with a $3 Million investment but there needs to be a commitment to improve going forward.",
+                funding: 3000000,
+                fundTitle:"$3 MILLION",
+            },
+            bad: {
+                img_path: eco_bad,
+                description: "I have seen a poor commitment to the environment from your brand. Unfortunately, I will pass from investing today.",
+                funding: 0,
+                fundTitle:"NO INVESTMENT",
             },
         },
     },
@@ -210,6 +238,26 @@ const ethicsVanguard = [
                 hearts: -1,
             },
         },
+        finalFeedback: {
+            good: {
+                img_path: ethics_good,
+                description: "I’ve seen your clear commitment to ethical and fair business practices. I am all in your brand and would like to invest $10 Million.",
+                funding: 10000000,
+                fundTitle:"$10 MILLION",
+            },
+            neutral: {
+                img_path: ethics_neutral,
+                description: "I see the steps you're taking to incorporate ethical practices into your brand. I'm ready to invest $3 million, but it’s crucial that there is a strong commitment to further improvement.",
+                funding: 3000000,
+                fundTitle:"$3 MILLION",
+            },
+            bad: {
+                img_path: ethics_bad,
+                description: "I cannot in good conscience invest in a brand that makes business decisions that are harmful for workers involved. It’s a no from me today.",
+                funding: 0,
+                fundTitle:"NO INVESTMENT",
+            },
+        },
     },
 ];
 
@@ -287,6 +335,26 @@ const wealthVanguard = [
                 description: "Now this factory is RIDDEN with red flags. I’m concerned about potential public controversy if something comes out in the news...",
                 funding: -20000,
                 hearts: -1,
+            },
+        },
+        finalFeedback: {
+            good: {
+                img_path: wealth_good,
+                description: "I see significant potential for profit in your brand. Today, I’d like to invest $3 million into your clothing business.",
+                funding: 3000000,
+                fundTitle:"$3 MILLION",
+            },
+            neutral: {
+                img_path: wealth_neutral,
+                description: "Your brand clearly supports practices that are good for the society and our planet. Clearly, there’s demand for your products from consumers.",
+                funding: 1000000,
+                fundTitle:"$1 MILLION",
+            },
+            bad: {
+                img_path: wealth_bad,
+                description: "The brand you created does not optimize profits over all. I don’t see how I will make much money off of your brand, so I will not be supporting you.",
+                funding: 0,
+                fundTitle:"NO INVESTMENT",
             },
         },
     },

@@ -24,7 +24,7 @@
 	justify-content: space-between;
 	align-items: center;
 	background-color: white;
-	width: 300px;
+	width: 330px;
 	border-radius: 20px;
 	height: fit-content;
 	padding: 20px;
@@ -176,7 +176,7 @@ img.step-image {
 	height: 70px;
 	border-radius: 8px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	align-items: center;
 }
 
@@ -191,8 +191,8 @@ img.step-image {
 }
 
 .funding-amount {
-	padding: 10px;
-	margin: 15px;
+	/* padding: 10px; */
+	margin: 0px 10px;
 	font-size: 1.4rem;
 	color: #1d7b18;
 }

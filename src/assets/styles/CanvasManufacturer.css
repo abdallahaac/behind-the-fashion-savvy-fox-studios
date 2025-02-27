@@ -155,7 +155,7 @@
 	/* Stack children vertically */
 	display: flex;
 	flex-direction: column;
-	gap: 20px; /* spacing between sections */
+	/* gap: 20px; spacing between sections */
 	transition: all 300ms ease-in-out;
 }
 
@@ -193,7 +193,6 @@
 }
 
 .info-title {
-	font-size: 1.2rem;
 	margin: 10px 0;
 	color: black;
 	transition: all 300ms ease-in-out;
@@ -234,12 +233,11 @@
 }
 
 .cta-button {
-	background-color: #d73f3f;
+	background-color: #C83C00;
 	color: #fff;
 	padding: 10px 20px;
 	border: none;
-	border-radius: 24px;
-	font-size: 1.3rem;
+	border-radius: 50px;
 	cursor: pointer;
 	transition: all 300ms ease-in-out;
 }
@@ -253,7 +251,7 @@
 
 .cta-button {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	padding: 20px 40px;
 	width: 100%;
@@ -473,7 +471,7 @@ button.cta-button.remove {
 	left: 0;
 	width: 50%; /* Because we have two toggles, each half of the container */
 	height: 100%;
-	background-color: #cc2c2f; /* The red color for the active portion */
+	background-color: #C83C00; /* The red color for the active portion */
 	border-radius: 30px;
 	transition: left 0.3s ease; /* Smooth slide */
 	z-index: 1; /* Behind text, above the container background */
