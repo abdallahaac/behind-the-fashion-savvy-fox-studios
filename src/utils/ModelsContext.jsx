@@ -863,7 +863,7 @@ const modelsData = {
 			id: 3,
 			name: "Organic Hemp",
 			cost: 61000,
-			cert_icon1: "../assets/images/Certifications/gots.svg", // left as is if not imported
+			cert_icon1: certificationSvg, // left as is if not imported
 			cert_title1: "Global Organic Textile Standard (GOTS)",
 			cert_description1:
 				"Certifies responsible growing and manufacturing processes with various environmental and social criteria",
