@@ -89,9 +89,9 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
             break;
         case 'wealth':
             if (stage === 'clothing') {
-                if (scores.averageCost <= 71000) {
+                if (scores.averageCost <= 41000) {
                     return wealthVanguard[0].collectionFeedback.good;
-                } else if ( scores.averageCost >71000 && scores.averageCost <= 122000) {
+                } else if ( scores.averageCost > 41000 && scores.averageCost <= 53000) {
                     return wealthVanguard[0].collectionFeedback.neutral;
                 } else {
                     return wealthVanguard[0].collectionFeedback.bad;

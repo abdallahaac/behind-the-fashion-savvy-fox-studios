@@ -656,6 +656,10 @@ const modelsData = {
 			cert_title1: "Fair Trade Certified",
 			cert_description1:
 				"Certified as having passed safety tests for harmful substances",
+			common_icon: "positive",
+			common_title: "Common Material",
+			common_description:
+				"A versatile fabric used by many clothing brands and is readily available in the supply chain",
 			env_icon: "negative",
 			env_title: "Bad for the Environment",
 			env_description:
@@ -692,11 +696,18 @@ const modelsData = {
 			cert_title2: "Fair Trade Certified",
 			cert_description2:
 				"Certified as having passed safety tests for harmful substances",
-			env_title: "Very Uncommon Material",
-			env_description: "Only makes up around 1% of global cotton production",
+
+
+			common_title: "Very Uncommon Material",
+			common_description: "Only makes up around 1% of global cotton production",
+
+			env_title: "Great for the Environment ",
+			env_description: "Production uses 91% less water compared to conventional cotton",
+
 			ethics_title: "Good Working Environment",
 			ethics_description:
 				"Working conditions are healthier based on the absence of harmful chemicals",
+
 			cost_title: "High Cost",
 			cost_description:
 				"Due to fair and just production practices, organic cotton costs more to produce",
@@ -705,6 +716,7 @@ const modelsData = {
 			ethics_icon: "positive",
 			water_icon: "positive",
 			cost_icon: "negative",
+			common_icon: "positive",
 			ethics: 2.5,
 			sustainability: 2,
 			fabricKey: "cotton",
@@ -752,27 +764,28 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 74000,
-			cert_icon1: "../assets/images/Certifications/fsc.svg",
-			cert_title1: "FSC",
+			cert_icon1: "../assets/images/Certifications/cradle.svg",
+			cert_title1: "Cradle to Cradle Certified™",
 			cert_description1:
-				"Certifies that the bamboo used is from properly managed forests",
-			env_title: "Positive Effects for the Environment",
+				"Certified material that has been recycled or up-cycled with circular economy in mind",
+			cert_icon2: "../assets/images/Certifications/fair-trade.png",
+			cert_title2: "Fair Trade Certified",
+			cert_description2:
+				"Certified as having passed safety tests for the presence of harmful substances",
+			env_title: "Good for the Environment ",
 			env_description:
-				"A diverse material which can be grown in a variety of climates...",
-			ethics_title: "Sustainable & Ethical",
+				"Recycled cotton does not require lots of water as it is made from per-consumer waste",
+			ethics_title: "Safe Working Conditions",
 			ethics_description:
-				"Bamboo is often harvested by workers under fair labour conditions",
-			water_title: "Minimal Water Use",
+				"Safer than conventional cotton, as there is zero pesticide exposure",
+			water_title: "Resource Efficient",
 			water_description:
-				"Bamboo requires little to no irrigation, can rely on rainfall",
-			cost_title: "High Cost",
-			cost_description:
-				"Processing raw bamboo into fabric can be expensive compared to synthetics",
+				"This material process does not require additional cotton farming",
+		
 			img_path: "../assets/images/Cotton/sustainable_cotton.svg",
 			env_icon: "positive",
 			ethics_icon: "positive",
 			water_icon: "positive",
-			cost_icon: "negative",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "recycledCotton",
@@ -785,13 +798,18 @@ const modelsData = {
 			cost: 16000,
 			env_title: "Bad for the Environment",
 			env_description:
-				"Production process is highly volatile. Many harmful chemicals...",
+				"Production process is highly volatile. Many harmful chemicals are used during manufacturing",
 			ethics_title: "Poor Working Conditions",
 			ethics_description:
-				"Workers regularly experience hazardous conditions due to chemicals",
+				"Workers regularly experience hazardous conditions due to the chemicals used (acrylonitrile)",
+
+			common_title: "Common Material",
+			common_description:"Sees widespread use in the fashion industry. It is known for its soft, wool-like appearance",
+			common_icon: "positive",
+				
 			additional_cons_title: "Additional Cons",
 			additional_cons:
-				"Lacks biodegradability, releases microplastics, may cause irritation...",
+				"Lacks biodegradability, releases microplastics, may cause irritation for some individuals",
 			img_path: "../assets/images/Heavy_Fabrics/acrylic.svg",
 			env_icon: "negative",
 			ethics_icon: "negative",

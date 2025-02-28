@@ -43,7 +43,7 @@ const CanvasFactoryBarSelection = ({
 
 	return (
 		<div className="canvas-list">
-			<div className="model-list-container canvas-list">
+			{/* <div className="model-list-container canvas-list">
 				<button className="nav-button" onClick={handlePrev}>
 					&lt;
 				</button>
@@ -63,7 +63,7 @@ const CanvasFactoryBarSelection = ({
 				<button className="nav-button" onClick={handleNext}>
 					&gt;
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 };

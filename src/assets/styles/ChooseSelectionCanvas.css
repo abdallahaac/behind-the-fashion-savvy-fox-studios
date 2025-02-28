@@ -68,7 +68,7 @@
 	width: 460px;
 	min-height: 500px;
 	max-height: fit-content;
-	margin-top: -20px;
+	margin-top: -20px !important;
 	/* Rounded corners on the left side */
 	border-radius: 16px 0 0 16px;
 	/* Semi-transparent gradient & backdrop blur */

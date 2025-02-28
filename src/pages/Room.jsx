@@ -306,7 +306,7 @@ function Room() {
 		const averageEthics = totalEthics / itemCount;
 		const averageSustainability =
 			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
-		const averageCost = totalCost / itemCount;
+		const averageCost = totalCost; // took off  divided by itemCount becausee we acc need the total and I forgot 
 
 		return {
 			averageEthics,

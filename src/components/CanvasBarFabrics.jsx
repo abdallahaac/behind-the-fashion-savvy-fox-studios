@@ -41,7 +41,7 @@ const CanvasBarFabrics = ({
 
 	return (
 		<div className="canvas-list">
-			<div className="model-list-container canvas-list">
+			{/* <div className="model-list-container canvas-list">
 				<button className="nav-button" onClick={handlePrev}>
 					&lt;
 				</button>
@@ -63,7 +63,7 @@ const CanvasBarFabrics = ({
 				<button className="nav-button" onClick={handleNext}>
 					&gt;
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 };
