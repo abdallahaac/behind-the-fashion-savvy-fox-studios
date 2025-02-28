@@ -340,7 +340,12 @@ const AvantGardeBloom = lazy(() => import("../models/Meshes/AvantGardeBloom"));
 function CameraLogger() {
 	const { camera } = useThree();
 	useFrame(() => {
-		// Optionally log camera positions
+		// Uncomment for debugging:
+		console.log(
+			`Camera Position: x:${camera.position.x.toFixed(
+				3
+			)} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
+		);
 	});
 	return null;
 }
