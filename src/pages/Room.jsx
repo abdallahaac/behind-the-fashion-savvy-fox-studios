@@ -1,3 +1,5 @@
+// src/pages/Room.jsx
+
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
@@ -92,11 +94,12 @@ function Room() {
 	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
 
 	// ============ FABRIC STATES ============
-	/**
-	 * We're adding the new "fabric" references & selection logic:
-	 */
 	const fabricMeshRefs = useRef({});
 	const [selectedFabric, setSelectedFabric] = useState(null);
+
+	// ============ FACTORY STATES (new) ============
+	const factoryMeshRefs = useRef({});
+	const [selectedFactory, setSelectedFactory] = useState(null);
 
 	// ============ REF TO DOM ELEMENTS ============
 	const canvasContainerRef = useRef(null);
@@ -244,6 +247,11 @@ function Room() {
 		fabricMeshRefs.current[fabricKey] = ref;
 	}
 
+	// ============ FACTORY MESH MOUNT (new) ============
+	function handleFactoryMeshMounted(factoryKey, ref) {
+		factoryMeshRefs.current[factoryKey] = ref;
+	}
+
 	// ============ GSAP ANIM HELPERS ============
 	function animateLogoTo(logoId, newZ) {
 		const ref = logoMeshRefs.current[logoId];
@@ -296,6 +304,23 @@ function Room() {
 			});
 		}
 	}
+	function animateFactoryTo(factoryKey, newZ) {
+		const ref = factoryMeshRefs.current[factoryKey];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[FACTORY] ${factoryKey} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
 
 	// ============ LOGO SELECT LOGIC ============
 	function handleLogoSelect(newLogoId) {
@@ -336,6 +361,22 @@ function Room() {
 		setSelectedFabric(newFabricKey);
 
 		console.log("[FABRIC SELECT] from", selectedFabric, "to", newFabricKey);
+	}
+
+	// ============ FACTORY SELECT LOGIC (new) ============
+	function handleFactorySelect(newFactoryKey) {
+		if (!newFactoryKey) return;
+		if (selectedFactory === newFactoryKey) return;
+
+		// push old behind
+		if (selectedFactory) {
+			animateFactoryTo(selectedFactory, -200);
+		}
+		// bring new forward
+		animateFactoryTo(newFactoryKey, -75);
+		setSelectedFactory(newFactoryKey);
+
+		console.log("[FACTORY SELECT] from", selectedFactory, "to", newFactoryKey);
 	}
 
 	// ============ VANGUARD / HOTSEAT UI ============
@@ -714,6 +755,8 @@ function Room() {
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
 							onManufacturingSelection={handleManufacturingSelection}
+							// Pass a callback for real-time 3D toggling
+							onFactorySelect={handleFactorySelect}
 						/>
 					</div>
 				)}
@@ -837,6 +880,8 @@ function Room() {
 					onOutfitMeshMounted={handleOutfitMeshMounted}
 					// FABRIC references
 					onFabricMeshMounted={handleFabricMeshMounted}
+					// FACTORY references (new)
+					onFactoryMeshMounted={handleFactoryMeshMounted}
 				/>
 			</div>
 		</>

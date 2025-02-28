@@ -1,3 +1,5 @@
+// src/utils/Scene.jsx
+
 import React, { useEffect, useRef, lazy, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
@@ -19,10 +21,6 @@ import Cotton from "../models/FabricsTest/Outfit11";
 import ConventionalCotton from "../models/FabricsTest/Outfit12";
 import Acrylic from "../models/FabricsTest/Outfit1";
 
-/**
- * We must ensure EVERY key that might come from "fabricKey"
- * in ModelsContext is here.
- */
 const fabricsMap = {
 	acrylic: Acrylic,
 	wool: Wool,
@@ -39,44 +37,6 @@ const fabricsMap = {
 	conventionalcotton: ConventionalCotton,
 };
 
-/**
- * If you prefer manually ordering the 12 fabrics,
- * you can keep a separate list like 'orderedFabrics'.
- * But the main requirement: each key is recognized in `fabricsMap`.
- */
-const defaultFabricControls = {
-	acrylic: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	wool: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	silk: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	recycledWool: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	recycledPolyster: {
-		position: [0, 0, 0],
-		scale: [1, 1, 1],
-		rotation: [0, 0, 0],
-	},
-	recycledNylon: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	recycledCotton: {
-		position: [0, 0, 0],
-		scale: [1, 1, 1],
-		rotation: [0, 0, 0],
-	},
-	polysterWool: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	polyster: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Nylon: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	hemp: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	cotton: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	conventionalcotton: {
-		position: [0, 0, 0],
-		scale: [1, 1, 1],
-		rotation: [0, 0, 0],
-	},
-};
-
-/**
- * We'll just loop over `Object.keys(fabricsMap)` to place them all at z=-200.
- * That way they appear behind the scene and can be animated forward.
- */
-
 function FabricGroup({
 	fabricKey,
 	basePosition,
@@ -91,8 +51,8 @@ function FabricGroup({
 		}
 	}, [fabricKey, onFabricMeshMounted]);
 
+	if (!fabricsMap[fabricKey]) return null;
 	const FabricComponent = fabricsMap[fabricKey];
-	if (!FabricComponent) return null;
 
 	return (
 		<group
@@ -104,6 +64,7 @@ function FabricGroup({
 		</group>
 	);
 }
+
 function AllFabrics({ onFabricMeshMounted }) {
 	const basePos = [30, 7, -200];
 	const baseRot = [0, 1.5, 0];
@@ -123,7 +84,73 @@ function AllFabrics({ onFabricMeshMounted }) {
 	);
 }
 
-// ==================== LOGOS & OUTFITS (unchanged) ====================
+// ==================== FACTORIES (NEW) ====================
+import Factory1 from "../models/Factories/Outfit1";
+import Factory2 from "../models/Factories/Outfit2";
+import Factory3 from "../models/Factories/Outfit3";
+import Factory4 from "../models/Factories/Outfit4";
+import Factory5 from "../models/Factories/Outfit5";
+
+const factoryMap = {
+	artisthread: Factory1,
+	phoenix: Factory2,
+	sundar: Factory3,
+	silveroak: Factory4,
+	anadolu: Factory5,
+};
+
+/**
+ * We'll just loop over `Object.keys(factoryMap)` to place them all at z=-200.
+ * That way they appear behind the scene and can be animated forward to z=-75.
+ */
+function FactoryGroup({
+	factoryKey,
+	basePosition,
+	baseRotation,
+	onFactoryMeshMounted,
+}) {
+	const groupRef = useRef();
+
+	useEffect(() => {
+		if (onFactoryMeshMounted) {
+			onFactoryMeshMounted(factoryKey, groupRef);
+		}
+	}, [factoryKey, onFactoryMeshMounted]);
+
+	if (!factoryMap[factoryKey]) return null;
+	const FactoryComponent = factoryMap[factoryKey];
+
+	return (
+		<group
+			ref={groupRef}
+			position={[...basePosition]}
+			rotation={[...baseRotation]}
+		>
+			<FactoryComponent />
+		</group>
+	);
+}
+
+function AllFactories({ onFactoryMeshMounted }) {
+	const basePos = [90, 7, -200];
+	const baseRot = [0, 1.5, 0];
+
+	return (
+		<>
+			{Object.keys(factoryMap).map((key) => (
+				<FactoryGroup
+					key={key}
+					factoryKey={key}
+					basePosition={basePos}
+					baseRotation={baseRot}
+					onFactoryMeshMounted={onFactoryMeshMounted}
+				/>
+			))}
+		</>
+	);
+}
+
+// ==================== LOGOS ====================
 import Butterfly from "../models/Logos/Butterfly";
 import Heart from "../models/Logos/Heart";
 import MainLogo from "../models/Logos/MainLogo";
@@ -204,6 +231,9 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 	];
 	const finalRotation = [baseRotation[0], baseRotation[1], baseRotation[2]];
 
+	const LogoComponent = logosMap[logoKey];
+	if (!LogoComponent) return null;
+
 	return (
 		<group
 			ref={groupRef}
@@ -211,7 +241,7 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 			rotation={finalRotation}
 			scale={controls.scale}
 		>
-			{React.createElement(logosMap[logoKey], { color: controls.color })}
+			<LogoComponent color={controls.color} />
 		</group>
 	);
 }
@@ -245,6 +275,7 @@ import Outfit6 from "../models/OutfiitsTest/Outfit6";
 import Outfit7 from "../models/OutfiitsTest/Outfit7";
 import Outfit8 from "../models/OutfiitsTest/Outfit8";
 import Outfit9 from "../models/OutfiitsTest/Outfit9";
+
 import FilmGrain from "./MakeItGrain";
 
 const outfitsMap = {
@@ -257,18 +288,6 @@ const outfitsMap = {
 	Outfit7,
 	Outfit8,
 	Outfit9,
-};
-
-const defaultOutfitControls = {
-	Outfit1: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit2: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit3: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit4: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit5: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit6: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit7: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit8: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
-	Outfit9: { position: [0, 0, 0], scale: [1, 1, 1], rotation: [0, 0, 0] },
 };
 
 function OutfitGroup({
@@ -285,27 +304,16 @@ function OutfitGroup({
 		}
 	}, [outfitKey, onOutfitMeshMounted]);
 
-	const controls = defaultOutfitControls[outfitKey] || {};
 	const finalZ = outfitKey === "Outfit1" ? basePosition[2] : -115;
-	const finalPosition = [
-		basePosition[0] + (controls.position[0] || 0),
-		basePosition[1] + (controls.position[1] || 0),
-		finalZ,
-	];
-	const finalRotation = [
-		baseRotation[0] + (controls.rotation?.[0] || 0),
-		baseRotation[1] + (controls.rotation?.[1] || 0),
-		baseRotation[2] + (controls.rotation?.[2] || 0),
-	];
+	const finalPosition = [basePosition[0], basePosition[1], finalZ];
+	const finalRotation = baseRotation;
+
+	const OutfitComponent = outfitsMap[outfitKey];
+	if (!OutfitComponent) return null;
 
 	return (
-		<group
-			ref={groupRef}
-			position={finalPosition}
-			rotation={finalRotation}
-			scale={controls.scale || [1, 1, 1]}
-		>
-			{React.createElement(outfitsMap[outfitKey])}
+		<group ref={groupRef} position={finalPosition} rotation={finalRotation}>
+			<OutfitComponent />
 		</group>
 	);
 }
@@ -335,22 +343,20 @@ const EnvironmentWithCamera = lazy(() =>
 		default: module.EnvironmentWithCamera,
 	}))
 );
-const AvantGardeBloom = lazy(() => import("../models/Meshes/AvantGardeBloom"));
 
 function CameraLogger() {
 	const { camera } = useThree();
 	useFrame(() => {
-		// Uncomment for debugging:
-		console.log(
-			`Camera Position: x:${camera.position.x.toFixed(
-				3
-			)} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
-		);
+		// Uncomment to debug camera movement/position
+		// console.log(
+		//   `Camera Position: x:${camera.position.x.toFixed(
+		//     3
+		//   )} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
+		// );
 	});
 	return null;
 }
 
-// ==================== SCENE COMPONENT ====================
 const Scene = ({
 	playAnimation,
 	paused,
@@ -362,9 +368,12 @@ const Scene = ({
 	onLogoMeshMounted,
 	onOutfitMeshMounted,
 	onFabricMeshMounted,
+	onFactoryMeshMounted, // <-- new
 }) => {
 	useEffect(() => {
-		console.log("Scene: Rendering scene with logo, outfit, and fabric meshes.");
+		console.log(
+			"Scene: Rendering scene with logos, outfits, fabrics, factories..."
+		);
 	}, []);
 
 	return (
@@ -380,8 +389,11 @@ const Scene = ({
 					{/* All Logos */}
 					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
-					{/* All Fabrics (start behind the stage) */}
+					{/* All Fabrics */}
 					<AllFabrics onFabricMeshMounted={onFabricMeshMounted} />
+
+					{/* All Factories (NEW) */}
+					<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
 
 					<CameraLogger />
 

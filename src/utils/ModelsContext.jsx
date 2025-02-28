@@ -1,3 +1,5 @@
+// src/utils/ModelsContext.jsx
+
 import React, { createContext, useContext, useState } from "react";
 import botSvg from "../assets/images/tutorial-bot.svg";
 
@@ -15,6 +17,7 @@ const modelsData = {
 			cost: "60000",
 			ethics: 3,
 			sustainability: 3,
+			factoryKey: "artisthread", // <-- NEW factoryKey
 			about: {
 				locationImage: { botSvg },
 				locationTitle: "Located in Europe",
@@ -54,6 +57,7 @@ const modelsData = {
 			cost: "20000",
 			ethics: 1,
 			sustainability: 1,
+			factoryKey: "phoenix", // <-- NEW factoryKey
 
 			about: {
 				locationImage: { botSvg },
@@ -92,6 +96,7 @@ const modelsData = {
 			cost: "78000",
 			ethics: 2,
 			sustainability: 2,
+			factoryKey: "sundar", // <-- NEW factoryKey
 			about: {
 				locationImage: { botSvg },
 				locationTitle: "Located in Asia",
@@ -130,6 +135,7 @@ const modelsData = {
 			cost: "40000",
 			ethics: 2,
 			sustainability: 3,
+			factoryKey: "silveroak", // <-- NEW factoryKey
 			about: {
 				locationImage: { botSvg },
 				locationTitle: "Located in North America",
@@ -169,6 +175,7 @@ const modelsData = {
 			cost: "36000",
 			ethics: 2,
 			sustainability: 2,
+			factoryKey: "anadolu", // <-- NEW factoryKey
 			about: {
 				locationImage: { botSvg },
 				locationTitle: "Located in Europe",
@@ -777,7 +784,6 @@ const modelsData = {
 			ethics: 1,
 			sustainability: 0,
 
-			// ===== Add fabricKey so onFabricSelect() is called =====
 			fabricKey: "acrylic",
 		},
 		{
@@ -900,7 +906,7 @@ const modelsData = {
 			mat_icon: "positive",
 			ethics: 1,
 			sustainability: 0,
-			fabricKey: "Nylon", // matches the capital 'Nylon' in fabricsMap
+			fabricKey: "Nylon",
 		},
 		{
 			id: 2,
@@ -987,91 +993,6 @@ const modelsData = {
 			ethics: 1.5,
 			sustainability: 2,
 			fabricKey: "recycledPolyster",
-		},
-	],
-
-	Manufacturers: [
-		{
-			id: 1,
-			name: "ARTTSTHREAD TEXTILES",
-			description: "Simple leaf-based design for eco-friendly vibes.",
-			model: "/models/logo-1.glb",
-			transform: {
-				position: [0, 0, 0],
-				rotation: [8, 1, 0],
-				scale: 20.0,
-			},
-			materialParams: {
-				metalness: 1,
-				roughness: 0,
-				color: "#ffffff",
-			},
-			cost: 60000,
-			location_icon: "../assets/images/Manufacturing/portugal.svg",
-			location: "Located in Portugal",
-			location_description:
-				"Although more expensive, original designs are crucial in the fashion industry...",
-			cert_icon1: "../assets/images/Manufacturing/sa8000.svg",
-			cert_title1: "SA8000 Standard",
-			cert_description1:
-				"A standard that organizations meet to show their commitment...",
-			cert_icon2: "../assets/images/Manufacturing/eti_base_code.svg",
-			cert_title2: "ETI Base Code",
-			cert_description2:
-				"A set of labour standards organizations follow to improve working conditions",
-			mat_title: "Common Material",
-			mat_description:
-				"A versatile fabric used by many clothing brands and is readily available...",
-			env_title: "Bad for the Environment",
-			env_description:
-				"Conventional cotton uses up to 25% of all the pesticides used in farming",
-			ethics_title: "Poor Rights & Child Labor",
-			ethics_description:
-				"Labor rights violations and child labor are common in cotton production",
-			mat_icon: "positive",
-			env_icon: "negative",
-			ethics_icon: "negative",
-			read: false,
-			ethics: 1,
-			sustainability: 2,
-		},
-		{
-			id: 2,
-			name: "FACTORY 2",
-			location: "Turkey",
-			description: "Simple leaf-based design for eco-friendly vibes.",
-			model: "/models/logo-2.glb",
-			transform: {
-				position: [0, 0, 0],
-				rotation: [8, 1, 0],
-				scale: 20.0,
-			},
-			materialParams: {
-				metalness: 1,
-				roughness: 0,
-				color: "#ffffff",
-			},
-			read: false,
-			cost: 22000,
-		},
-		{
-			id: 3,
-			name: "FACTORY 3",
-			location: "Bangladesh",
-			description: "Simple leaf-based design for eco-friendly vibes.",
-			model: "/models/logo-3.glb",
-			transform: {
-				position: [0, 0, 0],
-				rotation: [8, 1, 0],
-				scale: 20.0,
-			},
-			materialParams: {
-				metalness: 1,
-				roughness: 0,
-				color: "#ffffff",
-			},
-			read: false,
-			cost: 36000,
 		},
 	],
 };
