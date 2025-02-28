@@ -6,19 +6,17 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
 export default function Model(props) {
-	const { nodes, materials } = useGLTF("models/model1.glb");
+	const { nodes, materials } = useGLTF("models/human.glb");
 	return (
 		<group {...props} dispose={null}>
 			<mesh
 				castShadow
 				receiveShadow
-				geometry={nodes.Retopo_tshirtFe004.geometry}
-				material={materials["Material.009"]}
-				position={[-0.01, -0.009, 3.285]}
-				rotation={[Math.PI / 2, 0, 0]}
+				geometry={nodes.human.geometry}
+				material={nodes.human.material}
 			/>
 		</group>
 	);
 }
 
-useGLTF.preload("models/model1.glb");
+useGLTF.preload("models/human.glb");

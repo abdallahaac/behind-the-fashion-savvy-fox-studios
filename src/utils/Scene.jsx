@@ -323,8 +323,8 @@ function OutfitGroup({
 	);
 }
 
-function AllOutfits({ onOutfitMeshMounted, outfitScale = [3, 3, 4] }) {
-	const basePosition = [-50, 1, -45];
+function AllOutfits({ onOutfitMeshMounted, outfitScale = [0.7, 0.7, 0.7] }) {
+	const basePosition = [-30, 1, -45];
 	const baseRotation = [0.01, -4.69, -0.02];
 
 	return (
