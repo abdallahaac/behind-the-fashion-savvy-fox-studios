@@ -948,6 +948,8 @@ const modelsData = {
 			id: 2,
 			name: "Silk",
 			cost: 80000,
+			cert_icon1: grsSvg,
+
 			cert_title1: "Responsible Silk Standard (RSS)",
 			cert_description1:
 				"Ensures silk is produced with animal welfare and sustainable practices",
