@@ -1,9 +1,8 @@
 // src/utils/Scene.jsx
 
-import React, { useEffect, useRef, lazy, Suspense, useState } from "react";
+import React, { useEffect, useRef, lazy, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
-import { Leva } from "leva";
 import * as THREE from "three";
 
 // ==================== FABRICS ====================
@@ -41,7 +40,7 @@ function FabricGroup({
 	fabricKey,
 	basePosition,
 	baseRotation,
-	customRotation, // new prop
+	customRotation,
 	onFabricMeshMounted,
 }) {
 	const groupRef = useRef();
@@ -70,9 +69,8 @@ function AllFabrics({ selectedFabric, onFabricMeshMounted, fabricRotations }) {
 	return (
 		<>
 			{Object.keys(fabricsMap).map((key) => {
-				// Determine the position: show the selected fabric at z = -75; otherwise, hide it at z = -200.
+				// Show the selected fabric at z = -75; otherwise, hide it at z = -200.
 				const basePos = [30, 7, key === selectedFabric ? -75 : -200];
-				// Retrieve a custom rotation for the current fabric (if any)
 				const customRotation = fabricRotations && fabricRotations[key];
 				return (
 					<FabricGroup
@@ -369,25 +367,25 @@ const Scene = ({
 	onLogoMeshMounted,
 	onOutfitMeshMounted,
 	onFabricMeshMounted,
-	onFactoryMeshMounted, // <-- new
+	onFactoryMeshMounted,
 	selectedFabric,
 }) => {
-	// Fabric rotations state for each fabric key
-	const [fabricRotations, setFabricRotations] = useState({
+	// Define the baked-in fabric rotations from your edited values.
+	const fabricRotations = {
 		acrylic: [0, 1.5, 0],
-		wool: [0, 1.5, 0],
+		wool: [0, -0.8, 0],
 		silk: [0, 1.5, 0],
-		recycledWool: [0, 1.5, 0],
-		recycledPolyster: [0, 1.5, 0],
-		recycledNylon: [0, 1.5, 0],
-		recycledCotton: [0, 1.5, 0],
-		polysterWool: [0, 1.5, 0],
-		polyster: [0, 1.5, 0],
-		Nylon: [0, 1.5, 0],
+		recycledWool: [0, 0, 0.8],
+		recycledPolyster: [0, 0, 0.8],
+		recycledNylon: [0, 0, 0.8],
+		recycledCotton: [0, 0, 0.8],
+		polysterWool: [0, -1.1, 0],
+		polyster: [0, -1.3, 0],
+		Nylon: [0, -1.3, 0],
 		hemp: [0, 1.5, 0],
-		cotton: [0, 1.5, 0],
+		cotton: [0, -1.5, 0],
 		conventionalcotton: [0, 1.5, 0],
-	});
+	};
 
 	useEffect(() => {
 		console.log(
@@ -397,7 +395,7 @@ const Scene = ({
 
 	return (
 		<>
-			<Leva collapsed={false} />
+			{/* Leva UI removed */}
 			<Canvas gl={{ antialias: true }}>
 				<Suspense fallback={null}>
 					<ambientLight intensity={0.5} />
@@ -408,14 +406,14 @@ const Scene = ({
 					{/* All Logos */}
 					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
-					{/* All Fabrics */}
+					{/* All Fabrics - using baked-in fabricRotations */}
 					<AllFabrics
 						selectedFabric={selectedFabric}
 						onFabricMeshMounted={onFabricMeshMounted}
 						fabricRotations={fabricRotations}
 					/>
 
-					{/* All Factories (NEW) */}
+					{/* All Factories */}
 					<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
 
 					<CameraLogger />
