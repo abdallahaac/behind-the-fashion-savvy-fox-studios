@@ -500,77 +500,54 @@ function CanvasFabricLabs({
 											</div>
 										)}
 										{/* Common Material Comment */}
-										{currentFabric.common_title && (
+										{currentFabric.cat1_title && (
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.common_icon)} alt="Common Icon" style={{ width: "24px", height: "24px" }} />
+													<img src={getIcon(currentFabric.cat1_icon)} alt="Common Icon" style={{ width: "24px", height: "24px" }} />
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.common_title}</p>
-													<p className="category-description body-text-small">{currentFabric.common_description}</p>
+													<p className="category-title body-text-medium">{currentFabric.cat1_title}</p>
+													<p className="category-description body-text-small">{currentFabric.cat1_descripiton}</p>
 												</div>
 											</div>
 										)}
 										{/* Environment Comment */}
-										{currentFabric.env_title && (
+										{currentFabric.cat2_title && (
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.env_icon)} alt="Environment Icon" style={{ width: "24px", height: "24px" }} />
+													<img src={getIcon(currentFabric.cat2_icon)} alt="Environment Icon" style={{ width: "24px", height: "24px" }} />
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.env_title}</p>
-													<p className="category-description body-text-small">{currentFabric.env_description}</p>
+													<p className="category-title body-text-medium">{currentFabric.cat2_title}</p>
+													<p className="category-description body-text-small">{currentFabric.cat2_descripiton}</p>
 												</div>
 											</div>
 										)}
 										{/* Ethics Comment */}
-										{currentFabric.ethics_title && (
+										{currentFabric.cat3_title && (
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.ethics_icon)} alt="Ethics Icon" style={{ width: "24px", height: "24px" }} />
+													<img src={getIcon(currentFabric.cat3_icon)} alt="Ethics Icon" style={{ width: "24px", height: "24px" }} />
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.ethics_title}</p>
-													<p className="category-description body-text-small">{currentFabric.ethics_description}</p>
+													<p className="category-title body-text-medium">{currentFabric.cat3_title}</p>
+													<p className="category-description body-text-small">{currentFabric.cat3_descripiton}</p>
 												</div>
 											</div>
 										)}
 										{/* Cost Comment */}
-										{currentFabric.cost_title && (
+										{currentFabric.cat4_title && (
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.cost_icon)} alt="Cost Icon" style={{ width: "24px", height: "24px" }} />
+													<img src={getIcon(currentFabric.cat4_icon)} alt="Cost Icon" style={{ width: "24px", height: "24px" }} />
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.cost_title}</p>
-													<p className="category-description body-text-small">{currentFabric.cost_description}</p>
+													<p className="category-title body-text-medium">{currentFabric.cat4_title}</p>
+													<p className="category-description body-text-small">{currentFabric. cat4_descripiton}</p>
 												</div>
 											</div>
 										)}
-										{/* Water Comment */}
-										{currentFabric.water_title && (
-											<div className="category-item">
-												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.water_icon)} alt="Water Icon" style={{ width: "24px", height: "24px" }} />
-												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.water_title}</p>
-													<p className="category-description body-text-small">{currentFabric.water_description}</p>
-												</div>
-											</div>
-										)}
-										{/* Additional Cons */}
-										{currentFabric.additional_cons_title && (
-											<div className="category-item">
-												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.additional_cons_icon)} alt="Water Icon" style={{ width: "24px", height: "24px" }} />
-												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.additional_cons_title}</p>
-													<p className="category-description body-text-small">{currentFabric.additional_cons}</p>
-												</div>
-											</div>
-										)}
+										
 									</div>
 								</div>
 							) : (

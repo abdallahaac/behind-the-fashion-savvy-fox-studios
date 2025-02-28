@@ -43,6 +43,7 @@ function Room() {
 		CLOTHING: "clothing",
 		MANUFACTURING: "manufacturing",
 		FINAL: "final",
+		FINALPERSONA: "finalPersona",
 	};
 	const [stage, setStage] = useState(STAGES.INTRO);
 
@@ -85,7 +86,7 @@ function Room() {
 		: Math.min(Math.max(rawProgress, 1), 99);
 
 	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300, 2400,
 	];
 
 	const [brandName, setBrandName] = useState("MYBRAND");
@@ -133,6 +134,7 @@ function Room() {
 	const [ethicsFeedback, setEthicsFeedback] = useState(null);
 	const [ecoFeedback, setEcoFeedback] = useState(null);
 	const [wealthFeedback, setWealthFeedback] = useState(null);
+	const [allVanguardsFeedback, setAllVanguardsFeedback] = useState(null);
 
 	// ============ FUNDING CONTEXT ============
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
@@ -150,6 +152,9 @@ function Room() {
 				} 
 				else if(stage === STAGES.FINAL){
 					return assistantData[0].finalFeedback;
+				}
+				else if(stage === STAGES.FINALPERSONA){
+					return allVanguardsFeedback;
 				}
 			case 1:
 				if(stage === STAGES.INTRO){
@@ -364,8 +369,16 @@ function Room() {
 		console.log("Eco Hearts:", ecoHearts);
 		console.log("Wealth Hearts:", wealthHearts);
 	}
+	const handleFinalPersona = () => {
+		const newStage = STAGES.FINALPERSONA;
+		setStage(newStage);
+		const mostLikedBy = getMostLikedBy(ethicsHearts, ecoHearts, wealthHearts);
+		console.log("Most liked by:", mostLikedBy);
+		const allVanguard_feedback = updateVanguardStatus("allVanguards", newStage, {}, {}, mostLikedBy);
+		setAllVanguardsFeedback(allVanguard_feedback);
+		console.log("testing to see if we get the right feedback", allVanguard_feedback);
+	}
 
-	
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
 		setStage(newStage);
@@ -395,6 +408,25 @@ function Room() {
 			newStage
 		);
 	};
+	// === Calculate Final Persona === 
+	const getMostLikedBy = (ethicsHearts, ecoHearts, wealthHearts) => {
+		const hearts = {
+			ethics: ethicsHearts,
+			eco: ecoHearts,
+			wealth: wealthHearts,
+		};
+	
+		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
+	
+		const mostLikedCategories = Object.keys(hearts).filter(
+			(key) => hearts[key] === maxHearts
+		);
+	
+		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
+	
+		return mostLikedCategories[randomIndex];
+	};
+	
 
 	// === Overlays & Popups logic ===
 	const handleOverlayEnter = () => {
@@ -454,6 +486,11 @@ function Room() {
 				break;
 			case 13:
 				handleFinalPitch();
+				setShowVanguardUI(true);
+				setVanguardActiveStates([true, false, false, false]);
+				break;
+			case 14:
+				handleFinalPersona();
 				setShowVanguardUI(true);
 				setVanguardActiveStates([true, false, false, false]);
 				break;

@@ -1,6 +1,6 @@
 import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
-export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
+export const updateVanguardStatus = (vanguard, stage, scores, hearts, mostLikedBy=null) => {
 
     switch (vanguard) {
         case 'assistant':
@@ -10,12 +10,30 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
             } else if(stage === 'final'){
                 return assistantData[0].finalFeedback;
 
-            }
+            } 
         
         case 'allVanguards':
             if(stage === 'brand'){
                 return allVanguards[0].brand;
-        }
+            }
+            else if (stage === 'finalPersona'){
+                if(mostLikedBy === 'eco'){
+                    console.log("eco");
+                    return allVanguards[0].finalPersonaEco;
+                }
+                else if(mostLikedBy === 'ethics'){
+                    console.log("ethical");
+                    return allVanguards[0].finalPersonaEthics;
+                }
+                else if(mostLikedBy === 'wealth'){
+                    console.log("wealthy");
+                    return allVanguards[0].finalPersonaWealth;
+                }
+                else{
+                    console.log("didn't fit into a category");
+                    return;
+                }
+            }
         
         
         case 'eco':

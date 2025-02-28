@@ -161,10 +161,10 @@
 	justify-content: center;
 }
 
-img.step-image {
+/* img.step-image {
 	width: 150px !important;
 	height: 150px !important;
-}
+} */
 
 .tutorial-funding-container {
 	padding: 20px;
@@ -202,3 +202,13 @@ p.tutorial-description {
 /* .tutorial-container {
 	width: 400px;
 } */
+.assignment{
+	color:white;
+	width: 55%;
+}
+.vanguard-popup-step{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
