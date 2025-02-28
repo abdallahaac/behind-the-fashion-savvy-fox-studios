@@ -93,6 +93,8 @@
 }
 .fabric-description {
 	color: black;
+	display: flex;
+    flex-direction: column;
 }
 
 .fabric-container > img {
@@ -109,4 +111,33 @@
 
 .fabric-options {
 	margin-top: 10px !important;
+}
+.default-no-selection{
+	text-align: center;
+	padding: 80px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.icon-padding {
+    padding: 10px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-title {
+    font-weight: bold;
+	margin:0px;
+}
+
+.category-description {
+    font-size: 0.9rem;
+    color: #666;
 }
