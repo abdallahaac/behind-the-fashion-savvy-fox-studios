@@ -485,7 +485,7 @@ const Scene = ({
 						onBreakpointHit={onBreakpointHit}
 					/>
 
-					<Environment files="/assets/images/hdrFile.hdr" background={false} />
+					<Environment files="/public/images/hdrFile.hdr" background={false} />
 					<FilmGrain />
 				</Suspense>
 			</Canvas>
