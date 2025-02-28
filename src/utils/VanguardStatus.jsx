@@ -114,13 +114,13 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
                 }
             } else if (stage=='final'){
                 if (hearts >= 4){
-                    return ethicsVanguard[0].finalFeedback.good;
+                    return wealthVanguard[0].finalFeedback.good;
                 }
                 else if (hearts > 2 && hearts < 4){
-                    return ethicsVanguard[0].finalFeedback.neutral;
+                    return wealthVanguard[0].finalFeedback.neutral;
                 }
                 else{
-                    return ethicsVanguard[0].finalFeedback.bad;
+                    return wealthVanguard[0].finalFeedback.bad;
                 }
 
             }
