@@ -5,6 +5,7 @@ import restart from "vite-plugin-restart";
 export default {
 	root: "src/",
 	publicDir: "../public/",
+	assetsInclude: ["**/*.hdr"],
 	plugins: [
 		// Restart server on static/public file change
 		restart({ restart: ["../public/**"] }),
@@ -28,7 +29,7 @@ export default {
 	server: {
 		host: true, // Open to local network and display URL
 		historyApiFallback: true,
-		open: !("SANDBOX_URL" in process.env || "CODESANDBOX_HOST" in process.env), // Open if it's not a CodeSandbox
+		open: !("SANDBOX_URL" in process.env || "CODESANDBOX_HOST" in process.env),
 	},
 	build: {
 		outDir: "../dist", // Output in the dist/ folder

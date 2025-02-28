@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, lazy, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
+import hdrFile from "../assets/images/hdrFile.hdr";
+
 import * as THREE from "three";
 
 // ==================== FABRICS ====================
@@ -485,7 +487,8 @@ const Scene = ({
 						onBreakpointHit={onBreakpointHit}
 					/>
 
-					<Environment files="/assets/images/hdrFile.hdr" background={false} />
+					<Environment files={hdrFile} background={false} />
+
 					<FilmGrain />
 				</Suspense>
 			</Canvas>
