@@ -4,6 +4,7 @@ import "../assets/styles/hot-seat.css"; // Make sure to create and style this CS
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import right_arrow from "../assets/images/right-arrow.svg";
+import allVanguardsHappy from "../assets/images/Vanguards/allVanguards_happy.svg";
 
 import FundingDisplay from "./FundingDisplay";
 import NormalButton from "./NormalButton";
@@ -133,7 +134,7 @@ const Hotseat = ({
 			</div>
 
 			<div className="vanguard-tutorial-svg">
-				<img src="../assets/images/Vanguards/allVanguards_happy.svg" alt="Hotseat" />
+				<img src={allVanguardsHappy} alt="Hotseat" />
 			</div>
 
 			<div
