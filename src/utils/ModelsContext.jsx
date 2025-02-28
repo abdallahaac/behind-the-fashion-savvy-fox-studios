@@ -650,7 +650,7 @@ const modelsData = {
 	CottonChoices: [
 		{
 			id: 1,
-			name: "Conventional Cotton",
+			name: "Regular Cotton",
 			description: "Simple leaf-based design for eco-friendly vibes.",
 			model: "/models/logo-1.glb",
 			transform: {
@@ -660,22 +660,26 @@ const modelsData = {
 			},
 			cost: 38000,
 			cert_icon1: "../assets/images/Certifications/fair-trade.png",
-			cert_title1: "Fair Trade Certified",
+			cert_title1: "Fair Trade Certified (For Some Farms)",
 			cert_description1:
 				"Certified as having passed safety tests for harmful substances",
-			env_icon: "negative",
-			env_title: "Bad for the Environment",
-			env_description:
-				"Conventional cotton uses up to 25% of all the pesticides used in farming",
-			ethics_icon: "negative",
-			ethics_title: "Poor Rights & Child Labor",
-			ethics_description:
+			cat1_icon: "positive",
+			cat1_title: "Common Material",
+			cat1_descripiton:
+				"A versatile fabric used by many clothing brands and is readily available in the supply chain",
+			cat2_icon: "negative",
+			cat2_title: "Bad for the Environment",
+			cat2_descripiton:
+				"Conventional cotton uses up to 25% of all the pesticides used in farming",
+			cat3_icon: "negative",
+			cat3_title: "Poor Rights & Child Labor",
+			cat3_descripiton:
 				"Labor rights violations and child labor are common in some countries",
-			water_icon: "negative",
-			water_title: "High Water Use",
-			water_description:
+			cat4_icon: "negative",
+			cat4_title: "High Water Use",
+			cat4_descripiton:
 				"~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/Cotton/conventional.svg",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RegularCotton.jpg",
 			ethics: 2,
 			sustainability: 1.5,
 			fabricKey: "conventionalcotton",
@@ -694,27 +698,31 @@ const modelsData = {
 			cert_icon1: "../assets/images/Certifications/oeko.png",
 			cert_title1: "OEKO TEX Standard 100",
 			cert_description1:
-				"Certifies that textiles are free from harmful chemicals...",
+				"Certifies that textiles are free from harmful chemicals and are safe for human use",
 			cert_icon2: "../assets/images/Certifications/fair-trade.png",
 			cert_title2: "Fair Trade Certified",
 			cert_description2:
 				"Certified as having passed safety tests for harmful substances",
-			env_title: "Very Uncommon Material",
-			env_description: "Only makes up around 1% of global cotton production",
-			ethics_title: "Good Working Environment",
-			ethics_description:
+
+
+			cat1_title: "Better for the Environment ",
+			cat1_descripiton: "Production uses 91% less water compared to conventional cotton",
+
+			cat2_title: "Good Working Environment",
+			cat2_descripiton:
 				"Working conditions are healthier based on the absence of harmful chemicals",
-			cost_title: "High Cost",
-			cost_description:
+
+			cat3_title: "High Cost",
+			cat3_descripiton:
 				"Due to fair and just production practices, organic cotton costs more to produce",
-			img_path: "../assets/images/Cotton/organic_cotton.svg",
-			env_icon: "positive",
-			ethics_icon: "positive",
-			water_icon: "positive",
-			cost_icon: "negative",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_OrganicCotton.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "positive",
+			cat3_icon: "negative",
 			ethics: 2.5,
 			sustainability: 2,
 			fabricKey: "cotton",
+
 		},
 		{
 			id: 3,
@@ -727,25 +735,31 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 14000,
-			env_title: "Harmful for the Environment",
-			env_description:
-				"Polyester, made from petroleum, contributes to pollution, greenhouse gases...",
-			ethics_title: "Poor Labor Conditions",
-			ethics_description:
-				"Labor often occurs in factories with low wages, long hours...",
-			water_title: "High Water Use",
-			water_description: "~700 gallons of water is used to produce one pound",
-			cost_title: "Low Cost",
-			cost_description:
-				"Cheap to produce due to synthetic materials, but at a high environmental cost",
-			img_path: "../assets/images/Cotton/recycled_cotton.svg",
-			env_icon: "negative",
-			ethics_icon: "negative",
-			water_icon: "negative",
-			cost_icon: "positive",
+
+			cat1_title: "Common Material",
+			cat1_descripiton:
+				"An extremely common material used in the fashion industry",
+
+			cat2_title: "Terrible for the Environment",
+			cat2_descripiton:
+				"The manufacturing process creates nitrous oxide, a greenhouse gas which has a significantly worse environmental impact then carbon dioxide",
+
+			cat3_title: "Poor Labor Conditions",
+			cat3_descripiton:
+				"Labor often occurs in factories with low wages, long hours, and poor pay",
+
+			cat4_title: "Not Biodegradable",
+			cat4_descripiton: "Polyester is not biodegradable, meaning any product will last in landfills for hundreds of years",
+
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Polyester.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "negative",
+			cat3_icon: "negative",
+			cat4_icon: "negative",
 			ethics: 1,
 			sustainability: 0,
 			fabricKey: "polyster", // matches 'polyster' key in fabricsMap
+
 		},
 		{
 			id: 4,
@@ -759,30 +773,29 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 74000,
-			cert_icon1: "../assets/images/Certifications/fsc.svg",
-			cert_title1: "FSC",
+			cert_icon1: "../assets/images/Certifications/cradle.svg",
+			cert_title1: "Cradle to Cradle Certified™",
 			cert_description1:
-				"Certifies that the bamboo used is from properly managed forests",
-			env_title: "Positive Effects for the Environment",
-			env_description:
-				"A diverse material which can be grown in a variety of climates...",
-			ethics_title: "Sustainable & Ethical",
-			ethics_description:
-				"Bamboo is often harvested by workers under fair labour conditions",
-			water_title: "Minimal Water Use",
-			water_description:
-				"Bamboo requires little to no irrigation, can rely on rainfall",
-			cost_title: "High Cost",
-			cost_description:
-				"Processing raw bamboo into fabric can be expensive compared to synthetics",
-			img_path: "../assets/images/Cotton/sustainable_cotton.svg",
-			env_icon: "positive",
-			ethics_icon: "positive",
-			water_icon: "positive",
-			cost_icon: "negative",
+				"Certified material that has been recycled or up-cycled with circular economy in mind",
+
+			cat1_title: "Good for the Environment ",
+			cat1_descripiton:
+				"Recycled cotton does not require lots of water as it is made from per-consumer waste",
+			cat2_title: "Safe Working Conditions",
+			cat2_descripiton:
+				"Safer than conventional cotton, as there is zero pesticide exposure",
+			cat3_title: "Resource Efficient",
+			cat3_descripiton:
+				"This material process does not require additional cotton farming",
+		
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledCotton.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "positive",
+			cat3_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "recycledCotton",
+						
 		},
 	],
 	HeavyChoices: [
@@ -790,25 +803,29 @@ const modelsData = {
 			id: 1,
 			name: "Acrylic",
 			cost: 16000,
-			env_title: "Bad for the Environment",
-			env_description:
-				"Production process is highly volatile. Many harmful chemicals...",
-			ethics_title: "Poor Working Conditions",
-			ethics_description:
-				"Workers regularly experience hazardous conditions due to chemicals",
-			additional_cons_title: "Additional Cons",
-			additional_cons:
-				"Lacks biodegradability, releases microplastics, may cause irritation...",
-			img_path: "../assets/images/Heavy_Fabrics/acrylic.svg",
-			env_icon: "negative",
-			ethics_icon: "negative",
-			water_icon: "negative",
-			cost_icon: "positive",
-			additional_cons_icon: "negative",
+			cat1_title: "Bad for the Environment",
+			cat1_descripiton:
+				"Production process is highly volatile. Many harmful chemicals are used during manufacturing",
+			cat2_title: "Poor Working Conditions",
+			cat2_descripiton:
+				"Workers regularly experience hazardous conditions due to the chemicals used (acrylonitrile)",
+
+			cat3_title: "Common Material",
+			cat3_descripiton:"Sees widespread use in the fashion industry. It is known for its soft, wool-like appearance",
+				
+			cat4_title: "Additional Cons",
+			cat4_descripiton:
+				"Lacks biodegradability, releases microplastics, may cause irritation for some individuals",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Acrylic.jpg",
+			cat1_icon: "negative",
+			cat2_icon: "negative",
+			cat3_icon: "positive",
+			cat4_icon: "negative",
 			ethics: 1,
 			sustainability: 0,
 
 			fabricKey: "acrylic",
+
 		},
 		{
 			id: 2,
@@ -817,28 +834,28 @@ const modelsData = {
 			cert_icon1: "../assets/images/Certifications/woolmark.svg",
 			cert_title1: "Woolmark",
 			cert_description1:
-				"Certifies the wool product is pure and meets quality standards...",
-			mat_title: "Common Material",
-			mat_description:
+				"Certifies the wool product is pure and meets quality standards. This certification does not account for sustainability, environment impacts, or animal wellness",
+			cat1_title: "Common Material",
+			cat1_descripiton:
 				"A very popular material known for its softness, warmth, and durability",
-			env_title: "Positive Effects for the Environment",
-			env_description:
+			cat2_title: "Positive Effects for the Environment",
+			cat2_descripiton:
 				"Wool is both biodegradable and renewable when sourced properly",
-			ethics_title: "Variable Working Conditions",
-			ethics_description:
+			cat3_title: "Variable Working Conditions",
+			cat3_descripiton:
 				"Depending on the region, workers and animals may not be treated ethically",
-			water_title: "Negative Effects on Climate",
-			water_description:
-				"Methane emmissions, land degradation, and water usage are not eco-friendly...",
-			img_path: "../assets/images/Heavy_Fabrics/wool.svg",
-			env_icon: "positive",
-			ethics_icon: "neutral",
-			water_icon: "negative",
-			cost_icon: "negative",
-			mat_icon: "positive",
+			cat4_title: "Negative Effects on Climate",
+			cat4_descripiton:
+				"Methane emissions, land degradation, and water usage are not eco-friendly aspects of production",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Wool.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "positive",
+			cat3_icon: "negative",
+			cat4_icon: "negative",
 			ethics: 3,
 			sustainability: 1.5,
 			fabricKey: "wool",
+
 		},
 		{
 			id: 3,
@@ -847,63 +864,59 @@ const modelsData = {
 			cert_icon1: "../assets/images/Certifications/gots.svg",
 			cert_title1: "Global Organic Textile Standard (GOTS)",
 			cert_description1:
-				"Certifies responsible growing and manufacturing processes...",
+				"Certifies responsible growing and manufacturing processes with various environmental and social criteria",
 			cert_icon2: "../assets/images/Certifications/eti.svg",
 			cert_title2: "Ethical Trading Initiative (ETI)",
 			cert_description2:
 				"Certifies ethical labor practices, including fair wages...",
-			water_title: "Environmentally Friendly",
-			water_descritption:
-				"Production requires small amounts of water, no pesticides",
-			ethics_title: "Good Working Conditions",
-			ethics_description:
+			cat1_title: "Environmentally Friendly",
+			cat1_descripiton:
+				"Production requires small amounts of water and does not need pesticides to grow",
+			cat2_title: "Good Working Conditions",
+			cat2_descripiton:
 				"Workers are treated fairly and are provided a safe environment",
-			env_title: "Environmental Benefits",
-			env_description:
-				"Hemp absorbs carbon dioxide at a large magnitude per hectare...",
-			mat_title: "Emerging Material",
-			mat_description:
+			cat3_title: "Environmental Benefits",
+			cat3_descripiton:
+				"Hemp absorbs carbon dioxide at a larger magnitude per hectare compared to other crops",
+			cat4_title: "Emerging Material",
+			cat4_descripiton:
 				"This material is becoming more popular thanks to its sustainability",
-			cost_title: "High Cost",
-			cost_description: "Organic hemp is costly due to sustainable farming...",
-			img_path: "../assets/images/Heavy_Fabrics/organic-hemp.svg",
-			env_icon: "positive",
-			ethics_icon: "positive",
-			water_icon: "positive",
-			cost_icon: "negative",
-			mat_icon: "positive",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Hemp.jpg",
+			cat3_icon: "positive",
+			cat2_icon: "positive",
+			cat1_icon: "positive",
+			cat4_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "hemp",
+
 		},
 		{
 			id: 4,
 			name: "Polyester-Wool Blend",
 			cost: 39000,
-			cert_icon1: "../assets/images/Certifications/oeko.png",
-			cert_title1: "OEKO TEX Standard 100",
-			cert_description1:
-				"Certifies that textiles are free from harmful chemicals...",
-			env_title: "Varying Sustainability",
-			env_description:
-				"The blend reduces wool waste but adds polyester’s microplastics...",
-			ethics_title: "Partially Ethical",
-			ethics_description:
-				"Wool can be ethical, but polyester adds microplastic pollution...",
-			water_title: "Moderate Water Use",
-			water_description:
-				"Wool requires a lot of water, while polyester reduces cost but adds pollution.",
-			cost_title: "Moderate Cost",
-			cost_description:
-				"A balance of affordability and quality—polyester lowers cost, wool adds durability.",
-			img_path: "../assets/images/Heavy_Fabrics/polyester-wool-blend.svg",
-			env_icon: "neutral",
-			ethics_icon: "neutral",
-			water_icon: "neutral",
-			cost_icon: "neutral",
+
+			cat1_title: "Durable Material",
+			cat1_descripiton:
+				"The polyester in the blend adds strength, making the fabric more durable and resistant to wear and tear compared to pure wool.",
+			cat2_title: "Cost-Effective",
+			cat2_descripiton:
+				"A more affordable option while still maintaining some of wool’s warmth and texture",
+			cat3_title: "Bad for the Environment",
+			cat3_descripiton:
+				"The manufacturing process creates nitrous oxide, a greenhouse gas which has a significantly worse environmental impact then carbon dioxide",
+			cat4_title: "Prone to Pilling",
+			cat4_descripiton:
+				"Polyester blends can be more prone to pilling over time, especially with frequent wear or washing.",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_PolyesterWool.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "positive",
+			cat3_icon: "negative",
+			cat4_icon: "negative",
 			ethics: 2,
 			sustainability: 1,
 			fabricKey: "polysterWool",
+		
 		},
 	],
 	SyntheticChoices: [
@@ -911,26 +924,27 @@ const modelsData = {
 			id: 1,
 			name: "Nylon",
 			cost: 15000,
-			mat_title: "Common Material",
-			mat_description:
+			cat1_title: "Common Material",
+			cat1_descripiton:
 				"An extremely common material used in the fashion industry",
-			env_title: "Terrible for the Environment",
-			env_description:
-				"The manufacturing process creates nitrous oxide, a greenhouse gas...",
-			ethics_title: "Not Biodegradable",
-			ethics_description:
+			cat2_title: "Terrible for the Environment",
+			cat2_descripiton:
+				"The manufacturing process creates nitrous oxide, a greenhouse gas which has a significantly worse environmental impact then carbon dioxide",
+			cat3_title: "Not Biodegradable",
+			cat3_descripiton:
 				"Nylon products will last in landfills for hundreds of years",
-			water_title: "Resource Intensive",
-			water_description:
-				"Large quantities of water are used in the manufacturing to cool nylon fibers...",
-			img_path: "../assets/images/Heavy_Fabrics/nylon.svg",
-			env_icon: "negative",
-			ethics_icon: "negative",
-			water_icon: "negative",
-			mat_icon: "positive",
+			cat4_title: "Resource Intensive",
+			cat4_descripiton:
+				"Large quantities of water are used during manufacturing to cool nylon fibers. The process also consumes a lot of energy",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Nylon.jpg",
+			cat2_icon: "negative",
+			cat3_icon: "negative",
+			cat4_icon: "negative",
+			cat1_icon: "positive",
 			ethics: 1,
 			sustainability: 0,
 			fabricKey: "Nylon",
+
 		},
 		{
 			id: 2,
@@ -938,27 +952,24 @@ const modelsData = {
 			cost: 80000,
 			cert_title1: "Responsible Silk Standard (RSS)",
 			cert_description1:
-				"Ensures silk is produced with animal welfare and sustainable practices...",
-			env_title: "Eco-Friendly & Biodegradable",
-			env_description:
-				"Silk is a natural fiber with minimal environmental impact...",
-			ethics_title: "Fair & Ethical Production",
-			ethics_description:
-				"When sourced responsibly, silk production supports fair wages...",
-			water_title: "Moderate Water Use",
-			water_description:
-				"Silk requires water for sericulture, but far less than cotton...",
-			cost_title: "High Cost",
-			cost_description:
-				"Silk is expensive due to labour-intensive harvesting and ethical sourcing...",
-			img_path: "../assets/images/Heavy_Fabrics/silk.svg",
-			env_icon: "positive",
-			ethics_icon: "positive",
-			water_icon: "neutral",
-			cost_icon: "negative",
+				"Ensures silk is produced with animal welfare and sustainable practices",
+			cat1_title: "Eco-Friendly & Biodegradable",
+			cat1_descripiton:
+				"Silk is a natural fiber with minimal environmental impact",
+			cat2_title: "Fair & Ethical Production",
+			cat2_descripiton:
+				"When sourced responsibly, silk production supports fair wages and good working conditions",
+			cat3_title: "Efficient Water Use",
+			cat3_descripiton:
+				"Silk requires water for sericulture, but ethical farming practices ensure water resources are used efficiently",
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Silk.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "positive",
+			cat3_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "silk",
+
 		},
 		{
 			id: 3,
@@ -968,26 +979,24 @@ const modelsData = {
 			cert_title1: "Global Recycled Standard (GRS)",
 			cert_description1:
 				"Certification ensures traceability of materials and promotes the reduction of waste",
-			env_title: "Positive Effects for the Environment",
-			env_description:
+			cat1_title: "Positive Effects for the Environment",
+			cat1_descripiton:
 				"Reduces the use of petroleum and overall waste compared to virgin nylon",
-			ethics_title: "Negative Effects of Material",
-			ethics_description:
+			cat2_title: "Negative Effects of Material",
+			cat2_descripiton:
 				"Recycling nylon uses a lot of energy. Microplastics can be shed when washed",
-			mat_title: "Common Material",
-			mat_description:
-				"Common in outdoor and activewear, offering decent performance with less virgin plastic",
-			cost_title: "Moderate Cost",
-			cost_description:
-				"Recycled nylon can be pricier than virgin nylon due to recycling steps...",
-			img_path: "../assets/images/Heavy_Fabrics/recycled-nylon.svg",
-			env_icon: "positive",
-			mat_icon: "positive",
-			ethics_icon: "negative",
-			cost_icon: "neutral",
+			cat3_title: "Common Material",
+			cat3_descripiton:
+				"A common material used in the industry, seen mostly in outdoor and active wear",
+
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledNylon.jpg",
+			cat1_icon: "positive",
+			cat3_icon: "positive",
+			cat2_icon: "negative",
 			ethics: 2,
 			sustainability: 1,
 			fabricKey: "recycledNylon",
+
 		},
 		{
 			id: 4,
@@ -996,27 +1005,27 @@ const modelsData = {
 			cert_icon1: "../assets/images/Certifications/grs.svg",
 			cert_title1: "Global Recycled Standard (GRS)",
 			cert_description1:
-				"Ensures recycled materials are tracked and waste is reduced",
-			env_title: "Better for the Environment",
-			env_description:
+				"Certification ensures traceability of materials and promotes the reduction of waste",
+			cat1_title: "Better for the Environment",
+			cat1_descripiton:
 				"Reduces the use of petroleum compared to virgin polyester",
-			sus_title: "Moderate Sustainability",
-			sus_description:
-				"Helps reduce waste, but still contributes to microplastic pollution",
-			ethics_title: "Negative Effects",
-			ethics_description:
-				"The recycling process uses significant energy and chemicals...",
-			cost_title: "Moderate Expense",
-			cost_description:
-				"Generally cheaper than virgin polyester but has added recycling costs",
-			img_path: "../assets/images/Heavy_Fabrics/recycled-polyest.svg",
-			env_icon: "positive",
-			sus_icon: "neutral",
-			ethics_icon: "negative",
-			cost_icon: "neutral",
+			cat2_title: "Not Biodegradable",
+			cat2_descripiton:
+				"Recycle polyester is still not biodegradable, and will turn into long lasting waste if not further recycled",
+			cat3_title: "Negative Effects on the Environment",
+			cat3_descripiton:
+				"The process of recycling uses an abundance of energy and chemicals. Washing this material can release microplastics ",
+
+			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledPolyester.jpg",
+			cat1_icon: "positive",
+			cat2_icon: "negative",
+			cat3_icon: "negative",
 			ethics: 1.5,
 			sustainability: 2,
 			fabricKey: "recycledPolyster",
+									
+												
+
 		},
 	],
 };

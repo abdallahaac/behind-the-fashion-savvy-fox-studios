@@ -156,3 +156,6 @@
 .fabric-info {
 	margin-left: 40px;
 }
+#fabric-only-container{
+	margin-top: -100px !important;
+}

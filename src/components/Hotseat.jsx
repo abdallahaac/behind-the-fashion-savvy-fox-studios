@@ -133,7 +133,7 @@ const Hotseat = ({
 			</div>
 
 			<div className="vanguard-tutorial-svg">
-				<img src="../assets/images/Vanguards/sims-hotseat.svg" alt="Hotseat" />
+				<img src="../assets/images/Vanguards/allVanguards_happy.svg" alt="Hotseat" />
 			</div>
 
 			<div

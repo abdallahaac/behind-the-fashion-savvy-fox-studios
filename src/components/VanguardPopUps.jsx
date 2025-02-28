@@ -4,6 +4,9 @@ import "../assets/styles/vanguard-tutorial.css";
 import "../assets/styles/VanguardPopUps.css";
 import right_arrow from "../assets/images/right-arrow.svg";
 import { FundingContext } from "../utils/FundingContext";
+import allVanguardsHappy from '../assets/images/Vanguards/allVanguards_happy.svg';
+import allVanguardsThumbsUp from "../assets/images/Vanguards/allVanguards_thumbsUp.svg";
+
 import NormalButton from "./NormalButton";
 
 function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage}) {
@@ -128,27 +131,59 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage}) {
         return null; // Nothing to show if no steps are provided.
     }
 
-    const renderStep = (step) => {
-		const description =
-			step.funding
-				? step.description.replace(
-					  "$100k",
-					  `$${step.funding.toLocaleString()} grant`
-				  )
-				: step.description;
-		return (
-			<div className="vanguard-popup-step">
-				{step.img_path && <img src={step.img_path} alt={step.title} className="step-image" />}
-				<span>{step.title}</span>
-				<p className="tutorial-description">{description}</p>
-				{step.funding && (
-					<span className="tutorial-funding-container">
-						<div className="funding-container">
-							<span className="funding label-large"
-                             style={{ color: "black" }}
-                            >
-                                $&nbsp;&nbsp;Funding</span>
-							<div
+    const renderStep = (step, index) => {
+        const description =
+            step.funding
+                ? step.description.replace(
+                      "$100k",
+                      `$${step.funding.toLocaleString()} grant`
+                  )
+                : step.description;
+    
+        const isAllVanguardsHappy = step.img_path === allVanguardsHappy;
+        const isAllVanguardsThumbsUp = step.img_path === allVanguardsThumbsUp;
+    
+        if (currentStage === 'finalPersona') {
+            return (
+                <div className="vanguard-popup-step">
+                    {step.img_path && (
+                        <img
+                            src={step.img_path}
+                            alt={step.title}
+                            className={`step-image ${isAllVanguardsHappy || isAllVanguardsThumbsUp ? 'all-vanguards-happy' : ''}`}
+                        />
+                    )}
+                    {step.assignment && <p className="assignment body-text-small">{step.assignment}</p>}
+                    {step.persona_title && <h2 className="persona-title accent-2">{step.persona_title}</h2>}
+                    <p className="tutorial-description" style={{ textAlign: "center", color:"white" }}>{description}</p>
+                    {index === 2 && step.link && (
+                        <a href={step.link} target="_blank" rel="noopener noreferrer" className="step-link">
+                            {step.link}
+                        </a>
+                    )}
+                    {step.inner_title && <span className="inner-title">{step.inner_title}</span>}
+                </div>
+            );
+        }
+    
+        return (
+            <div className="vanguard-popup-step">
+                {step.img_path && (
+                    <img
+                        src={step.img_path}
+                        alt={step.title}
+                        className={`step-image ${isAllVanguardsHappy || isAllVanguardsThumbsUp ? 'all-vanguards-happy' : ''}`}
+                    />
+                )}
+                <span>{step.title}</span>
+                <p className="tutorial-description">{description}</p>
+                {step.funding && (
+                    <span className="tutorial-funding-container">
+                        <div className="funding-container">
+                            <span className="funding label-large" style={{ color: "black" }}>
+                                $&nbsp;&nbsp;Funding
+                            </span>
+                            <div
                                 className="funding-amount"
                                 style={{ color: step.funding > 0 ? "#1D7B18" : "#C83C00" }}
                             >
@@ -160,19 +195,19 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage}) {
                                     ? `+${step.funding.toLocaleString()}`
                                     : `${step.funding.toLocaleString()}`}
                             </div>
-						</div>
-					</span>
-				)}
-			</div>
-		);
-	};
+                        </div>
+                    </span>
+                )}
+            </div>
+        );
+    };
 
     return (
         <div
             className="vanguard-tutorial--parent-container"
             onContextMenu={(e) => e.preventDefault()}
         >
-            <div className="tutorial-container" ref={containerRef} id={currentStage === "final" ? "hotseat" : undefined}>
+            <div className="tutorial-container" ref={containerRef} id={currentStage === "final" || currentStage === "finalPersona" ? "hotseat" : undefined}>
                 {/* Step Indicators */}
                 <div className="step-container">
                     {_steps.map((_, index) => (

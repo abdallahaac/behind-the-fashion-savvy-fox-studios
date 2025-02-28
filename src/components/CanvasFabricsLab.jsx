@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import greenThumb from "../assets/images/green-thumb.svg";
 import redThumb from "../assets/images/red-thumb.svg";
-import neutralThumb from "../assets/images/leaf.svg";
+import neutralThumb from "../assets/images/emotion_neutral.svg";
 
 // Removed import of BotSvg:
 // import BotSvg from "../assets/images/tutorial-bot.svg";
@@ -468,7 +468,7 @@ function CanvasFabricLabs({
 							/>
 
 							{/* Left-hand info panel for the currently highlighted fabric */}
-							<div className="left-component outfit">
+							<div className="left-component outfit" id="fabric-only-container">
 								{currentFabric ? (
 									<div className="left-container">
 										<div className="header-info">
@@ -481,78 +481,134 @@ function CanvasFabricLabs({
 											className="fabric-description"
 											style={{ marginTop: "1rem", marginBottom: "1rem" }}
 										>
-											<div className="category-item">
-												<div className="icon-container">
-													<img
-														src={currentFabric.cert_icon1}
-														alt="Certification Icon"
-														style={{
-															width: "36px",
-															height: "36px",
-															padding: "5px",
-														}}
-													/>
+											{/* Certification 1 */}
+											{currentFabric.cert_title1 && (
+												<div className="category-item">
+													<div className="icon-container">
+														<img
+															src={currentFabric.cert_icon1}
+															alt="Certification Icon"
+															style={{
+																width: "36px",
+																height: "36px",
+																padding: "5px",
+															}}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cert_title1}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cert_description1}
+														</p>
+													</div>
 												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">
-														{currentFabric.cert_title1}
-													</p>
-													<p className="category-description body-text-small">
-														{currentFabric.cert_description1}
-													</p>
+											)}
+											{/* Certification 2 */}
+											{currentFabric.cert_title2 && (
+												<div className="category-item">
+													<div className="icon-container">
+														<img
+															src={currentFabric.cert_icon2}
+															alt="Certification Icon"
+															style={{
+																width: "36px",
+																height: "36px",
+																padding: "5px",
+															}}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cert_title2}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cert_description2}
+														</p>
+													</div>
 												</div>
-											</div>
-											<div className="category-item">
-												<div className="icon-container icon-padding">
-													<img
-														src={getIcon(currentFabric.env_icon)}
-														alt="Environment Icon"
-														style={{ width: "24px", height: "24px" }}
-													/>
+											)}
+											{/* Common Material Comment */}
+											{currentFabric.cat1_title && (
+												<div className="category-item">
+													<div className="icon-container icon-padding">
+														<img
+															src={getIcon(currentFabric.cat1_icon)}
+															alt="Common Icon"
+															style={{ width: "24px", height: "24px" }}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cat1_title}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cat1_descripiton}
+														</p>
+													</div>
 												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">
-														{currentFabric.env_title}
-													</p>
-													<p className="category-description body-text-small">
-														{currentFabric.env_description}
-													</p>
+											)}
+											{/* Environment Comment */}
+											{currentFabric.cat2_title && (
+												<div className="category-item">
+													<div className="icon-container icon-padding">
+														<img
+															src={getIcon(currentFabric.cat2_icon)}
+															alt="Environment Icon"
+															style={{ width: "24px", height: "24px" }}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cat2_title}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cat2_descripiton}
+														</p>
+													</div>
 												</div>
-											</div>
-											<div className="category-item">
-												<div className="icon-container icon-padding">
-													<img
-														src={getIcon(currentFabric.ethics_icon)}
-														alt="Ethics Icon"
-														style={{ width: "24px", height: "24px" }}
-													/>
+											)}
+											{/* Ethics Comment */}
+											{currentFabric.cat3_title && (
+												<div className="category-item">
+													<div className="icon-container icon-padding">
+														<img
+															src={getIcon(currentFabric.cat3_icon)}
+															alt="Ethics Icon"
+															style={{ width: "24px", height: "24px" }}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cat3_title}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cat3_descripiton}
+														</p>
+													</div>
 												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">
-														{currentFabric.ethics_title}
-													</p>
-													<p className="category-description body-text-small">
-														{currentFabric.ethics_description}
-													</p>
+											)}
+											{/* Cost Comment */}
+											{currentFabric.cat4_title && (
+												<div className="category-item">
+													<div className="icon-container icon-padding">
+														<img
+															src={getIcon(currentFabric.cat4_icon)}
+															alt="Cost Icon"
+															style={{ width: "24px", height: "24px" }}
+														/>
+													</div>
+													<div className="text-container">
+														<p className="category-title body-text-medium">
+															{currentFabric.cat4_title}
+														</p>
+														<p className="category-description body-text-small">
+															{currentFabric.cat4_descripiton}
+														</p>
+													</div>
 												</div>
-											</div>
-											<div className="category-item">
-												<div className="icon-container icon-padding">
-													<img
-														src={getIcon(currentFabric.water_icon)}
-														alt="Water Icon"
-														style={{ width: "24px", height: "24px" }}
-													/>
-												</div>
-												<div className="text-container">
-													<p className="category-title body-text-medium">
-														{currentFabric.water_title}
-													</p>
-													<p className="category-description body-text-small">
-														{currentFabric.water_description}
-													</p>
-												</div>
-											</div>
+											)}
 										</div>
 									</div>
 								) : (

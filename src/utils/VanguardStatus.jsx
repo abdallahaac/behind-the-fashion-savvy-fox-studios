@@ -1,6 +1,6 @@
 import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from './VanguardResponses';
 
-export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
+export const updateVanguardStatus = (vanguard, stage, scores, hearts, mostLikedBy=null) => {
 
     switch (vanguard) {
         case 'assistant':
@@ -10,12 +10,30 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
             } else if(stage === 'final'){
                 return assistantData[0].finalFeedback;
 
-            }
+            } 
         
         case 'allVanguards':
             if(stage === 'brand'){
                 return allVanguards[0].brand;
-        }
+            }
+            else if (stage === 'finalPersona'){
+                if(mostLikedBy === 'eco'){
+                    console.log("eco");
+                    return allVanguards[0].finalPersonaEco;
+                }
+                else if(mostLikedBy === 'ethics'){
+                    console.log("ethical");
+                    return allVanguards[0].finalPersonaEthics;
+                }
+                else if(mostLikedBy === 'wealth'){
+                    console.log("wealthy");
+                    return allVanguards[0].finalPersonaWealth;
+                }
+                else{
+                    console.log("didn't fit into a category");
+                    return;
+                }
+            }
         
         
         case 'eco':
@@ -89,9 +107,9 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts) => {
             break;
         case 'wealth':
             if (stage === 'clothing') {
-                if (scores.averageCost <= 71000) {
+                if (scores.averageCost <= 41000) {
                     return wealthVanguard[0].collectionFeedback.good;
-                } else if ( scores.averageCost >71000 && scores.averageCost <= 122000) {
+                } else if ( scores.averageCost > 41000 && scores.averageCost <= 53000) {
                     return wealthVanguard[0].collectionFeedback.neutral;
                 } else {
                     return wealthVanguard[0].collectionFeedback.bad;
