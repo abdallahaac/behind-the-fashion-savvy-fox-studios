@@ -294,6 +294,7 @@ function OutfitGroup({
 	basePosition,
 	baseRotation,
 	onOutfitMeshMounted,
+	scale = [2, 2, 2], // default scale factor
 }) {
 	const groupRef = useRef();
 
@@ -311,14 +312,19 @@ function OutfitGroup({
 	if (!OutfitComponent) return null;
 
 	return (
-		<group ref={groupRef} position={finalPosition} rotation={finalRotation}>
+		<group
+			ref={groupRef}
+			position={finalPosition}
+			rotation={finalRotation}
+			scale={scale} // apply the scale factor here
+		>
 			<OutfitComponent />
 		</group>
 	);
 }
 
-function AllOutfits({ onOutfitMeshMounted }) {
-	const basePosition = [-39, 7, -45];
+function AllOutfits({ onOutfitMeshMounted, outfitScale = [3, 3, 4] }) {
+	const basePosition = [-50, 1, -45];
 	const baseRotation = [0.01, -4.69, -0.02];
 
 	return (
@@ -330,6 +336,7 @@ function AllOutfits({ onOutfitMeshMounted }) {
 					basePosition={basePosition}
 					baseRotation={baseRotation}
 					onOutfitMeshMounted={onOutfitMeshMounted}
+					scale={outfitScale} // pass down the scale factor to each outfit
 				/>
 			))}
 		</>
