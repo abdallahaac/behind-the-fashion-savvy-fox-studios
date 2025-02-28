@@ -28,8 +28,8 @@ function CanvasManufactorer({
 	const { CanvasManufacturer } = useModels(); // from your context
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
-	// Selected factory index
-	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
+	// Selected factory index (default -1 means nothing is selected)
+	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(-1);
 	const currentFactory =
 		CanvasManufacturer && CanvasManufacturer.length > 0
 			? CanvasManufacturer[selectedFactoryIndex]
@@ -50,7 +50,7 @@ function CanvasManufactorer({
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
 
-	// We track the final selection
+	// We track the final selection (if needed)
 	const [selectedFactory, setSelectedFactory] = useState(null);
 
 	useEffect(() => {
@@ -262,8 +262,22 @@ function CanvasManufactorer({
 								onFactorySelect={handleFactorySelectionInUI}
 							/>
 
-							{/* Current factory info */}
-							{currentFactory && (
+							{/* Render placeholder if no factory is selected */}
+							{selectedFactoryIndex === -1 ? (
+								<div
+									className="factory-placeholder"
+									style={{
+										height: "100%",
+										width: "100%",
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+										textAlign: "center",
+									}}
+								>
+									Please select a Factory
+								</div>
+							) : (
 								<div className="factory-container">
 									<div className="factory-title">{currentFactory.title}</div>
 
@@ -274,7 +288,6 @@ function CanvasManufactorer({
 												className="toggle-slider"
 												style={{ left: isAbout ? "0%" : "50%" }}
 											></div>
-
 											<button
 												className="factory-toggle left accent-6"
 												onClick={() => setIsAbout(true)}
@@ -298,9 +311,7 @@ function CanvasManufactorer({
 													className="factory-img"
 													width="75"
 													height="75"
-													src={
-														currentFactory.about?.locationImage
-													}
+													src={currentFactory.about?.locationImage}
 													alt="factory"
 												/>
 												<div className="location-container">
@@ -319,13 +330,11 @@ function CanvasManufactorer({
 														className="factory-img"
 														width="40"
 														height="40"
-														src={
-															currentFactory.about?.standardImage
-														}
+														src={currentFactory.about?.standardImage}
 														alt=""
 													/>
 												)}
-												<div className="location-container ">
+												<div className="location-container">
 													<div className="location-title body-text-medium">
 														{currentFactory.about?.standardTitle}
 													</div>
@@ -364,9 +373,7 @@ function CanvasManufactorer({
 													className="factory-img"
 													width="24"
 													height="24"
-													src={
-														currentFactory.factoryAudit?.fairWageImage
-													}
+													src={currentFactory.factoryAudit?.fairWageImage}
 													alt="fair-wage"
 												/>
 												<div className="location-container">
@@ -383,9 +390,7 @@ function CanvasManufactorer({
 													className="factory-img"
 													width="24"
 													height="24"
-													src={
-														currentFactory.factoryAudit?.energyImage
-													}
+													src={currentFactory.factoryAudit?.energyImage}
 													alt="energy"
 												/>
 												<div className="location-container">
@@ -405,9 +410,7 @@ function CanvasManufactorer({
 													className="factory-img"
 													width="24"
 													height="24"
-													src={
-														currentFactory.factoryAudit?.wasteImage
-													}
+													src={currentFactory.factoryAudit?.wasteImage}
 													alt="waste"
 												/>
 												<div className="location-container">
