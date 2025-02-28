@@ -55,7 +55,7 @@
 	padding: 10px;
 }
 .expanded-container.fabric {
-	height: 760px;
+	height: 783px;
 }
 
 .fabric-container.active {
@@ -109,4 +109,19 @@
 
 .fabric-options {
 	margin-top: 10px !important;
+}
+
+.left-component.fabrics {
+	transform: translate(-529px);
+}
+
+.fabric-info-container {
+	display: flex;
+	flex-direction: row;
+	width: 100% !important;
+
+	align-items: baseline;
+}
+.fabric-info {
+	margin-left: 40px;
 }

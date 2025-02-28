@@ -19,7 +19,12 @@ import { FundingContext } from "../utils/FundingContext";
 
 const HOLD_DURATION = 0;
 
-function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
+function CanvasManufactorer({
+	onStart,
+	onCreate,
+	onManufacturingSelection,
+	onFactorySelect, // <-- NEW callback for real-time 3D toggling
+}) {
 	const { CanvasManufacturer } = useModels(); // from your context
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
@@ -44,7 +49,8 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
-	
+
+	// We track the final selection
 	const [selectedFactory, setSelectedFactory] = useState(null);
 
 	useEffect(() => {
@@ -99,7 +105,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 			},
 		});
 		setSelectedFactory(currentFactory);
-	
 	};
 
 	useEffect(() => {
@@ -112,13 +117,12 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 		}
 	}, [isExpanded]);
 
-	// Purchase hold logic (optional); you can keep or remove the "hold" approach
+	// Purchase hold logic (optional)
 	const [purchaseProgress, setPurchaseProgress] = useState(0);
 	const [isPurchaseBlinking, setIsPurchaseBlinking] = useState(false);
 	const purchaseHoldStartRef = useRef(null);
 	const purchaseIntervalRef = useRef(null);
 
-	// Only let user Purchase if the user is toggled on the "factory audit"
 	const isPurchaseActive = !isAbout && currentFactory;
 
 	const startPurchaseHold = (e) => {
@@ -160,10 +164,10 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 
 		console.log("Purchased factory", currentFactory);
 		const selectedFactoryArray = [currentFactory];
-		// Call the onManufacturingSelection callback with the selected factory
+		// Pass the final factory selection back up
 		onManufacturingSelection(selectedFactoryArray);
 
-		// Then fade out and call onCreate
+		// Fade out
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -174,12 +178,17 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 		});
 	};
 
-	// Simple click alternative (instead of hold)
-	// const handlePurchaseClick = () => {
-	//   if (isPurchaseActive) {
-	//     handlePurchase();
-	//   }
-	// };
+	// Called whenever user picks a new factory from the bar
+	function handleFactorySelectionInUI(factory) {
+		if (!factory) return;
+		setSelectedFactoryIndex(() =>
+			CanvasManufacturer.findIndex((f) => f.id === factory.id)
+		);
+		// For real-time 3D toggling:
+		if (onFactorySelect && factory.factoryKey) {
+			onFactorySelect(factory.factoryKey);
+		}
+	}
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -216,7 +225,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 				</div>
 
 				<div className="body-create">
-					{/* Screen #1: The big "Start" button */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
@@ -241,7 +249,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 							</div>
 						</div>
 					) : (
-						// Screen #2: Show the manufacturer selection, toggles, etc.
 						<div
 							className="new-container"
 							ref={loremContainerRef}
@@ -252,7 +259,7 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 								items={CanvasManufacturer}
 								selectedIndex={selectedFactoryIndex}
 								setSelectedIndex={setSelectedFactoryIndex}
-								onFactorySelect={() => {}}
+								onFactorySelect={handleFactorySelectionInUI}
 							/>
 
 							{/* Current factory info */}
@@ -286,7 +293,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 									{/* Conditionally render the About or Factory Audit sections */}
 									{isAbout && (
 										<div className="about-container">
-											{/* Some example of how to show "about" fields */}
 											<div className="factory-location-container">
 												<img
 													className="factory-img"
@@ -308,7 +314,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 											</div>
 
 											<div className="factory-location-container">
-												{/* Standard Info */}
 												{currentFactory.about?.standardImage && (
 													<img
 														className="factory-img"
@@ -330,7 +335,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 												</div>
 											</div>
 
-											{/* ETI info, if it exists */}
 											{currentFactory.about?.etiImage && (
 												<div className="factory-location-container">
 													<img
@@ -355,7 +359,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 
 									{!isAbout && (
 										<div className="factory-audit-container">
-											{/* Example: Show factory audit fields if they exist */}
 											<div className="factory-location-container">
 												<img
 													className="factory-img"
@@ -424,7 +427,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 								</div>
 							)}
 
-							{/* Purchase button area (only active if "factory audit" is toggled) */}
 							<div className="create-submit-container factory">
 								<div
 									className={`create-submit ${
@@ -441,10 +443,7 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 												isPurchaseActive ? "active" : ""
 											}`}
 										>
-											$
-											{currentFactory
-												? currentFactory.cost
-												: "00000"}
+											${currentFactory ? currentFactory.cost : "00000"}
 										</span>
 										<span
 											className={`brand-desc ${
@@ -468,7 +467,6 @@ function CanvasManufactorer({ onStart, onCreate, onManufacturingSelection }) {
 										onMouseUp={endPurchaseHold}
 										onTouchStart={startPurchaseHold}
 										onTouchEnd={endPurchaseHold}
-										// onClick={handlePurchaseClick} // Alternative single-click approach
 									>
 										{isPurchaseActive && (
 											<div

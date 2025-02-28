@@ -1,8 +1,16 @@
+// src/pages/Room.jsx
+
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
-import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from '../utils/VanguardResponses';
+import {
+	assistantData,
+	allVanguards,
+	ecoVanguard,
+	ethicsVanguard,
+	wealthVanguard,
+} from "../utils/VanguardResponses";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -22,13 +30,23 @@ import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.sv
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
 
-// Import the FundingContext
+// Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
-
-// Import your new LoadingOverlay
 import LoadingOverlay from "../utils/LoadingOverlay";
 
 function Room() {
+	// ============ VANGUARD / STAGES SETUP ============
+	const STAGES = {
+		INTRO: "introduction",
+		BRAND: "brand",
+		FABRIC: "fabric",
+		CLOTHING: "clothing",
+		MANUFACTURING: "manufacturing",
+		FINAL: "final",
+	};
+	const [stage, setStage] = useState(STAGES.INTRO);
+
+	// Vanguard states
 	const [vanguardActiveStates, setVanguardActiveStates] = useState([
 		true,
 		false,
@@ -38,41 +56,30 @@ function Room() {
 	const [vanguardActivationCounts, setVanguardActivationCounts] = useState([
 		0, 0, 0, 0,
 	]);
-
-	const STAGES = {
-		INTRO: "introduction",
-		BRAND: "brand",
-		FABRIC: "fabric",
-		CLOTHING: "clothing",
-		MANUFACTURING: "manufacturing",
-		FINAL: "final",
-	};
-
-	const [stage, setStage] = useState(STAGES.INTRO);
-
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 	const [showPopUp, setShowPopUp] = useState(false);
 
-	// Pop-up modal states
+	// ============ SHOW / HIDE UI ===============
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
 	const [showFabricLabs, setShowFabricLabs] = useState(false);
 	const [showManufactorer, setShowManufactorer] = useState(false);
-
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(false);
 
+	// ============ ANIMATION + BREAKPOINTS ============
 	const [playAnimation, setPlayAnimation] = useState(false);
 	const [paused, setPaused] = useState(false);
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 
-	// Track model loading progress via Drei
-	const { progress: rawProgress } = useProgress();
+	// We'll unify to this larger list of breakpoints
+	
 
+	// Scene loading progress
+	const { progress: rawProgress } = useProgress();
 	const [hasReachedFirstBreakpoint, setHasReachedFirstBreakpoint] =
 		useState(false);
 	const [showOverlay, setShowOverlay] = useState(true);
-
 	const displayedProgress = hasReachedFirstBreakpoint
 		? 100
 		: Math.min(Math.max(rawProgress, 1), 99);
@@ -83,56 +90,52 @@ function Room() {
 
 	const [brandName, setBrandName] = useState("MYBRAND");
 	const [fontStyle, setFontStyle] = useState("");
+	const logoMeshRefs = useRef({});
+	const outfitMeshRefs = useRef({});
+	const [selectedLogo, setSelectedLogo] = useState(null);
+	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
 
+	// ============ FABRIC STATES ============
+	const fabricMeshRefs = useRef({});
+	const [selectedFabric, setSelectedFabric] = useState(null);
+
+	// ============ FACTORY STATES (new) ============
+	const factoryMeshRefs = useRef({});
+	const [selectedFactory, setSelectedFactory] = useState(null);
+
+	// ============ REF TO DOM ELEMENTS ============
 	const canvasContainerRef = useRef(null);
 	const logoContainerRef = useRef(null);
 	const vanguardContainerRef = useRef(null);
 	const hotseatRef = useRef(null);
 
-	// Hot Seat & quiz tracking
+	// ============ HOTSEAT / QUIZ ============
 	const [currentStep, setCurrentStep] = useState(0);
 	const [mode, setMode] = useState("Normal");
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedQuestions, setSelectedQuestions] = useState([]);
 	const [result, setResult] = useState(0);
 
-	// LOGO references and selection
-	const logoMeshRefs = useRef({});
-	const [selectedLogo, setSelectedLogo] = useState(null);
-
-	// === OUTFIT references and selection (NEW) ===
-	const outfitMeshRefs = useRef({});
-	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
-
-	// Called by Scene for each logo
-	const handleLogoMeshMounted = (logoKey, ref) => {
-		logoMeshRefs.current[logoKey] = ref;
-	};
-
-	// Average Scores and Items selected from Stages
+	// ============ HEARTS + FEEDBACK LOGIC ============
 	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
 	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
-	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
-	// const [selectItems, setSelectedItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
+		[]
+	);
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
-	// control hearts fill
+
 	const [ethicsHearts, setEthicsHearts] = useState(3);
-	let ethics_feedback = useRef(null);
 	const [ecoHearts, setEcoHearts] = useState(3);
-	let eco_feedback = useRef(null);
 	const [wealthHearts, setWealthHearts] = useState(3);
-	let wealth_feedback = useRef(null);
-	//set feedback
+
 	const [ethicsFeedback, setEthicsFeedback] = useState(null);
-    const [ecoFeedback, setEcoFeedback] = useState(null);
-    const [wealthFeedback, setWealthFeedback] = useState(null);
+	const [ecoFeedback, setEcoFeedback] = useState(null);
+	const [wealthFeedback, setWealthFeedback] = useState(null);
 
-
-	// FundingContext
-	const { fundingAmount, setFundingAmount, generateFunding } =
-		useContext(FundingContext);
+	// ============ FUNDING CONTEXT ============
+	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
 	const getVanguardData = (activeVanguardIndex, stage) => {
 		console.log("current stage", stage);
@@ -178,9 +181,9 @@ function Room() {
 	
 
 	// Called by Scene for each outfit (NEW)
-	const handleOutfitMeshMounted = (outfitKey, ref) => {
-		outfitMeshRefs.current[outfitKey] = ref;
-	};
+	// const handleOutfitMeshMounted = (outfitKey, ref) => {
+	// 	outfitMeshRefs.current[outfitKey] = ref;
+	// };
 
 	// Animate a given logo's Z position
 	function animateLogoTo(logoId, newZ) {
@@ -240,17 +243,11 @@ function Room() {
 
 
 	useEffect(() => {
-		// Shuffle questions for the Hotseat
-		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
-		setSelectedQuestions(shuffledQuestions.slice(0, 3));
+		const shuffled = QuizQuestions.sort(() => 0.5 - Math.random());
+		setSelectedQuestions(shuffled.slice(0, 3));
 	}, []);
 
-	useEffect(() => {
-		console.log("Updated eco hearts:", ecoHearts);
-		console.log("Updated ethics hearts:", ethicsHearts);
-		console.log("Updated wealth hearts:", wealthHearts);
-	}, [ecoHearts, ethicsHearts, wealthHearts]);
-
+	// ============ INTRO FADE-IN ============
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
@@ -264,6 +261,7 @@ function Room() {
 		);
 	}, []);
 
+	// ============ VANGUARD UI FADE-IN ============
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
 			gsap.set(vanguardContainerRef.current, { x: -100, opacity: 0 });
@@ -276,8 +274,8 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
+	// ============ AUTO-PLAY SCENE ON MOUNT ============
 	useEffect(() => {
-		// Auto-play the scene on mount (optional)
 		handlePlayClick();
 	}, []);
 
@@ -400,11 +398,9 @@ function Room() {
 
 	// === Overlays & Popups logic ===
 	const handleOverlayEnter = () => {
-		// Called when user clicks "Enter" on the loading overlay
 		setShowOverlay(false);
 	};
-
-	const handlePlayClick = () => {
+	function handlePlayClick() {
 		setPlayAnimation(true);
 		setPaused(false);
 	};
@@ -413,19 +409,15 @@ function Room() {
 	const handleContinue = () => {
 		setPaused(false);
 		setCurrentBreakpointIndex((prev) => prev + 1);
-	};
-
-	// Called by Scene whenever we hit a breakpoint
-	const handleBreakpointHit = (index) => {
+	}
+	function handleBreakpointHit(index) {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
 
-		// If it's the VERY FIRST breakpoint
 		if (index === 0) {
 			setHasReachedFirstBreakpoint(true);
 		}
-
 		switch (index) {
 			case 0:
 				setShowCreateBrand(true);
@@ -468,10 +460,157 @@ function Room() {
 			default:
 				break;
 		}
-	};
+	}
 
-	// Vanguard click
-	const handleVanguardClick = (index) => {
+	// ============ LOGO MESH MOUNT ============
+	function handleLogoMeshMounted(logoKey, ref) {
+		logoMeshRefs.current[logoKey] = ref;
+	}
+
+	// ============ OUTFIT MESH MOUNT ============
+	function handleOutfitMeshMounted(outfitKey, ref) {
+		outfitMeshRefs.current[outfitKey] = ref;
+	}
+
+	// ============ FABRIC MESH MOUNT ============
+	function handleFabricMeshMounted(fabricKey, ref) {
+		fabricMeshRefs.current[fabricKey] = ref;
+	}
+
+	// ============ FACTORY MESH MOUNT (new) ============
+	function handleFactoryMeshMounted(factoryKey, ref) {
+		factoryMeshRefs.current[factoryKey] = ref;
+	}
+
+	// ============ GSAP ANIM HELPERS ============
+	function animateLogoTo(logoId, newZ) {
+		const ref = logoMeshRefs.current[logoId];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[LOGO] ${logoId} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
+	function animateOutfitTo(outfitId, newZ) {
+		const ref = outfitMeshRefs.current[outfitId];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[OUTFIT] ${outfitId} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
+	function animateFabricTo(fabricKey, newZ) {
+		const ref = fabricMeshRefs.current[fabricKey];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[FABRIC] ${fabricKey} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
+	function animateFactoryTo(factoryKey, newZ) {
+		const ref = factoryMeshRefs.current[factoryKey];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[FACTORY] ${factoryKey} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
+
+	// ============ LOGO SELECT LOGIC ============
+	function handleLogoSelect(newLogoId) {
+		if (!selectedLogo) {
+			// no previous => bring the new one forward
+			animateLogoTo(newLogoId, -49.51);
+			setSelectedLogo(newLogoId);
+			return;
+		}
+		if (selectedLogo === newLogoId) return;
+		// push old back
+		animateLogoTo(selectedLogo, -100);
+		animateLogoTo(newLogoId, -49.51);
+		setSelectedLogo(newLogoId);
+	}
+
+	// ============ OUTFIT SELECT LOGIC ============
+	function handleOutfitSelect(newOutfitId) {
+		if (selectedOutfit === newOutfitId) return;
+		// push old away
+		animateOutfitTo(selectedOutfit, -120);
+		// bring new forward
+		animateOutfitTo(newOutfitId, -45);
+		setSelectedOutfit(newOutfitId);
+	}
+
+	// ============ FABRIC SELECT LOGIC ============
+	function handleFabricSelect(newFabricKey) {
+		if (!newFabricKey) return;
+		if (selectedFabric === newFabricKey) return;
+
+		if (selectedFabric) {
+			// push old behind
+			animateFabricTo(selectedFabric, -200);
+		}
+		// bring new forward
+		animateFabricTo(newFabricKey, -75);
+		setSelectedFabric(newFabricKey);
+
+		console.log("[FABRIC SELECT] from", selectedFabric, "to", newFabricKey);
+	}
+
+	// ============ FACTORY SELECT LOGIC (new) ============
+	function handleFactorySelect(newFactoryKey) {
+		if (!newFactoryKey) return;
+		if (selectedFactory === newFactoryKey) return;
+
+		// push old behind
+		if (selectedFactory) {
+			animateFactoryTo(selectedFactory, -200);
+		}
+		// bring new forward
+		animateFactoryTo(newFactoryKey, -75);
+		setSelectedFactory(newFactoryKey);
+
+		console.log("[FACTORY SELECT] from", selectedFactory, "to", newFactoryKey);
+	}
+
+	// ============ VANGUARD / HOTSEAT UI ============
+	function handleVanguardClick(index) {
 		if (!vanguardActiveStates[index]) return;
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
 		if (currentBreakpointIndex === 9 && index === 0) {
@@ -483,17 +622,17 @@ function Room() {
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
-	};
+	}
 
-	const incrementVanguardActivation = (index) => {
+	function incrementVanguardActivation(index) {
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
 			newCounts[index]++;
 			return newCounts;
 		});
-	};
+	}
 
-	const handleDeactivateActiveVanguard = () => {
+	function handleDeactivateActiveVanguard() {
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
@@ -502,7 +641,6 @@ function Room() {
 				// Turn off Vanguard 0, enable 1..3
 				setVanguardActiveStates([false, true, true, true]);
 			} else if (vanguardActivationCounts[0] >= 2) {
-				// Turn them all off, continue
 				setVanguardActiveStates([false, false, false, false]);
 				handleContinue();
 			}
@@ -517,10 +655,9 @@ function Room() {
 				return newStates;
 			});
 		}
-	};
+	}
 
-	// Hotseat
-	const handleHotseatDone = () => {
+	function handleHotseatDone() {
 		if (hotseatRef.current) {
 			gsap.to(hotseatRef.current, {
 				duration: 1,
@@ -529,7 +666,6 @@ function Room() {
 				onComplete: () => {
 					setShowHotseat(false);
 					if (activeVanguardIndex === 0) {
-						// Deactivate Vanguard 0 and activate the others
 						setVanguardActiveStates([false, true, true, true]);
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
 					}
@@ -544,7 +680,7 @@ function Room() {
 			}
 			handleDone(setMode, setCurrentStep, setQuestionIndex);
 		}
-	};
+	}
 
 	return (
 		<>
@@ -557,6 +693,7 @@ function Room() {
 				/>
 			)}
 
+			{/* Logo + Hearts UI */}
 			<div className="logo-container" ref={logoContainerRef}>
 				<Logo />
 				<BudgetBar />
@@ -676,7 +813,7 @@ function Room() {
 									handleContinue();
 								}
 							}}
-							onOutfitSelect={handleOutfitSelect} // NEW
+							onOutfitSelect={handleOutfitSelect}
 							onCreate={() => {
 								setShowOutfitSelection(false);
 								handleContinue();
@@ -730,6 +867,8 @@ function Room() {
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
 							onManufacturingSelection={handleManufacturingSelection}
+							// Pass a callback for real-time 3D toggling
+							onFactorySelect={handleFactorySelect}
 						/>
 					</div>
 				)}
@@ -766,7 +905,6 @@ function Room() {
 									handleContinue();
 								}
 							}}
-							onLogoSelect={handleLogoSelect}
 							onCreate={() => {
 								setShowFabricLabs(false);
 								handleContinue();
@@ -775,6 +913,8 @@ function Room() {
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
 							onFabricSelection={handleFabricSelection}
+							// Real-time 3D toggling of fabric
+							onFabricSelect={handleFabricSelect}
 						/>
 					</div>
 				)}
@@ -860,10 +1000,13 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 					brandName={brandName}
 					fontStyle={fontStyle}
-					// LOGOs
+					// LOGO & OUTFIT references
 					onLogoMeshMounted={handleLogoMeshMounted}
-					// OUTFITs
 					onOutfitMeshMounted={handleOutfitMeshMounted}
+					// FABRIC references
+					onFabricMeshMounted={handleFabricMeshMounted}
+					// FACTORY references (new)
+					onFactoryMeshMounted={handleFactoryMeshMounted}
 				/>
 			</div>
 		</>
