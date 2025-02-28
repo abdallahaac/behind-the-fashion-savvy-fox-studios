@@ -229,7 +229,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/spaceGothic.png",
+			img_path: "./images/model.png",
 			ethics: 3,
 		},
 		{
@@ -251,7 +251,8 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/avantGarde.png",
+			img_path: "./images/model.png",
+
 			ethics: 2,
 		},
 		{
@@ -273,7 +274,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/neoY2kShimmer.png",
+			img_path: "./images/model.png",
+
 			ethics: 1,
 		},
 		{
@@ -295,7 +297,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/midNightEdge.png",
+			img_path: "./images/model.png",
+
 			ethics: 2.75,
 		},
 		{
@@ -317,7 +320,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/solarpunk.png",
+			img_path: "./images/model.png",
+
 			ethics: 1.5,
 		},
 		{
@@ -339,7 +343,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/earthynomad.png",
+			img_path: "./images/model.png",
+
 			ethics: 1.75,
 		},
 		{
@@ -361,7 +366,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/industrialLuxe.png",
+			img_path: "./images/model.png",
+
 			ethics: 0.25,
 		},
 		{
@@ -383,7 +389,8 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/plushStreetRoyale.png",
+			img_path: "./images/model.png",
+
 			ethics: 0.5,
 		},
 		{
@@ -405,7 +412,8 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/neoVintageEdge.png",
+			img_path: "./images/model.png",
+
 			ethics: 2.5,
 		},
 	],
