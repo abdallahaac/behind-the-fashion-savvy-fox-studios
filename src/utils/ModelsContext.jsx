@@ -1,7 +1,49 @@
 // src/utils/ModelsContext.jsx
 
 import React, { createContext, useContext, useState } from "react";
+
+// Imported images and SVGs
 import botSvg from "../assets/images/tutorial-bot.svg";
+
+import manufacturingEuropePng from "../assets/images/Manufacturing/Europe.png";
+import manufacturingSa8000Svg from "../assets/images/Manufacturing/sa8000.svg";
+import manufacturingEtiBaseCodeSvg from "../assets/images/Manufacturing/eti_base_code.svg";
+import manufacturingWarningSvg from "../assets/images/Manufacturing/warning.svg";
+import greenThumbSvg from "../assets/images/green-thumb.svg";
+import redThumbSvg from "../assets/images/red-thumb.svg";
+import manufacturingAsiaSvg from "../assets/images/Manufacturing/Asia.svg";
+import manufacturingISOSvg from "../assets/images/Manufacturing/ISO.svg";
+import manufacturingNorthAmericaSvg from "../assets/images/Manufacturing/NorthAmerica.svg";
+
+import modelPng from "../assets/images/model.png";
+import earthynomadPng from "../assets/images/earthynomad.png";
+import avantGardePng from "../assets/images/avantGarde.png";
+import industrialLuxePng from "../assets/images/industrialLuxe.png";
+import plushStreetRoyalePng from "../assets/images/plushStreetRoyale.png";
+import midNightEdgePng from "../assets/images/midNightEdge.png";
+import spaceGothicPng from "../assets/images/spaceGothic.png";
+
+import fairTradePng from "../assets/images/Certifications/fair-trade.png";
+import oekoPng from "../assets/images/Certifications/oeko.png";
+
+import regularCottonJpg from "../assets/images/FabricThumbnails/FabricThumbnail_RegularCotton.jpg";
+import organicCottonJpg from "../assets/images/FabricThumbnails/FabricThumbnail_OrganicCotton.jpg";
+import polyesterJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Polyester.jpg";
+import recycledCottonJpg from "../assets/images/FabricThumbnails/FabricThumbnail_RecycledCotton.jpg";
+
+import acrylicJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Acrylic.jpg";
+import woolJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Wool.jpg";
+import hempJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Hemp.jpg";
+import polyesterWoolJpg from "../assets/images/FabricThumbnails/FabricThumbnail_PolyesterWool.jpg";
+
+import nylonJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Nylon.jpg";
+import silkJpg from "../assets/images/FabricThumbnails/FabricThumbnail_Silk.jpg";
+import recycledNylonJpg from "../assets/images/FabricThumbnails/FabricThumbnail_RecycledNylon.jpg";
+import recycledPolyesterJpg from "../assets/images/FabricThumbnails/FabricThumbnail_RecycledPolyester.jpg";
+
+import woolmarkSvg from "../assets/images/Certifications/woolmark.svg";
+import grsSvg from "../assets/images/Certifications/grs.svg";
+import etiSvg from "../assets/images/Certifications/eti.svg";
 
 const cameraAnimation = {
 	first: {
@@ -19,15 +61,15 @@ const modelsData = {
 			sustainability: 3,
 			factoryKey: "artisthread", // <-- NEW factoryKey
 			about: {
-				locationImage: "../assets/images/Manufacturing/Europe.png",
+				locationImage: manufacturingEuropePng,
 				locationTitle: "Located in Europe",
 				locationDescription:
 					"ArtistThread Textiles is renowned for its exceptional craftsmanship, skilled workforce, and dedication to sustainable practices. Its strategic location within Europe also offers easy access to key markets, making it an ideal choice for brands seeking reliable and efficient production.",
-				standardImage: "../assets/images/Manufacturing/sa8000.svg",
+				standardImage: manufacturingSa8000Svg,
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment to treating workers fairly. ",
-				etiImage: "../assets/images/Manufacturing/eti_base_code.svg",
+				etiImage: manufacturingEtiBaseCodeSvg,
 				etiBaseTitle: "ETI Base Code",
 				etiBaseDescription:
 					"A set of labour standards organizations follow to improve working conditions",
@@ -36,17 +78,15 @@ const modelsData = {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
 					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
-				fairWageImage: "../assets/images/green-thumb.svg",
+				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Energy Efficient ",
-
 				energyEfficiencyDescription:
 					"Factory uses renewable energy sources and has low carbon footprints",
-				energyImage: "../assets/images/green-thumb.svg",
-
+				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Waste Reduction ",
 				wasteEfficiencyDescription:
 					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices",
-				wasteImage: "../assets/images/green-thumb.svg",
+				wasteImage: greenThumbSvg,
 			},
 		},
 		{
@@ -58,34 +98,31 @@ const modelsData = {
 			factoryKey: "phoenix", // <-- NEW factoryKey
 
 			about: {
-				locationImage: "../assets/images/Manufacturing/Asia.svg",
+				locationImage: manufacturingAsiaSvg,
 				locationTitle: "Located in Asia",
 				locationDescription:
 					"Pheonix Garmets Co. is a major hub for clothing manufacturing, offering cost-effective and large-scale production. While challenges remain around environmental and labor practices, many manufacturers are shifting toward more sustainable and ethical approaches.",
-				standardImage: "../assets/images/Manufacturing/warning.svg",
-
+				standardImage: manufacturingWarningSvg,
 				standardTitle: "Low Transparency into Practices",
 				standardDescription:
 					"This factory has little to no disclosure into it’s practices...",
 				etiImage: false,
 				etiBaseTitle: false,
-
 				etiBaseDescription: false,
 			},
 			factoryAudit: {
 				fairWageTitle: "Fast Lead Time",
 				fairWageDescription:
 					"Garments can be made in large quantities with quick turn-around time, allowing you to capitalize quickly on trends",
-				fairWageImage: "../assets/images/green-thumb.svg",
+				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "High Waste Production",
 				energyEfficiencyDescription:
 					"An inefficient use of resources leads to a large amount of waste being produced as a byproduct of production.",
-				energyImage: "../assets/images/red-thumb.svg",
-
+				energyImage: redThumbSvg,
 				wasteEfficiencyTitle: "Risk of Sweatshops",
 				wasteEfficiencyDescription:
 					"Factories with low transparency risk the use of outsourcing their labor to sweatshops to ensure low costs ",
-				wasteImage: "../assets/images/Manufacturing/warning.svg",
+				wasteImage: manufacturingWarningSvg,
 			},
 		},
 		{
@@ -96,35 +133,31 @@ const modelsData = {
 			sustainability: 2,
 			factoryKey: "sundar", // <-- NEW factoryKey
 			about: {
-				locationImage: "../assets/images/Manufacturing/Asia.svg",
+				locationImage: manufacturingAsiaSvg,
 				locationTitle: "Located in Asia",
 				locationDescription:
 					"Sundar Apparel Works is a leading manufacturer in Bangladesh, recognized for its commitment to cost-effective, large-scale production. The factory places a strong emphasis on sustainability and ethical practices, ensuring that both environmental impact and labor conditions are prioritized in its operations.",
-				standardImage: "../assets/images/Manufacturing/sa8000.svg",
-
+				standardImage: manufacturingSa8000Svg,
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment...",
 				etiImage: false,
 				etiBaseTitle: false,
-
 				etiBaseDescription: false,
 			},
 			factoryAudit: {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
 					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
-				fairWageImage: "../assets/images/green-thumb.svg",
-
+				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Waste Reduction",
 				energyEfficiencyDescription:
 					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices.",
-				energyImage: "../assets/images/green-thumb.svg",
-
+				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Use of Coal as Energy Source",
 				wasteEfficiencyDescription:
 					"Coal is the primary source of electricity that is used to power production.",
-				wasteImage: "../assets/images/red-thumb.svg",
+				wasteImage: redThumbSvg,
 			},
 		},
 		{
@@ -135,18 +168,16 @@ const modelsData = {
 			sustainability: 3,
 			factoryKey: "silveroak", // <-- NEW factoryKey
 			about: {
-				locationImage: "../assets/images/Manufacturing/NorthAmerica.svg",
+				locationImage: manufacturingNorthAmericaSvg,
 				locationTitle: "Located in North America",
 				locationDescription:
 					"Silver Oak Manufacturing is known for its balanced approach to sustainability and ethical production. The factory integrates eco-friendly materials and energy-efficient processes while ensuring fair labor practices. With a focus on quality and responsibility, ",
-				standardImage: "../assets/images/Manufacturing/sa8000.svg",
-
+				standardImage: manufacturingSa8000Svg,
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment to treating workers fairly. ",
-				etiImage: "../assets/images/Manufacturing/ISO.svg",
+				etiImage: manufacturingISOSvg,
 				etiBaseTitle: "ISO 14001",
-
 				etiBaseDescription:
 					"A standard for environmental management to minimize environmental impact.",
 			},
@@ -154,17 +185,15 @@ const modelsData = {
 				fairWageTitle: "High-Quality Craftsmanship",
 				fairWageDescription:
 					"The factory maintains strict quality control measures throughout the production process.",
-				fairWageImage: "../assets/images/green-thumb.svg",
-
+				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Environmentally Responsible",
 				energyEfficiencyDescription:
 					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
-				energyImage: "../assets/images/green-thumb.svg",
-
+				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Limited Production Scale",
 				wasteEfficiencyDescription:
 					"This factory may struggle with scaling up quickly to meet very large orders.",
-				wasteImage: "../assets/images/red-thumb.svg",
+				wasteImage: redThumbSvg,
 			},
 		},
 		{
@@ -175,35 +204,31 @@ const modelsData = {
 			sustainability: 2,
 			factoryKey: "anadolu", // <-- NEW factoryKey
 			about: {
-				locationImage: "../assets/images/Manufacturing/Europe.png",
+				locationImage: manufacturingEuropePng,
 				locationTitle: "Located in Europe",
 				locationDescription:
 					"Anadolu Textile Works specializes in garment production, while provides a reasonable option for brands seeking a moderately sustainable solution at a competitive price, though there are areas for improvement in both labor and overall environmental impact.",
-				standardImage: "../assets/images/Certifications/oeko.png",
-
+				standardImage: oekoPng,
 				standardTitle: "OEKO-TEX Standard 100",
 				standardDescription:
 					"Ensures that the textiles produced are free from harmful chemicals...",
 				etiImage: false,
 				etiBaseTitle: false,
-
 				etiBaseDescription: false,
 			},
 			factoryAudit: {
 				fairWageTitle: "High-Quality Craftsmanship",
 				fairWageDescription:
 					"The factory maintains strict quality control measures throughout the production process.",
-				fairWageImage: "../assets/images/green-thumb.svg",
-
+				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Environmentally Responsible",
 				energyEfficiencyDescription:
 					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
-				energyImage: "../assets/images/green-thumb.svg",
-
+				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Low Transparency into Practices",
 				wasteEfficiencyDescription:
 					"This factory has little to no disclosure into it’s practices. Audits have rarely been conducted and are inconclusive ",
-				wasteImage: "../assets/images/Manufacturing/warning.svg",
+				wasteImage: manufacturingWarningSvg,
 			},
 		},
 	],
@@ -229,7 +254,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
+			img_path: modelPng,
 			ethics: 3,
 		},
 		{
@@ -251,8 +276,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 2,
 		},
 		{
@@ -274,8 +298,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 1,
 		},
 		{
@@ -297,8 +320,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 2.75,
 		},
 		{
@@ -320,8 +342,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 1.5,
 		},
 		{
@@ -343,8 +364,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 1.75,
 		},
 		{
@@ -366,8 +386,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 0.25,
 		},
 		{
@@ -389,8 +408,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 0.5,
 		},
 		{
@@ -412,8 +430,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: "./images/model.png",
-
+			img_path: modelPng,
 			ethics: 2.5,
 		},
 	],
@@ -432,7 +449,7 @@ const modelsData = {
 			orig_percentage: 80,
 			plag_percentage: 20,
 			model: "/models/earthyboundNomad.glb",
-			img_path: "./images/earthynomad.png",
+			img_path: earthynomadPng,
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -457,7 +474,7 @@ const modelsData = {
 			orig_percentage: 30,
 			plag_percentage: 70,
 			model: "/models/avantGardeBloom.glb",
-			img_path: "./images/avantGarde.png",
+			img_path: avantGardePng,
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -480,7 +497,7 @@ const modelsData = {
 			orig_percentage: 40,
 			plag_percentage: 60,
 			model: "/models/industrialLuxe.glb",
-			img_path: "./images/industrialLuxe.png",
+			img_path: industrialLuxePng,
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -503,11 +520,11 @@ const modelsData = {
 			orig_percentage: 50,
 			plag_percentage: 50,
 			model: "/models/streetRoyal.glb",
-			img_path: "./images/plushStreetRoyale.png",
+			img_path: plushStreetRoyalePng,
 			transform: {
 				position: [0, -4, -0.1],
-				rotation: [0, 100, 0],
-				scale: 0.6,
+				rotation: [0, 0, 0],
+				scale: 0.7,
 			},
 			materialParams: {
 				metalness: 0.5,
@@ -528,7 +545,7 @@ const modelsData = {
 			orig_percentage: 60,
 			plag_percentage: 40,
 			model: "/models/kimono.glb",
-			img_path: "./images/midNightEdge.png",
+			img_path: midNightEdgePng,
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -551,7 +568,7 @@ const modelsData = {
 			orig_percentage: 70,
 			plag_percentage: 30,
 			model: "/models/spaceGothic.glb",
-			img_path: "./images/spaceGothic.png",
+			img_path: spaceGothicPng,
 			transform: {
 				position: [0, -4, -0.1],
 				rotation: [0, 100, 0],
@@ -659,7 +676,7 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 38000,
-			cert_icon1: "../assets/images/Certifications/fair-trade.png",
+			cert_icon1: fairTradePng,
 			cert_title1: "Fair Trade Certified (For Some Farms)",
 			cert_description1:
 				"Certified as having passed safety tests for harmful substances",
@@ -679,7 +696,7 @@ const modelsData = {
 			cat4_title: "High Water Use",
 			cat4_descripiton:
 				"~1,320 gallons of water is used to produce one pound of cotton",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RegularCotton.jpg",
+			img_path: regularCottonJpg,
 			ethics: 2,
 			sustainability: 1.5,
 			fabricKey: "conventionalcotton",
@@ -695,34 +712,30 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 46000,
-			cert_icon1: "../assets/images/Certifications/oeko.png",
+			cert_icon1: oekoPng,
 			cert_title1: "OEKO TEX Standard 100",
 			cert_description1:
 				"Certifies that textiles are free from harmful chemicals and are safe for human use",
-			cert_icon2: "../assets/images/Certifications/fair-trade.png",
+			cert_icon2: fairTradePng,
 			cert_title2: "Fair Trade Certified",
 			cert_description2:
 				"Certified as having passed safety tests for harmful substances",
-
-
 			cat1_title: "Better for the Environment ",
-			cat1_descripiton: "Production uses 91% less water compared to conventional cotton",
-
+			cat1_descripiton:
+				"Production uses 91% less water compared to conventional cotton",
 			cat2_title: "Good Working Environment",
 			cat2_descripiton:
 				"Working conditions are healthier based on the absence of harmful chemicals",
-
 			cat3_title: "High Cost",
 			cat3_descripiton:
 				"Due to fair and just production practices, organic cotton costs more to produce",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_OrganicCotton.jpg",
+			img_path: organicCottonJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",
 			cat3_icon: "negative",
 			ethics: 2.5,
 			sustainability: 2,
 			fabricKey: "cotton",
-
 		},
 		{
 			id: 3,
@@ -735,31 +748,26 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 14000,
-
 			cat1_title: "Common Material",
 			cat1_descripiton:
 				"An extremely common material used in the fashion industry",
-
 			cat2_title: "Terrible for the Environment",
 			cat2_descripiton:
 				"The manufacturing process creates nitrous oxide, a greenhouse gas which has a significantly worse environmental impact then carbon dioxide",
-
 			cat3_title: "Poor Labor Conditions",
 			cat3_descripiton:
 				"Labor often occurs in factories with low wages, long hours, and poor pay",
-
 			cat4_title: "Not Biodegradable",
-			cat4_descripiton: "Polyester is not biodegradable, meaning any product will last in landfills for hundreds of years",
-
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Polyester.jpg",
+			cat4_descripiton:
+				"Polyester is not biodegradable, meaning any product will last in landfills for hundreds of years",
+			img_path: polyesterJpg,
 			cat1_icon: "positive",
 			cat2_icon: "negative",
 			cat3_icon: "negative",
 			cat4_icon: "negative",
 			ethics: 1,
 			sustainability: 0,
-			fabricKey: "polyster", // matches 'polyster' key in fabricsMap
-
+			fabricKey: "polyster",
 		},
 		{
 			id: 4,
@@ -773,11 +781,10 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 74000,
-			cert_icon1: "../assets/images/Certifications/cradle.svg",
+			cert_icon1: "../assets/images/Certifications/cradle.svg", // left as is if not an image import
 			cert_title1: "Cradle to Cradle Certified™",
 			cert_description1:
 				"Certified material that has been recycled or up-cycled with circular economy in mind",
-
 			cat1_title: "Good for the Environment ",
 			cat1_descripiton:
 				"Recycled cotton does not require lots of water as it is made from per-consumer waste",
@@ -787,15 +794,13 @@ const modelsData = {
 			cat3_title: "Resource Efficient",
 			cat3_descripiton:
 				"This material process does not require additional cotton farming",
-		
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledCotton.jpg",
+			img_path: recycledCottonJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",
 			cat3_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "recycledCotton",
-						
 		},
 	],
 	HeavyChoices: [
@@ -809,29 +814,26 @@ const modelsData = {
 			cat2_title: "Poor Working Conditions",
 			cat2_descripiton:
 				"Workers regularly experience hazardous conditions due to the chemicals used (acrylonitrile)",
-
 			cat3_title: "Common Material",
-			cat3_descripiton:"Sees widespread use in the fashion industry. It is known for its soft, wool-like appearance",
-				
+			cat3_descripiton:
+				"Sees widespread use in the fashion industry. It is known for its soft, wool-like appearance",
 			cat4_title: "Additional Cons",
 			cat4_descripiton:
 				"Lacks biodegradability, releases microplastics, may cause irritation for some individuals",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Acrylic.jpg",
+			img_path: acrylicJpg,
 			cat1_icon: "negative",
 			cat2_icon: "negative",
 			cat3_icon: "positive",
 			cat4_icon: "negative",
 			ethics: 1,
 			sustainability: 0,
-
 			fabricKey: "acrylic",
-
 		},
 		{
 			id: 2,
 			name: "Wool",
 			cost: 51000,
-			cert_icon1: "../assets/images/Certifications/woolmark.svg",
+			cert_icon1: woolmarkSvg,
 			cert_title1: "Woolmark",
 			cert_description1:
 				"Certifies the wool product is pure and meets quality standards. This certification does not account for sustainability, environment impacts, or animal wellness",
@@ -847,7 +849,7 @@ const modelsData = {
 			cat4_title: "Negative Effects on Climate",
 			cat4_descripiton:
 				"Methane emissions, land degradation, and water usage are not eco-friendly aspects of production",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Wool.jpg",
+			img_path: woolJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",
 			cat3_icon: "negative",
@@ -855,17 +857,16 @@ const modelsData = {
 			ethics: 3,
 			sustainability: 1.5,
 			fabricKey: "wool",
-
 		},
 		{
 			id: 3,
 			name: "Organic Hemp",
 			cost: 61000,
-			cert_icon1: "../assets/images/Certifications/gots.svg",
+			cert_icon1: "../assets/images/Certifications/gots.svg", // left as is if not imported
 			cert_title1: "Global Organic Textile Standard (GOTS)",
 			cert_description1:
 				"Certifies responsible growing and manufacturing processes with various environmental and social criteria",
-			cert_icon2: "../assets/images/Certifications/eti.svg",
+			cert_icon2: etiSvg,
 			cert_title2: "Ethical Trading Initiative (ETI)",
 			cert_description2:
 				"Certifies ethical labor practices, including fair wages...",
@@ -881,7 +882,7 @@ const modelsData = {
 			cat4_title: "Emerging Material",
 			cat4_descripiton:
 				"This material is becoming more popular thanks to its sustainability",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Hemp.jpg",
+			img_path: hempJpg,
 			cat3_icon: "positive",
 			cat2_icon: "positive",
 			cat1_icon: "positive",
@@ -889,13 +890,11 @@ const modelsData = {
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "hemp",
-
 		},
 		{
 			id: 4,
 			name: "Polyester-Wool Blend",
 			cost: 39000,
-
 			cat1_title: "Durable Material",
 			cat1_descripiton:
 				"The polyester in the blend adds strength, making the fabric more durable and resistant to wear and tear compared to pure wool.",
@@ -908,7 +907,7 @@ const modelsData = {
 			cat4_title: "Prone to Pilling",
 			cat4_descripiton:
 				"Polyester blends can be more prone to pilling over time, especially with frequent wear or washing.",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_PolyesterWool.jpg",
+			img_path: polyesterWoolJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",
 			cat3_icon: "negative",
@@ -916,7 +915,6 @@ const modelsData = {
 			ethics: 2,
 			sustainability: 1,
 			fabricKey: "polysterWool",
-		
 		},
 	],
 	SyntheticChoices: [
@@ -936,7 +934,7 @@ const modelsData = {
 			cat4_title: "Resource Intensive",
 			cat4_descripiton:
 				"Large quantities of water are used during manufacturing to cool nylon fibers. The process also consumes a lot of energy",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Nylon.jpg",
+			img_path: nylonJpg,
 			cat2_icon: "negative",
 			cat3_icon: "negative",
 			cat4_icon: "negative",
@@ -944,7 +942,6 @@ const modelsData = {
 			ethics: 1,
 			sustainability: 0,
 			fabricKey: "Nylon",
-
 		},
 		{
 			id: 2,
@@ -962,20 +959,19 @@ const modelsData = {
 			cat3_title: "Efficient Water Use",
 			cat3_descripiton:
 				"Silk requires water for sericulture, but ethical farming practices ensure water resources are used efficiently",
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_Silk.jpg",
+			img_path: silkJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",
 			cat3_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "silk",
-
 		},
 		{
 			id: 3,
 			name: "Recycled Nylon",
 			cost: 37000,
-			cert_icon1: "../assets/images/Certifications/grs.svg",
+			cert_icon1: grsSvg,
 			cert_title1: "Global Recycled Standard (GRS)",
 			cert_description1:
 				"Certification ensures traceability of materials and promotes the reduction of waste",
@@ -988,21 +984,19 @@ const modelsData = {
 			cat3_title: "Common Material",
 			cat3_descripiton:
 				"A common material used in the industry, seen mostly in outdoor and active wear",
-
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledNylon.jpg",
+			img_path: recycledNylonJpg,
 			cat1_icon: "positive",
 			cat3_icon: "positive",
 			cat2_icon: "negative",
 			ethics: 2,
 			sustainability: 1,
 			fabricKey: "recycledNylon",
-
 		},
 		{
 			id: 4,
 			name: "Recycled Polyester",
 			cost: 40000,
-			cert_icon1: "../assets/images/Certifications/grs.svg",
+			cert_icon1: grsSvg,
 			cert_title1: "Global Recycled Standard (GRS)",
 			cert_description1:
 				"Certification ensures traceability of materials and promotes the reduction of waste",
@@ -1015,17 +1009,13 @@ const modelsData = {
 			cat3_title: "Negative Effects on the Environment",
 			cat3_descripiton:
 				"The process of recycling uses an abundance of energy and chemicals. Washing this material can release microplastics ",
-
-			img_path: "../assets/images/FabricThumbnails/FabricThumbnail_RecycledPolyester.jpg",
+			img_path: recycledPolyesterJpg,
 			cat1_icon: "positive",
 			cat2_icon: "negative",
 			cat3_icon: "negative",
 			ethics: 1.5,
 			sustainability: 2,
 			fabricKey: "recycledPolyster",
-									
-												
-
 		},
 	],
 };
