@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
-import { assistantData, allVanguards, ecoVanguard, ethicsVanguard, wealthVanguard } from '../utils/VanguardResponses';
+import {
+	assistantData,
+	allVanguards,
+	ecoVanguard,
+	ethicsVanguard,
+	wealthVanguard,
+} from "../utils/VanguardResponses";
 import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
@@ -99,152 +105,137 @@ function Room() {
 	const logoMeshRefs = useRef({});
 	const [selectedLogo, setSelectedLogo] = useState(null);
 
-	// === OUTFIT references and selection (NEW) ===
+	// === OUTFIT references and selection ===
 	const outfitMeshRefs = useRef({});
 	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
+
+	// === FABRIC references and selection ===
+	const fabricMeshRefs = useRef({});
+	const [selectedFabric, setSelectedFabric] = useState(null);
 
 	// Called by Scene for each logo
 	const handleLogoMeshMounted = (logoKey, ref) => {
 		logoMeshRefs.current[logoKey] = ref;
 	};
 
-	// Average Scores and Items selected from Stages
-	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
-	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
-	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState([]);
-	// const [selectItems, setSelectedItems] = useState([]);
-	const [averageEthics, setAverageEthics] = useState(0);
-	const [averageSustainability, setAverageSustainability] = useState(0);
-	const [averageCost, setAverageCost] = useState(0);
-	// control hearts fill
-	const [ethicsHearts, setEthicsHearts] = useState(3);
-	let ethics_feedback = useRef(null);
-	const [ecoHearts, setEcoHearts] = useState(3);
-	let eco_feedback = useRef(null);
-	const [wealthHearts, setWealthHearts] = useState(3);
-	let wealth_feedback = useRef(null);
-	//set feedback
-	const [ethicsFeedback, setEthicsFeedback] = useState(null);
-    const [ecoFeedback, setEcoFeedback] = useState(null);
-    const [wealthFeedback, setWealthFeedback] = useState(null);
-
-
-	// FundingContext
-	const { fundingAmount, setFundingAmount, generateFunding } =
-		useContext(FundingContext);
-
-	const getVanguardData = (activeVanguardIndex, stage) => {
-		console.log("current stage", stage);
-		switch (activeVanguardIndex) {
-			case 0:
-				if (stage === STAGES.INTRO){
-					return assistantData[0].introduction;
-				}
-				else if (stage === STAGES.BRAND){
-					return allVanguards[0].brand;
-				}
-			case 1:
-				if(stage === STAGES.INTRO){
-					return ecoVanguard[0].introduction;
-				}
-				else if (stage === STAGES.FABRIC || stage === STAGES.MANUFACTURING){	
-					return ecoFeedback;
-				}
-			case 2:
-				if(stage === STAGES.INTRO){
-					return ethicsVanguard[0].introduction;
-				}
-				else{
-					return ethicsFeedback;
-				}
-			case 3:
-				if(stage === STAGES.INTRO){
-					return wealthVanguard[0].introduction;
-				}
-				else{
-					return wealthFeedback;
-				}
-			default:
-				return null;
-
-		}
-		
-	};
-	
-
-	// Called by Scene for each outfit (NEW)
+	// Called by Scene for each outfit
 	const handleOutfitMeshMounted = (outfitKey, ref) => {
 		outfitMeshRefs.current[outfitKey] = ref;
 	};
 
-	// Animate a given logo's Z position
+	// Called by Scene for each fabric
+	const handleFabricMeshMounted = (fabricKey, ref) => {
+		fabricMeshRefs.current[fabricKey] = ref;
+	};
+
 	function animateLogoTo(logoId, newZ) {
 		const ref = logoMeshRefs.current[logoId];
 		if (ref && ref.current) {
 			gsap.to(ref.current.position, {
 				z: newZ,
 				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[LOGO] ${logoId} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
 			});
 		}
 	}
 
-	// Animate a given outfit's Z position (unchanged)
 	function animateOutfitTo(outfitId, newZ) {
 		const ref = outfitMeshRefs.current[outfitId];
 		if (ref && ref.current) {
 			gsap.to(ref.current.position, {
 				z: newZ,
 				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[OUTFIT] ${outfitId} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
+			});
+		}
+	}
+	// GSAP helper for fabrics
+	function animateFabricTo(fabricKey, newZ) {
+		const ref = fabricMeshRefs.current[fabricKey];
+		if (ref && ref.current) {
+			gsap.to(ref.current.position, {
+				z: newZ,
+				duration: 1,
+				onComplete: () => {
+					if (ref.current) {
+						console.log(
+							`[FABRIC] ${fabricKey} final position:`,
+							ref.current.position.toArray()
+						);
+					}
+				},
 			});
 		}
 	}
 
-	// OUTFIT selection logic: swap the current active outfit with the clicked outfit
+	// ==============
+	// OUTFIT logic
+	// ==============
 	function handleOutfitSelect(newOutfitId) {
-		// If the clicked outfit is already active, do nothing.
-		if (selectedOutfit === newOutfitId) {
-			return;
-		}
-		// Animate the currently active outfit (initially "Outfit1") back to z = -75.
+		if (selectedOutfit === newOutfitId) return;
 		animateOutfitTo(selectedOutfit, -120);
-		// Animate the newly clicked outfit forward to z = -45.
 		animateOutfitTo(newOutfitId, -45);
-		// Update the active outfit state.
 		setSelectedOutfit(newOutfitId);
-		//
 	}
-	// LOGO selection logic
+
+	// ==============
+	// LOGO logic
+	// ==============
 	function handleLogoSelect(newLogoId) {
-		// If no logo is currently active, animate the clicked logo to z = -49.51
 		if (!selectedLogo) {
 			animateLogoTo(newLogoId, -49.51);
 			setSelectedLogo(newLogoId);
 			return;
 		}
-		// If the clicked logo is already active, do nothing.
-		if (selectedLogo === newLogoId) {
-			return;
-		}
-		// Animate the previously active logo back to z = -75 (for example).
+		if (selectedLogo === newLogoId) return;
 		animateLogoTo(selectedLogo, -100);
-		// Animate the newly clicked logo to z = -49.51.
 		animateLogoTo(newLogoId, -49.51);
 		setSelectedLogo(newLogoId);
 	}
 
+	// ==============
+	// FABRIC logic
+	// ==============
+	// Called by child CanvasFabricLabs
+	function handleFabricSelect(newFabricKey) {
+		if (!newFabricKey) return;
+		if (selectedFabric === newFabricKey) return;
 
+		// Animate old fabric away
+		if (selectedFabric) {
+			animateFabricTo(selectedFabric, -200);
+		}
+		// Animate new fabric forward
+		animateFabricTo(newFabricKey, -75);
+		setSelectedFabric(newFabricKey);
 
+		console.log(
+			"[FABRIC SELECT] Changing from",
+			selectedFabric,
+			"to",
+			newFabricKey
+		);
+	}
+
+	// Shuffling questions for hotseat
 	useEffect(() => {
-		// Shuffle questions for the Hotseat
 		const shuffledQuestions = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffledQuestions.slice(0, 3));
 	}, []);
-
-	useEffect(() => {
-		console.log("Updated eco hearts:", ecoHearts);
-		console.log("Updated ethics hearts:", ethicsHearts);
-		console.log("Updated wealth hearts:", wealthHearts);
-	}, [ecoHearts, ethicsHearts, wealthHearts]);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -272,16 +263,68 @@ function Room() {
 	}, [showVanguardUI]);
 
 	useEffect(() => {
-		// Auto-play the scene on mount (optional)
 		handlePlayClick();
 	}, []);
 
-	//Calculating average scores of metrics : cost, ethics, sustainability
-	const calculateAverageScores = (selectedItems) => {
+	// ==============
+	// CLOTHING & FABRIC & MANUFACTURING calculations
+	// ==============
+	const [selectedClothingItems, setSelectedClothingItems] = useState([]);
+	const [selectedFabricItems, setSelectedFabricItems] = useState([]);
+	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
+		[]
+	);
+	const [averageEthics, setAverageEthics] = useState(0);
+	const [averageSustainability, setAverageSustainability] = useState(0);
+	const [averageCost, setAverageCost] = useState(0);
+
+	const [ethicsHearts, setEthicsHearts] = useState(3);
+	const [ecoHearts, setEcoHearts] = useState(3);
+	const [wealthHearts, setWealthHearts] = useState(3);
+	const [ethicsFeedback, setEthicsFeedback] = useState(null);
+	const [ecoFeedback, setEcoFeedback] = useState(null);
+	const [wealthFeedback, setWealthFeedback] = useState(null);
+
+	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
+
+	const getVanguardData = (activeVanguardIndex, stage) => {
+		console.log("current stage", stage);
+		switch (activeVanguardIndex) {
+			case 0:
+				if (stage === STAGES.INTRO) {
+					return assistantData[0].introduction;
+				} else if (stage === STAGES.BRAND) {
+					return allVanguards[0].brand;
+				}
+				break;
+			case 1:
+				if (stage === STAGES.INTRO) {
+					return ecoVanguard[0].introduction;
+				} else if (stage === STAGES.FABRIC || stage === STAGES.MANUFACTURING) {
+					return ecoFeedback;
+				}
+				break;
+			case 2:
+				if (stage === STAGES.INTRO) {
+					return ethicsVanguard[0].introduction;
+				} else {
+					return ethicsFeedback;
+				}
+			case 3:
+				if (stage === STAGES.INTRO) {
+					return wealthVanguard[0].introduction;
+				} else {
+					return wealthFeedback;
+				}
+			default:
+				return null;
+		}
+	};
+
+	function calculateAverageScores(selectedItems) {
 		const itemsArray = Array.isArray(selectedItems)
 			? selectedItems
 			: Object.values(selectedItems);
-
 		const totalEthics = itemsArray.reduce(
 			(sum, item) => sum + (item.ethics || 0),
 			0
@@ -300,46 +343,52 @@ function Room() {
 			(item) => item.sustainability !== undefined
 		).length;
 
-		const averageEthics = totalEthics / itemCount;
+		const averageEthics = itemCount > 0 ? totalEthics / itemCount : 0;
 		const averageSustainability =
 			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
-		const averageCost = totalCost / itemCount;
+		const averageCost = itemCount > 0 ? totalCost / itemCount : 0;
 
-		return {
-			averageEthics,
-			averageSustainability,
-			averageCost,
-		};
-	};
+		return { averageEthics, averageSustainability, averageCost };
+	}
 
-	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
-        setSelectedItems(selectedItems);
-        const averages = calculateAverageScores(selectedItems);
-        console.log("Averages:", averages);
-        setAverageEthics(averages.averageEthics);
-        setAverageSustainability(averages.averageSustainability);
-        setAverageCost(averages.averageCost);
-        console.log("current stage", currentStage);
+	function handleSelectionCalculations(
+		selectedItems,
+		setSelectedItems,
+		currentStage
+	) {
+		setSelectedItems(selectedItems);
+		const averages = calculateAverageScores(selectedItems);
+		console.log("Averages:", averages);
+		setAverageEthics(averages.averageEthics);
+		setAverageSustainability(averages.averageSustainability);
+		setAverageCost(averages.averageCost);
+		console.log("current stage", currentStage);
 
-        const ethics_feedback = updateVanguardStatus("ethics", currentStage, averages);
-        // use max to make sure hearts don't go below 0
-        setEthicsHearts((prevHearts) => Math.max(0, prevHearts + ethics_feedback.hearts));
-        console.log("Ethics Vanguard Feedback:", ethics_feedback);
-        setEthicsFeedback(ethics_feedback);
+		const ethics_feedback = updateVanguardStatus(
+			"ethics",
+			currentStage,
+			averages
+		);
+		setEthicsHearts((prev) => Math.max(0, prev + ethics_feedback.hearts));
+		console.log("Ethics Vanguard Feedback:", ethics_feedback);
+		setEthicsFeedback(ethics_feedback);
 
-        const eco_feedback = updateVanguardStatus("eco", currentStage, averages);
-        setEcoHearts((prevHearts) => Math.max(0, prevHearts + eco_feedback.hearts));
-        console.log("Eco Vanguard Feedback:", eco_feedback);
-        setEcoFeedback(eco_feedback);
+		const eco_feedback = updateVanguardStatus("eco", currentStage, averages);
+		setEcoHearts((prev) => Math.max(0, prev + eco_feedback.hearts));
+		console.log("Eco Vanguard Feedback:", eco_feedback);
+		setEcoFeedback(eco_feedback);
 
-        const wealth_feedback = updateVanguardStatus("wealth", currentStage, averages);
-        setWealthHearts((prevHearts) => Math.max(0, prevHearts + wealth_feedback.hearts));
-        console.log("Wealth Vanguard Feedback:", wealth_feedback);
-        setWealthFeedback(wealth_feedback);
+		const wealth_feedback = updateVanguardStatus(
+			"wealth",
+			currentStage,
+			averages
+		);
+		setWealthHearts((prev) => Math.max(0, prev + wealth_feedback.hearts));
+		console.log("Wealth Vanguard Feedback:", wealth_feedback);
+		setWealthFeedback(wealth_feedback);
+	}
 
-    };
-	
-	const handleClothingSelection = (selectedItems) => {
+	function handleClothingSelection(selectedItems) {
 		const newStage = STAGES.CLOTHING;
 		setStage(newStage);
 		handleSelectionCalculations(
@@ -347,9 +396,9 @@ function Room() {
 			setSelectedClothingItems,
 			newStage
 		);
-	};
+	}
 
-	const handleFabricSelection = (selectedItems) => {
+	function handleFabricSelection(selectedItems) {
 		const newStage = STAGES.FABRIC;
 		setStage(newStage);
 		handleSelectionCalculations(
@@ -357,9 +406,9 @@ function Room() {
 			setSelectedFabricItems,
 			newStage
 		);
-	};
+	}
 
-	const handleManufacturingSelection = (selectedItems) => {
+	function handleManufacturingSelection(selectedItems) {
 		const newStage = STAGES.MANUFACTURING;
 		setStage(newStage);
 		handleSelectionCalculations(
@@ -367,35 +416,31 @@ function Room() {
 			setSelectedManufacturingItems,
 			newStage
 		);
-	};
+	}
 
-	// === Overlays & Popups logic ===
+	// Overlays & popups
 	const handleOverlayEnter = () => {
-		// Called when user clicks "Enter" on the loading overlay
 		setShowOverlay(false);
 	};
 
-	const handlePlayClick = () => {
+	function handlePlayClick() {
 		setPlayAnimation(true);
 		setPaused(false);
-	};
+	}
 
-	const handleContinue = () => {
+	function handleContinue() {
 		setPaused(false);
 		setCurrentBreakpointIndex((prev) => prev + 1);
-	};
+	}
 
-	// Called by Scene whenever we hit a breakpoint
-	const handleBreakpointHit = (index) => {
+	function handleBreakpointHit(index) {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
 		setCurrentBreakpointIndex(index);
 
-		// If it's the VERY FIRST breakpoint
 		if (index === 0) {
 			setHasReachedFirstBreakpoint(true);
 		}
-
 		switch (index) {
 			case 0:
 				setShowCreateBrand(true);
@@ -433,12 +478,10 @@ function Room() {
 			default:
 				break;
 		}
-	};
+	}
 
-	// Vanguard click
-	const handleVanguardClick = (index) => {
+	function handleVanguardClick(index) {
 		if (!vanguardActiveStates[index]) return;
-		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
 		if (currentBreakpointIndex === 9 && index === 0) {
 			setShowHotseat(true);
 			setActiveVanguardIndex(0);
@@ -447,32 +490,29 @@ function Room() {
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
-	};
+	}
 
-	const incrementVanguardActivation = (index) => {
+	function incrementVanguardActivation(index) {
 		setVanguardActivationCounts((prev) => {
 			const newCounts = [...prev];
 			newCounts[index]++;
 			return newCounts;
 		});
-	};
+	}
 
-	const handleDeactivateActiveVanguard = () => {
+	function handleDeactivateActiveVanguard() {
 		const prevActive = activeVanguardIndex;
 		setShowPopUp(false);
 		setActiveVanguardIndex(null);
 
 		if (prevActive === 0) {
 			if (vanguardActivationCounts[0] === 1) {
-				// Turn off Vanguard 0, enable 1..3
 				setVanguardActiveStates([false, true, true, true]);
 			} else if (vanguardActivationCounts[0] >= 2) {
-				// Turn them all off, continue
 				setVanguardActiveStates([false, false, false, false]);
 				handleContinue();
 			}
 		} else {
-			// If one of vanguards (1..3) is closed
 			setVanguardActiveStates((prevStates) => {
 				const newStates = [...prevStates];
 				newStates[prevActive] = false;
@@ -482,10 +522,10 @@ function Room() {
 				return newStates;
 			});
 		}
-	};
+	}
 
-	// Hotseat
-	const handleHotseatDone = () => {
+	// HOTSEAT
+	function handleHotseatDone() {
 		if (hotseatRef.current) {
 			gsap.to(hotseatRef.current, {
 				duration: 1,
@@ -494,7 +534,6 @@ function Room() {
 				onComplete: () => {
 					setShowHotseat(false);
 					if (activeVanguardIndex === 0) {
-						// Deactivate Vanguard 0 and activate the others
 						setVanguardActiveStates([false, true, true, true]);
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
 					}
@@ -509,7 +548,7 @@ function Room() {
 			}
 			handleDone(setMode, setCurrentStep, setQuestionIndex);
 		}
-	};
+	}
 
 	return (
 		<>
@@ -641,7 +680,7 @@ function Room() {
 									handleContinue();
 								}
 							}}
-							onOutfitSelect={handleOutfitSelect} // NEW
+							onOutfitSelect={handleOutfitSelect}
 							onCreate={() => {
 								setShowOutfitSelection(false);
 								handleContinue();
@@ -731,7 +770,6 @@ function Room() {
 									handleContinue();
 								}
 							}}
-							onLogoSelect={handleLogoSelect}
 							onCreate={() => {
 								setShowFabricLabs(false);
 								handleContinue();
@@ -739,7 +777,11 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
-							onFabricSelection={handleFabricSelection}
+							onFabricSelection={(arr) => {
+								console.log("Final fabric selection =>", arr);
+								// do your cost calculations
+							}}
+							onFabricSelect={handleFabricSelect}
 						/>
 					</div>
 				)}
@@ -757,21 +799,9 @@ function Room() {
 						}}
 					>
 						<VanguardPopUp
-                        steps={[getVanguardData(activeVanguardIndex, stage)]}
-                        onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
-                    />
-
-						{/* <VanguardPopUp
-							steps={
-								vanguardContents[activeVanguardIndex].scenarios[
-									Math.min(
-										vanguardActivationCounts[activeVanguardIndex] - 1,
-										vanguardContents[activeVanguardIndex].scenarios.length - 1
-									)
-								]
-							}
+							steps={[getVanguardData(activeVanguardIndex, stage)]}
 							onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
-						/> */}
+						/>
 					</div>
 				)}
 
@@ -824,10 +854,9 @@ function Room() {
 					onBreakpointHit={handleBreakpointHit}
 					brandName={brandName}
 					fontStyle={fontStyle}
-					// LOGOs
 					onLogoMeshMounted={handleLogoMeshMounted}
-					// OUTFITs
 					onOutfitMeshMounted={handleOutfitMeshMounted}
+					onFabricMeshMounted={handleFabricMeshMounted}
 				/>
 			</div>
 		</>

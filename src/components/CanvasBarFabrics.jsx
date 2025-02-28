@@ -6,7 +6,7 @@ const CanvasBarFabrics = ({
 	items,
 	selectedIndex,
 	setSelectedIndex,
-	onFabricSelect, // NEW PROP
+	onFabricSelect, // callback to parent
 }) => {
 	if (!items || items.length === 0) {
 		return null;
@@ -15,7 +15,6 @@ const CanvasBarFabrics = ({
 	const handlePrev = () => {
 		setSelectedIndex((prevIndex) => {
 			const newIndex = prevIndex === 0 ? items.length - 1 : prevIndex - 1;
-			// Call onFabricSelect for the new index
 			if (onFabricSelect) {
 				onFabricSelect(items[newIndex]);
 			}
@@ -26,7 +25,6 @@ const CanvasBarFabrics = ({
 	const handleNext = () => {
 		setSelectedIndex((prevIndex) => {
 			const newIndex = prevIndex === items.length - 1 ? 0 : prevIndex + 1;
-			// Call onFabricSelect for the new index
 			if (onFabricSelect) {
 				onFabricSelect(items[newIndex]);
 			}
@@ -36,7 +34,6 @@ const CanvasBarFabrics = ({
 
 	const handleNumberClick = (idx) => {
 		setSelectedIndex(idx);
-		// Also trigger the selection callback
 		if (onFabricSelect) {
 			onFabricSelect(items[idx]);
 		}
