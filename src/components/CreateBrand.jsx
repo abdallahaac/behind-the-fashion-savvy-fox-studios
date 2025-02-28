@@ -7,7 +7,11 @@ import "../assets/styles/create-brand.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import FontStyleSelection from "../utils/FontSelection";
-import LogoOne from "../assets/images/logo-one-preview.svg";
+import LogoOne from "../../public/images/Logo2.png";
+import LogoTwo from "../../public/images/Logo3.png";
+import LogoThree from "../../public/images/Logo1.png";
+import LogoFour from "../../public/images/Logo4.png";
+import LogoFive from "../../public/images/Logo5.png";
 
 // Helper function to return a dynamic description based on the font selection.
 function getBrandDesc(font) {
@@ -189,10 +193,10 @@ function CreateBrand({
 	// IMPORTANT: You can map these IDs to real logos in "Room.jsx".
 	const logoOptions = [
 		{ id: "Butterfly", src: LogoOne },
-		{ id: "Heart", src: LogoOne },
-		{ id: "MainLogo", src: LogoOne },
-		{ id: "Pin", src: LogoOne },
-		{ id: "Shard", src: LogoOne },
+		{ id: "Heart", src: LogoTwo },
+		{ id: "MainLogo", src: LogoThree },
+		{ id: "Pin", src: LogoFour },
+		{ id: "Shard", src: LogoFive },
 	];
 
 	const handleLogoClick = (logoId) => {

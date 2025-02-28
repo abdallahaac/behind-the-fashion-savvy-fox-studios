@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState } from "react";
 import botSvg from "../assets/images/tutorial-bot.svg";
 
-
 const cameraAnimation = {
 	first: {
 		z: "3.9",
@@ -28,7 +27,7 @@ const modelsData = {
 				standardTitle: "SA8000 Standard",
 				standardDescription:
 					"A standard that organizations meet to show their commitment to treating workers fairly. ",
-				etiImage:  "../assets/images/Manufacturing/eti_base_code.svg",
+				etiImage: "../assets/images/Manufacturing/eti_base_code.svg",
 				etiBaseTitle: "ETI Base Code",
 				etiBaseDescription:
 					"A set of labour standards organizations follow to improve working conditions",
@@ -228,7 +227,7 @@ const modelsData = {
 				{ index: 1, icon: "none" },
 				{ index: 2, icon: "down" },
 				{ index: 3, icon: "down" },
-				{ index: 4, icon: "none" }
+				{ index: 4, icon: "none" },
 			],
 			img_path: "./images/spaceGothic.png",
 			ethics: 3,
