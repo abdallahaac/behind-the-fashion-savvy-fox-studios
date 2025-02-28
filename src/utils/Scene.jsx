@@ -1,6 +1,6 @@
 // src/utils/Scene.jsx
 
-import React, { useEffect, useRef, lazy, Suspense } from "react";
+import React, { useEffect, useRef, lazy, Suspense, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
 import { Leva } from "leva";
@@ -19,7 +19,7 @@ import Nylon from "../models/FabricsTest/Outfit9";
 import Hemp from "../models/FabricsTest/Outfit10";
 import Cotton from "../models/FabricsTest/Outfit11";
 import ConventionalCotton from "../models/FabricsTest/Outfit12";
-import Acrylic from "../models/FabricsTest/Outfit1";
+import Acrylic from "../models/FabricsTest/Outfit13";
 
 const fabricsMap = {
 	acrylic: Acrylic,
@@ -41,11 +41,12 @@ function FabricGroup({
 	fabricKey,
 	basePosition,
 	baseRotation,
+	customRotation, // new prop
 	onFabricMeshMounted,
 }) {
-	const groupRef = React.useRef();
+	const groupRef = useRef();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (onFabricMeshMounted) {
 			onFabricMeshMounted(fabricKey, groupRef);
 		}
@@ -54,32 +55,32 @@ function FabricGroup({
 	if (!fabricsMap[fabricKey]) return null;
 	const FabricComponent = fabricsMap[fabricKey];
 
+	// Use customRotation if provided, otherwise fallback to baseRotation.
+	const rotation = customRotation || baseRotation;
+
 	return (
-		<group
-			ref={groupRef}
-			position={[...basePosition]}
-			rotation={[...baseRotation]}
-		>
+		<group ref={groupRef} position={[...basePosition]} rotation={[...rotation]}>
 			<FabricComponent />
 		</group>
 	);
 }
 
-// In src/utils/Scene.jsx
-
-function AllFabrics({ selectedFabric, onFabricMeshMounted }) {
+function AllFabrics({ selectedFabric, onFabricMeshMounted, fabricRotations }) {
 	const baseRot = [0, 1.5, 0];
 	return (
 		<>
 			{Object.keys(fabricsMap).map((key) => {
-				// If this fabric is the currently selected one, show it at z = -75; otherwise, hide it at z = -200.
+				// Determine the position: show the selected fabric at z = -75; otherwise, hide it at z = -200.
 				const basePos = [30, 7, key === selectedFabric ? -75 : -200];
+				// Retrieve a custom rotation for the current fabric (if any)
+				const customRotation = fabricRotations && fabricRotations[key];
 				return (
 					<FabricGroup
 						key={key}
 						fabricKey={key}
 						basePosition={basePos}
 						baseRotation={baseRot}
+						customRotation={customRotation}
 						onFabricMeshMounted={onFabricMeshMounted}
 					/>
 				);
@@ -103,10 +104,6 @@ const factoryMap = {
 	anadolu: Factory5,
 };
 
-/**
- * We'll just loop over `Object.keys(factoryMap)` to place them all at z=-200.
- * That way they appear behind the scene and can be animated forward to z=-75.
- */
 function FactoryGroup({
 	factoryKey,
 	basePosition,
@@ -375,6 +372,23 @@ const Scene = ({
 	onFactoryMeshMounted, // <-- new
 	selectedFabric,
 }) => {
+	// Fabric rotations state for each fabric key
+	const [fabricRotations, setFabricRotations] = useState({
+		acrylic: [0, 1.5, 0],
+		wool: [0, 1.5, 0],
+		silk: [0, 1.5, 0],
+		recycledWool: [0, 1.5, 0],
+		recycledPolyster: [0, 1.5, 0],
+		recycledNylon: [0, 1.5, 0],
+		recycledCotton: [0, 1.5, 0],
+		polysterWool: [0, 1.5, 0],
+		polyster: [0, 1.5, 0],
+		Nylon: [0, 1.5, 0],
+		hemp: [0, 1.5, 0],
+		cotton: [0, 1.5, 0],
+		conventionalcotton: [0, 1.5, 0],
+	});
+
 	useEffect(() => {
 		console.log(
 			"Scene: Rendering scene with logos, outfits, fabrics, factories..."
@@ -398,6 +412,7 @@ const Scene = ({
 					<AllFabrics
 						selectedFabric={selectedFabric}
 						onFabricMeshMounted={onFabricMeshMounted}
+						fabricRotations={fabricRotations}
 					/>
 
 					{/* All Factories (NEW) */}
