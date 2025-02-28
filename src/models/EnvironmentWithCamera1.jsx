@@ -59,7 +59,7 @@ export function EnvironmentWithCamera({
 		const currentFrame = Math.floor(firstAction.time * fps);
 
 		// Log the current frame
-		console.log(`Frame: ${currentFrame}`);
+		// console.log(`Frame: ${currentFrame}`);
 
 		// Check if we hit a breakpoint
 		if (currentBreakpointIndex < breakpoints.length) {

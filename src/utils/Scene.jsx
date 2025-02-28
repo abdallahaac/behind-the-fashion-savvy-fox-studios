@@ -101,12 +101,12 @@ const factoryMap = {
 	silveroak: Factory4,
 	anadolu: Factory5,
 };
-
 function FactoryGroup({
 	factoryKey,
 	basePosition,
 	baseRotation,
 	onFactoryMeshMounted,
+	scale = [1, 1, 1], // default scale factor
 }) {
 	const groupRef = useRef();
 
@@ -124,14 +124,15 @@ function FactoryGroup({
 			ref={groupRef}
 			position={[...basePosition]}
 			rotation={[...baseRotation]}
+			scale={scale} // apply scale factor
 		>
 			<FactoryComponent />
 		</group>
 	);
 }
 
-function AllFactories({ onFactoryMeshMounted }) {
-	const basePos = [90, 7, -200];
+function AllFactories({ onFactoryMeshMounted, factoryScale = [2, 2, 2] }) {
+	const basePos = [90, 6, -200];
 	const baseRot = [0, 1.5, 0];
 
 	return (
@@ -143,6 +144,7 @@ function AllFactories({ onFactoryMeshMounted }) {
 					basePosition={basePos}
 					baseRotation={baseRot}
 					onFactoryMeshMounted={onFactoryMeshMounted}
+					scale={factoryScale} // pass down the scale factor
 				/>
 			))}
 		</>
