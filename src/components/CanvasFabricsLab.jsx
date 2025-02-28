@@ -36,7 +36,7 @@ function CanvasFabricLabs({
 	});
 
 	// Index of the currently highlighted fabric
-	const [selectedFabricIndex, setSelectedFabricIndex] = useState(0);
+	const [selectedFabricIndex, setSelectedFabricIndex] = useState(-1);
 
 	// Return array based on which section is active
 	const getFabricsForSection = () => {
@@ -45,7 +45,6 @@ function CanvasFabricLabs({
 		if (currentSection === 3) return SyntheticChoices;
 		return [];
 	};
-
 
 	const getIcon = (iconType) => {
 		switch (iconType) {
@@ -225,6 +224,10 @@ function CanvasFabricLabs({
 			setSelectedFabricIndex(0);
 		}
 	}
+	useEffect(() => {
+		// Reset the fabric selection when the section changes
+		setSelectedFabricIndex(-1);
+	}, [currentSection]);
 
 	/**
 	 * Called when user clicks a fabric.
@@ -474,51 +477,95 @@ function CanvasFabricLabs({
 											</span>
 											<div className="span-price">${currentFabric.cost}</div>
 										</div>
-										<div className="fabric-description" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+										<div
+											className="fabric-description"
+											style={{ marginTop: "1rem", marginBottom: "1rem" }}
+										>
 											<div className="category-item">
 												<div className="icon-container">
-													<img src={currentFabric.cert_icon1} alt="Certification Icon" style={{ width: "36px", height: "36px", padding:"5px" }} />
+													<img
+														src={currentFabric.cert_icon1}
+														alt="Certification Icon"
+														style={{
+															width: "36px",
+															height: "36px",
+															padding: "5px",
+														}}
+													/>
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.cert_title1}</p>
-													<p className="category-description body-text-small">{currentFabric.cert_description1}</p>
+													<p className="category-title body-text-medium">
+														{currentFabric.cert_title1}
+													</p>
+													<p className="category-description body-text-small">
+														{currentFabric.cert_description1}
+													</p>
 												</div>
 											</div>
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.env_icon)} alt="Environment Icon" style={{ width: "24px", height: "24px" }} />
+													<img
+														src={getIcon(currentFabric.env_icon)}
+														alt="Environment Icon"
+														style={{ width: "24px", height: "24px" }}
+													/>
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.env_title}</p>
-													<p className="category-description body-text-small">{currentFabric.env_description}</p>
+													<p className="category-title body-text-medium">
+														{currentFabric.env_title}
+													</p>
+													<p className="category-description body-text-small">
+														{currentFabric.env_description}
+													</p>
 												</div>
 											</div>
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.ethics_icon)} alt="Ethics Icon" style={{ width: "24px", height: "24px" }} />
+													<img
+														src={getIcon(currentFabric.ethics_icon)}
+														alt="Ethics Icon"
+														style={{ width: "24px", height: "24px" }}
+													/>
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.ethics_title}</p>
-													<p className="category-description body-text-small">{currentFabric.ethics_description}</p>
+													<p className="category-title body-text-medium">
+														{currentFabric.ethics_title}
+													</p>
+													<p className="category-description body-text-small">
+														{currentFabric.ethics_description}
+													</p>
 												</div>
 											</div>
 											<div className="category-item">
 												<div className="icon-container icon-padding">
-													<img src={getIcon(currentFabric.water_icon)} alt="Water Icon" style={{ width: "24px", height: "24px" }} />
+													<img
+														src={getIcon(currentFabric.water_icon)}
+														alt="Water Icon"
+														style={{ width: "24px", height: "24px" }}
+													/>
 												</div>
 												<div className="text-container">
-													<p className="category-title body-text-medium">{currentFabric.water_title}</p>
-													<p className="category-description body-text-small">{currentFabric.water_description}</p>
+													<p className="category-title body-text-medium">
+														{currentFabric.water_title}
+													</p>
+													<p className="category-description body-text-small">
+														{currentFabric.water_description}
+													</p>
 												</div>
 											</div>
 										</div>
 									</div>
 								) : (
-									<div className="placeholder accent-3" style={{ color: "black" }}>
-										<p className="accent-3 default-no-selection">SELECT A FABRIC TO VIEW STATISTICS</p>
+									<div
+										className="placeholder accent-3"
+										style={{ color: "black" }}
+									>
+										<p className="accent-3 default-no-selection">
+											SELECT A FABRIC TO VIEW STATISTICS
+										</p>
 									</div>
-								)} 
-								</div>
+								)}
+							</div>
 						</div>
 					)}
 				</div>

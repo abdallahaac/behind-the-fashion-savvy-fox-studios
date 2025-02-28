@@ -14,7 +14,13 @@ const CanvasBarFabrics = ({
 
 	const handlePrev = () => {
 		setSelectedIndex((prevIndex) => {
-			const newIndex = prevIndex === 0 ? items.length - 1 : prevIndex - 1;
+			let newIndex;
+			// If nothing is active, default to the last item.
+			if (prevIndex === null || prevIndex === undefined) {
+				newIndex = items.length - 1;
+			} else {
+				newIndex = prevIndex === 0 ? items.length - 1 : prevIndex - 1;
+			}
 			if (onFabricSelect) {
 				onFabricSelect(items[newIndex]);
 			}
@@ -24,7 +30,13 @@ const CanvasBarFabrics = ({
 
 	const handleNext = () => {
 		setSelectedIndex((prevIndex) => {
-			const newIndex = prevIndex === items.length - 1 ? 0 : prevIndex + 1;
+			let newIndex;
+			// If nothing is active, default to the first item.
+			if (prevIndex === null || prevIndex === undefined) {
+				newIndex = 0;
+			} else {
+				newIndex = prevIndex === items.length - 1 ? 0 : prevIndex + 1;
+			}
 			if (onFabricSelect) {
 				onFabricSelect(items[newIndex]);
 			}

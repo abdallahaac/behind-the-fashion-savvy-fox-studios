@@ -73,7 +73,6 @@ function Room() {
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 
 	// We'll unify to this larger list of breakpoints
-	
 
 	// Scene loading progress
 	const { progress: rawProgress } = useProgress();
@@ -85,7 +84,7 @@ function Room() {
 		: Math.min(Math.max(rawProgress, 1), 99);
 
 	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
 	];
 
 	const [brandName, setBrandName] = useState("MYBRAND");
@@ -97,7 +96,7 @@ function Room() {
 
 	// ============ FABRIC STATES ============
 	const fabricMeshRefs = useRef({});
-	const [selectedFabric, setSelectedFabric] = useState(null);
+	const [selectedFabric, setSelectedFabric] = useState("acrylic");
 
 	// ============ FACTORY STATES (new) ============
 	const factoryMeshRefs = useRef({});
@@ -141,44 +140,39 @@ function Room() {
 		console.log("current stage", stage);
 		switch (activeVanguardIndex) {
 			case 0:
-				if (stage === STAGES.INTRO){
+				if (stage === STAGES.INTRO) {
 					return assistantData[0].introduction;
-				}
-				else if (stage === STAGES.BRAND){
+				} else if (stage === STAGES.BRAND) {
 					return allVanguards[0].brand;
-
-				} 
-				else if(stage === STAGES.FINAL){
+				} else if (stage === STAGES.FINAL) {
 					return assistantData[0].finalFeedback;
 				}
 			case 1:
-				if(stage === STAGES.INTRO){
+				if (stage === STAGES.INTRO) {
 					return ecoVanguard[0].introduction;
-				}
-				else if (stage === STAGES.FABRIC || stage === STAGES.MANUFACTURING ||stage === STAGES.FINAL){	
+				} else if (
+					stage === STAGES.FABRIC ||
+					stage === STAGES.MANUFACTURING ||
+					stage === STAGES.FINAL
+				) {
 					return ecoFeedback;
 				}
 			case 2:
-				if(stage === STAGES.INTRO){
+				if (stage === STAGES.INTRO) {
 					return ethicsVanguard[0].introduction;
-				}
-				else{
+				} else {
 					return ethicsFeedback;
 				}
 			case 3:
-				if(stage === STAGES.INTRO){
+				if (stage === STAGES.INTRO) {
 					return wealthVanguard[0].introduction;
-				}
-				else{
+				} else {
 					return wealthFeedback;
 				}
 			default:
 				return null;
-
 		}
-		
 	};
-	
 
 	// Called by Scene for each outfit (NEW)
 	// const handleOutfitMeshMounted = (outfitKey, ref) => {
@@ -239,8 +233,6 @@ function Room() {
 		animateLogoTo(newLogoId, -49.51);
 		setSelectedLogo(newLogoId);
 	}
-
-
 
 	useEffect(() => {
 		const shuffled = QuizQuestions.sort(() => 0.5 - Math.random());
@@ -315,9 +307,11 @@ function Room() {
 		};
 	};
 
-	const handleSelectionCalculations = (selectedItems, setSelectedItems, currentStage) => {
-
-		
+	const handleSelectionCalculations = (
+		selectedItems,
+		setSelectedItems,
+		currentStage
+	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
 		console.log("Averages:", averages);
@@ -325,47 +319,72 @@ function Room() {
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
 		console.log("current stage", currentStage);
-		
-    
 
-		const ethics_feedback = updateVanguardStatus("ethics", currentStage, averages, ethicsHearts);
+		const ethics_feedback = updateVanguardStatus(
+			"ethics",
+			currentStage,
+			averages,
+			ethicsHearts
+		);
 		// use max to make sure hearts don't go below 0 and min to make sure hearts don't exceed 5
-		setEthicsHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts)));
+		setEthicsHearts((prevHearts) =>
+			Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts))
+		);
 		console.log("Ethics Vanguard Feedback:", ethics_feedback);
 		setEthicsFeedback(ethics_feedback);
-		
-		const eco_feedback = updateVanguardStatus("eco", currentStage, averages, ecoHearts);
-		setEcoHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts)));
+
+		const eco_feedback = updateVanguardStatus(
+			"eco",
+			currentStage,
+			averages,
+			ecoHearts
+		);
+		setEcoHearts((prevHearts) =>
+			Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts))
+		);
 		console.log("Eco Vanguard Feedback:", eco_feedback);
 		setEcoFeedback(eco_feedback);
-		
-		const wealth_feedback = updateVanguardStatus("wealth", currentStage, averages, wealthHearts);
-		setWealthHearts((prevHearts) => Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts)));
+
+		const wealth_feedback = updateVanguardStatus(
+			"wealth",
+			currentStage,
+			averages,
+			wealthHearts
+		);
+		setWealthHearts((prevHearts) =>
+			Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts))
+		);
 		console.log("Wealth Vanguard Feedback:", wealth_feedback);
 		setWealthFeedback(wealth_feedback);
-
-		
-
-    };
+	};
 
 	const handleFinalPitch = () => {
 		const newStage = STAGES.FINAL;
 		setStage(newStage);
-		const ethics_feedback = updateVanguardStatus("ethics", newStage, {}, ethicsHearts);
+		const ethics_feedback = updateVanguardStatus(
+			"ethics",
+			newStage,
+			{},
+			ethicsHearts
+		);
 		setEthicsFeedback(ethics_feedback);
 
 		const eco_feedback = updateVanguardStatus("eco", newStage, {}, ecoHearts);
 		setEcoFeedback(eco_feedback);
 
-		const wealth_feedback = updateVanguardStatus("wealth", newStage, {}, wealthHearts);
+		const wealth_feedback = updateVanguardStatus(
+			"wealth",
+			newStage,
+			{},
+			wealthHearts
+		);
 		setWealthFeedback(wealth_feedback);
 		// take current number of hearts and use it in VanguardPopUp
 		console.log("Ethics Hearts:", ethicsHearts);
 		console.log("Eco Hearts:", ecoHearts);
 		console.log("Wealth Hearts:", wealthHearts);
-	}
+	};
 
-	
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
 		setStage(newStage);
@@ -403,13 +422,13 @@ function Room() {
 	function handlePlayClick() {
 		setPlayAnimation(true);
 		setPaused(false);
-	};
+	}
 
 	// this resumes the play after the user has paused it
 	const handleContinue = () => {
 		setPaused(false);
 		setCurrentBreakpointIndex((prev) => prev + 1);
-	}
+	};
 	function handleBreakpointHit(index) {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
@@ -932,10 +951,10 @@ function Room() {
 						}}
 					>
 						<VanguardPopUp
-                        steps={[getVanguardData(activeVanguardIndex, stage)]}
-                        onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
-						currentStage={stage}
-                    />
+							steps={[getVanguardData(activeVanguardIndex, stage)]}
+							onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
+							currentStage={stage}
+						/>
 
 						{/* <VanguardPopUp
 							steps={

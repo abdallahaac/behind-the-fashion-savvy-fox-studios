@@ -65,21 +65,25 @@ function FabricGroup({
 	);
 }
 
-function AllFabrics({ onFabricMeshMounted }) {
-	const basePos = [30, 7, -200];
-	const baseRot = [0, 1.5, 0];
+// In src/utils/Scene.jsx
 
+function AllFabrics({ selectedFabric, onFabricMeshMounted }) {
+	const baseRot = [0, 1.5, 0];
 	return (
 		<>
-			{Object.keys(fabricsMap).map((key) => (
-				<FabricGroup
-					key={key}
-					fabricKey={key}
-					basePosition={basePos}
-					baseRotation={baseRot}
-					onFabricMeshMounted={onFabricMeshMounted}
-				/>
-			))}
+			{Object.keys(fabricsMap).map((key) => {
+				// If this fabric is the currently selected one, show it at z = -75; otherwise, hide it at z = -200.
+				const basePos = [30, 7, key === selectedFabric ? -75 : -200];
+				return (
+					<FabricGroup
+						key={key}
+						fabricKey={key}
+						basePosition={basePos}
+						baseRotation={baseRot}
+						onFabricMeshMounted={onFabricMeshMounted}
+					/>
+				);
+			})}
 		</>
 	);
 }
@@ -369,6 +373,7 @@ const Scene = ({
 	onOutfitMeshMounted,
 	onFabricMeshMounted,
 	onFactoryMeshMounted, // <-- new
+	selectedFabric,
 }) => {
 	useEffect(() => {
 		console.log(
@@ -390,7 +395,10 @@ const Scene = ({
 					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
 					{/* All Fabrics */}
-					<AllFabrics onFabricMeshMounted={onFabricMeshMounted} />
+					<AllFabrics
+						selectedFabric={selectedFabric}
+						onFabricMeshMounted={onFabricMeshMounted}
+					/>
 
 					{/* All Factories (NEW) */}
 					<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
