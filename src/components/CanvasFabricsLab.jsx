@@ -3,6 +3,13 @@ import { gsap } from "gsap";
 import "../assets/styles/canvasFabricLabs.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import greenThumb from "../assets/images/green-thumb.svg";
+import redThumb from "../assets/images/red-thumb.svg";
+import neutralThumb from "../assets/images/leaf.svg";
+
+// Removed import of BotSvg:
+// import BotSvg from "../assets/images/tutorial-bot.svg";
+
 import CanvasBarFabrics from "../components/CanvasBarFabrics";
 import { useModels } from "../utils/ModelsContext";
 import { FundingContext } from "../utils/FundingContext";
@@ -38,6 +45,22 @@ function CanvasFabricLabs({
 		if (currentSection === 3) return SyntheticChoices;
 		return [];
 	};
+
+
+	const getIcon = (iconType) => {
+		switch (iconType) {
+			case "positive":
+				return greenThumb;
+			case "negative":
+				return redThumb;
+			case "neutral":
+				return neutralThumb;
+			default:
+				return neutralThumb;
+		}
+	};
+
+	// Current array of possible fabrics for the active section
 	const fabricsData = getFabricsForSection();
 
 	// The actual highlighted fabric object
@@ -441,9 +464,9 @@ function CanvasFabricLabs({
 								onFabricSelect={(fabric) => handleFabricSelectInUI(fabric)}
 							/>
 
-							{/* Left-hand info panel */}
-							<div className="left-component fabrics">
-								{currentFabric && (
+							{/* Left-hand info panel for the currently highlighted fabric */}
+							<div className="left-component outfit">
+								{currentFabric ? (
 									<div className="left-container">
 										<div className="header-info">
 											<span className="model-title">
@@ -451,22 +474,51 @@ function CanvasFabricLabs({
 											</span>
 											<div className="span-price">${currentFabric.cost}</div>
 										</div>
-										<div className="fabric-description">
-											<div className="fabric-info-container">
-												<div className="img-fabric">img</div>
-												<div className="fabric-info">
-													<p>
-														{currentFabric.env_title || "Environment info..."}
-													</p>
-													<p>
-														{currentFabric.env_description || "Description..."}
-													</p>
+										<div className="fabric-description" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+											<div className="category-item">
+												<div className="icon-container">
+													<img src={currentFabric.cert_icon1} alt="Certification Icon" style={{ width: "36px", height: "36px", padding:"5px" }} />
+												</div>
+												<div className="text-container">
+													<p className="category-title body-text-medium">{currentFabric.cert_title1}</p>
+													<p className="category-description body-text-small">{currentFabric.cert_description1}</p>
+												</div>
+											</div>
+											<div className="category-item">
+												<div className="icon-container icon-padding">
+													<img src={getIcon(currentFabric.env_icon)} alt="Environment Icon" style={{ width: "24px", height: "24px" }} />
+												</div>
+												<div className="text-container">
+													<p className="category-title body-text-medium">{currentFabric.env_title}</p>
+													<p className="category-description body-text-small">{currentFabric.env_description}</p>
+												</div>
+											</div>
+											<div className="category-item">
+												<div className="icon-container icon-padding">
+													<img src={getIcon(currentFabric.ethics_icon)} alt="Ethics Icon" style={{ width: "24px", height: "24px" }} />
+												</div>
+												<div className="text-container">
+													<p className="category-title body-text-medium">{currentFabric.ethics_title}</p>
+													<p className="category-description body-text-small">{currentFabric.ethics_description}</p>
+												</div>
+											</div>
+											<div className="category-item">
+												<div className="icon-container icon-padding">
+													<img src={getIcon(currentFabric.water_icon)} alt="Water Icon" style={{ width: "24px", height: "24px" }} />
+												</div>
+												<div className="text-container">
+													<p className="category-title body-text-medium">{currentFabric.water_title}</p>
+													<p className="category-description body-text-small">{currentFabric.water_description}</p>
 												</div>
 											</div>
 										</div>
 									</div>
-								)}
-							</div>
+								) : (
+									<div className="placeholder accent-3" style={{ color: "black" }}>
+										<p className="accent-3 default-no-selection">SELECT A FABRIC TO VIEW STATISTICS</p>
+									</div>
+								)} 
+								</div>
 						</div>
 					)}
 				</div>
