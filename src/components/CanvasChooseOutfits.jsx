@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
-import "../assets/styles/CHooseSelectionCanvas.css";
+import "../assets/styles/ChooseSelectionCanvas.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -334,10 +334,12 @@ function CanvasChooseOutfits({
 			return null;
 		}
 		const bulletText = selectedOutfit.bulletPoints[bulletIndex];
-		const iconBullet = iconBullets.find(bullet => bullet.index === bulletIndex);
+		const iconBullet = iconBullets.find(
+			(bullet) => bullet.index === bulletIndex
+		);
 		const showIcon = iconBullet && iconBullet.icon !== "none";
 		const isUp = iconBullet && iconBullet.icon === "up";
-	
+
 		return (
 			<div className="info-item">
 				<div className="info-flex">
@@ -345,11 +347,17 @@ function CanvasChooseOutfits({
 						<img
 							src={isUp ? thumbsUpImage : thumbsDownImage}
 							alt={isUp ? "thumbs up" : "thumbs down"}
-							style={{ width: "24px", height: "24px", visibility: showIcon ? "visible" : "hidden" }}
+							style={{
+								width: "24px",
+								height: "24px",
+								visibility: showIcon ? "visible" : "hidden",
+							}}
 						/>
 					</div>
 					<div className="info-content">
-						<div className={`info-title ${showIcon ? "" : "body-text-small"}`}>{bulletText}</div>
+						<div className={`info-title ${showIcon ? "" : "body-text-small"}`}>
+							{bulletText}
+						</div>
 					</div>
 				</div>
 			</div>

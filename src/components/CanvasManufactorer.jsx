@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
-import "../assets/styles/CHooseSelectionCanvas.css";
+import "../assets/styles/ChooseSelectionCanvas.css";
 import "../assets/styles/CanvasManufacturer.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
