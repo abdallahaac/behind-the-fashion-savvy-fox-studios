@@ -15,6 +15,7 @@ import manufacturingAsiaSvg from "../assets/images/Manufacturing/Asia.svg";
 import manufacturingISOSvg from "../assets/images/Manufacturing/ISO.svg";
 import manufacturingNorthAmericaSvg from "../assets/images/Manufacturing/NorthAmerica.svg";
 
+import certificationSvg from "../assets/images/Certifications/cradle.svg";
 import modelPng from "../assets/images/model.png";
 import earthynomadPng from "../assets/images/earthynomad.png";
 import avantGardePng from "../assets/images/avantGarde.png";
@@ -781,7 +782,7 @@ const modelsData = {
 				scale: 20.0,
 			},
 			cost: 74000,
-			cert_icon1: "../assets/images/Certifications/cradle.svg", // left as is if not an image import
+			cert_icon1: certificationSvg, // left as is if not an image import
 			cert_title1: "Cradle to Cradle Certified™",
 			cert_description1:
 				"Certified material that has been recycled or up-cycled with circular economy in mind",
