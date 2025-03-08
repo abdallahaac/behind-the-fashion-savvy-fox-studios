@@ -13,6 +13,8 @@ import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/credits.svg";
 import Scene from "../utils/Scene.jsx"; // Importing Scene component
 import BackgroundImage from "../assets/images/background-image.svg"; // Update the path if needed
+import FullScreenVideo from '../components/FullScreenVideo.jsx';
+import videoSrc from '../assets/videos/intro_video.mp4';
 
 // Import FontAwesomeIcon and the volume icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,20 +25,32 @@ import gsap from "gsap";
 
 const LandingPageCanvas = () => {
 	const navigate = useNavigate();
+	const [playVideo, setPlayVideo] = useState(false);
 
-	// Handler to start the experience using a cross-fade overlay
+
 	const handleStartExp = (e) => {
-		e.preventDefault();
-		// Animate the overlay's opacity to 1 for a smooth cross-fade
-		gsap.to(".transition-overlay", {
-			duration: 0.5,
-			opacity: 1,
-			ease: "power2.inOut",
-			onComplete: () => {
-				navigate("/room");
-			},
-		});
-	};
+        e.preventDefault();
+        // Animate the overlay's opacity to 1 for a smooth cross-fade
+        gsap.to(".transition-overlay", {
+            duration: 0.5,
+            opacity: 1,
+            ease: "power2.inOut",
+            onComplete: () => {
+                setPlayVideo(true);
+            },
+        });
+    };
+
+	const handleVideoEnd = () => {
+        gsap.to(".transition-overlay", {
+            duration: 0.5,
+            opacity: 1,
+            ease: "power2.inOut",
+            onComplete: () => {
+                navigate("/room");
+            },
+        });
+    };
 
 	// State to toggle sound on/off; defaults to false (sound off, showing xmark)
 	const [soundOn, setSoundOn] = useState(true);
@@ -79,6 +93,8 @@ const LandingPageCanvas = () => {
 		<>
 			{/* The cross-fade overlay */}
 			<div className="transition-overlay" />
+			{playVideo && <FullScreenVideo videoSrc={videoSrc} onVideoEnd={handleVideoEnd} />}
+
 
 			<div className="landing-canvas-page">
 				{/* Full-screen Canvas Scene */}
