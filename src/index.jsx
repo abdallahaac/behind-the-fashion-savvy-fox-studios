@@ -5,7 +5,6 @@ import Intro from "./pages/intro.jsx";
 import LandingPage from "./pages/Landing-page.jsx";
 import ChooseSelection from "./pages/ChooseSelection.jsx";
 import { ModelsProvider } from "./utils/ModelsContext.jsx";
-import BuildBrand from "./pages/BuildBrand.jsx";
 import BuildBrandCanvas from "./pages/BuildBrandCanvas.jsx";
 import FabricLab from "./pages/FabricLab.jsx";
 import Manufacturing from "./pages/Manufacturing.jsx";

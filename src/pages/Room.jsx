@@ -20,7 +20,6 @@ import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
 import { handleNext, handleDone } from "../utils/Handlers/HotSeat-Handlers";
 import CanvasChooseOutfits from "../components/CanvasChooseOutfits";
-import vanguardContents from "../utils/VanguardContents";
 import BudgetBar from "../components/BudgetBar";
 import HeartsUI from "../components/HeartsUI";
 import CanvasFabricLabs from "../components/CanvasFabricsLab";
@@ -1002,17 +1001,7 @@ function Room() {
 							currentStage={stage}
 						/>
 
-						{/* <VanguardPopUp
-							steps={
-								vanguardContents[activeVanguardIndex].scenarios[
-									Math.min(
-										vanguardActivationCounts[activeVanguardIndex] - 1,
-										vanguardContents[activeVanguardIndex].scenarios.length - 1
-									)
-								]
-							}
-							onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
-						/> */}
+					
 					</div>
 				)}
 
