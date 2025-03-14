@@ -204,6 +204,8 @@ function CanvasChooseOutfits({
 
 	const handleCreateDone = () => {
 		onClothingSelection(collection);
+		setFundingAmount((prev) => (prev || 0) - totalDesignPrice);
+		
 		// Fade out the entire container
 		gsap.to(containerRef.current, {
 			duration: 1,
@@ -241,7 +243,8 @@ function CanvasChooseOutfits({
 		});
 
 		// Decrease player's funding by the outfit's price
-		setFundingAmount((prev) => (prev || 0) - outfit.cost);
+		//removing this because we only want to remove the outfit cost from total when the whole purchase is made
+		// setTotalFundingAmount((prev) => (prev || 0) - outfit.cost);
 	};
 
 	// REMOVE an outfit
@@ -256,8 +259,8 @@ function CanvasChooseOutfits({
 					updated[realIndex] = false;
 					return updated;
 				});
-				// Give the cost back
-				setFundingAmount((prev) => (prev || 0) + removedOutfit.cost);
+				// Give the cost back - removing this because we only want to remove the outfit cost from total when the whole purchase is made
+				// setFundingAmount((prev) => (prev || 0) + removedOutfit.cost);
 			}
 			newArr[slotIndex] = null;
 			return newArr;
@@ -508,9 +511,7 @@ function CanvasChooseOutfits({
 												isCollectionActive ? "active" : ""
 											}`}
 										>
-											{isCollectionActive
-												? `$${totalDesignPrice.toLocaleString()}`
-												: "$ ---"}
+											{`$${totalDesignPrice.toLocaleString()}`}
 										</span>
 										<span
 											className={`brand-desc ${
