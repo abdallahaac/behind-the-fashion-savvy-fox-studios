@@ -15,6 +15,7 @@ import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
 import VanguardPopUp from "../components/VanguardPopUps";
+import DisplayLink from "../components/DisplayLink";
 import CreateBrand from "../components/CreateBrand";
 import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
@@ -28,6 +29,9 @@ import CanvasManufactorer from "../components/CanvasManufactorer";
 import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+
+// Link Images for DisplayLink component
+import goodOnYou from "../assets/images/Links/good_on_you.png";
 
 // Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
@@ -783,6 +787,16 @@ function Room() {
 				style={{ position: "relative" }}
 				ref={canvasContainerRef}
 			>
+
+
+				{/* <DisplayLink
+						width="400px"
+						imageSrc={goodOnYou}
+						linkImgSize={"160px"}
+						title="Use a Fashion Brand Rater"
+						link="https://goodonyou.eco/"
+						description="Quickly search for a brand on Good on You and see it’s rating on the planet, people, and animals"
+					/> */}
 				{/* Vanguard UI */}
 				{showVanguardUI && (
 					<div
