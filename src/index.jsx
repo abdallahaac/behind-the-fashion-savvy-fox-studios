@@ -12,6 +12,7 @@ import IntroSingleCanvas from "./pages/IntroCanvas.jsx";
 import LandingPageCanvas from "./pages/LandingPageCanvas.jsx";
 import Room from "./pages/Room.jsx";
 import { FundingProvider } from "./utils/FundingContext.jsx";
+import PersonaPage from "./pages/Persona-page.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(
@@ -26,6 +27,8 @@ root.render(
 					<Route path="/fabric-lab" element={<FabricLab />} />
 					<Route path="/room" element={<Room />} />
 					<Route path="/manufacturing" element={<Manufacturing />} />
+					<Route path="/persona" element={<PersonaPage />} /> {/* Add PersonaPage route */}
+
 				</Routes>
 			</Router>
 		</FundingProvider>

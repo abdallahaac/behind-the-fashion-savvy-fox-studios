@@ -29,6 +29,7 @@ html {
 /* Header Styling */
 .banner {
 	display: flex;
+	font-family: "Kode Mono", monospace;
 	justify-content: center;
 	align-items: center !important;
 	z-index: 500;

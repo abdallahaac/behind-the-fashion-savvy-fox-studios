@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
+import { useNavigate } from 'react-router-dom';
 import {
 	assistantData,
 	allVanguards,
@@ -35,6 +36,7 @@ import { FundingContext } from "../utils/FundingContext";
 import LoadingOverlay from "../utils/LoadingOverlay";
 
 function Room() {
+	const navigate = useNavigate(); 
 	// ============ VANGUARD / STAGES SETUP ============
 	const STAGES = {
 		INTRO: "introduction",
@@ -67,6 +69,7 @@ function Room() {
 	const [showManufactorer, setShowManufactorer] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(false);
+	const [mostLikedOutcome, setMostLikedOutcome] = useState(null);
 
 	// ============ ANIMATION + BREAKPOINTS ============
 	const [playAnimation, setPlayAnimation] = useState(false);
@@ -86,7 +89,7 @@ function Room() {
 
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2400,
+		2301,
 	];
 
 	const [brandName, setBrandName] = useState("MYBRAND");
@@ -406,7 +409,24 @@ function Room() {
 			"testing to see if we get the right feedback",
 			allVanguard_feedback
 		);
+		setMostLikedOutcome(mostLikedBy);
+	
 	};
+	const determinePersonaType = (mostLikedOutcome) => {
+       
+        if (mostLikedOutcome === 'ethics') {
+            return 'moralInnovator';
+        } else if (mostLikedOutcome === 'eco') {
+            return 'ecoWarrior';
+        } else {
+            return 'cashCow'; // Default persona
+        }
+    };
+
+	const handleNavigateToEndPage = (mostLikedOutcome) => {
+        const personaType = determinePersonaType(mostLikedOutcome);
+        navigate('/persona', { state: { personaType } });
+    };
 
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
@@ -521,6 +541,7 @@ function Room() {
 				handleFinalPersona();
 				setShowVanguardUI(true);
 				setVanguardActiveStates([true, false, false, false]);
+				handleNavigateToEndPage(mostLikedOutcome);
 				break;
 			default:
 				break;
