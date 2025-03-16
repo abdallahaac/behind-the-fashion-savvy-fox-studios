@@ -1,0 +1,110 @@
+.persona-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #3D3D3D;
+    color: white;
+    border-radius: 10px;
+    gap: 23px;
+    height: 90vh; 
+}
+
+.persona-left-side{
+    display: flex;
+    flex-direction: row;
+    height:100%;
+    border-radius:16px;
+    background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%);
+
+}
+.left-left{
+    display: flex;
+    flex-direction: column;
+    background-color:#0F0F0F;
+    margin-right:24px;
+    border-radius:16px;
+    max-width:290px;
+    padding:24px;
+    margin:24px;
+ 
+}
+
+.left-side, .right-side {
+    flex: 1;
+    margin: 10px;
+}
+
+.persona-right-side{
+    background-color:#2E2E2E;
+    border-radius:16px;
+}
+
+.persona-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.persona-image {
+    width: 231px;
+    height: 231px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.persona-info {
+    margin-top:81px;
+    text-align: left;
+}
+
+.right-side h2 {
+    margin-bottom: 20px;
+}
+
+.persona-card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:24px;
+
+}
+
+.persona-card-image {
+    width: 317px;
+    height: 536px;
+    margin-bottom: 10px;
+}
+
+.download-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download-button:hover {
+    background-color: #0056b3;
+}
+
+.additional-info{
+    display: flex;
+    flex-direction: column;
+    padding:24px;
+}
+
+.brandDesc{
+    color:#FFC4B1;
+}
+
+.links-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:16px;
+}
+.replay-container{
+    margin-top:150px;
+}

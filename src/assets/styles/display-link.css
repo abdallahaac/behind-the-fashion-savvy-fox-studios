@@ -1,7 +1,6 @@
 .display-link-container {
     display: flex;
     align-items: flex-start;
-    border: 1px solid #ccc;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;

@@ -30,9 +30,6 @@ import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.sv
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
 
-// Link Images for DisplayLink component
-import goodOnYou from "../assets/images/Links/good_on_you.png";
-
 // Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
 import LoadingOverlay from "../utils/LoadingOverlay";
@@ -787,16 +784,6 @@ function Room() {
 				style={{ position: "relative" }}
 				ref={canvasContainerRef}
 			>
-
-
-				{/* <DisplayLink
-						width="400px"
-						imageSrc={goodOnYou}
-						linkImgSize={"160px"}
-						title="Use a Fashion Brand Rater"
-						link="https://goodonyou.eco/"
-						description="Quickly search for a brand on Good on You and see it’s rating on the planet, people, and animals"
-					/> */}
 				{/* Vanguard UI */}
 				{showVanguardUI && (
 					<div

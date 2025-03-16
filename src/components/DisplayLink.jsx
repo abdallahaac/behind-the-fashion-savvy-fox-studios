@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "../assets/styles/display-link.css";
-const DisplayLink = ({  width, imageSrc, linkImgSize, title, link, description }) => {
+const DisplayLink = ({  width, height, imageSrc, linkImgSize, title, link, description }) => {
     return (
-        <div className="display-link-container" style={{ width }}>
+        <div className="display-link-container" style={{ width, height }}>
             <img src={imageSrc} alt={title} className="link-preview-image" style={{height: linkImgSize, width:linkImgSize}} />
             <div className="link-details">
                 <a href={link} target="_blank" rel="noopener noreferrer" className="link-title heading-2">
