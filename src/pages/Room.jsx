@@ -1,5 +1,3 @@
-// src/pages/Room.jsx
-
 import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
@@ -73,6 +71,10 @@ function Room() {
 	const [currentBreakpointIndex, setCurrentBreakpointIndex] = useState(0);
 
 	// We'll unify to this larger list of breakpoints
+	const breakpoints = [
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
+		2400,
+	];
 
 	// Scene loading progress
 	const { progress: rawProgress } = useProgress();
@@ -83,24 +85,21 @@ function Room() {
 		? 100
 		: Math.min(Math.max(rawProgress, 1), 99);
 
-	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2400,
-	];
-
 	const [brandName, setBrandName] = useState("MYBRAND");
 	const [fontStyle, setFontStyle] = useState("");
+
+	// We will no longer pass `brandName` or `fontStyle` directly as props to <Scene>.
+	// Instead, we hold a reference to an updater function provided by Scene:
+	const [updateTextInScene, setUpdateTextInScene] = useState(null);
+
+	// Refs to 3D objects
 	const logoMeshRefs = useRef({});
 	const outfitMeshRefs = useRef({});
+	const fabricMeshRefs = useRef({});
+	const factoryMeshRefs = useRef({});
 	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
-
-	// ============ FABRIC STATES ============
-	const fabricMeshRefs = useRef({});
 	const [selectedFabric, setSelectedFabric] = useState("acrylic");
-
-	// ============ FACTORY STATES (new) ============
-	const factoryMeshRefs = useRef({});
 	const [selectedFactory, setSelectedFactory] = useState(null);
 
 	// ============ REF TO DOM ELEMENTS ============
@@ -151,6 +150,7 @@ function Room() {
 				} else if (stage === STAGES.FINALPERSONA) {
 					return allVanguardsFeedback;
 				}
+				break;
 			case 1:
 				if (stage === STAGES.INTRO) {
 					return ecoVanguard[0].introduction;
@@ -161,6 +161,7 @@ function Room() {
 				) {
 					return ecoFeedback;
 				}
+				break;
 			case 2:
 				if (stage === STAGES.INTRO) {
 					return ethicsVanguard[0].introduction;
@@ -178,72 +179,13 @@ function Room() {
 		}
 	};
 
-	// Called by Scene for each outfit (NEW)
-	// const handleOutfitMeshMounted = (outfitKey, ref) => {
-	// 	outfitMeshRefs.current[outfitKey] = ref;
-	// };
-
-	// Animate a given logo's Z position
-	function animateLogoTo(logoId, newZ) {
-		const ref = logoMeshRefs.current[logoId];
-		if (ref && ref.current) {
-			gsap.to(ref.current.position, {
-				z: newZ,
-				duration: 1,
-			});
-		}
-	}
-
-	// Animate a given outfit's Z position (unchanged)
-	function animateOutfitTo(outfitId, newZ) {
-		const ref = outfitMeshRefs.current[outfitId];
-		if (ref && ref.current) {
-			gsap.to(ref.current.position, {
-				z: newZ,
-				duration: 1,
-			});
-		}
-	}
-
-	// OUTFIT selection logic: swap the current active outfit with the clicked outfit
-	function handleOutfitSelect(newOutfitId) {
-		// If the clicked outfit is already active, do nothing.
-		if (selectedOutfit === newOutfitId) {
-			return;
-		}
-		// Animate the currently active outfit (initially "Outfit1") back to z = -75.
-		animateOutfitTo(selectedOutfit, -120);
-		// Animate the newly clicked outfit forward to z = -45.
-		animateOutfitTo(newOutfitId, -45);
-		// Update the active outfit state.
-		setSelectedOutfit(newOutfitId);
-		//
-	}
-	// LOGO selection logic
-	function handleLogoSelect(newLogoId) {
-		// If no logo is currently active, animate the clicked logo to z = -49.51
-		if (!selectedLogo) {
-			animateLogoTo(newLogoId, -49.51);
-			setSelectedLogo(newLogoId);
-			return;
-		}
-		// If the clicked logo is already active, do nothing.
-		if (selectedLogo === newLogoId) {
-			return;
-		}
-		// Animate the previously active logo back to z = -75 (for example).
-		animateLogoTo(selectedLogo, -100);
-		// Animate the newly clicked logo to z = -49.51.
-		animateLogoTo(newLogoId, -49.51);
-		setSelectedLogo(newLogoId);
-	}
-
+	// Shuffles and picks the Hotseat questions
 	useEffect(() => {
 		const shuffled = QuizQuestions.sort(() => 0.5 - Math.random());
 		setSelectedQuestions(shuffled.slice(0, 3));
 	}, []);
 
-	// ============ INTRO FADE-IN ============
+	// Intro fade-in
 	useEffect(() => {
 		gsap.fromTo(
 			canvasContainerRef.current,
@@ -257,7 +199,7 @@ function Room() {
 		);
 	}, []);
 
-	// ============ VANGUARD UI FADE-IN ============
+	// Show Vanguard UI fade-in
 	useEffect(() => {
 		if (showVanguardUI && vanguardContainerRef.current) {
 			gsap.set(vanguardContainerRef.current, { x: -100, opacity: 0 });
@@ -270,10 +212,18 @@ function Room() {
 		}
 	}, [showVanguardUI]);
 
-	// ============ AUTO-PLAY SCENE ON MOUNT ============
+	// Auto-play scene on mount
 	useEffect(() => {
 		handlePlayClick();
 	}, []);
+
+	// Whenever `brandName` or `fontStyle` changes, update the 3D text dynamically
+	// WITHOUT causing Scene to re-render:
+	useEffect(() => {
+		if (updateTextInScene) {
+			updateTextInScene(brandName, fontStyle);
+		}
+	}, [brandName, fontStyle, updateTextInScene]);
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
@@ -302,7 +252,7 @@ function Room() {
 		const averageEthics = totalEthics / itemCount;
 		const averageSustainability =
 			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
-		const averageCost = totalCost; // took off  divided by itemCount becausee we acc need the total and I forgot
+		const averageCost = totalCost; // keep the total cost
 
 		return {
 			averageEthics,
@@ -330,7 +280,6 @@ function Room() {
 			averages,
 			ethicsHearts
 		);
-		// use max to make sure hearts don't go below 0 and min to make sure hearts don't exceed 5
 		setEthicsHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts))
 		);
@@ -383,11 +332,12 @@ function Room() {
 			wealthHearts
 		);
 		setWealthFeedback(wealth_feedback);
-		// take current number of hearts and use it in VanguardPopUp
+
 		console.log("Ethics Hearts:", ethicsHearts);
 		console.log("Eco Hearts:", ecoHearts);
 		console.log("Wealth Hearts:", wealthHearts);
 	};
+
 	const handleFinalPersona = () => {
 		const newStage = STAGES.FINALPERSONA;
 		setStage(newStage);
@@ -436,6 +386,7 @@ function Room() {
 			newStage
 		);
 	};
+
 	// === Calculate Final Persona ===
 	const getMostLikedBy = (ethicsHearts, ecoHearts, wealthHearts) => {
 		const hearts = {
@@ -459,16 +410,18 @@ function Room() {
 	const handleOverlayEnter = () => {
 		setShowOverlay(false);
 	};
+
 	function handlePlayClick() {
 		setPlayAnimation(true);
 		setPaused(false);
 	}
 
-	// this resumes the play after the user has paused it
+	// This resumes the play after the user has paused it
 	const handleContinue = () => {
 		setPaused(false);
 		setCurrentBreakpointIndex((prev) => prev + 1);
 	};
+
 	function handleBreakpointHit(index) {
 		console.log("Reached breakpoint index:", index);
 		setPaused(true);
@@ -541,7 +494,7 @@ function Room() {
 		fabricMeshRefs.current[fabricKey] = ref;
 	}
 
-	// ============ FACTORY MESH MOUNT (new) ============
+	// ============ FACTORY MESH MOUNT ============
 	function handleFactoryMeshMounted(factoryKey, ref) {
 		factoryMeshRefs.current[factoryKey] = ref;
 	}
@@ -564,6 +517,7 @@ function Room() {
 			});
 		}
 	}
+
 	function animateOutfitTo(outfitId, newZ) {
 		const ref = outfitMeshRefs.current[outfitId];
 		if (ref && ref.current) {
@@ -581,6 +535,7 @@ function Room() {
 			});
 		}
 	}
+
 	function animateFabricTo(fabricKey, newZ) {
 		const ref = fabricMeshRefs.current[fabricKey];
 		if (ref && ref.current) {
@@ -598,6 +553,7 @@ function Room() {
 			});
 		}
 	}
+
 	function animateFactoryTo(factoryKey, newZ) {
 		const ref = factoryMeshRefs.current[factoryKey];
 		if (ref && ref.current) {
@@ -619,13 +575,11 @@ function Room() {
 	// ============ LOGO SELECT LOGIC ============
 	function handleLogoSelect(newLogoId) {
 		if (!selectedLogo) {
-			// no previous => bring the new one forward
 			animateLogoTo(newLogoId, -49.51);
 			setSelectedLogo(newLogoId);
 			return;
 		}
 		if (selectedLogo === newLogoId) return;
-		// push old back
 		animateLogoTo(selectedLogo, -100);
 		animateLogoTo(newLogoId, -49.51);
 		setSelectedLogo(newLogoId);
@@ -634,9 +588,7 @@ function Room() {
 	// ============ OUTFIT SELECT LOGIC ============
 	function handleOutfitSelect(newOutfitId) {
 		if (selectedOutfit === newOutfitId) return;
-		// push old away
 		animateOutfitTo(selectedOutfit, -120);
-		// bring new forward
 		animateOutfitTo(newOutfitId, -45);
 		setSelectedOutfit(newOutfitId);
 	}
@@ -645,37 +597,30 @@ function Room() {
 	function handleFabricSelect(newFabricKey) {
 		if (!newFabricKey) return;
 		if (selectedFabric === newFabricKey) return;
-
 		if (selectedFabric) {
-			// push old behind
 			animateFabricTo(selectedFabric, -200);
 		}
-		// bring new forward
 		animateFabricTo(newFabricKey, -75);
 		setSelectedFabric(newFabricKey);
-
 		console.log("[FABRIC SELECT] from", selectedFabric, "to", newFabricKey);
 	}
 
-	// ============ FACTORY SELECT LOGIC (new) ============
+	// ============ FACTORY SELECT LOGIC ============
 	function handleFactorySelect(newFactoryKey) {
 		if (!newFactoryKey) return;
 		if (selectedFactory === newFactoryKey) return;
-
-		// push old behind
 		if (selectedFactory) {
 			animateFactoryTo(selectedFactory, -200);
 		}
-		// bring new forward
 		animateFactoryTo(newFactoryKey, -75);
 		setSelectedFactory(newFactoryKey);
-
 		console.log("[FACTORY SELECT] from", selectedFactory, "to", newFactoryKey);
 	}
 
 	// ============ VANGUARD / HOTSEAT UI ============
 	function handleVanguardClick(index) {
 		if (!vanguardActiveStates[index]) return;
+
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
 		if (currentBreakpointIndex === 9 && index === 0) {
 			setShowHotseat(true);
@@ -832,6 +777,7 @@ function Room() {
 									handleContinue();
 								}
 							}}
+							onLogoSelect={handleLogoSelect}
 							onCreate={() => {
 								setShowCreateBrand(false);
 								setStage(STAGES.BRAND);
@@ -840,7 +786,6 @@ function Room() {
 							onBrandNameChange={setBrandName}
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
-							onLogoSelect={handleLogoSelect}
 						/>
 					</div>
 				)}
@@ -931,7 +876,6 @@ function Room() {
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
 							onManufacturingSelection={handleManufacturingSelection}
-							// Pass a callback for real-time 3D toggling
 							onFactorySelect={handleFactorySelect}
 						/>
 					</div>
@@ -977,7 +921,6 @@ function Room() {
 							onFontStyleChange={setFontStyle}
 							isInputEnabled={currentBreakpointIndex >= 2}
 							onFabricSelection={handleFabricSelection}
-							// Real-time 3D toggling of fabric
 							onFabricSelect={handleFabricSelect}
 						/>
 					</div>
@@ -1000,8 +943,6 @@ function Room() {
 							onDeactivateActiveVanguard={handleDeactivateActiveVanguard}
 							currentStage={stage}
 						/>
-
-					
 					</div>
 				)}
 
@@ -1046,21 +987,22 @@ function Room() {
 				)}
 
 				{/* Main 3D Scene */}
+				{/*
+          We remove brandName & fontStyle from props. Instead, we pass
+          onTextUpdaterReady to get a function that updates the text in Scene.
+        */}
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
 					breakpoints={breakpoints}
 					currentBreakpointIndex={currentBreakpointIndex}
 					onBreakpointHit={handleBreakpointHit}
-					brandName={brandName}
-					fontStyle={fontStyle}
-					// LOGO & OUTFIT references
 					onLogoMeshMounted={handleLogoMeshMounted}
 					onOutfitMeshMounted={handleOutfitMeshMounted}
-					// FABRIC references
 					onFabricMeshMounted={handleFabricMeshMounted}
-					// FACTORY references (new)
 					onFactoryMeshMounted={handleFactoryMeshMounted}
+					// Here's the callback that Scene will call once it has set up references.
+					onTextUpdaterReady={setUpdateTextInScene}
 				/>
 			</div>
 		</>

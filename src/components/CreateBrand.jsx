@@ -1,6 +1,3 @@
-/*****************************************************
- * src/components/CreateBrand.jsx
- *****************************************************/
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
@@ -190,7 +187,6 @@ function CreateBrand({
 	};
 
 	// Example logos you’re displaying as clickable.
-	// IMPORTANT: You can map these IDs to real logos in "Room.jsx".
 	const logoOptions = [
 		{ id: "Butterfly", src: LogoOne },
 		{ id: "Heart", src: LogoTwo },
