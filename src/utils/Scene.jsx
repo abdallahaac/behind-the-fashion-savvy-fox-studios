@@ -1,10 +1,7 @@
-// src/utils/Scene.jsx
-
 import React, { useEffect, useRef, lazy, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Text, Environment } from "@react-three/drei";
 import hdrFile from "../assets/images/hdrFile.hdr";
-
 import * as THREE from "three";
 
 // ==================== FABRICS ====================
@@ -103,12 +100,13 @@ const factoryMap = {
 	silveroak: Factory4,
 	anadolu: Factory5,
 };
+
 function FactoryGroup({
 	factoryKey,
 	basePosition,
 	baseRotation,
 	onFactoryMeshMounted,
-	scale = [1, 1, 1], // default scale factor
+	scale = [1, 1, 1],
 }) {
 	const groupRef = useRef();
 
@@ -126,7 +124,7 @@ function FactoryGroup({
 			ref={groupRef}
 			position={[...basePosition]}
 			rotation={[...baseRotation]}
-			scale={scale} // apply scale factor
+			scale={scale}
 		>
 			<FactoryComponent />
 		</group>
@@ -146,7 +144,7 @@ function AllFactories({ onFactoryMeshMounted, factoryScale = [2, 2, 2] }) {
 					basePosition={basePos}
 					baseRotation={baseRot}
 					onFactoryMeshMounted={onFactoryMeshMounted}
-					scale={factoryScale} // pass down the scale factor
+					scale={factoryScale}
 				/>
 			))}
 		</>
@@ -230,7 +228,7 @@ function LogoGroup({ logoKey, basePosition, baseRotation, onLogoMeshMounted }) {
 	const finalPosition = [
 		basePosition[0] + controls.position[0],
 		basePosition[1] + controls.position[1],
-		-120, // push behind by default
+		-120,
 	];
 	const finalRotation = [baseRotation[0], baseRotation[1], baseRotation[2]];
 
@@ -298,7 +296,7 @@ function OutfitGroup({
 	basePosition,
 	baseRotation,
 	onOutfitMeshMounted,
-	scale = [2, 2, 2], // default scale factor
+	scale = [2, 2, 2],
 }) {
 	const groupRef = useRef();
 
@@ -320,7 +318,7 @@ function OutfitGroup({
 			ref={groupRef}
 			position={finalPosition}
 			rotation={finalRotation}
-			scale={scale} // apply the scale factor here
+			scale={scale}
 		>
 			<OutfitComponent />
 		</group>
@@ -340,7 +338,7 @@ function AllOutfits({ onOutfitMeshMounted, outfitScale = [0.7, 0.7, 0.7] }) {
 					basePosition={basePosition}
 					baseRotation={baseRotation}
 					onOutfitMeshMounted={onOutfitMeshMounted}
-					scale={outfitScale} // pass down the scale factor to each outfit
+					scale={outfitScale}
 				/>
 			))}
 		</>
@@ -357,11 +355,9 @@ const EnvironmentWithCamera = lazy(() =>
 function CameraLogger() {
 	const { camera } = useThree();
 	useFrame(() => {
-		// Uncomment to debug camera movement/position
+		// Uncomment to debug camera movement/position if needed
 		// console.log(
-		//   `Camera Position: x:${camera.position.x.toFixed(
-		//     3
-		//   )} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
+		//   `Camera Position: x:${camera.position.x.toFixed(3)} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
 		// );
 	});
 	return null;
@@ -373,13 +369,11 @@ const Scene = ({
 	breakpoints,
 	currentBreakpointIndex,
 	onBreakpointHit,
-	brandName,
-	fontStyle,
 	onLogoMeshMounted,
 	onOutfitMeshMounted,
 	onFabricMeshMounted,
 	onFactoryMeshMounted,
-	selectedFabric,
+	onTextUpdaterReady,
 }) => {
 	// Define the baked-in fabric rotations from your edited values.
 	const fabricRotations = {
@@ -398,6 +392,34 @@ const Scene = ({
 		conventionalcotton: [0, 1.5, 0],
 	};
 
+	// Refs for the brand name text objects:
+	const textRef1 = useRef(null);
+	const textRef2 = useRef(null);
+	const textRef3 = useRef(null);
+	const textRef4 = useRef(null);
+
+	// We'll provide this updater function to Room.jsx so it can update text at runtime
+	function updateSceneText(newBrandName, newFontStyle) {
+		const upperName = newBrandName ? newBrandName.toUpperCase() : "";
+		const fontUrl = fontMapping[newFontStyle] || fontMapping["MINIMALIST"];
+
+		// Update all text refs in real time
+		[textRef1, textRef2, textRef3, textRef4].forEach((ref, i) => {
+			if (ref.current) {
+				ref.current.text = upperName;
+				ref.current.font = fontUrl;
+			}
+		});
+	}
+
+	// Expose this function to the parent as soon as we mount
+	useEffect(() => {
+		if (onTextUpdaterReady) {
+			onTextUpdaterReady(() => updateSceneText);
+		}
+		// eslint-disable-next-line
+	}, []);
+
 	useEffect(() => {
 		console.log(
 			"Scene: Rendering scene with logos, outfits, fabrics, factories..."
@@ -405,94 +427,80 @@ const Scene = ({
 	}, []);
 
 	return (
-		<>
-			{/* Leva UI removed */}
-			<Canvas gl={{ antialias: true }}>
-				<Suspense fallback={null}>
-					<ambientLight intensity={0.5} />
+		<Canvas gl={{ antialias: true }}>
+			<Suspense fallback={null}>
+				<ambientLight intensity={0.5} />
 
-					{/* All Outfits */}
-					<AllOutfits onOutfitMeshMounted={onOutfitMeshMounted} />
+				{/* All Outfits */}
+				<AllOutfits onOutfitMeshMounted={onOutfitMeshMounted} />
 
-					{/* All Logos */}
-					<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
+				{/* All Logos */}
+				<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
-					{/* All Fabrics - using baked-in fabricRotations */}
-					<AllFabrics
-						selectedFabric={selectedFabric}
-						onFabricMeshMounted={onFabricMeshMounted}
-						fabricRotations={fabricRotations}
-					/>
+				{/* All Fabrics - using baked-in fabricRotations */}
+				<AllFabrics
+					onFabricMeshMounted={onFabricMeshMounted}
+					fabricRotations={fabricRotations}
+				/>
 
-					{/* All Factories */}
-					<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
+				{/* All Factories */}
+				<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
 
-					<CameraLogger />
+				<CameraLogger />
 
-					{/* Brand Name Text */}
-					{brandName && (
-						<>
-							<Text
-								position={[-69.12, 10.75, -49.51]}
-								rotation={[0.01, -4.69, -0.02]}
-								fontSize={1.4}
-								color={"white"}
-								font={fontMapping[fontStyle] || undefined}
-								anchorX="center"
-								anchorY="middle"
-							>
-								{brandName.toUpperCase()}
-							</Text>
-							<Text
-								position={[-69.12, 8.75, -49.51]}
-								rotation={[0.01, -4.69, -0.02]}
-								fontSize={1.4}
-								color={"white"}
-								font={fontMapping[fontStyle] || undefined}
-								anchorX="center"
-								anchorY="middle"
-							>
-								{brandName.toUpperCase()}
-							</Text>
-							<Text
-								position={[-69.12, 6.75, -49.51]}
-								rotation={[0.01, -4.69, -0.02]}
-								fontSize={1.4}
-								color={"white"}
-								font={fontMapping[fontStyle] || undefined}
-								anchorX="center"
-								anchorY="middle"
-							>
-								{brandName.toUpperCase()}
-							</Text>
-							<Text
-								position={[-69.12, 4.85, -49.51]}
-								rotation={[0.01, -4.69, -0.02]}
-								fontSize={1.4}
-								color={"black"}
-								font={fontMapping[fontStyle] || undefined}
-								anchorX="center"
-								anchorY="middle"
-							>
-								{brandName.toUpperCase()}
-							</Text>
-						</>
-					)}
+				{/* Brand Name Text (we default them to empty) */}
+				<Text
+					ref={textRef1}
+					position={[-69.12, 10.75, -49.51]}
+					rotation={[0.01, -4.69, -0.02]}
+					fontSize={1.4}
+					color={"white"}
+					anchorX="center"
+					anchorY="middle"
+				>
+					{/* default empty; updated by updateSceneText */}
+				</Text>
+				<Text
+					ref={textRef2}
+					position={[-69.12, 8.75, -49.51]}
+					rotation={[0.01, -4.69, -0.02]}
+					fontSize={1.4}
+					color={"white"}
+					anchorX="center"
+					anchorY="middle"
+				/>
+				<Text
+					ref={textRef3}
+					position={[-69.12, 6.75, -49.51]}
+					rotation={[0.01, -4.69, -0.02]}
+					fontSize={1.4}
+					color={"white"}
+					anchorX="center"
+					anchorY="middle"
+				/>
+				<Text
+					ref={textRef4}
+					position={[-69.12, 4.85, -49.51]}
+					rotation={[0.01, -4.69, -0.02]}
+					fontSize={1.4}
+					color={"black"}
+					anchorX="center"
+					anchorY="middle"
+				/>
 
-					<EnvironmentWithCamera
-						playAnimation={playAnimation}
-						paused={paused}
-						breakpoints={breakpoints}
-						currentBreakpointIndex={currentBreakpointIndex}
-						onBreakpointHit={onBreakpointHit}
-					/>
+				<EnvironmentWithCamera
+					playAnimation={playAnimation}
+					paused={paused}
+					breakpoints={breakpoints}
+					currentBreakpointIndex={currentBreakpointIndex}
+					onBreakpointHit={onBreakpointHit}
+				/>
 
-					<Environment files={hdrFile} background={false} />
+				<Environment files={hdrFile} background={false} />
 
-					<FilmGrain />
-				</Suspense>
-			</Canvas>
-		</>
+				<FilmGrain />
+			</Suspense>
+		</Canvas>
 	);
 };
 
