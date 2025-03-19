@@ -113,7 +113,7 @@ const PersonaPage = () => {
                       
                         {/* <img src={personaCardImage} alt={`${personaName} Card`} className="persona-card-image"ref={personaRightSideRef} /> */}
 
-                        <div className="persona-card-to-download">
+                        <div className="persona-card-to-download" ref={personaRightSideRef}>
                             <div className="persona-image-container" >
                                 <img src={personaImage} alt={personaName} className="persona-image" id="download-img"/>
                                 
