@@ -9,10 +9,17 @@ import personaData from '../utils/PersonaData';
 import Marquee from 'react-fast-marquee';
 import LogoSVG from "../assets/images/logo.svg";
 import { toPng } from 'html-to-image';
+import HeartsUI from '../components/HeartsUI';
+
+import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
+import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
+import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+
 
 const PersonaPage = () => {
     const location = useLocation();
-    const { personaType } = location.state;
+    const { personaType, hearts } = location.state;
+    const { eco, ethics, wealth } = hearts; 
     const personaRightSideRef = useRef(null);
 
     const {
@@ -126,10 +133,19 @@ const PersonaPage = () => {
                                 <div className="result-text">
                                     <p className="accent-4 ">YOUR BRAND IS A</p>
                                     <h2 className="d-p-name accent-2">{personaName}</h2>
-                                </div>
-                                
-
+                                </div>                                   
                             </div>
+                            {/* Render HeartsUI components */}
+                            <div className="download-hearts-ui-container">
+                                <div className="download-hearts-ui-row">
+                                    <HeartsUI title="ECO VANGUARD" fillNumber={eco} imageSrc={ecoVanguard_pfp} />
+                                    <HeartsUI title="WEALTH VANGUARD" fillNumber={wealth} imageSrc={wealthVanguard_pfp} />
+                                </div>
+                                {/* Second row */}
+                                <div className="download-hearts-ui-row">
+                                    <HeartsUI title="ETHICS VANGUARD" fillNumber={ethics} imageSrc={ethicsVanguard_pfp} />
+                                </div>
+                            </div>     
                         </div>
                         <div className="replay-container">
                             <NormalButton

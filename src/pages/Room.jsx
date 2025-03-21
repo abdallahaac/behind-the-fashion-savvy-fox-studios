@@ -377,7 +377,16 @@ function Room() {
 
 	const handleNavigateToEndPage = (mostLikedOutcome) => {
         const personaType = determinePersonaType(mostLikedOutcome);
-        navigate('/persona', { state: { personaType } });
+        navigate('/persona', {
+			state: {
+				personaType: personaType,
+				hearts: {
+					eco: ecoHearts,
+					ethics: ethicsHearts,
+					wealth: wealthHearts,
+				},
+			},
+		});
     };
 
 	const handleClothingSelection = (selectedItems) => {

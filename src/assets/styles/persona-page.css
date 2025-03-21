@@ -91,7 +91,7 @@
 }
 
 .persona-card-image {
-    width: 317px;
+    width: 350px;
     height: 536px;
     margin-bottom: 10px;
 }
@@ -137,7 +137,7 @@
 /* create download via html and convert to png */
 .persona-card-to-download{
     background-color: #000000;
-    width: 317px;
+    width: 350px;
     height: 536px;
     margin-bottom: 10px;
     border:none;
@@ -148,7 +148,7 @@
 }
 .download-title-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height:76px;
     width: 100%;
     border-radius:12px;
@@ -157,8 +157,41 @@
 .d-p-name{
     margin-top: 0px;
 }
-.download-title-container{
+.download-hearts-ui-container{
     display: flex;
-    flex-direction: row;
+    flex-direction:column;
+    gap: 16px; 
+    width:100%;
+    margin-top:16px;
 
+}
+.download-hearts-ui-row {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+    gap: 8px; 
+    width: 100%;
+    
+}
+.download-hearts-ui-container .hearts-ui-container {
+    width: 155px;
+    height: 50px;
+
+}
+.download-hearts-ui-container .heart-icon{
+    width:16px;
+    height:16px;
+    margin:1px;
+}
+.download-hearts-ui-container .heart{
+    margin-right:-2.5px;
+}
+
+.download-hearts-ui-container .hearts-ui-image{
+    width: 40px;
+    height: 40px;
+}
+.download-hearts-ui-container .metric-title{
+    font-size: 8px;
+    padding:6px;
 }
