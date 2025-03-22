@@ -396,13 +396,11 @@ function Room() {
 		};
 
 		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
-
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
 
 		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
-
 		return mostLikedCategories[randomIndex];
 	};
 
@@ -987,10 +985,6 @@ function Room() {
 				)}
 
 				{/* Main 3D Scene */}
-				{/*
-          We remove brandName & fontStyle from props. Instead, we pass
-          onTextUpdaterReady to get a function that updates the text in Scene.
-        */}
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
