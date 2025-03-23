@@ -65,7 +65,7 @@ const modelsData = {
 				locationImage: manufacturingEuropePng,
 				locationTitle: "Located in Europe",
 				locationDescription:
-					"ArtistThread Textiles is renowned for its exceptional craftsmanship, skilled workforce, and dedication to sustainable practices. Its strategic location within Europe also offers easy access to key markets, making it an ideal choice for brands seeking reliable and efficient production.",
+					"ArtistThread Textiles is known for its excellent craftsmanship, skilled team, and sustainable practices. Its European location offers easy access to key markets, making it an ideal production partner.",
 				standardImage: manufacturingSa8000Svg,
 				standardTitle: "SA8000 Standard",
 				standardDescription:
@@ -208,7 +208,7 @@ const modelsData = {
 				locationImage: manufacturingEuropePng,
 				locationTitle: "Located in Europe",
 				locationDescription:
-					"Anadolu Textile Works specializes in garment production, while provides a reasonable option for brands seeking a moderately sustainable solution at a competitive price, though there are areas for improvement in both labor and overall environmental impact.",
+					"Anadolu Textile Works specializes in garment production, offering a moderately sustainable, competitively priced option, though labor and environmental improvements are needed.",
 				standardImage: oekoPng,
 				standardTitle: "OEKO-TEX Standard 100",
 				standardDescription:

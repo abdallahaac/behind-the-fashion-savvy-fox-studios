@@ -430,12 +430,12 @@ button.cta-button.remove {
 /* factory */
 /* Make the expanded container taller so we see the factory section */
 .expanded-container.factory {
-	height: 700px;
+	height: 90vh;
 }
 /* factory */
 /* Make the expanded container taller so we see the factory section */
 .expanded-container.factory {
-	height: 784px;
+	height: 90vh;
 }
 
 /* The main factory container layout */
@@ -460,7 +460,7 @@ button.cta-button.remove {
 	overflow: hidden;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+
 	background-color: #292929; /* Dark background around the pill */
 }
 

@@ -85,6 +85,7 @@ function VanguardTutorial({ onDone }) {
 	const handleNext = () => {
 		if (currentStep < steps.length - 1) {
 			setCurrentStep((prev) => prev + 1);
+			console.log(currentStep);
 		}
 	};
 
@@ -158,7 +159,9 @@ function VanguardTutorial({ onDone }) {
 			onContextMenu={(e) => e.preventDefault()}
 		>
 			<div className="tutorial-container">
-				<div className="step-container">
+				<div
+					className={`step-container ${steps.length === 1 ? "no-step" : ""}`}
+				>
 					{steps.map((step, index) => (
 						<span
 							key={index}

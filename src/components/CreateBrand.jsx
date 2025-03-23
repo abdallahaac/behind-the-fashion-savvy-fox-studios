@@ -211,7 +211,9 @@ function CreateBrand({
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container ${
+					isExpanded ? "expanded-container create" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
