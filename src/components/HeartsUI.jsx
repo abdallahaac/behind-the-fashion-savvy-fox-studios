@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "../assets/styles/hearts-ui.css";
-import emptyHeart from "../assets/images/empty-heart.svg";
-import filledHeart from "../assets/images/filled-heart.svg";
+
+// Font Awesome Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 	const prevFillNumberRef = useRef(fillNumber);
@@ -39,13 +43,37 @@ const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 	const totalFilled = hearts.filter((filled) => filled).length;
 	console.log(`${title} hearts - Total hearts filled: ${totalFilled}`);
 
+	// Conditionally render an up-caret for "flash-green" or down-caret for "flash-red"
+	const renderCaretIcon = () => {
+		if (flashClass === "flash-green") {
+			return (
+				<FontAwesomeIcon
+					icon={faCaretUp}
+					style={{ color: "green", marginLeft: "8px" }}
+				/>
+			);
+		} else if (flashClass === "flash-red") {
+			return (
+				<FontAwesomeIcon
+					icon={faCaretDown}
+					style={{ color: "red", marginLeft: "8px" }}
+				/>
+			);
+		}
+		return null;
+	};
+
 	return (
 		<div
 			className={`hearts-ui-container ${flashClass}`}
 			onAnimationEnd={() => setFlashClass("")}
 		>
 			<div className="hearts-ui-left">
-				<div className="metric-title label-large">{title}</div>
+				<div style={{ display: "flex", alignItems: "center" }}>
+					<div className="metric-title label-large">{title}</div>
+					{renderCaretIcon()}
+				</div>
+
 				<div className="hearts-ui-hearts">
 					{hearts.map((filled, index) => {
 						console.log(
@@ -58,16 +86,18 @@ const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 								key={index}
 								className={`heart ${filled ? "filled" : "empty"}`}
 							>
-								<img
-									src={filled ? filledHeart : emptyHeart}
-									alt="heart"
+								{/* If you want to use a regular (outlined) heart for empty: */}
+								<FontAwesomeIcon
+									icon={filled ? solidHeart : regularHeart}
 									className="heart-icon"
+									style={{ color: filled ? "red" : "#777" }}
 								/>
 							</span>
 						);
 					})}
 				</div>
 			</div>
+
 			<div className="hearts-ui-right">
 				<img src={imageSrc} alt="icon" className="hearts-ui-image" />
 			</div>

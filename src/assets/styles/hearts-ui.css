@@ -15,9 +15,10 @@
 	justify-content: center;
 }
 
-.hearts-ui-title {
+.metric-title {
 	color: #ffffff;
 	margin-bottom: 4px;
+	font-size: 1.1rem;
 }
 
 .hearts-ui-hearts {
@@ -31,9 +32,7 @@
 }
 
 .heart-icon {
-	width: 24px;
-	height: 24px;
-	margin: 4px;
+	font-size: 24px;
 }
 
 .hearts-ui-right {
@@ -47,6 +46,8 @@
 	border-radius: 50%;
 	margin: 8px;
 }
+
+/* Flash Animations (3 repeats, 1s each = ~3s total) */
 .flash-green {
 	animation: flashGreen 1s ease-in-out 3;
 }
@@ -57,7 +58,7 @@
 		background-color: #2e2e2e;
 	}
 	50% {
-		background-color: rgb(84, 134, 54);
+		background-color: rgb(84, 134, 54); /* or green */
 	}
 }
 
@@ -71,6 +72,6 @@
 		background-color: #2e2e2e;
 	}
 	50% {
-		background-color: rgb(161, 95, 32);
+		background-color: rgb(161, 95, 32); /* or red/brown */
 	}
 }
