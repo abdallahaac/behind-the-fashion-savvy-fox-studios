@@ -326,7 +326,7 @@ function OutfitGroup({
 }
 
 function AllOutfits({ onOutfitMeshMounted, outfitScale = [0.6, 0.6, 0.6] }) {
-	const basePosition = [-30, 1, -45];
+	const basePosition = [-30, 1, -48];
 	const baseRotation = [0.01, -4.69, -0.02];
 
 	return (
@@ -453,7 +453,7 @@ const Scene = ({
 					ref={textRef1}
 					position={[-69.12, 10.75, -49.51]}
 					rotation={[0.01, -4.69, -0.02]}
-					fontSize={1.4}
+					fontSize={1.2}
 					color={"white"}
 					anchorX="center"
 					anchorY="middle"
@@ -464,7 +464,7 @@ const Scene = ({
 					ref={textRef2}
 					position={[-69.12, 8.75, -49.51]}
 					rotation={[0.01, -4.69, -0.02]}
-					fontSize={1.4}
+					fontSize={1.2}
 					color={"white"}
 					anchorX="center"
 					anchorY="middle"
@@ -473,7 +473,7 @@ const Scene = ({
 					ref={textRef3}
 					position={[-69.12, 6.75, -49.51]}
 					rotation={[0.01, -4.69, -0.02]}
-					fontSize={1.4}
+					fontSize={1.2}
 					color={"white"}
 					anchorX="center"
 					anchorY="middle"
@@ -482,7 +482,7 @@ const Scene = ({
 					ref={textRef4}
 					position={[-69.12, 4.85, -49.51]}
 					rotation={[0.01, -4.69, -0.02]}
-					fontSize={1.4}
+					fontSize={1.2}
 					color={"black"}
 					anchorX="center"
 					anchorY="middle"

@@ -253,7 +253,7 @@ function CreateBrand({
 						</div>
 					) : (
 						<div
-							className="new-container"
+							className="new-container brand"
 							ref={loremContainerRef}
 							style={{ opacity: 0 }}
 						>

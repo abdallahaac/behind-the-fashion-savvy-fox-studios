@@ -205,7 +205,7 @@ function CanvasChooseOutfits({
 	const handleCreateDone = () => {
 		onClothingSelection(collection);
 		setFundingAmount((prev) => (prev || 0) - totalDesignPrice);
-		
+
 		// Fade out the entire container
 		gsap.to(containerRef.current, {
 			duration: 1,

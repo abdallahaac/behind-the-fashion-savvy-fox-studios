@@ -9,10 +9,12 @@
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	width: 100%;
+	max-width: 241px;
 	font-family: "Kode Mono", monospace;
-	height: 80px;
+	height: 92px;
 	text-transform: uppercase;
 	letter-spacing: 4px;
+	margin-right: -10px;
 
 	/* Remove overflow: hidden if you want the SVG to spill out of the button */
 	overflow: visible;
@@ -40,7 +42,7 @@
 .superimposed-logo {
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	left: 55%;
 	transform: translate(-140px, -50%);
 	z-index: 10; /* Ensure it appears above the marquee text */
 	width: 100px; /* Add a unit (px) to width */

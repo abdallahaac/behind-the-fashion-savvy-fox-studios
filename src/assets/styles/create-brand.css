@@ -5,6 +5,7 @@
 	justify-content: end;
 	align-items: end;
 	font-family: "Kode Mono", serif;
+	zoom: 0.9;
 }
 .brand-create {
 	text-transform: uppercase;
@@ -12,7 +13,7 @@
 
 .create-container {
 	background-color: #2e2e2e;
-	width: 500px;
+	width: 440px;
 	height: 260px; /* initial height */
 	border-radius: 20px;
 	margin: 20px;
@@ -20,7 +21,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	transition: height 2s ease; /* Smoothly animates height changes */
-	zoom: 0.9;
+	width: 500px;
 }
 .logo img {
 	display: block;
@@ -33,9 +34,8 @@
 
 /* Expands up to 81vh upon hold completion */
 .expanded-container {
-	height: auto;
+	height: 80vh;
 	display: flex;
-	zoom: 0.9;
 	width: 500px;
 }
 
@@ -168,10 +168,14 @@
 .new-container {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	height: 100%;
 	padding-bottom: 20px; /* Adjust spacing at the bottom as needed */
 	color: white;
+}
+
+.new-container.brand {
+	justify-content: space-between;
 }
 
 .font-style,
@@ -212,7 +216,7 @@
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 20px;
-	margin-top: auto; /* This pushes the container to the bottom */
+	margin-top: none; /* This pushes the container to the bottom */
 }
 .create-submit-container.ready-container {
 	border: 1px solid #ffc4b1;
@@ -353,16 +357,4 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-}
-
-.create-container {
-	/* Start with a smaller max-height */
-	max-height: 260px;
-	overflow: hidden;
-	transition: max-height 0.8s ease;
-}
-
-.create-container.expanded-container {
-	/* Expand to some large max-height that exceeds your content needs */
-	max-height: 80vh;
 }

@@ -396,11 +396,13 @@ function Room() {
 		};
 
 		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
+
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
 
 		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
+
 		return mostLikedCategories[randomIndex];
 	};
 
@@ -587,7 +589,7 @@ function Room() {
 	function handleOutfitSelect(newOutfitId) {
 		if (selectedOutfit === newOutfitId) return;
 		animateOutfitTo(selectedOutfit, -120);
-		animateOutfitTo(newOutfitId, -45);
+		animateOutfitTo(newOutfitId, -48);
 		setSelectedOutfit(newOutfitId);
 	}
 
@@ -701,23 +703,26 @@ function Room() {
 			)}
 
 			{/* Logo + Hearts UI */}
-			<div className="logo-container" ref={logoContainerRef}>
+			<div className="logo-container " ref={logoContainerRef}>
 				<Logo />
 				<BudgetBar />
 				<HeartsUI
 					title="ECO VANGUARD"
 					fillNumber={ecoHearts}
 					imageSrc={ecoVanguard_pfp}
+					bgColor="#ffdddd"
 				/>
 				<HeartsUI
 					title="WEALTH VANGUARD"
 					fillNumber={wealthHearts}
 					imageSrc={wealthVanguard_pfp}
+					bgColor="#ddffdd"
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
 					fillNumber={ethicsHearts}
 					imageSrc={ethicsVanguard_pfp}
+					bgColor="#ddddff"
 				/>
 			</div>
 
@@ -985,6 +990,10 @@ function Room() {
 				)}
 
 				{/* Main 3D Scene */}
+				{/*
+          We remove brandName & fontStyle from props. Instead, we pass
+          onTextUpdaterReady to get a function that updates the text in Scene.
+        */}
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
