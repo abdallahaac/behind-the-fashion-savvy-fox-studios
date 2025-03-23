@@ -11,19 +11,24 @@ import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 	const prevFillNumberRef = useRef(fillNumber);
 	const [flashClass, setFlashClass] = useState("");
+	const [difference, setDifference] = useState(0);
 
 	// Compare old fillNumber vs new fillNumber to trigger flash
 	useEffect(() => {
 		if (prevFillNumberRef.current !== fillNumber) {
-			if (fillNumber > prevFillNumberRef.current) {
+			const diff = fillNumber - prevFillNumberRef.current;
+			setDifference(Math.abs(diff));
+
+			if (diff > 0) {
 				setFlashClass("flash-green");
-			} else if (fillNumber < prevFillNumberRef.current) {
+			} else if (diff < 0) {
 				setFlashClass("flash-red");
 			}
 
 			// Match your setTimeout to the total animation duration (3s):
 			const timer = setTimeout(() => {
 				setFlashClass("");
+				setDifference(0); // Reset difference after the animation
 			}, 3000);
 
 			return () => clearTimeout(timer);
@@ -39,62 +44,65 @@ const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 		.fill(false)
 		.map((_, index) => index < fillNumber);
 
-	// Log the total number of filled hearts
-	const totalFilled = hearts.filter((filled) => filled).length;
-	console.log(`${title} hearts - Total hearts filled: ${totalFilled}`);
-
-	// Conditionally render an up-caret for "flash-green" or down-caret for "flash-red"
-	const renderCaretIcon = () => {
+	// Conditionally render multiple carets based on how many hearts gained or lost
+	const renderCaretIcons = () => {
 		if (flashClass === "flash-green") {
-			return (
-				<FontAwesomeIcon
-					icon={faCaretUp}
-					style={{ color: "green", marginLeft: "8px" }}
-				/>
-			);
+			// Hearts increased => up-caret repeated `difference` times
+			return new Array(difference)
+				.fill(null)
+				.map((_, i) => (
+					<FontAwesomeIcon
+						key={i}
+						icon={faCaretUp}
+						style={{ color: "green", marginLeft: "4px" }}
+					/>
+				));
 		} else if (flashClass === "flash-red") {
-			return (
-				<FontAwesomeIcon
-					icon={faCaretDown}
-					style={{ color: "red", marginLeft: "8px" }}
-				/>
-			);
+			// Hearts decreased => down-caret repeated `difference` times
+			return new Array(difference)
+				.fill(null)
+				.map((_, i) => (
+					<FontAwesomeIcon
+						key={i}
+						icon={faCaretDown}
+						style={{ color: "red", marginLeft: "4px" }}
+					/>
+				));
 		}
 		return null;
 	};
 
+	// Log total hearts for debugging
+	const totalFilled = hearts.filter((filled) => filled).length;
+	console.log(`${title} hearts - Total hearts filled: ${totalFilled}`);
+
 	return (
 		<div
 			className={`hearts-ui-container ${flashClass}`}
-			onAnimationEnd={() => setFlashClass("")}
+			onAnimationEnd={() => {
+				setFlashClass("");
+				setDifference(0); // Also reset difference on animation end
+			}}
 		>
 			<div className="hearts-ui-left">
 				<div style={{ display: "flex", alignItems: "center" }}>
 					<div className="metric-title label-large">{title}</div>
-					{renderCaretIcon()}
+					{renderCaretIcons()}
 				</div>
 
 				<div className="hearts-ui-hearts">
-					{hearts.map((filled, index) => {
-						console.log(
-							`${title} hearts - Heart index ${index} is ${
-								filled ? "filled" : "empty"
-							}`
-						);
-						return (
-							<span
-								key={index}
-								className={`heart ${filled ? "filled" : "empty"}`}
-							>
-								{/* If you want to use a regular (outlined) heart for empty: */}
-								<FontAwesomeIcon
-									icon={filled ? solidHeart : regularHeart}
-									className="heart-icon"
-									style={{ color: filled ? "red" : "#777" }}
-								/>
-							</span>
-						);
-					})}
+					{hearts.map((filled, index) => (
+						<span
+							key={index}
+							className={`heart ${filled ? "filled" : "empty"}`}
+						>
+							<FontAwesomeIcon
+								icon={filled ? solidHeart : regularHeart}
+								className="heart-icon"
+								style={{ color: filled ? "red" : "#777" }}
+							/>
+						</span>
+					))}
 				</div>
 			</div>
 
