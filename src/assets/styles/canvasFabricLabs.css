@@ -94,7 +94,7 @@
 .fabric-description {
 	color: black;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
 }
 
 .fabric-container > img {
@@ -112,34 +112,34 @@
 .fabric-options {
 	margin-top: 10px !important;
 }
-.default-no-selection{
+.default-no-selection {
 	text-align: center;
 	padding: 80px;
 }
 
 .category-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
 }
 
 .icon-padding {
-    padding: 10px;
+	padding: 10px;
 }
 
 .text-container {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .category-title {
-    font-weight: bold;
-	margin:0px;
+	font-weight: bold;
+	margin: 0px;
 }
 
 .category-description {
-    font-size: 0.9rem;
-    color: #666;
+	font-size: 0.9rem;
+	color: #666;
 }
 
 .left-component.fabrics {
@@ -156,6 +156,6 @@
 .fabric-info {
 	margin-left: 40px;
 }
-#fabric-only-container{
+#fabric-only-container {
 	margin-top: -100px !important;
 }
