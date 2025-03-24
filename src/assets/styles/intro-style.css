@@ -396,3 +396,6 @@ h1.landing-h1.landing-page {
 	pointer-events: none;
 	z-index: 9999;
 }
+.rfm-marquee-container{
+	overflow-y: hidden;
+}

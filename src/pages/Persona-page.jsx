@@ -10,6 +10,7 @@ import Marquee from 'react-fast-marquee';
 import LogoSVG from "../assets/images/logo.svg";
 import { toPng } from 'html-to-image';
 import HeartsUI from '../components/HeartsUI';
+import BudgetBar from '../components/BudgetBar';
 
 import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
@@ -18,7 +19,17 @@ import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_
 
 const PersonaPage = () => {
     const location = useLocation();
-    const { personaType, hearts } = location.state;
+
+    const defaultState = {
+        personaType: "ecoWarrior",
+        hearts: {
+            eco: 5,
+            ethics: 4,
+            wealth: 3,
+        },
+    };
+    const { personaType, hearts } = location.state || defaultState;
+
     const { eco, ethics, wealth } = hearts; 
     const personaRightSideRef = useRef(null);
 
@@ -144,6 +155,7 @@ const PersonaPage = () => {
                                 {/* Second row */}
                                 <div className="download-hearts-ui-row">
                                     <HeartsUI title="ETHICS VANGUARD" fillNumber={ethics} imageSrc={ethicsVanguard_pfp} />
+                                    <BudgetBar />
                                 </div>
                             </div>     
                         </div>
