@@ -1,4 +1,4 @@
-import React,{ useRef }  from 'react';
+import React,{ useRef, useEffect }  from 'react';
 import DisplayLink from '../components/DisplayLink';
 import "../assets/styles/persona-page.css";
 import NormalButton from '../components/NormalButton';
@@ -15,6 +15,7 @@ import BudgetBar from '../components/BudgetBar';
 import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+import brand_mark from "../assets/images/FinalPersona/brand_mark.svg";
 
 
 const PersonaPage = () => {
@@ -35,6 +36,8 @@ const PersonaPage = () => {
 
     const {
         personaImage,
+        whiteLogo,
+        bg,
         personaName,
         personaDescription,
         pathTitle,
@@ -61,123 +64,151 @@ const PersonaPage = () => {
                 console.error('Failed to convert HTML to image', err);
             });
     };
+    useEffect(() => {
+        document.body.style.background = "#515151";
+        return () => {
+            document.body.style = "";
+            document.documentElement.style = "";
+        };
+    }, []);
 
     return (
         <div className="persona-container">
-            {/* Marquee / Banner */}
-			<header className="banner">
-                {/* The marquee text */}
-                <Marquee
-                    gradient={false}
-                    speed={30}
-                    pauseOnHover={false}
-                    className="marquee-center"
-                >
-                    &nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
-                    // BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-                    BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-                    BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-                    BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-                    BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-                </Marquee>
-
-                {/* The clipped logo */}
-                <img
-                    src={LogoSVG}
-                    alt="Logo"
-                    className="superimposed-logo super-landing"
-                />
-            </header>
+            
             <div className="persona-all">
-                <div className="persona-left-side">
-                    <div className="left-left">
-                        <div className="persona-image-container">
-                            <img src={personaImage} alt={personaName} className="persona-image" />
-                        </div>
-                        <div className="persona-info">
-                            <p className="accent-4 brandDesc">YOUR BRAND IS A</p>
-                            <h2 className="accent-1">{personaName}</h2>
-                            <p className="body-text-medium">{personaDescription}</p>
-                        </div>
-                        <div className="replay-container">
-                            <NormalButton
-                                text="Replay Experience"
-                                icon={redoIcon}
-                                size={{ minWidth: "242px", minHeight: "56px" }}
-                                active={true}
-                                // disabled={selectedAnswer === null} // Disable if no answer is selected
-                                // onClick={handleNext}
-                            />
-                        </div>
-                        
-                    </div>
-                    
-                    <div className = "additional-info ">
-                        <div className="title-and-desc">
-                            <h2 className="accent-3">{pathTitle}</h2>
-                            <p className="body-text-medium">Resources and steps you can take to make an impact on the fashion industry</p>
-                        </div>
-                        
-                        <div className='links-container'>
-                            <DisplayLink {...displayLinkProps} />
-                            <DisplayLink {...displayLinkProps2} />
-                        </div>
-                    
-                    </div>
-                </div>
-                <div className="persona-right-side">
-                    
-                    <div className="persona-card-container" >
-                      
-                        {/* <img src={personaCardImage} alt={`${personaName} Card`} className="persona-card-image"ref={personaRightSideRef} /> */}
+                {/* Marquee / Banner */}
+                <header className="banner">
+                    {/* The marquee text */}
+                    <Marquee
+                        gradient={false}
+                        speed={30}
+                        pauseOnHover={false}
+                        className="marquee-center"
+                    >
+                        &nbsp;BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION
+                        // BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+                        BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+                        BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+                        BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+                        BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+                    </Marquee>
 
-                        <div className="persona-card-to-download" ref={personaRightSideRef}>
-                            <div className="persona-image-container" >
-                                <img src={personaImage} alt={personaName} className="persona-image" id="download-img"/>
-                                
+                    {/* The clipped logo */}
+                    <img
+                        src={LogoSVG}
+                        alt="Logo"
+                        className="superimposed-logo super-landing"
+                    />
+                </header>
+                <div className="persona-rs-ls">
+                    <div className="persona-left-side">
+                        <div className="left-left">
+                            <div className="persona-image-container">
+                                <img src={personaImage} alt={personaName} className="persona-image" />
+                            </div>
+                            <div className="persona-info">
+                                <p className="accent-4 brandDesc">YOUR BRAND IS A</p>
+                                <h2 className="accent-1">{personaName}</h2>
+                                <p className="body-text-medium">{personaDescription}</p>
+                            </div>
+                            <div className="replay-container" id="replay-exp">
+                                <NormalButton
+                                    text="Replay Experience"
+                                    icon={redoIcon}
+                                    size={{ minWidth: "275px", minHeight: "56px" }}
+                                    active={true}
+                                    // disabled={selectedAnswer === null} // Disable if no answer is selected
+                                    // onClick={handleNext}
+                                />
                             </div>
                             
-                            <div className="download-title-container">
-                                <div className="download-vanguard">
-                                    <img src={LogoSVG} alt={personaName} id="download-img"/>
-                                </div>
-                                <div className="result-text">
-                                    <p className="accent-4 ">YOUR BRAND IS A</p>
-                                    <h2 className="d-p-name accent-2">{personaName}</h2>
-                                </div>                                   
-                            </div>
-                            {/* Render HeartsUI components */}
-                            <div className="download-hearts-ui-container">
-                                <div className="download-hearts-ui-row">
-                                    <HeartsUI title="ECO VANGUARD" fillNumber={eco} imageSrc={ecoVanguard_pfp} />
-                                    <HeartsUI title="WEALTH VANGUARD" fillNumber={wealth} imageSrc={wealthVanguard_pfp} />
-                                </div>
-                                {/* Second row */}
-                                <div className="download-hearts-ui-row">
-                                    <HeartsUI title="ETHICS VANGUARD" fillNumber={ethics} imageSrc={ethicsVanguard_pfp} />
-                                    <BudgetBar />
-                                </div>
-                            </div>     
-                        </div>
-                        <div className="replay-container">
-                            <NormalButton
-                                text="Save to Device"
-                                icon={downloadIcon}
-                                size={{ minWidth: "317px", minHeight: "56px" }}
-                                active={true}
-                                // disabled={selectedAnswer === null} // Disable if no answer is selected
-                                onClick={handleDownload}
-                                style={{ backgroundColor: 'white', color: 'black' }}
-                            />
-
                         </div>
                         
-                        {/* <button onClick={handleDownload} className="download-button">Save to Device</button> */}
+                        <div className = "additional-info ">
+                            <div className="title-and-desc">
+                                <h2 className="accent-3">{pathTitle}</h2>
+                                <p className="body-text-medium">Resources and steps you can take to make an impact on the fashion industry</p>
+                            </div>
+                            
+                            <div className='links-container'>
+                                <DisplayLink {...displayLinkProps} />
+                                <DisplayLink {...displayLinkProps2} />
+                                <DisplayLink {...displayLinkProps} />
+                                <DisplayLink {...displayLinkProps2} />
+                                <DisplayLink {...displayLinkProps2} />
+                                <DisplayLink {...displayLinkProps2} />
+                                <DisplayLink {...displayLinkProps2} />
+                            </div>
+                        
+                        </div>
                     </div>
+                    <div className="persona-right-side">
+                        
+                        <div className="persona-card-container" >
+                        
+                            {/* <img src={personaCardImage} alt={`${personaName} Card`} className="persona-card-image"ref={personaRightSideRef} /> */}
+
+                            <div className="persona-card-to-download"
+                                ref={personaRightSideRef}
+                                style={{
+                                    backgroundImage: `url(${bg})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+                                }}>
+                                <div className="persona-image-mini-container" >
+                                    <img src={whiteLogo} alt={personaName} className="persona-image-mini" id="download-img"/>
+                                    
+                                </div>
+                                
+                                <div className="download-title-container">
+                      
+                                    <div className="result-text">
+                                        <p className="body-text-small ">My brand _____ is a</p>
+                                        <h2 className="d-p-name accent-2">{personaName}</h2>
+                                        <p className="body-text-medium">{personaDescription}</p>
+                                    </div>                                   
+                                </div>
+                                {/* Render HeartsUI components */}
+                                <div className="download-hearts-ui-container">
+                                    <div className="download-hearts-ui-row">
+                                        <HeartsUI title="ECO VANGUARD" fillNumber={eco} imageSrc={ecoVanguard_pfp} />
+                                        <HeartsUI title="WEALTH VANGUARD" fillNumber={wealth} imageSrc={wealthVanguard_pfp} />
+                                    </div>
+                                    {/* Second row */}
+                                    <div className="download-hearts-ui-row">
+                                        <HeartsUI title="ETHICS VANGUARD" fillNumber={ethics} imageSrc={ethicsVanguard_pfp} />
+                                        <BudgetBar />
+                                    </div>
+                                </div>
+                                <div className="brand-mark-container">
+                                    <img
+                                        src={brand_mark}
+                                        alt="Brand Mark"
+                                        className="brand-mark"
+                                    />
+                                </div>     
+                            </div>
+                            <div className="replay-container">
+                                <NormalButton
+                                    text="Save to Device"
+                                    icon={downloadIcon}
+                                    size={{ minWidth: "317px", minHeight: "56px" }}
+                                    active={true}
+                                    // disabled={selectedAnswer === null} // Disable if no answer is selected
+                                    onClick={handleDownload}
+                                    style={{ backgroundColor: 'white', color: 'black' }}
+                                />
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
                 </div>
+                
             </div>
 
-            </div>
+        </div>
 
             
     );

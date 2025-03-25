@@ -21,13 +21,13 @@ root.render(
 			<Router>
 				<Routes>
 					<Route path="/choose-selection" element={<ChooseSelection />} />
-					<Route path="/" element={<LandingPageCanvas />} />
-					<Route path="/landing-page" element={<LandingPage />} />
+					<Route path="/" element={<PersonaPage />} />
+					<Route path="/landing-page" element={<PersonaPage />} />
 					<Route path="/build-a-brand" element={<BuildBrandCanvas />} />
 					<Route path="/fabric-lab" element={<FabricLab />} />
 					<Route path="/room" element={<Room />} />
 					<Route path="/manufacturing" element={<Manufacturing />} />
-					<Route path="/persona" element={<PersonaPage />} /> {/* Add PersonaPage route */}
+					<Route path="/persona" element={<PersonaPage />} /> 
 
 				</Routes>
 			</Router>
