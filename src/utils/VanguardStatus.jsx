@@ -29,6 +29,10 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts, mostLikedB
                     console.log("wealthy");
                     return allVanguards[0].finalPersonaWealth;
                 }
+                else if(mostLikedBy === 'vanguardVisionary'){
+                    console.log("vanguard visionary");
+                    return allVanguards[0].finalPersonaVanguardVisionary;
+                }
                 else{
                     console.log("didn't fit into a category");
                     return;

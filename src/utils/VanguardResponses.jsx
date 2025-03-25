@@ -150,6 +150,28 @@ const allVanguards = [
             },
         ],
     ],
+    finalPersonaVanguardVisionary: [
+        [
+            {
+                assignment:"The choices you made have shaped your brand’s identity as:",
+                persona_title:"THE VANGUARD VISIONARY",
+                img_path: wealthPersona,
+            },
+            {
+                description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"As you leave The Vault, be sure to keep into consideration everything that goes into a clothing brand in order to contribute to a better, cleaner planet for all!",
+                img_path: allVanguardsThumbsUp,
+            },
+        ],
+    ],
 
     }
 ];

@@ -3,12 +3,15 @@ import goodOnYou from "../assets/images/Links/good_on_you.png";
 import ecoPfp from "../assets/images/FinalPersona/GreenGuardian.svg";
 import moralPfp from "../assets/images/FinalPersona/MoralInnovator.svg";
 import cashPfp from "../assets/images/FinalPersona/CashCow.svg";
+import vanguardVPfp from "../assets/images/FinalPersona/VanguardVisionaryPFP.svg";
 import w_eco from "../assets/images/FinalPersona/White/GreenGuardian.svg";
 import w_moral from "../assets/images/FinalPersona/White/MoralInnovator.svg";
 import w_cash from "../assets/images/FinalPersona/White/CashCow.svg";
+import w_visionary from "../assets/images/FinalPersona/White/VanguardVisionary.svg";
 import bg_eco from "../assets/images/FinalPersona/greenChampionBg.svg";
 import bg_moral from "../assets/images/FinalPersona/moralInnovatorBg.svg";
 import bg_cash from "../assets/images/FinalPersona/cashCowBg.svg";
+import bg_visionary from "../assets/images/FinalPersona/vanguardVisionaryBg.svg";
 
 import testImg  from "../assets/images/FinalPersona/testGreenChampion.svg";
 const personaData = {
@@ -73,6 +76,33 @@ const personaData = {
         bg: bg_cash,
         personaName: "CA$H COW",
         personaDescription: "Your brand thrives on efficiency and maximizing value, providing the best value for customers while keeping an eye on profit margins. ",
+        pathTitle: "THE PATH TO GREEN FASHION CONSUMPTION",
+        displayLinkProps: {
+            height: "192px",
+            width: "410px",
+            imageSrc: goodOnYou,
+            linkImgSize: "160px",
+            title: "Learn About Green Practices",
+            link: "https://goodonyou.eco/",
+            description: "Discover how to implement green practices in your fashion brand."
+        },
+        displayLinkProps2: {
+            height: "192px",
+            width: "410px",
+            imageSrc: goodOnYou,
+            linkImgSize: "160px",
+            title: "Use a Fashion Brand Rater",
+            link: "https://goodonyou.eco/",
+            description: "Quickly search for a brand on Good on You and see it’s rating on the planet, people, and animals"
+        },
+        personaCardImage: testImg
+    },
+    vanguardVisionary: {
+        personaImage: vanguardVPfp,
+        whiteLogo: w_visionary,
+        bg: bg_visionary,
+        personaName: "VANGUARD VISIONARY",
+        personaDescription: "Your brand strategically catered to the environment, ethics, and profits. Doing good for the world and doing well in business go hand in hand!",
         pathTitle: "THE PATH TO GREEN FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",

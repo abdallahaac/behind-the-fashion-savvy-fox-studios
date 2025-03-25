@@ -77,7 +77,7 @@ function Room() {
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2301,
+		2350, 2351
 	];
 
 	// Scene loading progress
@@ -370,13 +370,18 @@ function Room() {
             return 'moralInnovator';
         } else if (mostLikedOutcome === 'eco') {
             return 'ecoWarrior';
+        } else if (mostLikedOutcome === 'wealth')  {
+            return 'cashCow'; 
         } else {
-            return 'cashCow'; // Default persona
-        }
+			return 'vanguardVisionary';
+		}
     };
 
 	const handleNavigateToEndPage = (mostLikedOutcome) => {
         const personaType = determinePersonaType(mostLikedOutcome);
+		console.log("RIGHT HERE: Most liked outcome:", personaType);
+
+		console.log("DETERMINED PERSONA", personaType);
         navigate('/persona', {
 			state: {
 				personaType: personaType,
@@ -433,10 +438,16 @@ function Room() {
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
+		
+		console.log("Most liked categories:", mostLikedCategories);
+		console.log("Number of most liked categories:", mostLikedCategories.length);
+		// If there's a tie, return "vanguard visionary"
+		if (mostLikedCategories.length > 1) {
+			return "vanguardVisionary";
+		}
 
-		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
-
-		return mostLikedCategories[randomIndex];
+		// Otherwise, return the single most liked category
+		return mostLikedCategories[0];
 	};
 
 	// === Overlays & Popups logic ===
@@ -506,8 +517,11 @@ function Room() {
 				handleFinalPersona();
 				setShowVanguardUI(true);
 				setVanguardActiveStates([true, false, false, false]);
+				break;
+			case 15:
 				handleNavigateToEndPage(mostLikedOutcome);
 				break;
+
 			default:
 				break;
 		}
