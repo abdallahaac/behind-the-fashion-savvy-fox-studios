@@ -430,7 +430,7 @@ function CanvasChooseOutfits({
 					) : (
 						// === Screen #2: Expanded view with collection ===
 						<div
-							className="new-container"
+							className="new-container outfit"
 							ref={loremContainerRef}
 							style={{ opacity: 0 }}
 						>

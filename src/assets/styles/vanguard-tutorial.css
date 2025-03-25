@@ -47,8 +47,7 @@
 }
 
 .step-container.no-step {
-	display: none;
-	background-color: none;
+	opacity: 0 !important;
 }
 .vanguard-tutorial-svg {
 	display: flex;

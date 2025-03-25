@@ -4,6 +4,9 @@ import { Text, Environment } from "@react-three/drei";
 import hdrFile from "../assets/images/hdrFile.hdr";
 import * as THREE from "three";
 
+// ==================== Vanguards ====================
+import Vanguards from "../models/Vanguards/Vangards";
+
 // ==================== FABRICS ====================
 import Wool from "../models/FabricsTest/Outfit1";
 import Silk from "../models/FabricsTest/Outfit2";
@@ -488,6 +491,7 @@ const Scene = ({
 					anchorY="middle"
 				/>
 
+				<Vanguards />
 				<EnvironmentWithCamera
 					playAnimation={playAnimation}
 					paused={paused}

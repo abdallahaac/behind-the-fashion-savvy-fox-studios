@@ -19,6 +19,9 @@
 	border-radius: 8px;
 	transition: all 300ms ease-in-out;
 }
+.new-container {
+	justify-content: space-between;
+}
 
 .plus {
 	font-size: 4rem;
