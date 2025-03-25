@@ -20,18 +20,13 @@ import brand_mark from "../assets/images/FinalPersona/brand_mark.svg";
 
 const PersonaPage = () => {
     const location = useLocation();
-    const { brandName = "MYBRANDNAME" } = location.state || {};
+    console.log("Location State:", location.state);
 
-    const defaultState = {
-        personaType: "ecoWarrior",
-        hearts: {
-            eco: 5,
-            ethics: 4,
-            wealth: 3,
-        },
-        brandName: brandName, 
-    };
-    const { personaType, hearts } = location.state || defaultState;
+    const {
+        brandName = "MYBRANDNAME",
+        hearts = { eco: 5, ethics: 4, wealth: 3 },
+        personaType = "ecoWarrior",
+    } = location.state || {};
 
     const { eco, ethics, wealth } = hearts; 
     const personaRightSideRef = useRef(null);
