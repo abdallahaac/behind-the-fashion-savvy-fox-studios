@@ -46,6 +46,10 @@
 	background-color: #f0f0f0;
 }
 
+.step-container.no-step {
+	display: none;
+	background-color: none;
+}
 .vanguard-tutorial-svg {
 	display: flex;
 }
@@ -149,12 +153,10 @@
 img.step-image {
 	width: fit-content !important;
 	height: fit-content !important;
-	max-width:200px;
-	max-height:200px;	
+	max-width: 200px;
+	max-height: 200px;
 	margin-bottom: 20px;
 }
 img.step-image.all-vanguards-happy {
-    max-width: 300px; 
-
-
+	max-width: 300px;
 }

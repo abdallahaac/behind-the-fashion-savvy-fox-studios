@@ -15,10 +15,10 @@ function LoadingOverlay({ progress, hasReachedFirstBreakpoint, onEnter }) {
 
 	// Define a set of aesthetic messages.
 	const messages = [
-		"Loading assets...",
-		"Loading materials...",
-		"Loading meshes...",
-		"Loading lights...",
+		"Loading...",
+		// "Loading materials...",
+		// "Loading meshes...",
+		// "Loading lights...",
 		"We are working hard...",
 	];
 

@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/abdallahaac/behind-the-fashion-savvy-fox-studios#readme",
 	"dependencies": {
+		"@fortawesome/free-regular-svg-icons": "^6.7.2",
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@react-three/drei": "^10.0.3",

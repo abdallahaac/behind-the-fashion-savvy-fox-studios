@@ -5,6 +5,7 @@
 	justify-content: end;
 	align-items: end;
 	font-family: "Kode Mono", serif;
+	zoom: 0.9;
 }
 .brand-create {
 	text-transform: uppercase;
@@ -20,6 +21,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	transition: height 2s ease; /* Smoothly animates height changes */
+	width: 500px;
 }
 .logo img {
 	display: block;
@@ -31,9 +33,10 @@
 }
 
 /* Expands up to 81vh upon hold completion */
-.expanded-container {
-	height: 80vh;
+.expanded-container.create {
+	height: 90vh;
 	display: flex;
+	width: 500px;
 }
 
 /* Steps row */
@@ -165,10 +168,14 @@
 .new-container {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	height: 100%;
-	padding-bottom: 20px; /* Adjust spacing at the bottom as needed */
+	/* padding-bottom: 20px; */
 	color: white;
+}
+
+.new-container.brand {
+	justify-content: space-between;
 }
 
 .font-style,
@@ -209,7 +216,7 @@
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 20px;
-	margin-top: auto; /* This pushes the container to the bottom */
+	margin-top: none; /* This pushes the container to the bottom */
 }
 .create-submit-container.ready-container {
 	border: 1px solid #ffc4b1;

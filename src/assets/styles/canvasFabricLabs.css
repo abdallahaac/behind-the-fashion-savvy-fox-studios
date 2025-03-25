@@ -23,7 +23,7 @@
 }
 
 .fabric-title-container {
-	margin: 20px 0px;
+	margin: 0px 0px;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -55,7 +55,7 @@
 	padding: 10px;
 }
 .expanded-container.fabric {
-	height: 783px;
+	height: 93vh;
 }
 
 .fabric-container.active {
@@ -94,7 +94,8 @@
 .fabric-description {
 	color: black;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
+	margin: 0px;
 }
 
 .fabric-container > img {
@@ -112,40 +113,44 @@
 .fabric-options {
 	margin-top: 10px !important;
 }
-.default-no-selection{
+.default-no-selection {
 	text-align: center;
 	padding: 80px;
 }
 
 .category-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	/* margin-bottom: 1rem; */
 }
 
 .icon-padding {
-    padding: 10px;
+	padding: 10px;
 }
 
 .text-container {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .category-title {
-    font-weight: bold;
-	margin:0px;
+	font-weight: bold;
+	margin: 0px;
 }
 
 .category-description {
-    font-size: 0.9rem;
-    color: #666;
+	font-size: 0.9rem;
+	color: #666;
 }
 
-.left-component.fabrics {
-	transform: translate(-529px);
+.left-component.fabric {
+	width: fit-content;
+	padding: 0px 20px;
 }
 
+div#fabric-only-container {
+	transform: translate(-509px, 10px);
+}
 .fabric-info-container {
 	display: flex;
 	flex-direction: row;
@@ -156,6 +161,9 @@
 .fabric-info {
 	margin-left: 40px;
 }
-#fabric-only-container{
+#fabric-only-container {
 	margin-top: -100px !important;
+}
+
+div#fabric-only-container {
 }

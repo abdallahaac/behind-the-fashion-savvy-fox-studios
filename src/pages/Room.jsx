@@ -274,11 +274,11 @@ function Room() {
 	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
-		console.log("Averages:", averages);
+		// console.log("Averages:", averages);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
-		console.log("current stage", currentStage);
+		// console.log("current stage", currentStage);
 
 		const ethics_feedback = updateVanguardStatus(
 			"ethics",
@@ -289,7 +289,7 @@ function Room() {
 		setEthicsHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts))
 		);
-		console.log("Ethics Vanguard Feedback:", ethics_feedback);
+		// console.log("Ethics Vanguard Feedback:", ethics_feedback);
 		setEthicsFeedback(ethics_feedback);
 
 		const eco_feedback = updateVanguardStatus(
@@ -301,7 +301,7 @@ function Room() {
 		setEcoHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts))
 		);
-		console.log("Eco Vanguard Feedback:", eco_feedback);
+		// console.log("Eco Vanguard Feedback:", eco_feedback);
 		setEcoFeedback(eco_feedback);
 
 		const wealth_feedback = updateVanguardStatus(
@@ -313,7 +313,7 @@ function Room() {
 		setWealthHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts))
 		);
-		console.log("Wealth Vanguard Feedback:", wealth_feedback);
+		// console.log("Wealth Vanguard Feedback:", wealth_feedback);
 		setWealthFeedback(wealth_feedback);
 	};
 
@@ -622,7 +622,7 @@ function Room() {
 	function handleOutfitSelect(newOutfitId) {
 		if (selectedOutfit === newOutfitId) return;
 		animateOutfitTo(selectedOutfit, -120);
-		animateOutfitTo(newOutfitId, -45);
+		animateOutfitTo(newOutfitId, -46);
 		setSelectedOutfit(newOutfitId);
 	}
 
@@ -736,23 +736,26 @@ function Room() {
 			)}
 
 			{/* Logo + Hearts UI */}
-			<div className="logo-container" ref={logoContainerRef}>
+			<div className="logo-container " ref={logoContainerRef}>
 				<Logo />
 				<BudgetBar />
 				<HeartsUI
 					title="ECO VANGUARD"
 					fillNumber={ecoHearts}
 					imageSrc={ecoVanguard_pfp}
+					bgColor="#ffdddd"
 				/>
 				<HeartsUI
 					title="WEALTH VANGUARD"
 					fillNumber={wealthHearts}
 					imageSrc={wealthVanguard_pfp}
+					bgColor="#ddffdd"
 				/>
 				<HeartsUI
 					title="ETHICS VANGUARD"
 					fillNumber={ethicsHearts}
 					imageSrc={ethicsVanguard_pfp}
+					bgColor="#ddddff"
 				/>
 			</div>
 

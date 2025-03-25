@@ -53,7 +53,7 @@ const assistantData = [
                     img_path: BotSvg2,
                 },
                 {
-                    description:"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
+                    description:"The Vanguards will be offering feedback as you make decisions for your brand. Click on their avatar to see what they have to say.",
                     img_path: BotSvg3,
                 },
                 {
@@ -79,12 +79,7 @@ const allVanguards = [
         brand: [
         {
             description:
-                "Your Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
-            img_path: allVanguardsHappy,
-        },
-        {
-            description:
-                "Third Brand is Looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+                "Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
             img_path: allVanguardsThumbsUp,
             funding: 100000,
         },
@@ -204,13 +199,13 @@ const ecoVanguard = [
             neutral: {
                 img_path: eco_neutral,
                 description: "Although the factory you selected isn’t the worst, there are many opportunities for improvement in adopting sustainable practices.",
-                funding: 45000,
+                // funding: 45000,
                 hearts: 0,
             },
             bad: {
                 img_path: eco_bad,
                 description: "Your factory follows harmful practices that significantly impact the environment. Improving them is crucial to reducing the factory’s carbon footprint and overall ecological damage.",
-                funding: -20000,
+                // funding: -20000,
                 hearts: -1,
             },
         },
@@ -255,7 +250,7 @@ const ethicsVanguard = [
         collectionFeedback: {
             good: {
                 img_path: ethics_good,
-                description: "I like your commitment to paying designers for original work.",
+                description: "I’m loving how your brand chose to prioritize designs that compensate designers properly. I’m going to increase your investment by $120K. ",
                 funding: 120000,
                 hearts: 1,
             },
@@ -267,7 +262,7 @@ const ethicsVanguard = [
             },
             bad: {
                 img_path: ethics_bad,
-                description: "It seems like your collection uses a lot of plagiarized work... it makes me hesitant to invest.",
+                description: "I don’t like how much stolen work I see in your collection. It’s unethical and risks your brand to legal action. I’m going to reduce our investment by $10K.",
                 funding: -10000,
                 hearts: -2,
             },
@@ -302,13 +297,13 @@ const ethicsVanguard = [
             neutral: {
                 img_path: ethics_neutral,
                 description: "Well, your factory meets basic ethical working standards. There is room for improvement as striving for higher ethical practices contribute to a more responsible supply chain.",
-                funding: 40000,
+                // funding: 40000,
                 hearts: 0,
             },
             bad: {
                 img_path: ethics_bad,
                 description: "Unfortunately, the factory you’ve chosen has significant issues with ethical practices. These concerns raise serious questions about the treatment of your employees.",
-                funding: -20000,
+                // funding: -20000,
                 hearts: -1,
             },
         },
@@ -354,19 +349,19 @@ const wealthVanguard = [
         collectionFeedback: {
             good: {
                 img_path: wealth_good,
-                description: "These designs look awesome! I can see lots of people wanting to purchase these!",
+                description: "Your cheap designs will allow your collection to be accessible to the public. I’m going to increase your investment by $90K. ",
                 funding: 90000,
                 hearts: 1,
             },
             neutral: {
                 img_path: wealth_neutral,
-                description: "The collection has potential but needs better marketing.",
+                description: "The costs of your designs...it’s a good start. You need to think of how these costs get passed onto the consumer. AKA can’t spend too much!",
                 funding: 55000,
                 hearts: 0,
             },
             bad: {
                 img_path: wealth_bad,
-                description: "The collection is not profitable.",
+                description: "These clothes are too costly! Consumer’s aren’t going to be able to afford this. I’m afraid I’ll have to reduce our investment by $10K.",
                 funding: -10000,
                 hearts: -2,
             },
@@ -386,7 +381,7 @@ const wealthVanguard = [
             },
             bad: {
                 img_path: wealth_bad,
-                description: "All these expensive fabrics...I know for a fact there are cheaper alternatives available. Who cares if these synthetic fabrics are made of oil - it’s coming out of your own pocket!---",
+                description: "All these expensive fabrics...I know for a fact there are cheaper alternatives available. Who cares if these synthetic fabrics are made of oil - it’s coming out of your own pocket!",
                 funding: -20000,
                 hearts: -2,
             },
@@ -401,13 +396,13 @@ const wealthVanguard = [
             neutral: {
                 img_path: wealth_neutral,
                 description: "I know for a fact that there are more cost-effective factories in our world. You could produce the same thing for a fraction of the cost!",
-                funding: 20000,
+                //funding: 20000,
                 hearts: 0,
             },
             bad: {
                 img_path: wealth_bad,
                 description: "Now this factory is RIDDEN with red flags. I’m concerned about potential public controversy if something comes out in the news...",
-                funding: -20000,
+                // funding: -20000,
                 hearts: -1,
             },
         },

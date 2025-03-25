@@ -64,7 +64,7 @@ function CreateBrand({
 	const createSubmitContainerRef = useRef(null);
 
 	// Adjust as needed
-	const HOLD_DURATION = 0;
+	const HOLD_DURATION = 0; // Example: 0.8s hold to complete
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -113,9 +113,7 @@ function CreateBrand({
 			opacity: 0,
 			onComplete: () => {
 				setIsExpanded(true);
-				if (onStart) {
-					onStart();
-				}
+				if (onStart) onStart();
 			},
 		});
 	};
@@ -213,7 +211,9 @@ function CreateBrand({
 	return (
 		<div className="start-button-container" ref={containerRef}>
 			<div
-				className={`create-container ${isExpanded ? "expanded-container" : ""}`}
+				className={`create-container ${
+					isExpanded ? "expanded-container create" : ""
+				}`}
 			>
 				<div className="create-parent" ref={createParentRef}>
 					<div className="create-step-container">
@@ -255,13 +255,13 @@ function CreateBrand({
 						</div>
 					) : (
 						<div
-							className="new-container"
+							className="new-container brand"
 							ref={loremContainerRef}
 							style={{ opacity: 0 }}
 						>
 							<div className="section-one">
 								<div>BRAND NAME</div>
-								<div style={{ position: "relative", width: "92%" }}>
+								<div style={{ position: "relative", width: "100%" }}>
 									<input
 										type="text"
 										placeholder="Brand Name..."

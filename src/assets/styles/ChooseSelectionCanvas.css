@@ -33,7 +33,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 50px;
+	/* margin-bottom: 50px; */
 	transition: all 300ms ease-in-out;
 }
 
@@ -64,7 +64,7 @@
 /* Left Component */
 .left-component.outfit {
 	position: absolute;
-	transform: translate(-530px);
+	transform: translate(-508px);
 	width: 460px;
 	min-height: 500px;
 	max-height: fit-content;
@@ -80,7 +80,7 @@
 	backdrop-filter: blur(20px);
 	/* Optional left border line */
 	border-left: 1px solid white;
-	padding: 24px;
+	padding: 14px;
 	transition: all 300ms ease-in-out;
 }
 
@@ -423,7 +423,7 @@ button.cta-button.remove {
 	box-sizing: border-box;
 }
 .expanded-container.outfit {
-	height: 790px;
+	height: 93vh;
 }
 .higher {
 	position: relative; /* or absolute/fixed if needed */

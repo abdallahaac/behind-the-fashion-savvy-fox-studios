@@ -1,6 +1,6 @@
 .canvas-list {
 	position: fixed;
-	bottom: 40px; /* Stick to the bottom */
+	bottom: 6px; /* Stick to the bottom */
 	left: 25%; /* Center horizontally */
 	transform: translateX(0%); /* Adjust centering */
 	/* Optional: Add padding, background, etc. */
