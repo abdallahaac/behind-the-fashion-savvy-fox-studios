@@ -20,6 +20,7 @@ import brand_mark from "../assets/images/FinalPersona/brand_mark.svg";
 
 const PersonaPage = () => {
     const location = useLocation();
+    const { brandName = "MYBRANDNAME" } = location.state || {};
 
     const defaultState = {
         personaType: "ecoWarrior",
@@ -28,6 +29,7 @@ const PersonaPage = () => {
             ethics: 4,
             wealth: 3,
         },
+        brandName: brandName, 
     };
     const { personaType, hearts } = location.state || defaultState;
 
@@ -164,7 +166,11 @@ const PersonaPage = () => {
                                 <div className="download-title-container">
                       
                                     <div className="result-text">
-                                        <p className="body-text-small ">My brand _____ is a</p>
+                                        <p className="body-text-small">
+                                            <span className="text-gray">My Brand, </span>
+                                            <span className="text-white-bold">{brandName}</span>
+                                            <span className="text-gray"> is a</span>
+                                        </p>
                                         <h2 className="d-p-name accent-2">{personaName}</h2>
                                         <p className="body-text-medium">{personaDescription}</p>
                                     </div>                                   

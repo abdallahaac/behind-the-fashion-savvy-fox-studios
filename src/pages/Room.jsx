@@ -385,6 +385,7 @@ function Room() {
 					ethics: ethicsHearts,
 					wealth: wealthHearts,
 				},
+				brandName: brandName, 
 			},
 		});
     };
