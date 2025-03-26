@@ -29,6 +29,7 @@ html {
 /* Header Styling */
 .banner {
 	display: flex;
+	font-family: "Kode Mono", monospace;
 	justify-content: center;
 	align-items: center !important;
 	z-index: 500;
@@ -394,4 +395,7 @@ h1.landing-h1.landing-page {
 	opacity: 0;
 	pointer-events: none;
 	z-index: 9999;
+}
+.rfm-marquee-container{
+	overflow-y: hidden;
 }

@@ -20,17 +20,21 @@
 	},
 	"homepage": "https://github.com/abdallahaac/behind-the-fashion-savvy-fox-studios#readme",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.7.2",
 		"@fortawesome/free-regular-svg-icons": "^6.7.2",
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@react-three/drei": "^10.0.3",
 		"@vitejs/plugin-react": "^4.3.4",
 		"gsap": "^3.12.7",
+		"html-to-image": "^1.11.13",
 		"leva": "^0.10.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-fast-marquee": "^1.6.5",
+		"react-icons": "^5.5.0",
 		"react-router-dom": "^7.2.0",
+		"react-share": "^5.2.2",
 		"vite": "^6.2.0",
 		"vite-plugin-restart": "^0.4.2"
 	}

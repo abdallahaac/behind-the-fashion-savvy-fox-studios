@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
+import { useNavigate } from 'react-router-dom';
 import {
 	assistantData,
 	allVanguards,
@@ -13,6 +14,7 @@ import Scene from "../utils/Scene";
 import Logo from "../components/Logo";
 import Vanguard from "../components/Vanguard";
 import VanguardPopUp from "../components/VanguardPopUps";
+import DisplayLink from "../components/DisplayLink";
 import CreateBrand from "../components/CreateBrand";
 import Hotseat from "../components/Hotseat";
 import QuizQuestions from "../utils/QuizQuestions";
@@ -32,6 +34,7 @@ import { FundingContext } from "../utils/FundingContext";
 import LoadingOverlay from "../utils/LoadingOverlay";
 
 function Room() {
+	const navigate = useNavigate(); 
 	// ============ VANGUARD / STAGES SETUP ============
 	const STAGES = {
 		INTRO: "introduction",
@@ -64,6 +67,7 @@ function Room() {
 	const [showManufactorer, setShowManufactorer] = useState(false);
 	const [showVanguardUI, setShowVanguardUI] = useState(false);
 	const [showHotseat, setShowHotseat] = useState(false);
+	const [mostLikedOutcome, setMostLikedOutcome] = useState(null);
 
 	// ============ ANIMATION + BREAKPOINTS ============
 	const [playAnimation, setPlayAnimation] = useState(false);
@@ -73,7 +77,7 @@ function Room() {
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2400,
+		2350, 2351
 	];
 
 	// Scene loading progress
@@ -84,6 +88,8 @@ function Room() {
 	const displayedProgress = hasReachedFirstBreakpoint
 		? 100
 		: Math.min(Math.max(rawProgress, 1), 99);
+
+
 
 	const [brandName, setBrandName] = useState("MYBRAND");
 	const [fontStyle, setFontStyle] = useState("");
@@ -355,7 +361,39 @@ function Room() {
 			"testing to see if we get the right feedback",
 			allVanguard_feedback
 		);
+		setMostLikedOutcome(mostLikedBy);
+	
 	};
+	const determinePersonaType = (mostLikedOutcome) => {
+       
+        if (mostLikedOutcome === 'ethics') {
+            return 'moralInnovator';
+        } else if (mostLikedOutcome === 'eco') {
+            return 'ecoWarrior';
+        } else if (mostLikedOutcome === 'wealth')  {
+            return 'cashCow'; 
+        } else {
+			return 'vanguardVisionary';
+		}
+    };
+
+	const handleNavigateToEndPage = (mostLikedOutcome) => {
+        const personaType = determinePersonaType(mostLikedOutcome);
+		console.log("RIGHT HERE: Most liked outcome:", personaType);
+
+		console.log("DETERMINED PERSONA", personaType);
+        navigate('/persona', {
+			state: {
+				personaType: personaType,
+				hearts: {
+					eco: ecoHearts,
+					ethics: ethicsHearts,
+					wealth: wealthHearts,
+				},
+				brandName: brandName, 
+			},
+		});
+    };
 
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
@@ -400,10 +438,16 @@ function Room() {
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
+		
+		console.log("Most liked categories:", mostLikedCategories);
+		console.log("Number of most liked categories:", mostLikedCategories.length);
+		// If there's a tie, return "vanguard visionary"
+		if (mostLikedCategories.length > 1) {
+			return "vanguardVisionary";
+		}
 
-		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
-
-		return mostLikedCategories[randomIndex];
+		// Otherwise, return the single most liked category
+		return mostLikedCategories[0];
 	};
 
 	// === Overlays & Popups logic ===
@@ -474,6 +518,10 @@ function Room() {
 				setShowVanguardUI(true);
 				setVanguardActiveStates([true, false, false, false]);
 				break;
+			case 15:
+				handleNavigateToEndPage(mostLikedOutcome);
+				break;
+
 			default:
 				break;
 		}

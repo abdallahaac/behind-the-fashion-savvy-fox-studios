@@ -2,17 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import "../assets/styles/selection-panel.css"; // Ensure this file contains the necessary styles
 
-const NormalButton = ({ text, icon, size, active, disabled, onClick }) => {
+const NormalButton = ({ text, icon, size, active, disabled, onClick, style}) => {
     const { minWidth, minHeight } = size;
 
     return (
         <button
             className={`button ${disabled ? "button-disabled" : active ? "button-active" : ""}`}
-            style={{ minWidth, minHeight }}
+            style={{ minWidth, minHeight, ...style }}
             onClick={onClick}
             disabled={disabled}
         >
-            <span className="button-text">{text}</span>
+            <span className="button-text" style={{ ...style }}>{text}</span>
             {icon && <img src={icon} alt="icon" className="button-icon" />}
         </button>
     );
@@ -28,6 +28,7 @@ NormalButton.propTypes = {
     active: PropTypes.bool,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
+    style: PropTypes.object,
 };
 
 NormalButton.defaultProps = {
