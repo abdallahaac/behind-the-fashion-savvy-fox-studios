@@ -6,8 +6,10 @@ import right_arrow from "../assets/images/right-arrow.svg";
 import { FundingContext } from "../utils/FundingContext";
 import allVanguardsHappy from "../assets/images/Vanguards/allVanguards_happy.svg";
 import allVanguardsThumbsUp from "../assets/images/Vanguards/allVanguards_thumbsUp.svg";
+import { useAudioManager } from "../utils/AudioManager";
 
 import NormalButton from "./NormalButton";
+
 
 function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	// Flatten the steps array
@@ -18,6 +20,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	const [doneClicked, setDoneClicked] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
+	const { refs, playSound } = useAudioManager();
 
 	// Use the global funding context
 	const { fundingAmount, setFundingAmount, generateFunding } =
@@ -27,6 +30,9 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
 	const containerRef = useRef(null);
+
+	const soundPlayedRef = useRef(false); 
+
 
 	// Fade in the container on mount
 	useEffect(() => {
@@ -53,8 +59,21 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	//     }
 	// }, [currentStep, _steps, generateFunding]);
 
+	//Play reaction sounds:
+	// Play the sound for the first step if it hasn't been played yet
+	
+	if (!soundPlayedRef.current && _steps.length > 0) {
+		const step = _steps[0]; // Get the first step
+		if (step && step.soundRef) {
+			console.log("Playing sound for the first step:", step.soundRef); // Debugging log
+			playSound(refs[step.soundRef]); // Play the sound based on the soundRef
+			soundPlayedRef.current = true; // Mark the sound as played
+		}
+	}
+
 	// Navigation Handlers
 	const handleNext = () => {
+		playSound(refs.uiClickSoundRef);
 		if (currentStep < _steps.length - 1) {
 			setCurrentStep(currentStep + 1);
 		}
@@ -62,6 +81,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	const handleHello = () => {};
 	console.log("hello");
 	const handleBack = () => {
+		playSound(refs.uiClickSoundRef);
 		if (currentStep > 0) {
 			setCurrentStep(currentStep - 1);
 		}
@@ -101,8 +121,8 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	};
 
 	const handleDone = () => {
-		console.log("handleDones");
 		setDoneClicked(true);
+		playSound(refs.uiClickSoundRef);
 		gsap.fromTo(
 			containerRef.current,
 			{ opacity: 1 },

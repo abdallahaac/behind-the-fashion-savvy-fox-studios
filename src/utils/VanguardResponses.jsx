@@ -46,6 +46,7 @@ const assistantData = [
 					description:
 						"Hey there! Welcome to The Vault. I’m your assistant to guide and prepare you for your pitch to the Vanguards.",
 					img_path: BotSvg,
+					soundRef: "robotSound1Ref",
 				},
 				// {
 				//     description:"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
@@ -80,6 +81,7 @@ const allVanguards = [
 					"Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
 				img_path: allVanguardsThumbsUp,
 				funding: 100000,
+				soundRef: "moneySoundRef",
 			},
 		],
 		finalPersonaEco: [
@@ -207,6 +209,7 @@ const ecoVanguard = [
 					"I’ve noticed that your brand uses fabrics that are more sustainable for our planet, and because of that, I’m raising our investment by $70K!",
 				funding: 70000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: eco_neutral,
@@ -214,6 +217,7 @@ const ecoVanguard = [
 					"I’ve noticed the fabrics your brand uses are a mix of synthetic and natural fibers. I think it’s a good start but I want to see more commitment to the environment.",
 				funding: 45000,
 				hearts: 0,
+				soundRef: "environmentNeutralRef",
 			},
 			bad: {
 				img_path: eco_bad,
@@ -221,6 +225,7 @@ const ecoVanguard = [
 					"I am not liking the heavy use of synthetic fibres. They have a huge environmental impact and will not break down over time.",
 				funding: -20000,
 				hearts: -2,
+				soundRef: "environmentBadRef",
 			},
 		},
 		manufacturingFeedback: {
@@ -230,6 +235,7 @@ const ecoVanguard = [
 					"I’m impressed at your brand’s manufacturer. Clean energy and reducing waste are top things to consider for sustainability.",
 				// funding: 4000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: eco_neutral,
@@ -237,6 +243,7 @@ const ecoVanguard = [
 					"Although the factory you selected isn’t the worst, there are many opportunities for improvement in adopting sustainable practices.",
 				// funding: 45000,
 				hearts: 0,
+				soundRef: "environmentNeutralRef",
 			},
 			bad: {
 				img_path: eco_bad,
@@ -244,6 +251,7 @@ const ecoVanguard = [
 					"Your factory follows harmful practices that significantly impact the environment. Improving them is crucial to reducing the factory’s carbon footprint and overall ecological damage.",
 				// funding: -20000,
 				hearts: -1,
+				soundRef: "environmentBadRef",
 			},
 		},
 		finalFeedback: {
@@ -253,6 +261,7 @@ const ecoVanguard = [
 					"I’m impressed by your commitment to a brand that is good for the planet. As such, today I am willing to invest $10 Million into the business!",
 				funding: 10000000,
 				fundTitle: "$10 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: eco_neutral,
@@ -267,6 +276,7 @@ const ecoVanguard = [
 					"I have seen a poor commitment to the environment from your brand. Unfortunately, I will pass from investing today.",
 				funding: 0,
 				fundTitle: "NO INVESTMENT",
+				soundRef: "environmentBadRef",
 			},
 		},
 	},
@@ -294,6 +304,7 @@ const ethicsVanguard = [
 					"I’m loving how your brand chose to prioritize designs that compensate designers properly. I’m going to increase your investment by $120K. ",
 				funding: 120000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: ethics_neutral,
@@ -301,6 +312,7 @@ const ethicsVanguard = [
 					"I see a mix of original and plagiarized designs in your brand. Going forward, I’d like to see more ethical decisions.",
 				funding: 50000,
 				hearts: 0,
+				soundRef: "ethicsNeutralRef",
 			},
 			bad: {
 				img_path: ethics_bad,
@@ -308,6 +320,7 @@ const ethicsVanguard = [
 					"I don’t like how much stolen work I see in your collection. It’s unethical and risks your brand to legal action. I’m going to reduce our investment by $10K.",
 				funding: -10000,
 				hearts: -2,
+				soundRef: "ethicsBadRef",
 			},
 		},
 		fabricFeedback: {
@@ -317,6 +330,7 @@ const ethicsVanguard = [
 					"The fabrics that you chose for your brand have been sourced with ethical practices in mind. This makes me extremely happy to see!",
 				funding: 75000,
 				hearts: 2,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: ethics_neutral,
@@ -324,6 +338,7 @@ const ethicsVanguard = [
 					"Some of your fabrics have been sourced with ethical practices in mind. This is a good start but more needs to be done.",
 				funding: 40000,
 				hearts: 0,
+				soundRef: "ethicsNeutralRef",
 			},
 			bad: {
 				img_path: ethics_bad,
@@ -331,6 +346,7 @@ const ethicsVanguard = [
 					"The fabrics you've chosen are often sourced from places with poor ethical practices, treating workers with little regard for well-being or dignity.",
 				funding: -20000,
 				hearts: -2,
+				soundRef: "ethicsBadRef",
 			},
 		},
 		manufacturingFeedback: {
@@ -340,6 +356,7 @@ const ethicsVanguard = [
 					"I’m glad to see your factory has been regularly audited and follows ethical working standards for their employers.\nHappy Employees = Happy Company!",
 				// funding: 4000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: ethics_neutral,
@@ -347,6 +364,7 @@ const ethicsVanguard = [
 					"Well, your factory meets basic ethical working standards. There is room for improvement as striving for higher ethical practices contribute to a more responsible supply chain.",
 				// funding: 40000,
 				hearts: 0,
+				soundRef: "ethicsNeutralRef",
 			},
 			bad: {
 				img_path: ethics_bad,
@@ -354,6 +372,7 @@ const ethicsVanguard = [
 					"Unfortunately, the factory you’ve chosen has significant issues with ethical practices. These concerns raise serious questions about the treatment of your employees.",
 				// funding: -20000,
 				hearts: -1,
+				soundRef: "ethicsBadRef",
 			},
 		},
 		finalFeedback: {
@@ -363,6 +382,7 @@ const ethicsVanguard = [
 					"I’ve seen your clear commitment to ethical and fair business practices. I am all in your brand and would like to invest $10 Million.",
 				funding: 10000000,
 				fundTitle: "$10 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: ethics_neutral,
@@ -377,6 +397,7 @@ const ethicsVanguard = [
 					"I cannot in good conscience invest in a brand that makes business decisions that are harmful for workers involved. It’s a no from me today.",
 				funding: 0,
 				fundTitle: "NO INVESTMENT",
+				soundRef: "ethicsBadRef",
 			},
 		},
 	},
@@ -405,6 +426,7 @@ const wealthVanguard = [
 					"Your cheap designs will allow your collection to be accessible to the public. I’m going to increase your investment by $90K. ",
 				funding: 90000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: wealth_neutral,
@@ -412,6 +434,7 @@ const wealthVanguard = [
 					"The costs of your designs...it’s a good start. You need to think of how these costs get passed onto the consumer. AKA can’t spend too much!",
 				funding: 55000,
 				hearts: 0,
+				soundRef: "wealthNeutralRef",
 			},
 			bad: {
 				img_path: wealth_bad,
@@ -419,6 +442,7 @@ const wealthVanguard = [
 					"These clothes are too costly! Consumer’s aren’t going to be able to afford this. I’m afraid I’ll have to reduce our investment by $10K.",
 				funding: -10000,
 				hearts: -2,
+				soundRef: "wealthBadRef",
 			},
 		},
 		fabricFeedback: {
@@ -428,6 +452,7 @@ const wealthVanguard = [
 					"I like seeing a brand that can balance sustainable fabrics, but still considers cost and profits. I think that there’s lots of potential for growth!",
 				funding: 60000,
 				hearts: 2,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: wealth_neutral,
@@ -435,6 +460,7 @@ const wealthVanguard = [
 					"Profits profits profits - that’s what I like to see. However, the use of low quality materials may not resonate with consumers ...keep that in mind",
 				funding: 20000,
 				hearts: 0,
+				soundRef: "wealthNeutralRef",
 			},
 			bad: {
 				img_path: wealth_bad,
@@ -442,6 +468,7 @@ const wealthVanguard = [
 					"All these expensive fabrics...I know for a fact there are cheaper alternatives available. Who cares if these synthetic fabrics are made of oil - it’s coming out of your own pocket!",
 				funding: -20000,
 				hearts: -2,
+				soundRef: "wealthBadRef",
 			},
 		},
 		manufacturingFeedback: {
@@ -451,6 +478,7 @@ const wealthVanguard = [
 					"It’s nice to see your factory is up to standards. Prevents the risk of lawsuits and controversy surrounding your brand.",
 				// funding: 5000,
 				hearts: 1,
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: wealth_neutral,
@@ -458,6 +486,7 @@ const wealthVanguard = [
 					"I know for a fact that there are more cost-effective factories in our world. You could produce the same thing for a fraction of the cost!",
 				//funding: 20000,
 				hearts: 0,
+				soundRef: "wealthNeutralRef",
 			},
 			bad: {
 				img_path: wealth_bad,
@@ -465,6 +494,7 @@ const wealthVanguard = [
 					"Now this factory is RIDDEN with red flags. I’m concerned about potential public controversy if something comes out in the news...",
 				// funding: -20000,
 				hearts: -1,
+				soundRef: "wealthBadRef",
 			},
 		},
 		finalFeedback: {
@@ -474,6 +504,7 @@ const wealthVanguard = [
 					"I see significant potential for profit in your brand. Today, I’d like to invest $3 million into your clothing business.",
 				funding: 3000000,
 				fundTitle: "$3 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			neutral: {
 				img_path: wealth_neutral,
@@ -488,6 +519,7 @@ const wealthVanguard = [
 					"The brand you created does not optimize profits over all. I don’t see how I will make much money off of your brand, so I will not be supporting you.",
 				funding: 0,
 				fundTitle: "NO INVESTMENT",
+				soundRef: "wealthBadRef",
 			},
 		},
 	},

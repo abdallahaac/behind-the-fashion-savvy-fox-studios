@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useModels } from "../utils/ModelsContext";
 import "../assets/styles/ModelList.css";
+import { useAudioManager } from "../utils/AudioManager";
 
 const ModelList = ({ selectedModel, onModelChange, models }) => {
+
+	const { refs, playSound } = useAudioManager();
 
 	useEffect(() => {
 		if (selectedModel) {
@@ -14,6 +17,9 @@ const ModelList = ({ selectedModel, onModelChange, models }) => {
 	}, [selectedModel]);
 
 	const handleModelClick = (model) => {
+		console.log("UI Transition Sound Ref:", refs.uiTransitionRef.current); // Debugging log
+		playSound(refs.uiTransitionRef);
+
 		onModelChange(model); // Update the selected model
 	};
 

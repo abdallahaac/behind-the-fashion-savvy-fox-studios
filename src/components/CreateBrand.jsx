@@ -9,6 +9,7 @@ import LogoTwo from "../../public/images/Logo3.png";
 import LogoThree from "../../public/images/Logo1.png";
 import LogoFour from "../../public/images/Logo4.png";
 import LogoFive from "../../public/images/Logo5.png";
+import { useAudioManager } from "../utils/AudioManager";
 
 // Helper function to return a dynamic description based on the font selection.
 function getBrandDesc(font) {
@@ -48,7 +49,7 @@ function CreateBrand({
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
 	const [isSubmitContainerVisible, setIsSubmitContainerVisible] =
 		useState(false);
-
+	const { refs, playSound } = useAudioManager();
 	const createHoldStartRef = useRef(null);
 	const createIntervalRef = useRef(null);
 	const containerRef = useRef(null);
@@ -93,6 +94,7 @@ function CreateBrand({
 	};
 
 	const endHold = (e) => {
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		clearInterval(intervalRef.current);
 		if (progress < 100) {
@@ -146,6 +148,7 @@ function CreateBrand({
 
 	const startCreateHold = (e) => {
 		if (!isReady) return;
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		setIsCreateBlinking(false);
 		setCreateProgress(0);
@@ -194,6 +197,7 @@ function CreateBrand({
 	];
 
 	const handleLogoClick = (logoId) => {
+		playSound(refs.uiTransitionRef);
 		if (!isSubmitContainerVisible) return;
 		setSelectedLogo(logoId);
 		onLogoSelect?.(logoId);

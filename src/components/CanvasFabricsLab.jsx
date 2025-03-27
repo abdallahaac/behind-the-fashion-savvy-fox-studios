@@ -13,6 +13,7 @@ import neutralThumb from "../assets/images/emotion_neutral.svg";
 import CanvasBarFabrics from "../components/CanvasBarFabrics";
 import { useModels } from "../utils/ModelsContext";
 import { FundingContext } from "../utils/FundingContext";
+import { useAudioManager } from "../utils/AudioManager";
 
 const HOLD_DURATION = 0;
 
@@ -24,7 +25,7 @@ function CanvasFabricLabs({
 }) {
 	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
-
+	const { refs, playSound } = useAudioManager();
 	// Which section (1=Light, 2=Knit, 3=Shiny)
 	const [currentSection, setCurrentSection] = useState(1);
 
@@ -114,6 +115,7 @@ function CanvasFabricLabs({
 	}
 
 	function endHold(e) {
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		clearInterval(intervalRef.current);
 		if (progress < 100) {
@@ -213,6 +215,7 @@ function CanvasFabricLabs({
 
 	function handlePurchaseClick() {
 		if (!isFabricChosenThisSection) return;
+		playSound(refs.uiStartSoundRef);
 		if (currentSection < 3) {
 			const chosenFabric = selectedFabrics[currentSection];
 			if (chosenFabric) {
@@ -235,6 +238,7 @@ function CanvasFabricLabs({
 	 * Then we call onFabricSelect(fabric.fabricKey) to tell Room to animate the 3D mesh.
 	 */
 	function handleFabricSelectInUI(fabric) {
+		playSound(refs.addToCollectionRef);
 		console.log("Fabric clicked:", fabric);
 		setSelectedFabrics((prev) => ({
 			...prev,

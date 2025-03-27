@@ -10,6 +10,7 @@ import CollectionOriginalityMetric from "../components/CollectionOrigMetric"; //
 
 import { useModels } from "../utils/ModelsContext";
 import { FundingContext } from "../utils/FundingContext";
+import { useAudioManager } from "../utils/AudioManager";
 
 function getBrandDesc(font) {
 	switch (font) {
@@ -40,7 +41,7 @@ function CanvasChooseOutfits({
 	onClothingSelection,
 }) {
 	const { CanvasOutfitsData } = useModels();
-
+	const { refs, playSound } = useAudioManager();
 	// ================== ADD: Funding Context ==================
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
@@ -103,7 +104,7 @@ function CanvasChooseOutfits({
 		setIsBlinking(false);
 		setProgress(0);
 		holdStartRef.current = Date.now();
-
+		
 		intervalRef.current = setInterval(() => {
 			const elapsed = Date.now() - holdStartRef.current;
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
@@ -118,6 +119,7 @@ function CanvasChooseOutfits({
 	};
 
 	const endHold = (e) => {
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		clearInterval(intervalRef.current);
 		if (progress < 100) {
@@ -173,7 +175,7 @@ function CanvasChooseOutfits({
 	const startCreateHold = (e) => {
 		// For simplicity, require user to have 3 outfits in the collection
 		if (!isCollectionActive) return;
-
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		setIsCreateBlinking(false);
 		setCreateProgress(0);
@@ -228,6 +230,10 @@ function CanvasChooseOutfits({
 
 	// ADD an outfit
 	const addToCollection = (outfit, index) => {
+		if (refs.addToCollectionRef.current) {
+			refs.addToCollectionRef.current.volume = 0.9;
+		}
+		playSound(refs.addToCollectionRef);
 		setCollection((prev) => {
 			const idx = prev.findIndex((item) => item === null);
 			if (idx === -1) return prev; // no space left
@@ -249,6 +255,10 @@ function CanvasChooseOutfits({
 
 	// REMOVE an outfit
 	const removeBySlotIndex = (slotIndex) => {
+		if (refs.removeFromCollectionRef.current) {
+			refs.removeFromCollectionRef.current.volume = 0.5; // Set volume to 50%
+		}
+		playSound(refs.removeFromCollectionRef);
 		setCollection((prev) => {
 			const newArr = [...prev];
 			const removedOutfit = newArr[slotIndex];
