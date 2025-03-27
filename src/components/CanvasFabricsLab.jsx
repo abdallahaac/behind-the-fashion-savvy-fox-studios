@@ -7,20 +7,26 @@ import greenThumb from "../assets/images/green-thumb.svg";
 import redThumb from "../assets/images/red-thumb.svg";
 import neutralThumb from "../assets/images/emotion_neutral.svg";
 
-// Removed import of BotSvg:
-// import BotSvg from "../assets/images/tutorial-bot.svg";
-
 import CanvasBarFabrics from "../components/CanvasBarFabrics";
 import { useModels } from "../utils/ModelsContext";
 import { FundingContext } from "../utils/FundingContext";
 
 const HOLD_DURATION = 0;
 
+// Helper function to format price values
+const formatPrice = (price) => {
+	if (!price) return "";
+	if (price >= 1000) {
+		return (price / 1000).toFixed(0) + "k";
+	}
+	return price;
+};
+
 function CanvasFabricLabs({
 	onStart,
 	onCreate,
 	onFabricSelection,
-	onFabricSelect, // For real-time 3D toggling
+	onFabricSelect,
 }) {
 	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
@@ -224,6 +230,7 @@ function CanvasFabricLabs({
 			setSelectedFabricIndex(0);
 		}
 	}
+
 	useEffect(() => {
 		// Reset the fabric selection when the section changes
 		setSelectedFabricIndex(-1);
@@ -336,7 +343,7 @@ function CanvasFabricLabs({
 										}`}
 										onClick={() => setCurrentSection(1)}
 									>
-										1
+										LIGHTWEIGHT
 									</div>
 									<div className="section-number line"></div>
 									<div
@@ -345,7 +352,7 @@ function CanvasFabricLabs({
 										}`}
 										onClick={() => setCurrentSection(2)}
 									>
-										2
+										KNIT
 									</div>
 									<div className="section-number line"></div>
 									<div
@@ -354,43 +361,42 @@ function CanvasFabricLabs({
 										}`}
 										onClick={() => setCurrentSection(3)}
 									>
-										3
+										SHINY
 									</div>
 								</div>
-							</div>
-
-							<div className="fabric-title-container">
-								<div>
-									<div className="fabric-title">{getSectionTitle()}</div>
-									<div className="fabric-selection-container">
-										{fabricsData.map((fabric, idx) => (
-											<div
-												key={fabric.id}
-												className={`fabric-container ${
-													idx === selectedFabricIndex ? "active" : ""
-												}`}
-												onClick={() => {
-													setSelectedFabricIndex(idx);
-													handleFabricSelectInUI(fabric);
-												}}
-											>
-												<img
-													className="fabric-img"
-													width={"100px"}
-													height={"100px"}
-													src={fabric.img_path}
-													alt={fabric.name}
-												/>
-												<div className="fabric-options">
-													<div className="fabric-option-title">
-														{fabric.name}
-													</div>
-													<div className="fabric-option-price">
-														${fabric.cost}
+								<div className="fabric-title-container">
+									<div>
+										<div className="fabric-title">{getSectionTitle()}</div>
+										<div className="fabric-selection-container">
+											{fabricsData.map((fabric, idx) => (
+												<div
+													key={fabric.id}
+													className={`fabric-container ${
+														idx === selectedFabricIndex ? "active" : ""
+													}`}
+													onClick={() => {
+														setSelectedFabricIndex(idx);
+														handleFabricSelectInUI(fabric);
+													}}
+												>
+													<img
+														className="fabric-img"
+														width={"100px"}
+														height={"100px"}
+														src={fabric.img_path}
+														alt={fabric.name}
+													/>
+													<div className="fabric-options">
+														<div className="fabric-option-title">
+															{fabric.name}
+														</div>
+														<div className="fabric-option-price">
+															${formatPrice(fabric.cost)}
+														</div>
 													</div>
 												</div>
-											</div>
-										))}
+											))}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -459,7 +465,6 @@ function CanvasFabricLabs({
 								</div>
 							</div>
 
-							{/* CanvasBarFabrics: previous/next cycle */}
 							<CanvasBarFabrics
 								items={fabricsData}
 								selectedIndex={selectedFabricIndex}
@@ -467,7 +472,6 @@ function CanvasFabricLabs({
 								onFabricSelect={(fabric) => handleFabricSelectInUI(fabric)}
 							/>
 
-							{/* Left-hand info panel for the currently highlighted fabric */}
 							<div className="left-component outfit" id="fabric-only-container">
 								{currentFabric ? (
 									<div className="left-container">
@@ -475,7 +479,9 @@ function CanvasFabricLabs({
 											<span className="model-title">
 												{currentFabric.name.toUpperCase()}
 											</span>
-											<div className="span-price">${currentFabric.cost}</div>
+											<div className="span-price">
+												${formatPrice(currentFabric.cost)}
+											</div>
 										</div>
 										<div
 											className="fabric-description"
