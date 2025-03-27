@@ -9,7 +9,8 @@
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	width: 100%;
-	max-width: 241px;
+	max-width: 341px;
+
 	font-family: "Kode Mono", monospace;
 	height: 92px;
 	text-transform: uppercase;
@@ -33,9 +34,12 @@
 
 .logo-container {
 	display: flex;
-
-	/* If the parent has overflow hidden, you may need to remove it as well. */
-	/* overflow: visible; */
+	flex-wrap: wrap; /* allow children to wrap on smaller screens */
+	align-items: center;
+	justify-content: space-around; /* or space-around / flex-start, depending on design */
+	gap: 1rem; /* space between each child */
+	width: 100%;
+	box-sizing: border-box;
 }
 
 /* The superimposed SVG */
