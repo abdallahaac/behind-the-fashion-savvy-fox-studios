@@ -9,7 +9,7 @@
 	justify-content: start;
 	gap: 1rem;
 	box-sizing: border-box;
-	width: 200px;
+	width: 300px;
 }
 
 /* Child container for each metric block */
@@ -26,7 +26,7 @@
 	max-width: 300px !important;
 	min-width: 220px;
 	box-sizing: border-box;
-	height: 89px;
+	height: 80px;
 }
 
 /* Title styling */
@@ -45,6 +45,7 @@
 /* Amount styling */
 .metric-amount {
 	color: white;
+	font-size: 18px;
 }
 
 /* Extra details styling */
