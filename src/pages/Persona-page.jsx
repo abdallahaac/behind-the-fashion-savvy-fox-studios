@@ -40,7 +40,12 @@ const PersonaPage = () => {
         pathTitle,
         displayLinkProps,
         displayLinkProps2,
-        personaCardImage
+        displayLinkProps3,
+        displayLinkProps4,
+        displayLinkProps5,
+        displayLinkProps6,
+        displayLinkProps7,
+        personaCardImage,
     } = personaData[personaType];
 
     const handleDownload = () => {
@@ -130,11 +135,11 @@ const PersonaPage = () => {
                             <div className='links-container'>
                                 <DisplayLink {...displayLinkProps} />
                                 <DisplayLink {...displayLinkProps2} />
-                                <DisplayLink {...displayLinkProps} />
-                                <DisplayLink {...displayLinkProps2} />
-                                <DisplayLink {...displayLinkProps2} />
-                                <DisplayLink {...displayLinkProps2} />
-                                <DisplayLink {...displayLinkProps2} />
+                                <DisplayLink {...displayLinkProps3} />
+                                <DisplayLink {...displayLinkProps4} />
+                                <DisplayLink {...displayLinkProps5} />
+                                <DisplayLink {...displayLinkProps6} />
+                                <DisplayLink {...displayLinkProps7} />
                             </div>
                         
                         </div>

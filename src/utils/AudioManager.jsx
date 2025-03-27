@@ -14,6 +14,7 @@ import moneySound from "../assets/sounds/moneysound/cash.mp3"
 import robot1 from "../assets/sounds/robot/robot_2.mp3";
 import addToCollection from "../assets/sounds/UI/Buttons/Button_22.mp3";
 import removeFromCollection from "../assets/sounds/UI/Buttons/Button_15.mp3";
+import heartsSound from "../assets/sounds/UI/Hearts/heart2.wav";
 
 
 // Create the AudioManagerContext
@@ -37,6 +38,7 @@ export const AudioManagerProvider = ({ children }) => {
     const robotSound1Ref = useRef(null);  
     const addToCollectionRef = useRef(null);    
     const removeFromCollectionRef = useRef(null);
+    const heartsSoundRef = useRef(null);
 
     // Utility function to play a sound
     const playSound = (audioRef) => {
@@ -74,11 +76,12 @@ export const AudioManagerProvider = ({ children }) => {
             <audio ref={robotSound1Ref} src={robot1} />
             <audio ref={addToCollectionRef} src={addToCollection} />
             <audio ref={removeFromCollectionRef} src={removeFromCollection} />
+            <audio ref={heartsSoundRef} src={heartsSound} />
 
             {/* Provide the refs and utility functions via context */}
             <AudioManagerContext.Provider
                 value={{
-                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef },
+                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef, heartsSoundRef },
                     playSound,
                     pauseSound,
                 }}
