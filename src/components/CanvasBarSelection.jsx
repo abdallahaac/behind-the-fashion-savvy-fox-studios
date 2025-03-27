@@ -1,6 +1,6 @@
 import React from "react";
 import { useModels } from "../utils/ModelsContext";
-
+import { useAudioManager } from "../utils/AudioManager";
 import "../assets/styles/ModelList.css";
 import "../assets/styles/CanvasBarList.css";
 
@@ -11,8 +11,9 @@ const CanvasBarSelection = ({
 	//
 }) => {
 	const { CanvasOutfitsData } = useModels();
-
+	const { refs, playSound } = useAudioManager();
 	const handlePrev = () => {
+		playSound(refs.uiTransitionRef);
 		const newIndex =
 			selectedModelIndex === 0
 				? CanvasOutfitsData.length - 1
@@ -25,6 +26,7 @@ const CanvasBarSelection = ({
 	};
 
 	const handleNext = () => {
+		playSound(refs.uiTransitionRef);
 		const newIndex =
 			selectedModelIndex === CanvasOutfitsData.length - 1
 				? 0
@@ -37,6 +39,7 @@ const CanvasBarSelection = ({
 	};
 
 	const handleButtonClick = (outfit, idx) => {
+		playSound(refs.uiTransitionRef);
 		setSelectedModelIndex(idx);
 		if (onOutfitSelect) {
 			// Convert numeric ID (1..9) to the actual outfit key "Outfit1".. "Outfit9"

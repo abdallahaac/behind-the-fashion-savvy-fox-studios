@@ -8,6 +8,9 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
+// Audio
+import { useAudioManager } from "../utils/AudioManager";
+
 // ECO VANGUARD REACTION IMAGES
 import EcoSideDisapprove from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side_Disapprove.svg";
 import EcoSideHappy from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side_Happy.svg";
@@ -74,6 +77,7 @@ function getReactionImage(title, fillNumber, difference) {
 }
 
 const HeartsUI = ({ title, fillNumber, imageSrc }) => {
+	const { refs, playSound } = useAudioManager(); // Access audio refs and playSound
 	const prevFillNumberRef = useRef(fillNumber);
 	const [flashClass, setFlashClass] = useState("");
 	const [difference, setDifference] = useState(0);
@@ -84,6 +88,13 @@ const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 	useEffect(() => {
 		setCurrentImage(imageSrc);
 	}, [imageSrc]);
+
+	// Play sound when hearts change
+    useEffect(() => {
+        if (refs.heartsSoundRef && difference !== 0) { // Only play sound if hearts changed
+            playSound(refs.heartsSoundRef);
+        }
+    }, [difference, refs, playSound]); // Trigger when `difference` changes
 
 	// Compare old fillNumber vs new fillNumber to trigger flash and update reaction image
 	useEffect(() => {

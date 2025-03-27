@@ -28,6 +28,9 @@ import CanvasManufactorer from "../components/CanvasManufactorer";
 import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.svg";
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
+//audio//
+
+import { useAudioManager } from "../utils/AudioManager";
 
 // Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
@@ -60,6 +63,9 @@ function Room() {
 	const [activeVanguardIndex, setActiveVanguardIndex] = useState(null);
 	const [showPopUp, setShowPopUp] = useState(false);
 
+	// ============ AUDIO ============
+	const { refs, playSound, pauseSound } = useAudioManager();
+	const [hasEnteredExperience, setHasEnteredExperience] = useState(false); 
 	// ============ SHOW / HIDE UI ===============
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
@@ -230,6 +236,39 @@ function Room() {
 			updateTextInScene(brandName, fontStyle);
 		}
 	}, [brandName, fontStyle, updateTextInScene]);
+
+	//AUDIO//
+	const handleEnterExperience = () => {
+		setHasEnteredExperience(true);
+		refs.bgMusicRef.current.volume = 0.2;
+        playSound(refs.bgMusicRef); // background music starts playing 
+    };
+
+	useEffect(() => {
+        if (!hasEnteredExperience || showPopUp) return; // Do nothing if the experience hasn't started or popup is open
+
+        const isAnyVanguardActive = vanguardActiveStates.some((state) => state);
+
+        let intervalId;
+
+        if (isAnyVanguardActive && refs.notificationSoundRef.current) {
+            // Play the notification sound immediately
+            playSound(refs.notificationSoundRef);
+
+            // Then play the notification sound every 4 seconds
+            intervalId = setInterval(() => {
+                playSound(refs.notificationSoundRef);
+            }, 4000);
+        } else if (!isAnyVanguardActive && refs.notificationSoundRef.current) {
+            // Stop the sound and clear the interval
+            refs.notificationSoundRef.current.pause();
+            refs.notificationSoundRef.current.currentTime = 0;
+            clearInterval(intervalId);
+        }
+
+        // Cleanup the interval when the component unmounts or dependencies change
+        return () => clearInterval(intervalId);
+    }, [vanguardActiveStates, hasEnteredExperience, showPopUp]);
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
@@ -453,6 +492,7 @@ function Room() {
 	// === Overlays & Popups logic ===
 	const handleOverlayEnter = () => {
 		setShowOverlay(false);
+		handleEnterExperience();
 	};
 
 	function handlePlayClick() {
@@ -679,6 +719,7 @@ function Room() {
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
+		
 	}
 
 	function incrementVanguardActivation(index) {
@@ -741,6 +782,7 @@ function Room() {
 
 	return (
 		<>
+
 			{/* Loading Overlay */}
 			{showOverlay && (
 				<LoadingOverlay

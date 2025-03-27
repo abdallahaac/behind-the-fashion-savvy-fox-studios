@@ -8,6 +8,7 @@ import * as THREE from "three";
 import { Suspense, useEffect, useState } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import { useAudioManager } from "../utils/AudioManager";
 
 import Experience from "../Experience.jsx";
 import Logo from "../components/Logo.jsx";
@@ -31,6 +32,7 @@ function FabricLab() {
 	const [currentStep, setCurrentStep] = useState(0);
 	const [selectedModel, setSelectedModel] = useState(null);
 	const [currentFabricStep, setCurrentFabricStep] = useState(0);
+	const { refs, playSound } = useAudioManager();
 
 	// Ensure CottonChoices has at least four elements
 	if (!CottonChoices || CottonChoices.length < 4) {
@@ -134,6 +136,11 @@ function FabricLab() {
 	const handleCardSelect = (index, currentFabricStep) => {
 		setSelectedCardIndex(index);
 		setSelectedModel(cards[currentFabricStep][index]);
+		//audio//
+		if (refs.addToCollectionRef.current) {
+			refs.addToCollectionRef.current.volume = 0.9;
+		}
+		playSound(refs.addToCollectionRef);
 	};
 
 	// The first model to show

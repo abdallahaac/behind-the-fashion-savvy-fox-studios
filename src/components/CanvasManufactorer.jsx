@@ -17,6 +17,8 @@ import botSvg from "../assets/images/tutorial-bot.svg"; // example only
 
 import { FundingContext } from "../utils/FundingContext";
 
+import { useAudioManager } from "../utils/AudioManager";
+
 const HOLD_DURATION = 0;
 
 function CanvasManufactorer({
@@ -49,6 +51,7 @@ function CanvasManufactorer({
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
+	const { refs, playSound } = useAudioManager();
 
 	// We track the final selection (if needed)
 	const [selectedFactory, setSelectedFactory] = useState(null);
@@ -81,6 +84,7 @@ function CanvasManufactorer({
 	};
 
 	const endHold = (e) => {
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		clearInterval(intervalRef.current);
 		if (progress < 100) {
@@ -127,6 +131,7 @@ function CanvasManufactorer({
 
 	const startPurchaseHold = (e) => {
 		if (!isPurchaseActive) return;
+		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
 		setIsPurchaseBlinking(false);
 		setPurchaseProgress(0);
@@ -181,6 +186,7 @@ function CanvasManufactorer({
 	// Called whenever user picks a new factory from the bar
 	function handleFactorySelectionInUI(factory) {
 		if (!factory) return;
+		playSound(refs.addToCollectionRef);
 		setSelectedFactoryIndex(() =>
 			CanvasManufacturer.findIndex((f) => f.id === factory.id)
 		);
