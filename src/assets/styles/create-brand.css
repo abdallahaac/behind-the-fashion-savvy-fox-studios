@@ -81,7 +81,7 @@
 .brand-create {
 	color: white;
 	font-size: 1.7rem;
-	padding: 10px;
+	padding: 24px;
 }
 
 /* Button container */
@@ -98,8 +98,8 @@
 }
 
 .button-description {
-	font-size: 13px;
-	max-width: 200px;
+	font-size: 16px;
+	max-width: 250px;
 }
 
 /* Start button */
