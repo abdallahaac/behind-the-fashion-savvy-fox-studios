@@ -2,68 +2,66 @@ import "../assets/styles/intro-style.css";
 import "../assets/styles/logo-button.css";
 import "../assets/styles/metric-widget.css";
 import "../assets/styles/selection-panel.css";
-import LogoSVG from "../assets/images/logo.svg"; // Assuming the SVG is imported as a file path
+import LogoThree from "../../public/images/Logo1.png";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useModels } from "../utils/ModelsContext.jsx";
 import Marquee from "react-fast-marquee";
-import right_arrow from "../assets/images/right-arrow.svg";
-import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
-import production from "../assets/images/credits.svg";
-import Scene from "../utils/Scene.jsx"; // Importing Scene component
-import BackgroundImage from "../assets/images/background-image.svg"; // Update the path if needed
-import FullScreenVideo from '../components/FullScreenVideo.jsx';
-import videoSrc from '../assets/videos/intro_video.mp4';
+import gsap from "gsap";
 
-// Import FontAwesomeIcon and the volume icons
+// R3F + Drei
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
+
+// 1) Import Leva
+import { Leva } from "leva";
+
+// Local assets...
+import LogoSVG from "../assets/images/logo.svg";
+import production from "../assets/images/credits.svg";
+import FullScreenVideo from "../components/FullScreenVideo.jsx";
+import videoSrc from "../assets/videos/intro_video.mp4";
+
+// Your glTF-based 3D logo component that now uses Leva controls and animates rotation
+import MainLogo from "../models/Logos/landingPage.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
-
-// Import GSAP for animations
-import gsap from "gsap";
+import FilmGrain from "../utils/MakeItGrain.jsx";
+import hdrFile from "../assets/images/hdrFile.hdr";
 
 const LandingPageCanvas = () => {
 	const navigate = useNavigate();
 	const [playVideo, setPlayVideo] = useState(false);
 
-
 	const handleStartExp = (e) => {
-        e.preventDefault();
-        // Animate the overlay's opacity to 1 for a smooth cross-fade
-        gsap.to(".transition-overlay", {
-            duration: 0.5,
-            opacity: 1,
-            ease: "power2.inOut",
-            onComplete: () => {
-                setPlayVideo(true);
-            },
-        });
-    };
+		e.preventDefault();
+		gsap.to(".transition-overlay", {
+			duration: 0.5,
+			opacity: 1,
+			ease: "power2.inOut",
+			onComplete: () => setPlayVideo(true),
+		});
+	};
 
 	const handleVideoEnd = () => {
-        gsap.to(".transition-overlay", {
-            duration: 0.5,
-            opacity: 1,
-            ease: "power2.inOut",
-            onComplete: () => {
-                navigate("/room");
-            },
-        });
-    };
-
-	// State to toggle sound on/off; defaults to false (sound off, showing xmark)
-	const [soundOn, setSoundOn] = useState(true);
-	const toggleSound = () => {
-		setSoundOn((prev) => !prev);
+		gsap.to(".transition-overlay", {
+			duration: 0.5,
+			opacity: 1,
+			ease: "power2.inOut",
+			onComplete: () => navigate("/room"),
+		});
 	};
+
+	const [soundOn, setSoundOn] = useState(true);
+	const toggleSound = () => setSoundOn((prev) => !prev);
 
 	const modelsByCategory = useModels();
 	const allModels = modelsByCategory.EthicallyStrongOptions;
 	const selectedModel = allModels[0] || null;
 
+	// Apply custom body/html styling
 	useEffect(() => {
-		// Apply styles to body and html elements
 		const applyStyles = (styles) => {
 			Object.keys(styles).forEach((key) => {
 				document.body.style[key] = styles[key];
@@ -71,18 +69,15 @@ const LandingPageCanvas = () => {
 			});
 		};
 
-		const styles = {
+		applyStyles({
 			margin: "0",
 			padding: "0",
 			fontFamily: '"Kode Mono", monospace',
 			height: "100vh",
 			overflow: "hidden",
-			background: "linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%)", // match your background
-		};
+			background: "linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%)",
+		});
 
-		applyStyles(styles);
-
-		// Cleanup: reset styles when component unmounts
 		return () => {
 			document.body.style = "";
 			document.documentElement.style = "";
@@ -91,17 +86,16 @@ const LandingPageCanvas = () => {
 
 	return (
 		<>
-			{/* The cross-fade overlay */}
+			{/* Fullscreen overlay + optional video */}
 			<div className="transition-overlay" />
-			{playVideo && <FullScreenVideo videoSrc={videoSrc} onVideoEnd={handleVideoEnd} />}
+			{playVideo && (
+				<FullScreenVideo videoSrc={videoSrc} onVideoEnd={handleVideoEnd} />
+			)}
 
-
+			{/* The main container */}
 			<div className="landing-canvas-page">
-				{/* Full-screen Canvas Scene */}
-				{/* <Scene /> */}
-
+				{/* HEADER */}
 				<header className="banner">
-					{/* The marquee text */}
 					<Marquee
 						gradient={false}
 						speed={30}
@@ -113,17 +107,17 @@ const LandingPageCanvas = () => {
 						BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 						BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
 						BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
-						BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
+						BEHIND THE FASHION //
 					</Marquee>
 
-					{/* The clipped logo */}
 					<img
-						src={LogoSVG}
+						src={LogoThree}
 						alt="Logo"
 						className="superimposed-logo super-landing"
 					/>
 				</header>
 
+				{/* MAIN CONTENT */}
 				<main className="content">
 					<div className="text-content fade-in">
 						<div className="landing-body fade-in">
@@ -131,9 +125,7 @@ const LandingPageCanvas = () => {
 								STEP INTO THE ROLE OF A FASHION BRAND CEO.
 							</h1>
 							<p className="body-text-medium">
-								Experience what it's like to build a fashion brand from the
-								ground up, while <br /> managing crucial factors such as budget,
-								audience, and sustainability.
+								Experience what it's like to build a fashion brand...
 							</p>
 						</div>
 
@@ -145,8 +137,6 @@ const LandingPageCanvas = () => {
 							>
 								Build Your Brand
 							</button>
-
-							{/* Audio button with the icon that toggles on click */}
 							<div className="audio-btn" onClick={toggleSound}>
 								<FontAwesomeIcon
 									icon={soundOn ? faVolumeHigh : faVolumeXmark}
@@ -158,15 +148,43 @@ const LandingPageCanvas = () => {
 							<img src={production} alt="production" />
 						</div>
 					</div>
-					<div className="intro-image model-container fade-in">
-						<img
-							style={{ position: "absolute", width: "100%", height: "100%" }}
-							src={LogoSVG}
-							alt="Background Image"
-						/>
+
+					{/* Canvas + 3D Model */}
+					<div
+						className="intro-image model-container fade-in"
+						style={{ position: "relative", width: "100%", height: "100%" }}
+					>
+						<Canvas
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								width: "100%",
+								height: "100%",
+								pointerEvents: "auto",
+							}}
+							camera={{ position: [0, 0, 5], fov: 45 }}
+						>
+							<FilmGrain />
+
+							<ambientLight intensity={1.2} />
+							<directionalLight intensity={1} position={[1, 1, 10]} />
+
+							{/* The 3D Main Logo (with Leva controls for position/rotation/scale) */}
+							<MainLogo />
+
+							{/* Hide OrbitControls by disabling them */}
+							<OrbitControls enabled={false} />
+
+							<Environment files={hdrFile} background={false} />
+						</Canvas>
 					</div>
 				</main>
 			</div>
+
+			{/* If you want to hide the Leva panel, simply remove or comment it out.
+          For now, it's omitted so nothing extra appears.
+      */}
 		</>
 	);
 };
