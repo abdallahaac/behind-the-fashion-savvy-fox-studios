@@ -59,7 +59,7 @@ html {
 	font-family: "Kode Mono", monospace;
 	height: 100vh;
 	overflow: hidden;
-	background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%);
+	/* background: linear-gradient(123.21deg, #282828 27.78%, #52231f 94.21%); */
 }
 
 /* Homepage */

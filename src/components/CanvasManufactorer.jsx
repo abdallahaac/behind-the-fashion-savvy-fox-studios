@@ -31,7 +31,7 @@ function CanvasManufactorer({
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
 	// Selected factory index (default -1 means nothing is selected)
-	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(-1);
+	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
 	const currentFactory =
 		CanvasManufacturer && CanvasManufacturer.length > 0
 			? CanvasManufacturer[selectedFactoryIndex]

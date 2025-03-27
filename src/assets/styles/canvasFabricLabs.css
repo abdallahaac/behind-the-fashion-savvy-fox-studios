@@ -8,6 +8,9 @@
 
 .section-number {
 	margin: 0px 10px;
+	background-color: rgb(31, 31, 31);
+	padding: 20px;
+	border-radius: 26px;
 }
 .section-number.active {
 	background-color: none;
@@ -18,8 +21,12 @@
 .section-number.active {
 	background-color: #3d3d3d;
 	padding: 10px 15px;
-	border-radius: 8px;
+	border-radius: 26px;
 	border: 1px solid white;
+}
+.section-number.line {
+	padding: 0px;
+	background-color: white;
 }
 
 .fabric-title-container {
@@ -166,4 +173,50 @@ div#fabric-only-container {
 }
 
 div#fabric-only-container {
+}
+.fabric-options {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+.fabric-container {
+	width: 200px;
+}
+.fabric-container.active {
+	display: flex;
+	justify-content: center;
+	background-color: #c83c00;
+	border: 1px solid white;
+	align-items: center;
+	flex-direction: column;
+}
+.fabric-container > img {
+	width: 161px !important;
+	height: 121px !important;
+	padding: 10px;
+	margin-top: -20px;
+	object-fit: cover;
+}
+.fabric-options {
+	margin-top: 15px !important;
+}
+fabric-option-price,
+.fabric-option-title {
+	text-align: center;
+	font-size: 0.8rem;
+}
+
+.fabric-option-price {
+	text-align: center;
+	font-size: 1rem;
+}
+.fabric-option-title {
+	max-width: 100px;
+	text-align: center !important;
+	display: flex;
+	align-items: center;
+}
+.fabric-container {
+	width: 200px;
+	height: 222px;
 }

@@ -48,18 +48,21 @@ const assistantData = [
 					img_path: BotSvg,
 					soundRef: "robotSound1Ref",
 				},
-				// {
-				//     description:"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
-				//     img_path: BotSvg2,
-				// },
-				// {
-				//     description:"The Vanguards will be offering feedback as you make decisions for your brand. Click on their avatar to see what they have to say.",
-				//     img_path: BotSvg3,
-				// },
-				// {
-				//     description:"Hint! Keep track of the Vanguard's sentiments about your brand and the total funds you've raised by checking the widgets at the top.",
-				//     img_path: BotSvg4,
-				// },
+				{
+					description:
+						"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
+					img_path: BotSvg2,
+				},
+				{
+					description:
+						"The Vanguards will be offering feedback as you make decisions for your brand. Click on their avatar to see what they have to say.",
+					img_path: BotSvg3,
+				},
+				{
+					description:
+						"Hint! Keep track of the Vanguard's sentiments about your brand and the total funds you've raised by checking the widgets at the top.",
+					img_path: BotSvg4,
+				},
 			],
 		],
 

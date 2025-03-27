@@ -15,6 +15,7 @@ import wordmark from "../assets/images/Savvy Fox Logo Wordmark.png";
 import production from "../assets/images/A Savvy Fox Studios production.png";
 import logo from "../assets/images/logo.svg";
 import Experience from "../Experience.jsx";
+import LogoThree from "../../public/images/Logo1.png";
 
 const LandingPage = () => {
 	const navigate = useNavigate();
@@ -107,7 +108,7 @@ const LandingPage = () => {
 				</div>
 
 				<div className="intro-image model-container fade-in">
-					<img src={BackgroundImage} alt="Background Image" />
+					<img src={LogoThree} alt="Background Image" />
 					{/* <Canvas
                         gl={{
                             antialias: true,

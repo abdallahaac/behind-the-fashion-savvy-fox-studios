@@ -1,6 +1,6 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
-import LogoSVG from "../assets/images/logo.svg"; // Assuming you've imported the SVG as a React component via a bundler or as a file path
+import LogoSVG from "../assets/images/LogoNew.svg"; // Assuming you've imported the SVG as a React component via a bundler or as a file path
 
 const Logo = () => {
 	const handleClick = () => {
@@ -25,7 +25,7 @@ const Logo = () => {
 				src={LogoSVG}
 				alt="Logo"
 				className="superimposed-logo"
-				style={{ marginLeft: "-35px", width: "143px" }}
+				style={{ marginLeft: "-55px", width: "143px", width: "94px" }}
 			/>
 		</button>
 	);
