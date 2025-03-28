@@ -56,7 +56,7 @@ const FullScreenVideo = ({ videoSrc, onVideoEnd }) => {
 				ref={videoRef}
 				src={videoSrc}
 				autoPlay
-				loop={true}
+				loop={false}
 				controls={false}
 			/>
 		</div>
