@@ -238,7 +238,7 @@ const ecoVanguard = [
 					"I’m impressed at your brand’s manufacturer. Clean energy and reducing waste are top things to consider for sustainability.",
 				// funding: 4000,
 				hearts: 1,
-				soundRef: "moneySoundRef",
+				soundRef: "overallHeartSoundRef",
 			},
 			neutral: {
 				img_path: eco_neutral,
@@ -272,6 +272,7 @@ const ecoVanguard = [
 					"I can see some effort to bring in sustainable practices into your brand. I will start with a $3 Million investment but there needs to be a commitment to improve going forward.",
 				funding: 3000000,
 				fundTitle: "$3 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			bad: {
 				img_path: eco_bad,
@@ -359,7 +360,7 @@ const ethicsVanguard = [
 					"I’m glad to see your factory has been regularly audited and follows ethical working standards for their employers.\nHappy Employees = Happy Company!",
 				// funding: 4000,
 				hearts: 1,
-				soundRef: "moneySoundRef",
+				soundRef: "overallHeartSoundRef",
 			},
 			neutral: {
 				img_path: ethics_neutral,
@@ -393,6 +394,7 @@ const ethicsVanguard = [
 					"I see the steps you're taking to incorporate ethical practices into your brand. I'm ready to invest $3 million, but it’s crucial that there is a strong commitment to further improvement.",
 				funding: 3000000,
 				fundTitle: "$3 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			bad: {
 				img_path: ethics_bad,
@@ -481,7 +483,7 @@ const wealthVanguard = [
 					"It’s nice to see your factory is up to standards. Prevents the risk of lawsuits and controversy surrounding your brand.",
 				// funding: 5000,
 				hearts: 1,
-				soundRef: "moneySoundRef",
+				soundRef: "overallHeartSoundRef",
 			},
 			neutral: {
 				img_path: wealth_neutral,
@@ -515,6 +517,7 @@ const wealthVanguard = [
 					"Your brand clearly supports practices that are good for the society and our planet. Clearly, there’s demand for your products from consumers.",
 				funding: 1000000,
 				fundTitle: "$1 MILLION",
+				soundRef: "moneySoundRef",
 			},
 			bad: {
 				img_path: wealth_bad,

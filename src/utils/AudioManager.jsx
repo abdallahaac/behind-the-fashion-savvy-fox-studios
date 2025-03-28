@@ -15,6 +15,7 @@ import robot1 from "../assets/sounds/robot/robot_2.mp3";
 import addToCollection from "../assets/sounds/UI/Buttons/Button_22.mp3";
 import removeFromCollection from "../assets/sounds/UI/Buttons/Button_15.mp3";
 import heartsSound from "../assets/sounds/UI/Hearts/heart2.wav";
+import overallHeartSound from "../assets/sounds/UI/Hearts/Heart.mp3";
 import correctSound from "../assets/sounds/quiz/right/correct.mp3";
 import wrongSound from "../assets/sounds/quiz/wrong/incorrect.mp3";
 import hotseatMusic from "../assets/sounds/quiz/Quiz_music/quiz_track.wav";
@@ -44,6 +45,7 @@ export const AudioManagerProvider = ({ children }) => {
     const correctSoundRef = useRef(null);
     const wrongSoundRef = useRef(null);
     const hotseatMusicRef = useRef(null);
+    const overallHeartSoundRef = useRef(null);
 
     // Utility function to play a sound
     const playSound = (audioRef) => {
@@ -85,11 +87,12 @@ export const AudioManagerProvider = ({ children }) => {
             <audio ref={correctSoundRef} src={correctSound} />
             <audio ref={wrongSoundRef} src={wrongSound} />
             <audio ref={hotseatMusicRef} src={hotseatMusic} loop />
+            <audio ref={overallHeartSoundRef} src={overallHeartSound} />
 
             {/* Provide the refs and utility functions via context */}
             <AudioManagerContext.Provider
                 value={{
-                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef, heartsSoundRef, correctSoundRef, wrongSoundRef, hotseatMusicRef },
+                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef, heartsSoundRef, correctSoundRef, wrongSoundRef, hotseatMusicRef, overallHeartSoundRef },
                     playSound,
                     pauseSound,
                 }}
