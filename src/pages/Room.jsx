@@ -27,7 +27,6 @@ import ecoVanguard_pfp from "../assets/images/Vanguards/Vanguard_Eco/Eco_Side.sv
 import wealthVanguard_pfp from "../assets/images/Vanguards/Vanguard_Wealth/Wealth_Side.svg";
 import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_Side.svg";
 
-// Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
 import LoadingOverlay from "../utils/LoadingOverlay";
 
@@ -72,8 +71,8 @@ function Room() {
 
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2400,
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2344,
+		2500,
 	];
 
 	// Scene loading progress
@@ -88,7 +87,7 @@ function Room() {
 	const [brandName, setBrandName] = useState("MYBRAND");
 	const [fontStyle, setFontStyle] = useState("");
 
-	// We will no longer pass `brandName` or `fontStyle` directly as props to <Scene>.
+	// We will no longer pass brandName or fontStyle directly as props to <Scene>.
 	// Instead, we hold a reference to an updater function provided by Scene:
 	const [updateTextInScene, setUpdateTextInScene] = useState(null);
 
@@ -97,10 +96,11 @@ function Room() {
 	const outfitMeshRefs = useRef({});
 	const fabricMeshRefs = useRef({});
 	const factoryMeshRefs = useRef({});
+
 	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
 	const [selectedFabric, setSelectedFabric] = useState("acrylic");
-	const [selectedFactory, setSelectedFactory] = useState(null);
+	const [selectedFactory, setSelectedFactory] = useState("artisthread");
 
 	// ============ REF TO DOM ELEMENTS ============
 	const canvasContainerRef = useRef(null);
@@ -121,6 +121,7 @@ function Room() {
 	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
 		[]
 	);
+
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
@@ -217,7 +218,7 @@ function Room() {
 		handlePlayClick();
 	}, []);
 
-	// Whenever `brandName` or `fontStyle` changes, update the 3D text dynamically
+	// Whenever brandName or fontStyle changes, update the 3D text dynamically
 	// WITHOUT causing Scene to re-render:
 	useEffect(() => {
 		if (updateTextInScene) {
@@ -268,11 +269,9 @@ function Room() {
 	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
-		// console.log("Averages:", averages);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
-		// console.log("current stage", currentStage);
 
 		const ethics_feedback = updateVanguardStatus(
 			"ethics",
@@ -283,8 +282,6 @@ function Room() {
 		setEthicsHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts))
 		);
-		// console.log("Ethics Vanguard Feedback:", ethics_feedback);
-		setEthicsFeedback(ethics_feedback);
 
 		const eco_feedback = updateVanguardStatus(
 			"eco",
@@ -295,8 +292,6 @@ function Room() {
 		setEcoHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts))
 		);
-		// console.log("Eco Vanguard Feedback:", eco_feedback);
-		setEcoFeedback(eco_feedback);
 
 		const wealth_feedback = updateVanguardStatus(
 			"wealth",
@@ -307,7 +302,9 @@ function Room() {
 		setWealthHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts))
 		);
-		// console.log("Wealth Vanguard Feedback:", wealth_feedback);
+
+		setEthicsFeedback(ethics_feedback);
+		setEcoFeedback(eco_feedback);
 		setWealthFeedback(wealth_feedback);
 	};
 
@@ -396,11 +393,9 @@ function Room() {
 		};
 
 		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
-
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
-
 		const randomIndex = Math.floor(Math.random() * mostLikedCategories.length);
 
 		return mostLikedCategories[randomIndex];
@@ -595,11 +590,24 @@ function Room() {
 
 	// ============ FABRIC SELECT LOGIC ============
 	function handleFabricSelect(newFabricKey) {
+		console.log("Attempting to select a new fabric:", newFabricKey);
+
 		if (!newFabricKey) return;
-		if (selectedFabric === newFabricKey) return;
-		if (selectedFabric) {
-			animateFabricTo(selectedFabric, -200);
+
+		if (selectedFabric === newFabricKey) {
+			console.log("Fabric is already selected:", newFabricKey);
+			return;
 		}
+
+		if (selectedFabric) {
+			console.log("Previously selected fabric:", selectedFabric);
+			animateFabricTo(selectedFabric, -200);
+		} else {
+			console.log(
+				"No previously selected fabric, so this is the first choice!"
+			);
+		}
+
 		animateFabricTo(newFabricKey, -75);
 		setSelectedFabric(newFabricKey);
 		console.log("[FABRIC SELECT] from", selectedFabric, "to", newFabricKey);
@@ -654,7 +662,6 @@ function Room() {
 				handleContinue();
 			}
 		} else {
-			// If one of vanguards (1..3) is closed
 			setVanguardActiveStates((prevStates) => {
 				const newStates = [...prevStates];
 				newStates[prevActive] = false;
@@ -990,10 +997,6 @@ function Room() {
 				)}
 
 				{/* Main 3D Scene */}
-				{/*
-          We remove brandName & fontStyle from props. Instead, we pass
-          onTextUpdaterReady to get a function that updates the text in Scene.
-        */}
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
@@ -1004,7 +1007,7 @@ function Room() {
 					onOutfitMeshMounted={handleOutfitMeshMounted}
 					onFabricMeshMounted={handleFabricMeshMounted}
 					onFactoryMeshMounted={handleFactoryMeshMounted}
-					// Here's the callback that Scene will call once it has set up references.
+					selectedFactory={selectedFactory}
 					onTextUpdaterReady={setUpdateTextInScene}
 				/>
 			</div>

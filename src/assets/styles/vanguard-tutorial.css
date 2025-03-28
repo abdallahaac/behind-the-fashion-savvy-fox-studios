@@ -12,6 +12,9 @@
 	/* opacity: 1; */
 }
 
+.nav-button-tut.nav-done {
+	background-color: white;
+}
 .tutorial-container {
 	display: flex;
 	flex-direction: column;

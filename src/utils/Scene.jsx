@@ -6,6 +6,9 @@ import * as THREE from "three";
 
 // ==================== Vanguards ====================
 import Vanguards from "../models/Vanguards/Vangards";
+import Vanguard1 from "../models/Vanguards/Vanguard1";
+import Vanguard2 from "../models/Vanguards/Vanguard2";
+import Vanguard3 from "../models/Vanguards/Vanguard3";
 
 // ==================== FABRICS ====================
 import Wool from "../models/FabricsTest/Outfit1";
@@ -51,12 +54,19 @@ function FabricGroup({
 		if (onFabricMeshMounted) {
 			onFabricMeshMounted(fabricKey, groupRef);
 		}
+		// Log the computed position after mount
+		if (groupRef.current) {
+			console.log(
+				`Fabric ${fabricKey} is positioned at:`,
+				groupRef.current.position.toArray()
+			);
+		}
 	}, [fabricKey, onFabricMeshMounted]);
 
 	if (!fabricsMap[fabricKey]) return null;
 	const FabricComponent = fabricsMap[fabricKey];
 
-	// Use customRotation if provided, otherwise fallback to baseRotation.
+	// Use customRotation if provided, otherwise fallback to baseRotation
 	const rotation = customRotation || baseRotation;
 
 	return (
@@ -68,10 +78,11 @@ function FabricGroup({
 
 function AllFabrics({ selectedFabric, onFabricMeshMounted, fabricRotations }) {
 	const baseRot = [0, 1.5, 0];
+
 	return (
 		<>
 			{Object.keys(fabricsMap).map((key) => {
-				// Show the selected fabric at z = -75; otherwise, hide it at z = -200.
+				// Show the selected fabric at z = -75; otherwise, hide it at z = -200
 				const basePos = [30, 7, key === selectedFabric ? -75 : -200];
 				const customRotation = fabricRotations && fabricRotations[key];
 				return (
@@ -89,7 +100,7 @@ function AllFabrics({ selectedFabric, onFabricMeshMounted, fabricRotations }) {
 	);
 }
 
-// ==================== FACTORIES (NEW) ====================
+// ==================== FACTORIES ====================
 import Factory1 from "../models/Factories/Outfit1";
 import Factory2 from "../models/Factories/Outfit2";
 import Factory3 from "../models/Factories/Outfit3";
@@ -117,6 +128,13 @@ function FactoryGroup({
 		if (onFactoryMeshMounted) {
 			onFactoryMeshMounted(factoryKey, groupRef);
 		}
+		// Log the computed position for the factory after mount
+		if (groupRef.current) {
+			console.log(
+				`Factory ${factoryKey} is positioned at:`,
+				groupRef.current.position.toArray()
+			);
+		}
 	}, [factoryKey, onFactoryMeshMounted]);
 
 	if (!factoryMap[factoryKey]) return null;
@@ -134,22 +152,37 @@ function FactoryGroup({
 	);
 }
 
-function AllFactories({ onFactoryMeshMounted, factoryScale = [2, 2, 2] }) {
-	const basePos = [90, 6, -200];
+function AllFactories({
+	selectedFactory,
+	onFactoryMeshMounted,
+	factoryScale = [2, 2, 2],
+}) {
 	const baseRot = [0, 1.5, 0];
 
 	return (
 		<>
-			{Object.keys(factoryMap).map((key) => (
-				<FactoryGroup
-					key={key}
-					factoryKey={key}
-					basePosition={basePos}
-					baseRotation={baseRot}
-					onFactoryMeshMounted={onFactoryMeshMounted}
-					scale={factoryScale}
-				/>
-			))}
+			{Object.keys(factoryMap).map((key) => {
+				// If no factory is selected yet, 'artisthread' is at -75 by default;
+				// otherwise only the chosen one is at -75; all others at -200.
+				let zPos;
+				if (!selectedFactory && key === "artisthread") {
+					zPos = -75;
+				} else if (selectedFactory === key) {
+					zPos = -75;
+				} else {
+					zPos = -200;
+				}
+				return (
+					<FactoryGroup
+						key={key}
+						factoryKey={key}
+						basePosition={[90, 6, zPos]}
+						baseRotation={baseRot}
+						onFactoryMeshMounted={onFactoryMeshMounted}
+						scale={factoryScale}
+					/>
+				);
+			})}
 		</>
 	);
 }
@@ -281,6 +314,7 @@ import Outfit8 from "../models/OutfiitsTest/Outfit8";
 import Outfit9 from "../models/OutfiitsTest/Outfit9";
 
 import FilmGrain from "./MakeItGrain";
+import Vanguard from "../components/Vanguard";
 
 const outfitsMap = {
 	Outfit1,
@@ -358,9 +392,10 @@ const EnvironmentWithCamera = lazy(() =>
 function CameraLogger() {
 	const { camera } = useThree();
 	useFrame(() => {
-		// Uncomment to debug camera movement/position if needed
+		// Uncomment to debug camera movement/position if needed:
 		// console.log(
-		//   `Camera Position: x:${camera.position.x.toFixed(3)} y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
+		//   `Camera Position: x:${camera.position.x.toFixed(3)}
+		//    y:${camera.position.y.toFixed(3)} z:${camera.position.z.toFixed(3)}`
 		// );
 	});
 	return null;
@@ -377,8 +412,10 @@ const Scene = ({
 	onFabricMeshMounted,
 	onFactoryMeshMounted,
 	onTextUpdaterReady,
+	selectedFabric, // <-- Accepted prop
+	selectedFactory, // <-- Accepted prop
 }) => {
-	// Define the baked-in fabric rotations from your edited values.
+	// Define the baked-in fabric rotations:
 	const fabricRotations = {
 		acrylic: [0, 1.5, 0],
 		wool: [0, -0.8, 0],
@@ -395,19 +432,17 @@ const Scene = ({
 		conventionalcotton: [0, 1.5, 0],
 	};
 
-	// Refs for the brand name text objects:
+	// Refs for the brand name text objects
 	const textRef1 = useRef(null);
 	const textRef2 = useRef(null);
 	const textRef3 = useRef(null);
 	const textRef4 = useRef(null);
 
-	// We'll provide this updater function to Room.jsx so it can update text at runtime
 	function updateSceneText(newBrandName, newFontStyle) {
 		const upperName = newBrandName ? newBrandName.toUpperCase() : "";
 		const fontUrl = fontMapping[newFontStyle] || fontMapping["MINIMALIST"];
 
-		// Update all text refs in real time
-		[textRef1, textRef2, textRef3, textRef4].forEach((ref, i) => {
+		[textRef1, textRef2, textRef3, textRef4].forEach((ref) => {
 			if (ref.current) {
 				ref.current.text = upperName;
 				ref.current.font = fontUrl;
@@ -415,13 +450,11 @@ const Scene = ({
 		});
 	}
 
-	// Expose this function to the parent as soon as we mount
 	useEffect(() => {
 		if (onTextUpdaterReady) {
 			onTextUpdaterReady(() => updateSceneText);
 		}
-		// eslint-disable-next-line
-	}, []);
+	}, [onTextUpdaterReady]);
 
 	useEffect(() => {
 		console.log(
@@ -440,18 +473,22 @@ const Scene = ({
 				{/* All Logos */}
 				<AllLogos onLogoMeshMounted={onLogoMeshMounted} />
 
-				{/* All Fabrics - using baked-in fabricRotations */}
+				{/* All Fabrics */}
 				<AllFabrics
+					selectedFabric={selectedFabric}
 					onFabricMeshMounted={onFabricMeshMounted}
 					fabricRotations={fabricRotations}
 				/>
 
 				{/* All Factories */}
-				<AllFactories onFactoryMeshMounted={onFactoryMeshMounted} />
+				<AllFactories
+					selectedFactory={selectedFactory}
+					onFactoryMeshMounted={onFactoryMeshMounted}
+				/>
 
 				<CameraLogger />
 
-				{/* Brand Name Text (we default them to empty) */}
+				{/* Brand Name Text */}
 				<Text
 					ref={textRef1}
 					position={[-69.12, 10.75, -49.51]}
@@ -460,9 +497,7 @@ const Scene = ({
 					color={"white"}
 					anchorX="center"
 					anchorY="middle"
-				>
-					{/* default empty; updated by updateSceneText */}
-				</Text>
+				/>
 				<Text
 					ref={textRef2}
 					position={[-69.12, 8.75, -49.51]}
@@ -491,7 +526,6 @@ const Scene = ({
 					anchorY="middle"
 				/>
 
-				<Vanguards />
 				<EnvironmentWithCamera
 					playAnimation={playAnimation}
 					paused={paused}
@@ -501,6 +535,9 @@ const Scene = ({
 				/>
 
 				<Environment files={hdrFile} background={false} />
+				<Vanguard1 />
+				<Vanguard2 />
+				<Vanguard3 />
 
 				<FilmGrain />
 			</Suspense>

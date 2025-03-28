@@ -172,7 +172,7 @@ const modelsData = {
 				locationImage: manufacturingNorthAmericaSvg,
 				locationTitle: "Located in North America",
 				locationDescription:
-					"Silver Oak Manufacturing is known for its balanced approach to sustainability and ethical production. The factory integrates eco-friendly materials and energy-efficient processes while ensuring fair labor practices. With a focus on quality and responsibility, ",
+					"Silver Oak Manufacturing is known for its sustainable and ethical production. The factory integrates eco-friendly materials and energy-efficient processes while ensuring fair labor practices.",
 				standardImage: manufacturingSa8000Svg,
 				standardTitle: "SA8000 Standard",
 				standardDescription:
