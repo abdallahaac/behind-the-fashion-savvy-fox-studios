@@ -241,7 +241,7 @@ function Room() {
     };
 
 	useEffect(() => {
-        if (!hasEnteredExperience || showPopUp) return; // Do nothing if the experience hasn't started or popup is open
+        if (!hasEnteredExperience || showPopUp || showHotseat) return; // Do nothing if the experience hasn't started or popup is open
 
         const isAnyVanguardActive = vanguardActiveStates.some((state) => state);
 
@@ -264,7 +264,7 @@ function Room() {
 
         // Cleanup the interval when the component unmounts or dependencies change
         return () => clearInterval(intervalId);
-    }, [vanguardActiveStates, hasEnteredExperience, showPopUp]);
+    }, [vanguardActiveStates, hasEnteredExperience, showPopUp, showHotseat]);
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
