@@ -191,11 +191,7 @@ function Room() {
 		}
 	};
 
-	// Shuffles and picks the Hotseat questions
-	useEffect(() => {
-		const shuffled = QuizQuestions.sort(() => 0.5 - Math.random());
-		setSelectedQuestions(shuffled.slice(0, 3));
-	}, []);
+
 
 	// Intro fade-in
 	useEffect(() => {
@@ -546,7 +542,7 @@ function Room() {
 				break;
 			case 12:
 				setShowVanguardUI(true);
-				setVanguardActiveStates([false, true, true, true]);
+				setVanguardActiveStates([true, false, false, false]);
 				break;
 			case 13:
 				handleFinalPitch();
@@ -710,7 +706,16 @@ function Room() {
 		if (!vanguardActiveStates[index]) return;
 
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
-		if (currentBreakpointIndex === 9 && index === 0) {
+		if ((currentBreakpointIndex === 9 || currentBreakpointIndex === 12) && index === 0) {
+			if (currentBreakpointIndex === 9) {
+				const fabricQuestions = QuizQuestions.slice(0, 2);
+            	setSelectedQuestions(fabricQuestions);
+				console.log("Fabric Questions:", fabricQuestions);
+			} else if (currentBreakpointIndex === 12) {
+				const manufacturingQuestions = QuizQuestions.slice(2, 4);
+				setSelectedQuestions(manufacturingQuestions);
+				console.log("Manufacturing Questions:", manufacturingQuestions);
+			}
 			setShowHotseat(true);
 			setActiveVanguardIndex(0);
 			return;
@@ -763,7 +768,9 @@ function Room() {
 				ease: "power2.out",
 				onComplete: () => {
 					setShowHotseat(false);
-					if (activeVanguardIndex === 0) {
+					if (currentBreakpointIndex === 6) {
+						setVanguardActiveStates([false, false, true, true]); 
+					} else if (activeVanguardIndex === 0) {
 						setVanguardActiveStates([false, true, true, true]);
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
 					}
