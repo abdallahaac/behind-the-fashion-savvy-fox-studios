@@ -17,6 +17,16 @@ import manufacturingNorthAmericaSvg from "../assets/images/Manufacturing/NorthAm
 
 import certificationSvg from "../assets/images/Certifications/cradle.svg";
 import modelPng from "../assets/images/model.png";
+import fit1 from "../assets/images/1.png";
+import fit2 from "../assets/images/2.png";
+import fit3 from "../assets/images/3.png";
+import fit4 from "../assets/images/4.png";
+import fit5 from "../assets/images/5.png";
+import fit6 from "../assets/images/6.png";
+import fit7 from "../assets/images/7.png";
+import fit8 from "../assets/images/8.png";
+import fit9 from "../assets/images/9.png";
+
 import earthynomadPng from "../assets/images/earthynomad.png";
 import avantGardePng from "../assets/images/avantGarde.png";
 import industrialLuxePng from "../assets/images/industrialLuxe.png";
@@ -255,7 +265,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit1,
 			ethics: 3,
 		},
 		{
@@ -277,7 +287,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit2,
 			ethics: 2,
 		},
 		{
@@ -299,7 +309,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit3,
 			ethics: 1,
 		},
 		{
@@ -321,7 +331,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit4,
 			ethics: 2.75,
 		},
 		{
@@ -343,7 +353,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit5,
 			ethics: 1.5,
 		},
 		{
@@ -365,7 +375,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit6,
 			ethics: 1.75,
 		},
 		{
@@ -387,7 +397,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit7,
 			ethics: 0.25,
 		},
 		{
@@ -409,7 +419,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit8,
 			ethics: 0.5,
 		},
 		{
@@ -431,7 +441,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit9,
 			ethics: 2.5,
 		},
 	],
