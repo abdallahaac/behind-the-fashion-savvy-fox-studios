@@ -83,7 +83,7 @@ function Room() {
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2350, 2351
+		2350, 2365
 	];
 
 	// Scene loading progress
@@ -191,11 +191,7 @@ function Room() {
 		}
 	};
 
-	// Shuffles and picks the Hotseat questions
-	useEffect(() => {
-		const shuffled = QuizQuestions.sort(() => 0.5 - Math.random());
-		setSelectedQuestions(shuffled.slice(0, 3));
-	}, []);
+
 
 	// Intro fade-in
 	useEffect(() => {
@@ -210,6 +206,55 @@ function Room() {
 			{ duration: 1, opacity: 1, ease: "power2.out" }
 		);
 	}, []);
+	// fade music in / out from transition to and from bg music and quiz
+	useEffect(() => {
+		if (showHotseat) {
+			// Fade out background music
+			if (refs.bgMusicRef.current) {
+				gsap.to(refs.bgMusicRef.current, {
+					volume: 0,
+					duration: 1.5, // 1.5 seconds fade-out
+					ease: "power2.inOut", // Smooth easing
+					onComplete: () => {
+						refs.bgMusicRef.current.pause();
+					},
+				});
+			}
+	
+			// Fade in hotseat music
+			if (refs.hotseatMusicRef.current) {
+				refs.hotseatMusicRef.current.currentTime = 0; // Start from the beginning
+				refs.hotseatMusicRef.current.play();
+				gsap.to(refs.hotseatMusicRef.current, {
+					volume: 0.15, 
+					duration: 1.5, // 1.5 seconds fade-in
+					ease: "power2.inOut", // Smooth easing
+				});
+			}
+		} else {
+			// Fade out hotseat music
+			if (refs.hotseatMusicRef.current) {
+				gsap.to(refs.hotseatMusicRef.current, {
+					volume: 0,
+					duration: 1.5, // 1.5 seconds fade-out
+					ease: "power2.inOut", // Smooth easing
+					onComplete: () => {
+						refs.hotseatMusicRef.current.pause();
+					},
+				});
+			}
+	
+			// Resume background music
+			if (refs.bgMusicRef.current) {
+				refs.bgMusicRef.current.play();
+				gsap.to(refs.bgMusicRef.current, {
+					volume: 0.2, 
+					duration: 1.5, // 1.5 seconds fade-in
+					ease: "power2.inOut", // Smooth easing
+				});
+			}
+		}
+	}, [showHotseat]); // Trigger this effect whenever showHotseat changes
 
 	// Show Vanguard UI fade-in
 	useEffect(() => {
@@ -245,7 +290,7 @@ function Room() {
     };
 
 	useEffect(() => {
-        if (!hasEnteredExperience || showPopUp) return; // Do nothing if the experience hasn't started or popup is open
+        if (!hasEnteredExperience || showPopUp || showHotseat) return; // Do nothing if the experience hasn't started or popup is open
 
         const isAnyVanguardActive = vanguardActiveStates.some((state) => state);
 
@@ -268,7 +313,7 @@ function Room() {
 
         // Cleanup the interval when the component unmounts or dependencies change
         return () => clearInterval(intervalId);
-    }, [vanguardActiveStates, hasEnteredExperience, showPopUp]);
+    }, [vanguardActiveStates, hasEnteredExperience, showPopUp, showHotseat]);
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
@@ -546,7 +591,7 @@ function Room() {
 				break;
 			case 12:
 				setShowVanguardUI(true);
-				setVanguardActiveStates([false, true, true, true]);
+				setVanguardActiveStates([true, false, false, false]);
 				break;
 			case 13:
 				handleFinalPitch();
@@ -710,7 +755,16 @@ function Room() {
 		if (!vanguardActiveStates[index]) return;
 
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
-		if (currentBreakpointIndex === 9 && index === 0) {
+		if ((currentBreakpointIndex === 9 || currentBreakpointIndex === 12) && index === 0) {
+			if (currentBreakpointIndex === 9) {
+				const fabricQuestions = QuizQuestions.slice(0, 2);
+            	setSelectedQuestions(fabricQuestions);
+				console.log("Fabric Questions:", fabricQuestions);
+			} else if (currentBreakpointIndex === 12) {
+				const manufacturingQuestions = QuizQuestions.slice(2, 4);
+				setSelectedQuestions(manufacturingQuestions);
+				console.log("Manufacturing Questions:", manufacturingQuestions);
+			}
 			setShowHotseat(true);
 			setActiveVanguardIndex(0);
 			return;
@@ -763,7 +817,9 @@ function Room() {
 				ease: "power2.out",
 				onComplete: () => {
 					setShowHotseat(false);
-					if (activeVanguardIndex === 0) {
+					if (currentBreakpointIndex === 6) {
+						setVanguardActiveStates([false, false, true, true]); 
+					} else if (activeVanguardIndex === 0) {
 						setVanguardActiveStates([false, true, true, true]);
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
 					}
@@ -779,6 +835,8 @@ function Room() {
 			handleDone(setMode, setCurrentStep, setQuestionIndex);
 		}
 	}
+
+
 
 	return (
 		<>

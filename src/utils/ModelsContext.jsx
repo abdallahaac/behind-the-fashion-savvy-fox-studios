@@ -306,9 +306,9 @@ const modelsData = {
 			id: 4,
 			name: "Midnight grunge edge",
 			cost: 16000,
-			originalDesignPct: 90,
+			originalDesignPct: 10,
 			bulletPoints: [
-				"90% Original Design",
+				"10% Original Design",
 				"The designer of the garment has been properly compensated for their innovative work",
 				"Trending Design on Social Media",
 				"Infringes on Copyrighted Material",
@@ -322,7 +322,7 @@ const modelsData = {
 				{ index: 4, icon: "none" },
 			],
 			img_path: modelPng,
-			ethics: 2.75,
+			ethics: 1,
 		},
 		{
 			id: 5,

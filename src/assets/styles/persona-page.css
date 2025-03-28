@@ -216,10 +216,12 @@
 }
 
 .download-hearts-ui-container .metric-child-container {
-    padding: 33px 0px;
     width:170px;
+    padding:0px;
 }
-
+.download-hearts-ui-container .metric-details {
+    margin:0;
+}
 .download-hearts-ui-container .metric-budget-container {
     height: 50px;
     margin-left: 0px;

@@ -1,4 +1,5 @@
 import React,{ useRef, useEffect }  from 'react';
+import { useNavigate } from "react-router-dom";
 import DisplayLink from '../components/DisplayLink';
 import "../assets/styles/persona-page.css";
 import NormalButton from '../components/NormalButton';
@@ -20,6 +21,7 @@ import brand_mark from "../assets/images/FinalPersona/brand_mark.svg";
 
 const PersonaPage = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     console.log("Location State:", location.state);
 
     const {
@@ -66,6 +68,10 @@ const PersonaPage = () => {
                 console.error('Failed to convert HTML to image', err);
             });
     };
+    const handlePlayAgain = () => {
+        navigate("/room"); // Navigate to /room
+    };
+
     useEffect(() => {
         document.body.style.background = "#515151";
         return () => {
@@ -119,6 +125,7 @@ const PersonaPage = () => {
                                     icon={redoIcon}
                                     size={{ minWidth: "275px", minHeight: "56px" }}
                                     active={true}
+                                    onClick={handlePlayAgain}
                                     // disabled={selectedAnswer === null} // Disable if no answer is selected
                                     // onClick={handleNext}
                                 />
