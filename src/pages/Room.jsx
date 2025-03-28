@@ -83,7 +83,7 @@ function Room() {
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2350, 2351
+		2350, 2365
 	];
 
 	// Scene loading progress

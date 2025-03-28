@@ -42,16 +42,12 @@ const Hotseat = ({
 			playSound(refs.wrongSoundRef); // Play incorrect answer sound
 		}
 	
-		// Transition to the "Result" mode
-		setHasAnswered(true);
 		onNext(); 
 	};
 	
 	const handleNext = () => {
 		playSound(refs.uiClickSoundRef); // Play a UI click sound
 		setSelectedAnswer(null); // Reset the selected answer
-		setHasAnswered(false); // Reset the answered flag
-		setQuestionKey((prevKey) => prevKey + 1); // Increment the question key
 		onNext(); 
 	};
 	const renderContent = () => {
