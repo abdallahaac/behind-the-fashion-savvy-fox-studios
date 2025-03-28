@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/styles/vanguard.css";
-import Vanguard1 from "../assets/images/logo.svg";
+import Vanguard1 from "../assets/images/LogoNew.svg";
 
 import Vanguard2 from "../assets/images/Vanguard-1.svg";
 import Vanguard3 from "../assets/images/Vanguard-2.svg";
