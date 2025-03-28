@@ -10,7 +10,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 10px;
+	margin-top: 16px;
 	transition: all 300ms ease-in-out;
 }
 
@@ -21,8 +21,8 @@
 	border: 3px dashed rgba(255, 255, 255, 0.391);
 	border-spacing: 100px;
 	background-color: #222222;
-	width: 109px;
-	height: 145px;
+	width: 138px;
+	height: 182px;
 	border-radius: 8px;
 	transition: all 300ms ease-in-out;
 }
@@ -35,7 +35,7 @@
 
 .breakdown {
 	background-color: #3d3d3d;
-	height: 153px;
+	height: 100px;
 	border-radius: 8px;
 	display: flex;
 	justify-content: center;
@@ -164,6 +164,7 @@
 	justify-content: space-between;
 	align-items: center;
 	transition: all 300ms ease-in-out;
+	gap: 16px;
 }
 
 .model-title {
@@ -193,7 +194,7 @@
 }
 
 .info-title {
-	margin: 10px 0;
+	margin-bottom: 10px;
 	color: black;
 	transition: all 300ms ease-in-out;
 }
@@ -228,7 +229,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: auto;
+	margin-top: 20px;
+	margin-left: 20px; 
+	margin-right: 20px; 
+	margin-bottom: 16px;
 	transition: all 300ms ease-in-out;
 }
 
@@ -318,13 +322,15 @@
 /* Remove Button */
 .remove-button {
 	position: absolute;
-	bottom: 5px;
-	left: 50%;
-	transform: translateX(-50%);
-	background: #d73f3f;
+	height: 48px;
+	width: 120px;
+	bottom: 10%;
+	transform: translateY(30%);
+	left: 7%;
+	background: #222222;
 	color: white;
 	border: none;
-	border-radius: 15px;
+	border-radius: 24px;
 	padding: 6px 14px;
 	z-index: 2;
 	cursor: pointer;
@@ -351,7 +357,7 @@ button.cta-button.remove {
 /* Breakdown Padding */
 .breakdown {
 	opacity: 1 !important;
-	padding: 30px !important;
+	padding: 24px !important;
 	transition: all 300ms ease-in-out;
 }
 

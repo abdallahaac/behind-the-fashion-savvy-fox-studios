@@ -7,26 +7,27 @@
 }
 
 .section-number {
-	margin: 0px 10px;
+	margin: 0px;
 	background-color: rgb(31, 31, 31);
-	padding: 20px;
+	padding: 16px 20px;
 	border-radius: 26px;
 }
 .section-number.active {
 	background-color: none;
-	padding: 10px 15px;
+	padding: 12px 20px;
 	border-radius: 8px;
 	border: none;
 }
 .section-number.active {
 	background-color: #3d3d3d;
-	padding: 10px 15px;
+	padding: 12px 20px;
 	border-radius: 26px;
 	border: 1px solid white;
 }
 .section-number.line {
 	padding: 0px;
-	background-color: white;
+	background-color: #505050;
+	margin: 12px;
 }
 
 .fabric-title-container {
@@ -35,34 +36,34 @@
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	padding: 10px;
+	padding-top: 24px;
 }
 
 .fabric-selection-container {
+	margin-top: 16px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: left;
 	align-items: center;
 	padding: 0px !important;
+	gap: 16px;
 }
 
 .fabric-container {
 	color: white;
-	background-color: grey;
+	background-color: #505050;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: top;
+	align-items: left;
 	flex-direction: column;
 	text-align: center;
 	width: 160px;
 	height: 174px;
 	border-radius: 20px;
-	margin: 10px;
-	padding: 10px;
 }
 .expanded-container.fabric {
-	height: 93vh;
+	height: 90vh;
 }
 
 .fabric-container.active {
@@ -89,7 +90,7 @@
 }
 
 .fabric-container {
-	padding: 0px !important;
+	padding: 12px !important;
 }
 
 .fabric-option-price,
@@ -102,15 +103,15 @@
 	color: black;
 	display: flex;
 	flex-direction: column;
-	margin: 0px;
+	margin: 0px 20px;
+	gap: 8px;
 }
 
 .fabric-container > img {
-	width: 100px !important;
+	width: 90px !important;
 	height: 100px !important;
 	padding: 10px;
-	margin-top: 10px;
-	object-fit: cover;
+	object-fit: fill;
 }
 .fabric-img {
 	width: 100px !important;
@@ -141,13 +142,15 @@
 }
 
 .category-title {
-	font-weight: bold;
+	font-weight: regular;
+	font-size: 16px;
 	margin: 0px;
 }
 
 .category-description {
 	font-size: 0.9rem;
-	color: #666;
+	color: #0F0F0F;
+	margin-top: 12px;
 }
 
 .left-component.fabric {
@@ -156,7 +159,7 @@
 }
 
 div#fabric-only-container {
-	transform: translate(-509px, 10px);
+	transform: translate(-449px, 80px);
 }
 .fabric-info-container {
 	display: flex;
@@ -176,11 +179,12 @@ div#fabric-only-container {
 }
 .fabric-options {
 	display: flex;
-	justify-content: space-around;
+	justify-content: left;
 	width: 100%;
+	align-items: center;
 }
 .fabric-container {
-	width: 200px;
+	width: 50%;
 }
 .fabric-container.active {
 	display: flex;
@@ -191,11 +195,10 @@ div#fabric-only-container {
 	flex-direction: column;
 }
 .fabric-container > img {
-	width: 161px !important;
-	height: 121px !important;
+	width: 90% !important;
+	height: 100px !important;
 	padding: 10px;
-	margin-top: -20px;
-	object-fit: cover;
+	object-fit: contain;
 }
 .fabric-options {
 	margin-top: 15px !important;
@@ -203,20 +206,21 @@ div#fabric-only-container {
 fabric-option-price,
 .fabric-option-title {
 	text-align: center;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 }
 
 .fabric-option-price {
 	text-align: center;
-	font-size: 1rem;
+	font-size: 1.1rem;
+	color: #ffffff;
 }
 .fabric-option-title {
-	max-width: 100px;
-	text-align: center !important;
+	flex: 1;
+	text-align: left !important;
 	display: flex;
-	align-items: center;
+	align-items: left;
 }
 .fabric-container {
-	width: 200px;
-	height: 222px;
+	width: 42%;
+	height: 40%;
 }

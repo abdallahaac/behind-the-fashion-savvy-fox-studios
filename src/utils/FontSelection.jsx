@@ -33,7 +33,7 @@ const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 	return (
 		<div
 			className="font-style-selection"
-			style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}
+			style={{ display: "flex", flexWrap: "wrap", gap: "12px", padding: "0px 0px 24px 0px" }}
 		>
 			{fontOptions.map((option) => (
 				<div
@@ -41,9 +41,10 @@ const FontStyleSelection = ({ selectedOption, setSelectedOption }) => {
 					onClick={() => setSelectedOption(option)}
 					style={{
 						cursor: "pointer",
-						padding: "8px 12px",
+						padding: "12px 16px",
+						height: "20px",
 						fontWeight: selectedOption === option ? "bold" : "normal",
-						borderRadius: "20px",
+						borderRadius: "32px",
 						fontFamily: getFontFamily(option),
 						backgroundColor: selectedOption === option ? "#FFEEEB" : "#505050",
 						color: selectedOption === option ? "#C83C00" : "WHITE",

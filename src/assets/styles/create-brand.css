@@ -28,7 +28,7 @@
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
-	border-radius: 20px;
+	border-radius: 16px;
 	background-color: white;
 }
 
@@ -44,6 +44,7 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	padding-bottom: 8px;
 	gap: 10px;
 	color: white;
 }
@@ -56,7 +57,7 @@
 	align-items: center;
 	justify-content: center;
 	margin: 0;
-	padding: 10px;
+	padding: 0px;
 }
 
 /* The step bars */
@@ -81,7 +82,7 @@
 .brand-create {
 	color: white;
 	font-size: 1.7rem;
-	padding: 10px;
+	padding: 0px;
 }
 
 /* Button container */
@@ -91,22 +92,22 @@
 	background-color: #ffeeeb;
 	padding: 20px;
 	border-radius: 20px;
-
 	justify-content: space-between;
 	align-items: center;
 	font-family: "DM Sans", sans-serif;
+	gap: 24px; 
 }
 
 .button-description {
-	font-size: 13px;
-	max-width: 200px;
+	font-size: 16px;
+	flex: 1; 
 }
 
 /* Start button */
 .button-start {
 	background-color: #c83c00;
 	color: white;
-	padding: 20px 40px;
+	padding: 24px 40px;
 	border-radius: 40px;
 	display: flex;
 	align-items: center;
@@ -154,8 +155,9 @@
 }
 
 .create-parent {
-	width: 100%;
-	padding: 10px 0;
+	padding: 20px;
+	padding-top: 32px;
+	padding-bottom: 20px; 
 	border-top-right-radius: 20px;
 	border-top-left-radius: 20px;
 }
@@ -227,16 +229,17 @@
 .create-description {
 	display: flex;
 	flex-direction: column;
-	text-align: center;
+	text-align: left;
 	text-transform: uppercase;
+	gap: 4px;
 }
 
 .create-submit {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	padding: 10px;
-	height: 90px;
+	padding: 16px;
+	height: 110px;
 	align-items: center;
 	color: #9b9b9b;
 }
@@ -357,4 +360,9 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	gap: 12px; 
+	justify-content: flex-start; 
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
 }

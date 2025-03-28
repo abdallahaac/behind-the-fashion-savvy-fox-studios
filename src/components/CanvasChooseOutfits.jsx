@@ -447,7 +447,7 @@ function CanvasChooseOutfits({
 							<div className="section-one">
 								<div>MY COLLECTION</div>
 								<div
-									style={{ position: "relative", width: "92%" }}
+									style={{ position: "relative", width: "100%" }}
 									className="collection-container"
 								>
 									{/* Render the 3 outfit slots */}

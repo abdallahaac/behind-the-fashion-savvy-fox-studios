@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Kode+Mono:wght@400..700&display=swap");
 
 .logo-button {
+	flex: 1; 
 	background-color: rgba(0, 0, 0, 0.9);
 	border: none;
 	color: #fff;
@@ -9,7 +10,6 @@
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 	width: 100%;
-	max-width: 341px;
 
 	font-family: "Kode Mono", monospace;
 	height: 92px;
@@ -40,13 +40,14 @@
 	gap: 1rem; /* space between each child */
 	width: 100%;
 	box-sizing: border-box;
+	padding: 16px; 
 }
 
 /* The superimposed SVG */
 .superimposed-logo {
 	position: absolute;
 	top: 50%;
-	left: 55%;
+	left: 200px;
 	transform: translate(-140px, -50%);
 	z-index: 10; /* Ensure it appears above the marquee text */
 	width: 100px; /* Add a unit (px) to width */
