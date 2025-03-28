@@ -9,13 +9,12 @@
 	justify-content: start;
 	gap: 1rem;
 	box-sizing: border-box;
-	width: 300px;
 }
 
 /* Child container for each metric block */
 .metric-child-container {
 	background-color: #2e2e2e;
-	padding: 10px;
+	padding: 12px;
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
@@ -23,8 +22,7 @@
 	justify-content: space-between;
 	/* let it flex without a rigid width; set min/max if needed */
 	flex: 1 1 240px;
-	max-width: 300px !important;
-	min-width: 220px;
+	width: 260px;
 	box-sizing: border-box;
 	height: 80px;
 }
@@ -33,7 +31,9 @@
 .metric-title {
 	background-color: #3d3d3d;
 	width: fit-content;
-	padding: 10px;
+	padding: 6px;
+	padding-left: 10px; 
+	padding-right: 10px; 
 	color: white;
 	text-transform: uppercase;
 	border-radius: 32px;
@@ -46,11 +46,12 @@
 .metric-amount {
 	color: white;
 	font-size: 18px;
+	padding-left: 8px;
 }
 
 /* Extra details styling */
 .metric-details {
-	margin: 4px 0;
+	margin: 0px;
 }
 
 /* Flip Animation */

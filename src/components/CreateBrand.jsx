@@ -278,23 +278,23 @@ function CreateBrand({
 										style={{
 											color: "white",
 											width: "100%",
-											padding: "16px",
+											padding: "16px 0px 16px 16px",
 											border: "1.1px solid rgba(240, 240, 240, 0.51)",
-											borderRadius: "16px",
+											borderRadius: "24px",
 											boxSizing: "border-box",
 											outline: "none",
 											fontSize: "14px",
 											background: "#222222",
 											letterSpacing: "1px",
-											margin: "20px 0px",
+											margin: "12px 0px 24px 0px",
 											textTransform: "uppercase",
 										}}
 									/>
 									<div
 										style={{
 											position: "absolute",
-											right: "10px",
-											top: "50%",
+											right: "16px",
+											top: "37px",
 											transform: "translateY(-50%)",
 											color: "#CCC",
 											fontSize: "12px",
