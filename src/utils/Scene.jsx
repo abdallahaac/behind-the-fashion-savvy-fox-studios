@@ -56,10 +56,10 @@ function FabricGroup({
 		}
 		// Log the computed position after mount
 		if (groupRef.current) {
-			console.log(
-				`Fabric ${fabricKey} is positioned at:`,
-				groupRef.current.position.toArray()
-			);
+			// console.log(
+			// 	`Fabric ${fabricKey} is positioned at:`,
+			// 	groupRef.current.position.toArray()
+			// );
 		}
 	}, [fabricKey, onFabricMeshMounted]);
 
@@ -130,10 +130,10 @@ function FactoryGroup({
 		}
 		// Log the computed position for the factory after mount
 		if (groupRef.current) {
-			console.log(
-				`Factory ${factoryKey} is positioned at:`,
-				groupRef.current.position.toArray()
-			);
+			// console.log(
+			// 	`Factory ${factoryKey} is positioned at:`,
+			// 	groupRef.current.position.toArray()
+			// );
 		}
 	}, [factoryKey, onFactoryMeshMounted]);
 

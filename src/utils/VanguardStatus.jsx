@@ -18,19 +18,15 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts, mostLikedB
             }
             else if (stage === 'finalPersona'){
                 if(mostLikedBy === 'eco'){
-                    console.log("eco");
                     return allVanguards[0].finalPersonaEco;
                 }
                 else if(mostLikedBy === 'ethics'){
-                    console.log("ethical");
                     return allVanguards[0].finalPersonaEthics;
                 }
                 else if(mostLikedBy === 'wealth'){
-                    console.log("wealthy");
                     return allVanguards[0].finalPersonaWealth;
                 }
                 else if(mostLikedBy === 'vanguardVisionary'){
-                    console.log("vanguard visionary");
                     return allVanguards[0].finalPersonaVanguardVisionary;
                 }
                 else{

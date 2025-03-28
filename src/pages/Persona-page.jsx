@@ -22,7 +22,6 @@ import brand_mark from "../assets/images/FinalPersona/brand_mark.svg";
 const PersonaPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    console.log("Location State:", location.state);
 
     const {
         brandName = "MYBRANDNAME",

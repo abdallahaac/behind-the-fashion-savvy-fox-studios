@@ -83,7 +83,7 @@ const allVanguards = [
 				description:
 					"Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
 				img_path: allVanguardsThumbsUp,
-				funding: 100000,
+				funding: 150000,
 				soundRef: "moneySoundRef",
 			},
 		],

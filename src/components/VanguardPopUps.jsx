@@ -61,7 +61,7 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 
 	//Play reaction sounds:
 	// Play the sound for the first step if it hasn't been played yet
-	
+
 	if (!soundPlayedRef.current && _steps.length > 0) {
 		const step = _steps[0]; // Get the first step
 		if (step && step.soundRef) {
@@ -78,8 +78,6 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 			setCurrentStep(currentStep + 1);
 		}
 	};
-	const handleHello = () => {};
-	console.log("hello");
 	const handleBack = () => {
 		playSound(refs.uiClickSoundRef);
 		if (currentStep > 0) {

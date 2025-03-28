@@ -503,8 +503,7 @@ function Room() {
 			(key) => hearts[key] === maxHearts
 		);
 
-		console.log("Most liked categories:", mostLikedCategories);
-		console.log("Number of most liked categories:", mostLikedCategories.length);
+
 		// If there's a tie, return "vanguard visionary"
 		if (mostLikedCategories.length > 1) {
 			return "vanguardVisionary";
@@ -756,11 +755,9 @@ function Room() {
 			if (currentBreakpointIndex === 9) {
 				const fabricQuestions = QuizQuestions.slice(0, 2);
 				setSelectedQuestions(fabricQuestions);
-				console.log("Fabric Questions:", fabricQuestions);
 			} else if (currentBreakpointIndex === 12) {
 				const manufacturingQuestions = QuizQuestions.slice(2, 4);
 				setSelectedQuestions(manufacturingQuestions);
-				console.log("Manufacturing Questions:", manufacturingQuestions);
 			}
 			setShowHotseat(true);
 			setActiveVanguardIndex(0);

@@ -266,7 +266,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit1,
 			ethics: 3,
 		},
 		{
@@ -288,7 +288,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit2,
 			ethics: 2,
 		},
 		{
@@ -310,7 +310,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit3,
 			ethics: 1,
 		},
 		{
@@ -332,7 +332,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit4,
 			ethics: 2.75,
 		},
 		{
@@ -354,7 +354,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit5,
 			ethics: 1.5,
 		},
 		{
@@ -376,7 +376,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit6,
 			ethics: 1.75,
 		},
 		{
@@ -398,7 +398,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit7,
 			ethics: 0.25,
 		},
 		{
@@ -420,7 +420,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit8,
 			ethics: 0.5,
 		},
 		{
@@ -442,7 +442,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: modelPng,
+			img_path: fit9,
 			ethics: 2.5,
 		},
 	],
