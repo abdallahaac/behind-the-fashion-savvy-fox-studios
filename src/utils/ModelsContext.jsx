@@ -292,7 +292,7 @@ const modelsData = {
 			ethics: 2,
 		},
 		{
-			id: 3,
+			id: 4,
 			name: "NEO Y2K SHIMMER",
 			cost: 20000,
 			originalDesignPct: 30,
@@ -310,11 +310,11 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: fit3,
+			img_path: fit4,
 			ethics: 1,
 		},
 		{
-			id: 4,
+			id: 3,
 			name: "MIDNIGHT GRUNGE EDGE",
 			cost: 48000,
 			originalDesignPct: 90,
@@ -332,7 +332,7 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: fit4,
+			img_path: fit3,
 			ethics: 2.75,
 		},
 		{
