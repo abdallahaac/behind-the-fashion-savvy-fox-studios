@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useRef } from "react";
-import backgroundMusic from "../assets/sounds/backgroundMusic/Soft_Background_Loop.mp3";
+import backgroundMusic from "../assets/sounds/backgroundMusic/BTF_Backgroundmusic.mp3";
 import notificationSound from "../assets/sounds/notifications/Button_12.mp3";
 import uiClickSound from "../assets/sounds/UI/Buttons/Button_2.mp3";
 import startSound from "../assets/sounds/UI/Buttons/Button_8.mp3";
 import transitionSound from "../assets/sounds/UI/UI_transition/UI_CLASSIC_Button_Mid_Simple_06.wav";
 import ethicsNeutral from "../assets/sounds/Vanguards/Female/Female_neutral.mp3";
-import ethicsBad from "../assets/sounds/Vanguards/Female/Female_bad.mp3";
+import ethicsBad from "../assets/sounds/Vanguards/Female/female_disgust.mp3";
 import wealthNeutral from "../assets/sounds/Vanguards/Male/Male_bald_neutral.mp3";
 import wealthBad from "../assets/sounds/Vanguards/Male/Male_bald_bad.mp3";
 import ecoNeutral from "../assets/sounds/Vanguards/Male/Male_eco_neutral.mp3";
