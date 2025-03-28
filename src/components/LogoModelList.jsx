@@ -11,7 +11,6 @@ const LogoModelList = ({ selectedLogoModel, onLogoModelChange }) => {
 			console.log(
 				`Selected Logo Model: ${selectedLogoModel.name} (ID: ${selectedLogoModel.id})`
 			);
-			console.log(selectedLogoModel);
 		}
 	}, [selectedLogoModel]);
 

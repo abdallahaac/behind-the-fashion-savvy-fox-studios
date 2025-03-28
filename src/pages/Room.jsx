@@ -149,7 +149,6 @@ function Room() {
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
 	const getVanguardData = (activeVanguardIndex, stage) => {
-		console.log("current stage", stage);
 		switch (activeVanguardIndex) {
 			case 0:
 				if (stage === STAGES.INTRO) {
@@ -416,16 +415,13 @@ function Room() {
 		);
 		setWealthFeedback(wealth_feedback);
 
-		console.log("Ethics Hearts:", ethicsHearts);
-		console.log("Eco Hearts:", ecoHearts);
-		console.log("Wealth Hearts:", wealthHearts);
+
 	};
 
 	const handleFinalPersona = () => {
 		const newStage = STAGES.FINALPERSONA;
 		setStage(newStage);
 		const mostLikedBy = getMostLikedBy(ethicsHearts, ecoHearts, wealthHearts);
-		console.log("Most liked by:", mostLikedBy);
 		const allVanguard_feedback = updateVanguardStatus(
 			"allVanguards",
 			newStage,
@@ -434,10 +430,6 @@ function Room() {
 			mostLikedBy
 		);
 		setAllVanguardsFeedback(allVanguard_feedback);
-		console.log(
-			"testing to see if we get the right feedback",
-			allVanguard_feedback
-		);
 		setMostLikedOutcome(mostLikedBy);
 	};
 	const determinePersonaType = (mostLikedOutcome) => {
@@ -454,9 +446,7 @@ function Room() {
 
 	const handleNavigateToEndPage = (mostLikedOutcome) => {
 		const personaType = determinePersonaType(mostLikedOutcome);
-		console.log("RIGHT HERE: Most liked outcome:", personaType);
 
-		console.log("DETERMINED PERSONA", personaType);
 		navigate("/persona", {
 			state: {
 				personaType: personaType,

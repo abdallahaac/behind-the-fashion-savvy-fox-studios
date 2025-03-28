@@ -137,8 +137,6 @@ function CanvasManufactorer({
 		setSelectedFactoryIndex(idx);
 		setSelectedFactory(factory);
 
-		// Log the newly picked factory to the console
-		console.log("Current factory selected:", factory);
 
 		// Real-time 3D toggling
 		if (onFactorySelect && factory.factoryKey) {
@@ -188,7 +186,6 @@ function CanvasManufactorer({
 		// Deduct from funding
 		setFundingAmount((prev) => (prev !== null ? prev - cost : 0));
 
-		console.log("Purchased factory", selectedFactory);
 		const selectedFactoryArray = [selectedFactory];
 
 		onManufacturingSelection(selectedFactoryArray);

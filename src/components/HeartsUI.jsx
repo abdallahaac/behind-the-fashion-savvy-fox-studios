@@ -161,7 +161,6 @@ const HeartsUI = ({ title, fillNumber, imageSrc }) => {
 
 	// Log total hearts for debugging
 	const totalFilled = hearts.filter((filled) => filled).length;
-	// console.log(`${title} hearts - Total hearts filled: ${totalFilled}`);
 
 	return (
 		<div

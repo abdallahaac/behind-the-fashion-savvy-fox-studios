@@ -32,8 +32,6 @@ const Hotseat = ({
 	const handleSubmitAnswer = () => {
 		if (selectedAnswer === null) return; // Ensure an answer is selected before submitting
 		const selectedAnswerText = answers[selectedAnswer];
-		console.log("Selected Answer:", selectedAnswerText); // Debugging log
-    	console.log("Correct Answer Index:", question.correctAnswer); // Debugging log
 
 		// Check if the selected answer is correct
 		if (selectedAnswerText === question.correctAnswer) {

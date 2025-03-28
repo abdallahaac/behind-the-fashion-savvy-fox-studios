@@ -246,7 +246,6 @@ function CanvasFabricLabs({
 	 */
 	function handleFabricSelectInUI(fabric) {
 		playSound(refs.addToCollectionRef);
-		console.log("Fabric clicked:", fabric);
 		setSelectedFabrics((prev) => ({
 			...prev,
 			[currentSection]: fabric,
