@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../assets/styles/hot-seat.css"; // Make sure to create and style this CSS file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import right_arrow from "../assets/images/right-arrow.svg";
 import allVanguardsHappy from "../assets/images/Vanguards/allVanguards_happy.svg";
+import { useAudioManager } from "../utils/AudioManager";
 
 import FundingDisplay from "./FundingDisplay";
 import NormalButton from "./NormalButton";
@@ -21,16 +22,38 @@ const Hotseat = ({
 	totalSteps,
 }) => {
 	const [selectedAnswer, setSelectedAnswer] = useState(null);
+	const { refs, playSound } = useAudioManager();
 
 	const handleAnswerChange = (index) => {
+		playSound(refs.uiClickSoundRef);
 		setSelectedAnswer(index);
 	};
+	
+	const handleSubmitAnswer = () => {
+		if (selectedAnswer === null) return; // Ensure an answer is selected before submitting
+		const selectedAnswerText = answers[selectedAnswer];
+		console.log("Selected Answer:", selectedAnswerText); // Debugging log
+    	console.log("Correct Answer Index:", question.correctAnswer); // Debugging log
 
-	const handleNext = () => {
-		setSelectedAnswer(null); // Reset the selected answer
-		onNext();
+		// Check if the selected answer is correct
+		if (selectedAnswerText === question.correctAnswer) {
+			playSound(refs.correctSoundRef); // Play correct answer sound
+		} else {
+			playSound(refs.wrongSoundRef); // Play incorrect answer sound
+		}
+	
+		// Transition to the "Result" mode
+		setHasAnswered(true);
+		onNext(); 
 	};
-
+	
+	const handleNext = () => {
+		playSound(refs.uiClickSoundRef); // Play a UI click sound
+		setSelectedAnswer(null); // Reset the selected answer
+		setHasAnswered(false); // Reset the answered flag
+		setQuestionKey((prevKey) => prevKey + 1); // Increment the question key
+		onNext(); 
+	};
 	const renderContent = () => {
 		switch (mode) {
 			case "Quiz":
@@ -68,12 +91,13 @@ const Hotseat = ({
 								size={{ minWidth: "132px", minHeight: "56px" }}
 								active={true}
 								disabled={selectedAnswer === null} // Disable if no answer is selected
-								onClick={handleNext}
+								onClick={handleSubmitAnswer}
 							/>
 						</div>
 					</>
 				);
 			case "Result":
+				
 				return (
 					<>
 						<div className="vanguard-tutorial-step-title accent-5">

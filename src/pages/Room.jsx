@@ -206,6 +206,55 @@ function Room() {
 			{ duration: 1, opacity: 1, ease: "power2.out" }
 		);
 	}, []);
+	// fade music in / out from transition to and from bg music and quiz
+	useEffect(() => {
+		if (showHotseat) {
+			// Fade out background music
+			if (refs.bgMusicRef.current) {
+				gsap.to(refs.bgMusicRef.current, {
+					volume: 0,
+					duration: 1.5, // 1.5 seconds fade-out
+					ease: "power2.inOut", // Smooth easing
+					onComplete: () => {
+						refs.bgMusicRef.current.pause();
+					},
+				});
+			}
+	
+			// Fade in hotseat music
+			if (refs.hotseatMusicRef.current) {
+				refs.hotseatMusicRef.current.currentTime = 0; // Start from the beginning
+				refs.hotseatMusicRef.current.play();
+				gsap.to(refs.hotseatMusicRef.current, {
+					volume: 0.15, 
+					duration: 1.5, // 1.5 seconds fade-in
+					ease: "power2.inOut", // Smooth easing
+				});
+			}
+		} else {
+			// Fade out hotseat music
+			if (refs.hotseatMusicRef.current) {
+				gsap.to(refs.hotseatMusicRef.current, {
+					volume: 0,
+					duration: 1.5, // 1.5 seconds fade-out
+					ease: "power2.inOut", // Smooth easing
+					onComplete: () => {
+						refs.hotseatMusicRef.current.pause();
+					},
+				});
+			}
+	
+			// Resume background music
+			if (refs.bgMusicRef.current) {
+				refs.bgMusicRef.current.play();
+				gsap.to(refs.bgMusicRef.current, {
+					volume: 0.2, 
+					duration: 1.5, // 1.5 seconds fade-in
+					ease: "power2.inOut", // Smooth easing
+				});
+			}
+		}
+	}, [showHotseat]); // Trigger this effect whenever showHotseat changes
 
 	// Show Vanguard UI fade-in
 	useEffect(() => {
@@ -786,6 +835,8 @@ function Room() {
 			handleDone(setMode, setCurrentStep, setQuestionIndex);
 		}
 	}
+
+
 
 	return (
 		<>

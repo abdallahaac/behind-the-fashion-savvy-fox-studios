@@ -15,7 +15,9 @@ import robot1 from "../assets/sounds/robot/robot_2.mp3";
 import addToCollection from "../assets/sounds/UI/Buttons/Button_22.mp3";
 import removeFromCollection from "../assets/sounds/UI/Buttons/Button_15.mp3";
 import heartsSound from "../assets/sounds/UI/Hearts/heart2.wav";
-
+import correctSound from "../assets/sounds/quiz/right/correct.mp3";
+import wrongSound from "../assets/sounds/quiz/wrong/incorrect.mp3";
+import hotseatMusic from "../assets/sounds/quiz/Quiz_music/quiz_track.wav";
 
 // Create the AudioManagerContext
 const AudioManagerContext = createContext();
@@ -39,6 +41,9 @@ export const AudioManagerProvider = ({ children }) => {
     const addToCollectionRef = useRef(null);    
     const removeFromCollectionRef = useRef(null);
     const heartsSoundRef = useRef(null);
+    const correctSoundRef = useRef(null);
+    const wrongSoundRef = useRef(null);
+    const hotseatMusicRef = useRef(null);
 
     // Utility function to play a sound
     const playSound = (audioRef) => {
@@ -77,11 +82,14 @@ export const AudioManagerProvider = ({ children }) => {
             <audio ref={addToCollectionRef} src={addToCollection} />
             <audio ref={removeFromCollectionRef} src={removeFromCollection} />
             <audio ref={heartsSoundRef} src={heartsSound} />
+            <audio ref={correctSoundRef} src={correctSound} />
+            <audio ref={wrongSoundRef} src={wrongSound} />
+            <audio ref={hotseatMusicRef} src={hotseatMusic} loop />
 
             {/* Provide the refs and utility functions via context */}
             <AudioManagerContext.Provider
                 value={{
-                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef, heartsSoundRef },
+                    refs: { bgMusicRef, notificationSoundRef, uiClickSoundRef, uiStartSoundRef, uiTransitionRef, ethicsNeutralRef, ethicsBadRef, wealthNeutralRef, wealthBadRef, environmentNeutralRef, environmentBadRef, moneySoundRef, robotSound1Ref, addToCollectionRef, removeFromCollectionRef, heartsSoundRef, correctSoundRef, wrongSoundRef, hotseatMusicRef },
                     playSound,
                     pauseSound,
                 }}
