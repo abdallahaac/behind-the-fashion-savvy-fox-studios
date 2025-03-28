@@ -1,5 +1,3 @@
-// src/components/CanvasManufactorer.jsx
-
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap } from "gsap";
 import "../assets/styles/create-brand.css";
@@ -8,7 +6,6 @@ import "../assets/styles/CanvasManufacturer.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import shopping_bag from "../assets/images/shopping_bag.svg";
-
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 import CanvasFactoryBarSelection from "./CanvasFactoryBarSelection";
@@ -25,17 +22,19 @@ function CanvasManufactorer({
 	onStart,
 	onCreate,
 	onManufacturingSelection,
-	onFactorySelect, // <-- NEW callback for real-time 3D toggling
+	onFactorySelect,
 }) {
-	const { CanvasManufacturer } = useModels(); // from your context
+	// Pull factory data from context
+	const { CanvasManufacturer } = useModels();
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 
-	// Selected factory index (default -1 means nothing is selected)
+	// Default to the first factory in CanvasManufacturer (if it exists).
 	const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
-	const currentFactory =
+	const initialFactory =
 		CanvasManufacturer && CanvasManufacturer.length > 0
-			? CanvasManufacturer[selectedFactoryIndex]
-			: null;
+			? CanvasManufacturer[0]
+			: 0;
+	const [selectedFactory, setSelectedFactory] = useState(initialFactory);
 
 	// About vs. Factory Audit toggle
 	const [isAbout, setIsAbout] = useState(true);
@@ -53,9 +52,13 @@ function CanvasManufactorer({
 	const loremContainerRef = useRef(null);
 	const { refs, playSound } = useAudioManager();
 
-	// We track the final selection (if needed)
-	const [selectedFactory, setSelectedFactory] = useState(null);
+	// Purchase hold logic
+	const [purchaseProgress, setPurchaseProgress] = useState(0);
+	const [isPurchaseBlinking, setIsPurchaseBlinking] = useState(false);
+	const purchaseHoldStartRef = useRef(null);
+	const purchaseIntervalRef = useRef(null);
 
+	// Fade in container
 	useEffect(() => {
 		gsap.fromTo(
 			containerRef.current,
@@ -64,6 +67,7 @@ function CanvasManufactorer({
 		);
 	}, []);
 
+	// ----------------- "START" BUTTON HOLD LOGIC -----------------
 	const startHold = (e) => {
 		e.preventDefault();
 		setIsBlinking(false);
@@ -93,6 +97,7 @@ function CanvasManufactorer({
 		}
 	};
 
+	// Called once user completes the "Start" hold
 	const handleDone = () => {
 		gsap.to(createParentRef.current, {
 			duration: 1,
@@ -108,9 +113,10 @@ function CanvasManufactorer({
 				onStart?.();
 			},
 		});
-		setSelectedFactory(currentFactory);
+		setSelectedFactory(initialFactory);
 	};
 
+	// Fade in the main panel once expanded
 	useEffect(() => {
 		if (isExpanded && loremContainerRef.current) {
 			gsap.to(loremContainerRef.current, {
@@ -121,13 +127,27 @@ function CanvasManufactorer({
 		}
 	}, [isExpanded]);
 
-	// Purchase hold logic (optional)
-	const [purchaseProgress, setPurchaseProgress] = useState(0);
-	const [isPurchaseBlinking, setIsPurchaseBlinking] = useState(false);
-	const purchaseHoldStartRef = useRef(null);
-	const purchaseIntervalRef = useRef(null);
+	// ----------------- FACTORY SELECTION LOGIC -------------------
+	function handleFactorySelectionInUI(factory) {
+		if (!factory) return;
+		const idx = CanvasManufacturer
+			? CanvasManufacturer.findIndex((f) => f.id === factory.id)
+			: -1;
 
-	const isPurchaseActive = !isAbout && currentFactory;
+		setSelectedFactoryIndex(idx);
+		setSelectedFactory(factory);
+
+		// Log the newly picked factory to the console
+		console.log("Current factory selected:", factory);
+
+		// Real-time 3D toggling
+		if (onFactorySelect && factory.factoryKey) {
+			onFactorySelect(factory.factoryKey);
+		}
+	}
+
+	// ----------------- PURCHASE BUTTON HOLD LOGIC ----------------
+	const isPurchaseActive = !!selectedFactory;
 
 	const startPurchaseHold = (e) => {
 		if (!isPurchaseActive) return;
@@ -160,19 +180,19 @@ function CanvasManufactorer({
 		}
 	};
 
+	// Called once user completes the purchase hold
 	const handlePurchase = () => {
-		if (!currentFactory) return;
-		const cost = Number(currentFactory.cost) || 0;
+		if (!selectedFactory) return;
+		const cost = Number(selectedFactory.cost) || 0;
 
 		// Deduct from funding
 		setFundingAmount((prev) => (prev !== null ? prev - cost : 0));
 
-		console.log("Purchased factory", currentFactory);
-		const selectedFactoryArray = [currentFactory];
-		// Pass the final factory selection back up
+		console.log("Purchased factory", selectedFactory);
+		const selectedFactoryArray = [selectedFactory];
+
 		onManufacturingSelection(selectedFactoryArray);
 
-		// Fade out
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -183,6 +203,13 @@ function CanvasManufactorer({
 		});
 	};
 
+	// Safely derive the actual factory from the array
+	const currentFactory =
+		selectedFactoryIndex >= 0 &&
+		CanvasManufacturer &&
+		selectedFactoryIndex < CanvasManufacturer.length
+			? CanvasManufacturer[selectedFactoryIndex]
+			: null;
 	// Called whenever user picks a new factory from the bar
 	function handleFactorySelectionInUI(factory) {
 		if (!factory) return;
@@ -231,6 +258,7 @@ function CanvasManufactorer({
 				</div>
 
 				<div className="body-create">
+					{/* BEFORE EXPANSION: the "Start" button */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
@@ -255,6 +283,7 @@ function CanvasManufactorer({
 							</div>
 						</div>
 					) : (
+						// AFTER EXPANSION: the full manufacturer panel
 						<div
 							className="new-container"
 							ref={loremContainerRef}
@@ -268,8 +297,8 @@ function CanvasManufactorer({
 								onFactorySelect={handleFactorySelectionInUI}
 							/>
 
-							{/* Render placeholder if no factory is selected */}
-							{selectedFactoryIndex === -1 ? (
+							{/* No factory found? Show placeholder */}
+							{!currentFactory ? (
 								<div
 									className="factory-placeholder"
 									style={{
@@ -287,7 +316,7 @@ function CanvasManufactorer({
 								<div className="factory-container">
 									<div className="factory-title">{currentFactory.title}</div>
 
-									{/* Toggle switch for About / Factory Audit */}
+									{/* ABOUT/FACTORY AUDIT TOGGLE */}
 									<div className="factory-toggle-switch">
 										<div className="factory-about-products-container">
 											<div
@@ -309,7 +338,7 @@ function CanvasManufactorer({
 										</div>
 									</div>
 
-									{/* Conditionally render the About or Factory Audit sections */}
+									{/* Render "ABOUT" or "FACTORY AUDIT" info */}
 									{isAbout && (
 										<div className="about-container">
 											<div className="factory-location-container">
@@ -436,6 +465,7 @@ function CanvasManufactorer({
 								</div>
 							)}
 
+							{/* Bottom purchase area */}
 							<div className="create-submit-container factory">
 								<div
 									className={`create-submit ${
@@ -459,9 +489,7 @@ function CanvasManufactorer({
 												isPurchaseActive ? "active" : ""
 											}`}
 										>
-											{isPurchaseActive
-												? "Manufacturing Cost"
-												: "Manufacturing Cost"}
+											Manufacturing Cost
 										</span>
 									</div>
 									<div
@@ -495,6 +523,7 @@ function CanvasManufactorer({
 									</div>
 								</div>
 							</div>
+							{/* End new-container */}
 						</div>
 					)}
 				</div>

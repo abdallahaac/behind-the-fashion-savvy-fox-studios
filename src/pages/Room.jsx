@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import { useProgress } from "@react-three/drei";
 import { updateVanguardStatus } from "../utils/VanguardStatus";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
 	assistantData,
 	allVanguards,
@@ -31,13 +31,12 @@ import ethicsVanguard_pfp from "../assets/images/Vanguards/Vanguard_Ethic/Ethic_
 //audio//
 
 import { useAudioManager } from "../utils/AudioManager";
-
 // Funding context & overlay
 import { FundingContext } from "../utils/FundingContext";
 import LoadingOverlay from "../utils/LoadingOverlay";
 
 function Room() {
-	const navigate = useNavigate(); 
+	const navigate = useNavigate();
 	// ============ VANGUARD / STAGES SETUP ============
 	const STAGES = {
 		INTRO: "introduction",
@@ -65,7 +64,7 @@ function Room() {
 
 	// ============ AUDIO ============
 	const { refs, playSound, pauseSound } = useAudioManager();
-	const [hasEnteredExperience, setHasEnteredExperience] = useState(false); 
+	const [hasEnteredExperience, setHasEnteredExperience] = useState(false);
 	// ============ SHOW / HIDE UI ===============
 	const [showCreateBrand, setShowCreateBrand] = useState(false);
 	const [showOutfitSelection, setShowOutfitSelection] = useState(false);
@@ -82,8 +81,8 @@ function Room() {
 
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
-		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2300,
-		2350, 2365
+		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2344,
+		2500, 2566,
 	];
 
 	// Scene loading progress
@@ -95,12 +94,10 @@ function Room() {
 		? 100
 		: Math.min(Math.max(rawProgress, 1), 99);
 
-
-
 	const [brandName, setBrandName] = useState("MYBRAND");
 	const [fontStyle, setFontStyle] = useState("");
 
-	// We will no longer pass `brandName` or `fontStyle` directly as props to <Scene>.
+	// We will no longer pass brandName or fontStyle directly as props to <Scene>.
 	// Instead, we hold a reference to an updater function provided by Scene:
 	const [updateTextInScene, setUpdateTextInScene] = useState(null);
 
@@ -109,10 +106,11 @@ function Room() {
 	const outfitMeshRefs = useRef({});
 	const fabricMeshRefs = useRef({});
 	const factoryMeshRefs = useRef({});
+
 	const [selectedLogo, setSelectedLogo] = useState(null);
 	const [selectedOutfit, setSelectedOutfit] = useState("Outfit1");
 	const [selectedFabric, setSelectedFabric] = useState("acrylic");
-	const [selectedFactory, setSelectedFactory] = useState(null);
+	const [selectedFactory, setSelectedFactory] = useState("artisthread");
 
 	// ============ REF TO DOM ELEMENTS ============
 	const canvasContainerRef = useRef(null);
@@ -133,6 +131,7 @@ function Room() {
 	const [selectedManufacturingItems, setSelectedManufacturingItems] = useState(
 		[]
 	);
+
 	const [averageEthics, setAverageEthics] = useState(0);
 	const [averageSustainability, setAverageSustainability] = useState(0);
 	const [averageCost, setAverageCost] = useState(0);
@@ -191,8 +190,6 @@ function Room() {
 		}
 	};
 
-
-
 	// Intro fade-in
 	useEffect(() => {
 		gsap.fromTo(
@@ -220,13 +217,13 @@ function Room() {
 					},
 				});
 			}
-	
+
 			// Fade in hotseat music
 			if (refs.hotseatMusicRef.current) {
 				refs.hotseatMusicRef.current.currentTime = 0; // Start from the beginning
 				refs.hotseatMusicRef.current.play();
 				gsap.to(refs.hotseatMusicRef.current, {
-					volume: 0.15, 
+					volume: 0.15,
 					duration: 1.5, // 1.5 seconds fade-in
 					ease: "power2.inOut", // Smooth easing
 				});
@@ -243,12 +240,12 @@ function Room() {
 					},
 				});
 			}
-	
+
 			// Resume background music
 			if (refs.bgMusicRef.current) {
 				refs.bgMusicRef.current.play();
 				gsap.to(refs.bgMusicRef.current, {
-					volume: 0.2, 
+					volume: 0.2,
 					duration: 1.5, // 1.5 seconds fade-in
 					ease: "power2.inOut", // Smooth easing
 				});
@@ -274,7 +271,7 @@ function Room() {
 		handlePlayClick();
 	}, []);
 
-	// Whenever `brandName` or `fontStyle` changes, update the 3D text dynamically
+	// Whenever brandName or fontStyle changes, update the 3D text dynamically
 	// WITHOUT causing Scene to re-render:
 	useEffect(() => {
 		if (updateTextInScene) {
@@ -286,34 +283,34 @@ function Room() {
 	const handleEnterExperience = () => {
 		setHasEnteredExperience(true);
 		refs.bgMusicRef.current.volume = 0.2;
-        playSound(refs.bgMusicRef); // background music starts playing 
-    };
+		playSound(refs.bgMusicRef); // background music starts playing
+	};
 
 	useEffect(() => {
-        if (!hasEnteredExperience || showPopUp || showHotseat) return; // Do nothing if the experience hasn't started or popup is open
+		if (!hasEnteredExperience || showPopUp || showHotseat) return; // Do nothing if the experience hasn't started or popup is open
 
-        const isAnyVanguardActive = vanguardActiveStates.some((state) => state);
+		const isAnyVanguardActive = vanguardActiveStates.some((state) => state);
 
-        let intervalId;
+		let intervalId;
 
-        if (isAnyVanguardActive && refs.notificationSoundRef.current) {
-            // Play the notification sound immediately
-            playSound(refs.notificationSoundRef);
+		if (isAnyVanguardActive && refs.notificationSoundRef.current) {
+			// Play the notification sound immediately
+			playSound(refs.notificationSoundRef);
 
-            // Then play the notification sound every 4 seconds
-            intervalId = setInterval(() => {
-                playSound(refs.notificationSoundRef);
-            }, 4000);
-        } else if (!isAnyVanguardActive && refs.notificationSoundRef.current) {
-            // Stop the sound and clear the interval
-            refs.notificationSoundRef.current.pause();
-            refs.notificationSoundRef.current.currentTime = 0;
-            clearInterval(intervalId);
-        }
+			// Then play the notification sound every 4 seconds
+			intervalId = setInterval(() => {
+				playSound(refs.notificationSoundRef);
+			}, 4000);
+		} else if (!isAnyVanguardActive && refs.notificationSoundRef.current) {
+			// Stop the sound and clear the interval
+			refs.notificationSoundRef.current.pause();
+			refs.notificationSoundRef.current.currentTime = 0;
+			clearInterval(intervalId);
+		}
 
-        // Cleanup the interval when the component unmounts or dependencies change
-        return () => clearInterval(intervalId);
-    }, [vanguardActiveStates, hasEnteredExperience, showPopUp, showHotseat]);
+		// Cleanup the interval when the component unmounts or dependencies change
+		return () => clearInterval(intervalId);
+	}, [vanguardActiveStates, hasEnteredExperience, showPopUp, showHotseat]);
 
 	//Calculating average scores of metrics : cost, ethics, sustainability
 	const calculateAverageScores = (selectedItems) => {
@@ -358,11 +355,9 @@ function Room() {
 	) => {
 		setSelectedItems(selectedItems);
 		const averages = calculateAverageScores(selectedItems);
-		// console.log("Averages:", averages);
 		setAverageEthics(averages.averageEthics);
 		setAverageSustainability(averages.averageSustainability);
 		setAverageCost(averages.averageCost);
-		// console.log("current stage", currentStage);
 
 		const ethics_feedback = updateVanguardStatus(
 			"ethics",
@@ -373,8 +368,6 @@ function Room() {
 		setEthicsHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + ethics_feedback.hearts))
 		);
-		// console.log("Ethics Vanguard Feedback:", ethics_feedback);
-		setEthicsFeedback(ethics_feedback);
 
 		const eco_feedback = updateVanguardStatus(
 			"eco",
@@ -385,8 +378,6 @@ function Room() {
 		setEcoHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + eco_feedback.hearts))
 		);
-		// console.log("Eco Vanguard Feedback:", eco_feedback);
-		setEcoFeedback(eco_feedback);
 
 		const wealth_feedback = updateVanguardStatus(
 			"wealth",
@@ -397,7 +388,9 @@ function Room() {
 		setWealthHearts((prevHearts) =>
 			Math.min(5, Math.max(0, prevHearts + wealth_feedback.hearts))
 		);
-		// console.log("Wealth Vanguard Feedback:", wealth_feedback);
+
+		setEthicsFeedback(ethics_feedback);
+		setEcoFeedback(eco_feedback);
 		setWealthFeedback(wealth_feedback);
 	};
 
@@ -446,27 +439,25 @@ function Room() {
 			allVanguard_feedback
 		);
 		setMostLikedOutcome(mostLikedBy);
-	
 	};
 	const determinePersonaType = (mostLikedOutcome) => {
-       
-        if (mostLikedOutcome === 'ethics') {
-            return 'moralInnovator';
-        } else if (mostLikedOutcome === 'eco') {
-            return 'ecoWarrior';
-        } else if (mostLikedOutcome === 'wealth')  {
-            return 'cashCow'; 
-        } else {
-			return 'vanguardVisionary';
+		if (mostLikedOutcome === "ethics") {
+			return "moralInnovator";
+		} else if (mostLikedOutcome === "eco") {
+			return "ecoWarrior";
+		} else if (mostLikedOutcome === "wealth") {
+			return "cashCow";
+		} else {
+			return "vanguardVisionary";
 		}
-    };
+	};
 
 	const handleNavigateToEndPage = (mostLikedOutcome) => {
-        const personaType = determinePersonaType(mostLikedOutcome);
+		const personaType = determinePersonaType(mostLikedOutcome);
 		console.log("RIGHT HERE: Most liked outcome:", personaType);
 
 		console.log("DETERMINED PERSONA", personaType);
-        navigate('/persona', {
+		navigate("/persona", {
 			state: {
 				personaType: personaType,
 				hearts: {
@@ -474,10 +465,10 @@ function Room() {
 					ethics: ethicsHearts,
 					wealth: wealthHearts,
 				},
-				brandName: brandName, 
+				brandName: brandName,
 			},
 		});
-    };
+	};
 
 	const handleClothingSelection = (selectedItems) => {
 		const newStage = STAGES.CLOTHING;
@@ -518,11 +509,10 @@ function Room() {
 		};
 
 		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
-
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
-		
+
 		console.log("Most liked categories:", mostLikedCategories);
 		console.log("Number of most liked categories:", mostLikedCategories.length);
 		// If there's a tie, return "vanguard visionary"
@@ -602,6 +592,7 @@ function Room() {
 				handleFinalPersona();
 				setShowVanguardUI(true);
 				setVanguardActiveStates([true, false, false, false]);
+
 				break;
 			case 15:
 				handleNavigateToEndPage(mostLikedOutcome);
@@ -728,11 +719,24 @@ function Room() {
 
 	// ============ FABRIC SELECT LOGIC ============
 	function handleFabricSelect(newFabricKey) {
+		console.log("Attempting to select a new fabric:", newFabricKey);
+
 		if (!newFabricKey) return;
-		if (selectedFabric === newFabricKey) return;
-		if (selectedFabric) {
-			animateFabricTo(selectedFabric, -200);
+
+		if (selectedFabric === newFabricKey) {
+			console.log("Fabric is already selected:", newFabricKey);
+			return;
 		}
+
+		if (selectedFabric) {
+			console.log("Previously selected fabric:", selectedFabric);
+			animateFabricTo(selectedFabric, -200);
+		} else {
+			console.log(
+				"No previously selected fabric, so this is the first choice!"
+			);
+		}
+
 		animateFabricTo(newFabricKey, -75);
 		setSelectedFabric(newFabricKey);
 		console.log("[FABRIC SELECT] from", selectedFabric, "to", newFabricKey);
@@ -755,10 +759,13 @@ function Room() {
 		if (!vanguardActiveStates[index]) return;
 
 		// If at breakpoint 9 and user clicks Vanguard 0 => open Hot Seat
-		if ((currentBreakpointIndex === 9 || currentBreakpointIndex === 12) && index === 0) {
+		if (
+			(currentBreakpointIndex === 9 || currentBreakpointIndex === 12) &&
+			index === 0
+		) {
 			if (currentBreakpointIndex === 9) {
 				const fabricQuestions = QuizQuestions.slice(0, 2);
-            	setSelectedQuestions(fabricQuestions);
+				setSelectedQuestions(fabricQuestions);
 				console.log("Fabric Questions:", fabricQuestions);
 			} else if (currentBreakpointIndex === 12) {
 				const manufacturingQuestions = QuizQuestions.slice(2, 4);
@@ -773,7 +780,6 @@ function Room() {
 		setActiveVanguardIndex(index);
 		incrementVanguardActivation(index);
 		setShowPopUp(true);
-		
 	}
 
 	function incrementVanguardActivation(index) {
@@ -797,7 +803,6 @@ function Room() {
 				handleContinue();
 			}
 		} else {
-			// If one of vanguards (1..3) is closed
 			setVanguardActiveStates((prevStates) => {
 				const newStates = [...prevStates];
 				newStates[prevActive] = false;
@@ -818,7 +823,7 @@ function Room() {
 				onComplete: () => {
 					setShowHotseat(false);
 					if (currentBreakpointIndex === 6) {
-						setVanguardActiveStates([false, false, true, true]); 
+						setVanguardActiveStates([false, false, true, true]);
 					} else if (activeVanguardIndex === 0) {
 						setVanguardActiveStates([false, true, true, true]);
 						setVanguardActivationCounts((prev) => [prev[0], 3, 3, 3]);
@@ -836,11 +841,8 @@ function Room() {
 		}
 	}
 
-
-
 	return (
 		<>
-
 			{/* Loading Overlay */}
 			{showOverlay && (
 				<LoadingOverlay
@@ -1138,10 +1140,6 @@ function Room() {
 				)}
 
 				{/* Main 3D Scene */}
-				{/*
-          We remove brandName & fontStyle from props. Instead, we pass
-          onTextUpdaterReady to get a function that updates the text in Scene.
-        */}
 				<Scene
 					playAnimation={playAnimation}
 					paused={paused}
@@ -1152,7 +1150,7 @@ function Room() {
 					onOutfitMeshMounted={handleOutfitMeshMounted}
 					onFabricMeshMounted={handleFabricMeshMounted}
 					onFactoryMeshMounted={handleFactoryMeshMounted}
-					// Here's the callback that Scene will call once it has set up references.
+					selectedFactory={selectedFactory}
 					onTextUpdaterReady={setUpdateTextInScene}
 				/>
 			</div>

@@ -1,6 +1,4 @@
-// src/components/CanvasFactoryBarSelection.jsx
-
-import React from "react";
+import React, { useEffect } from "react";
 import "../assets/styles/ModelList.css";
 import "../assets/styles/CanvasBarList.css";
 
@@ -10,9 +8,21 @@ const CanvasFactoryBarSelection = ({
 	setSelectedIndex,
 	onFactorySelect,
 }) => {
+	// If no items, nothing to show
 	if (!items || items.length === 0) {
 		return null;
 	}
+
+	// On mount, ensure the first item is selected
+	useEffect(() => {
+		if (items.length > 0 && selectedIndex == null) {
+			setSelectedIndex(0);
+			if (onFactorySelect) {
+				onFactorySelect(items[0]);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handlePrev = () => {
 		setSelectedIndex((prevIndex) => {
