@@ -491,7 +491,7 @@ function CanvasFabricLabs({
 										>
 											{currentSection < 3
 												? "Click Purchase to Advance"
-												: "Hold Purchase to Complete"}
+												: "Click Purchase to Complete"}
 										</span>
 									</div>
 									<div
