@@ -244,7 +244,6 @@ const modelsData = {
 		},
 	],
 
-
 	// 9 new outfits for your CanvasChooseOutfits
 	CanvasOutfitsData: [
 		{
