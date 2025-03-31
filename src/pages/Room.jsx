@@ -414,8 +414,6 @@ function Room() {
 			wealthHearts
 		);
 		setWealthFeedback(wealth_feedback);
-
-
 	};
 
 	const handleFinalPersona = () => {
@@ -502,7 +500,6 @@ function Room() {
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
-
 
 		// If there's a tie, return "vanguard visionary"
 		if (mostLikedCategories.length > 1) {
@@ -702,7 +699,7 @@ function Room() {
 	function handleOutfitSelect(newOutfitId) {
 		if (selectedOutfit === newOutfitId) return;
 		animateOutfitTo(selectedOutfit, -120);
-		animateOutfitTo(newOutfitId, -46);
+		animateOutfitTo(newOutfitId, -51);
 		setSelectedOutfit(newOutfitId);
 	}
 

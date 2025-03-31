@@ -32,8 +32,16 @@ function CanvasFabricLabs({
 	const { CottonChoices, HeavyChoices, SyntheticChoices } = useModels();
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 	const { refs, playSound } = useAudioManager();
+
 	// Which section (1=Light, 2=Knit, 3=Shiny)
 	const [currentSection, setCurrentSection] = useState(1);
+
+	// Track if a section was already purchased
+	const [purchasedSections, setPurchasedSections] = useState({
+		1: false,
+		2: false,
+		3: false,
+	});
 
 	// Selected fabric object for each section
 	const [selectedFabrics, setSelectedFabrics] = useState({
@@ -42,56 +50,26 @@ function CanvasFabricLabs({
 		3: null,
 	});
 
-	// Index of the currently highlighted fabric
+	// Index of the currently highlighted fabric within the current section’s array
 	const [selectedFabricIndex, setSelectedFabricIndex] = useState(-1);
 
-	// Return array based on which section is active
-	const getFabricsForSection = () => {
-		if (currentSection === 1) return CottonChoices;
-		if (currentSection === 2) return HeavyChoices;
-		if (currentSection === 3) return SyntheticChoices;
-		return [];
-	};
+	const containerRef = useRef(null);
+	const buttonContainerRef = useRef(null);
+	const createParentRef = useRef(null);
+	const loremContainerRef = useRef(null);
 
-	const getIcon = (iconType) => {
-		switch (iconType) {
-			case "positive":
-				return greenThumb;
-			case "negative":
-				return redThumb;
-			case "neutral":
-				return neutralThumb;
-			default:
-				return neutralThumb;
-		}
-	};
-
-	// Current array of possible fabrics for the active section
-	const fabricsData = getFabricsForSection();
-
-	// The actual highlighted fabric object
-	const currentFabric =
-		fabricsData && fabricsData.length > 0
-			? fabricsData[selectedFabricIndex]
-			: null;
-
-	// cost (just for display)
-	const totalCost = Object.values(selectedFabrics).reduce(
-		(acc, fabric) => (fabric ? acc + fabric.cost : acc),
-		0
-	);
-
-	// Start button logic
+	// For “Start” button hold
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
 
-	const containerRef = useRef(null);
-	const buttonContainerRef = useRef(null);
-	const createParentRef = useRef(null);
-	const loremContainerRef = useRef(null);
+	// For “Create” button hold (final step)
+	const [createProgress, setCreateProgress] = useState(0);
+	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
+	const createHoldStartRef = useRef(null);
+	const createIntervalRef = useRef(null);
 
 	useEffect(() => {
 		gsap.fromTo(
@@ -101,6 +79,34 @@ function CanvasFabricLabs({
 		);
 	}, []);
 
+	// Returns an array of fabrics for the current section
+	const getFabricsForSection = () => {
+		if (currentSection === 1) return CottonChoices;
+		if (currentSection === 2) return HeavyChoices;
+		if (currentSection === 3) return SyntheticChoices;
+		return [];
+	};
+
+	const fabricsData = getFabricsForSection();
+
+	// The actual highlighted fabric object for the current section
+	const currentFabric =
+		fabricsData && fabricsData.length > 0
+			? fabricsData[selectedFabricIndex]
+			: null;
+
+	// For display: total cost of all chosen fabrics
+	const totalCost = Object.values(selectedFabrics).reduce(
+		(acc, fabric) => (fabric ? acc + fabric.cost : acc),
+		0
+	);
+
+	const isOnLastSection = currentSection === 3;
+	const isFabricChosenThisSection = !!selectedFabrics[currentSection];
+
+	/********************************
+	 * Step 1: "Start" button logic
+	 ********************************/
 	function startHold(e) {
 		e.preventDefault();
 		setIsBlinking(false);
@@ -121,8 +127,8 @@ function CanvasFabricLabs({
 	}
 
 	function endHold(e) {
-		playSound(refs.uiStartSoundRef);
 		e.preventDefault();
+		playSound(refs.uiStartSoundRef);
 		clearInterval(intervalRef.current);
 		if (progress < 100) {
 			setProgress(0);
@@ -157,15 +163,9 @@ function CanvasFabricLabs({
 		}
 	}, [isExpanded]);
 
-	// Final hold in the 3rd section
-	const [createProgress, setCreateProgress] = useState(0);
-	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
-	const createHoldStartRef = useRef(null);
-	const createIntervalRef = useRef(null);
-
-	const isOnLastSection = currentSection === 3;
-	const isFabricChosenThisSection = !!selectedFabrics[currentSection];
-
+	/********************************
+	 * Step 2: "Create" final hold
+	 ********************************/
 	function startCreateHold(e) {
 		if (!isOnLastSection || !isFabricChosenThisSection) return;
 		e.preventDefault();
@@ -197,18 +197,19 @@ function CanvasFabricLabs({
 	}
 
 	function handleCreateDone() {
-		const selectedFabricsArray = Object.values(selectedFabrics) || [];
+		const selectedFabricsArray = Object.values(selectedFabrics);
 
-		// Subtract cost of the final pick from budget
+		// If section 3 not yet purchased, subtract cost now
 		const finalFabric = selectedFabrics[3];
-		if (finalFabric) {
+		if (finalFabric && !purchasedSections[3]) {
 			setFundingAmount((prev) => (prev !== null ? prev - finalFabric.cost : 0));
+			setPurchasedSections((old) => ({ ...old, 3: true }));
 		}
 
-		// Trigger final selection to Room
-		onFabricSelection(selectedFabricsArray);
+		// Return final selection
+		onFabricSelection?.(selectedFabricsArray);
 
-		// Fade out entire container
+		// Fade out container
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -219,45 +220,98 @@ function CanvasFabricLabs({
 		});
 	}
 
+	/********************************
+	 * Step 3: Purchase logic
+	 ********************************/
 	function handlePurchaseClick() {
 		if (!isFabricChosenThisSection) return;
+
 		playSound(refs.uiStartSoundRef);
-		if (currentSection < 3) {
+
+		// If not yet purchased, subtract cost for this section
+		if (!purchasedSections[currentSection]) {
 			const chosenFabric = selectedFabrics[currentSection];
 			if (chosenFabric) {
 				setFundingAmount((prev) =>
 					prev !== null ? prev - chosenFabric.cost : 0
 				);
 			}
+			setPurchasedSections((old) => ({ ...old, [currentSection]: true }));
+		}
+
+		// Move to next section if applicable
+		if (currentSection < 3) {
 			setCurrentSection((prevSec) => prevSec + 1);
-			setSelectedFabricIndex(0);
+			setSelectedFabricIndex(-1); // reset highlight for new section
 		}
 	}
 
+	// When navigating back, highlight the previously selected fabric (if any)
 	useEffect(() => {
-		// Reset the fabric selection when the section changes
-		setSelectedFabricIndex(-1);
+		if (selectedFabrics[currentSection]) {
+			const fabricId = selectedFabrics[currentSection].id;
+			const idx = getFabricsForSection().findIndex((f) => f.id === fabricId);
+			setSelectedFabricIndex(idx >= 0 ? idx : -1);
+		} else {
+			setSelectedFabricIndex(-1);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentSection]);
 
-	/**
-	 * Called when user clicks a fabric.
-	 * We store it in local state (for cost, summary, etc.)
-	 * Then we call onFabricSelect(fabric.fabricKey) to tell Room to animate the 3D mesh.
-	 */
-	function handleFabricSelectInUI(fabric) {
-		playSound(refs.addToCollectionRef);
-		setSelectedFabrics((prev) => ({
-			...prev,
-			[currentSection]: fabric,
-		}));
+	/********************************
+	 * Step 4: Fabric selection logic
+	 ********************************/
+	function handleClickOnFabric(fabric, idx) {
+		const alreadySelected = selectedFabrics[currentSection];
+		const isSameFabric = alreadySelected && alreadySelected.id === fabric.id;
 
-		if (onFabricSelect && fabric.fabricKey) {
-			console.log("[CanvasFabricLabs] onFabricSelect =>", fabric.fabricKey);
-			onFabricSelect(fabric.fabricKey);
+		playSound(refs.addToCollectionRef);
+
+		if (purchasedSections[currentSection]) {
+			if (isSameFabric) {
+				// Remove the fabric and refund its cost
+				setFundingAmount((prev) => prev + fabric.cost);
+				setSelectedFabrics((prev) => ({
+					...prev,
+					[currentSection]: null,
+				}));
+				setSelectedFabricIndex(-1);
+			} else {
+				if (alreadySelected) {
+					// Refund old cost
+					setFundingAmount((prev) => prev + alreadySelected.cost);
+				}
+				// Charge for new fabric
+				setFundingAmount((prev) => (prev !== null ? prev - fabric.cost : 0));
+				setSelectedFabrics((prev) => ({
+					...prev,
+					[currentSection]: fabric,
+				}));
+				setSelectedFabricIndex(idx);
+			}
 		} else {
-			console.log("[CanvasFabricLabs] onFabricSelect not called");
+			// Not yet purchased: simply update the selection
+			if (isSameFabric) {
+				setSelectedFabrics((prev) => ({
+					...prev,
+					[currentSection]: null,
+				}));
+				setSelectedFabricIndex(-1);
+			} else {
+				setSelectedFabrics((prev) => ({
+					...prev,
+					[currentSection]: fabric,
+				}));
+				setSelectedFabricIndex(idx);
+			}
 		}
+
+		onFabricSelect?.(isSameFabric ? null : fabric.fabricKey);
 	}
+
+	// Instead of checking across all sections, mark as active only if this fabric is the selection for the current section.
+	const isFabricActive = (fabric) =>
+		selectedFabrics[currentSection]?.id === fabric.id;
 
 	function getSectionTitle() {
 		switch (currentSection) {
@@ -273,7 +327,19 @@ function CanvasFabricLabs({
 	}
 
 	const buttonLabel = currentSection < 3 ? "Purchase" : "Purchase";
-	const isButtonActive = isFabricChosenThisSection;
+	const isButtonActive = !!selectedFabrics[currentSection];
+
+	function getIcon(iconType) {
+		switch (iconType) {
+			case "positive":
+				return greenThumb;
+			case "negative":
+				return redThumb;
+			case "neutral":
+			default:
+				return neutralThumb;
+		}
+	}
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -371,34 +437,34 @@ function CanvasFabricLabs({
 									<div>
 										<div className="fabric-title">{getSectionTitle()}</div>
 										<div className="fabric-selection-container">
-											{fabricsData.map((fabric, idx) => (
-												<div
-													key={fabric.id}
-													className={`fabric-container ${
-														idx === selectedFabricIndex ? "active" : ""
-													}`}
-													onClick={() => {
-														setSelectedFabricIndex(idx);
-														handleFabricSelectInUI(fabric);
-													}}
-												>
-													<img
-														className="fabric-img"
-														width={"100px"}
-														height={"100px"}
-														src={fabric.img_path}
-														alt={fabric.name}
-													/>
-													<div className="fabric-options">
-														<div className="fabric-option-title">
-															{fabric.name}
-														</div>
-														<div className="fabric-option-price">
-															${formatPrice(fabric.cost)}
+											{fabricsData.map((fabric, idx) => {
+												const isActive = isFabricActive(fabric);
+												return (
+													<div
+														key={fabric.id}
+														className={`fabric-container ${
+															isActive ? "active" : ""
+														}`}
+														onClick={() => handleClickOnFabric(fabric, idx)}
+													>
+														<img
+															className="fabric-img"
+															width={"100px"}
+															height={"100px"}
+															src={fabric.img_path}
+															alt={fabric.name}
+														/>
+														<div className="fabric-options">
+															<div className="fabric-option-title">
+																{fabric.name}
+															</div>
+															<div className="fabric-option-price">
+																${formatPrice(fabric.cost)}
+															</div>
 														</div>
 													</div>
-												</div>
-											))}
+												);
+											})}
 										</div>
 									</div>
 								</div>
@@ -425,7 +491,7 @@ function CanvasFabricLabs({
 										>
 											{currentSection < 3
 												? "Click Purchase to Advance"
-												: "Hold Purchase to Complete"}
+												: "Click Purchase to Complete"}
 										</span>
 									</div>
 									<div
@@ -446,11 +512,11 @@ function CanvasFabricLabs({
 									>
 										{isOnLastSection && (
 											<div
-												className={`${
+												className={
 													isFabricChosenThisSection
 														? "hold-progress-start"
 														: "not-start"
-												}`}
+												}
 												style={{ width: `${createProgress}%` }}
 											/>
 										)}
@@ -468,11 +534,12 @@ function CanvasFabricLabs({
 								</div>
 							</div>
 
+							{/* Optional: Bottom fabric bar */}
 							<CanvasBarFabrics
 								items={fabricsData}
 								selectedIndex={selectedFabricIndex}
 								setSelectedIndex={setSelectedFabricIndex}
-								onFabricSelect={(fabric) => handleFabricSelectInUI(fabric)}
+								onFabricSelect={(fabric) => handleClickOnFabric(fabric)}
 							/>
 
 							<div className="left-component outfit" id="fabric-only-container">
@@ -490,7 +557,6 @@ function CanvasFabricLabs({
 											className="fabric-description"
 											style={{ marginTop: "1rem", marginBottom: "1rem" }}
 										>
-											{/* Certification 1 */}
 											{currentFabric.cert_title1 && (
 												<div className="category-item">
 													<div className="icon-container">
@@ -514,7 +580,6 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
-											{/* Certification 2 */}
 											{currentFabric.cert_title2 && (
 												<div className="category-item">
 													<div className="icon-container">
@@ -538,7 +603,6 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
-											{/* Common Material Comment */}
 											{currentFabric.cat1_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -558,7 +622,6 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
-											{/* Environment Comment */}
 											{currentFabric.cat2_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -578,7 +641,6 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
-											{/* Ethics Comment */}
 											{currentFabric.cat3_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -598,7 +660,6 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
-											{/* Cost Comment */}
 											{currentFabric.cat4_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -631,6 +692,38 @@ function CanvasFabricLabs({
 									</div>
 								)}
 							</div>
+
+							{/* ======== FABRIC SUMMARY SECTION ======== */}
+							{/* <div className="fabric-summary-container">
+								<h3 className="fabric-summary-title">Your Fabric Selections</h3>
+								<ul className="fabric-summary-list">
+									<li>
+										Light:{" "}
+										{selectedFabrics[1]
+											? `${selectedFabrics[1].name} – $${formatPrice(
+													selectedFabrics[1].cost
+											  )}`
+											: "None"}
+									</li>
+									<li>
+										Knit:{" "}
+										{selectedFabrics[2]
+											? `${selectedFabrics[2].name} – $${formatPrice(
+													selectedFabrics[2].cost
+											  )}`
+											: "None"}
+									</li>
+									<li>
+										Shiny:{" "}
+										{selectedFabrics[3]
+											? `${selectedFabrics[3].name} – $${formatPrice(
+													selectedFabrics[3].cost
+											  )}`
+											: "None"}
+									</li>
+								</ul>
+							</div> */}
+							{/* ======== END FABRIC SUMMARY SECTION ======== */}
 						</div>
 					)}
 				</div>
