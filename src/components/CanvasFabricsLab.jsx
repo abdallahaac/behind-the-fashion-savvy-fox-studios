@@ -97,6 +97,27 @@ function CanvasFabricLabs({
 	const isOnLastSection = currentSection === 3;
 	const isFabricChosenThisSection = !!selectedFabrics[currentSection];
 
+	// Boolean true if all three fabrics have been selected.
+	const allFabricsSelected = !!(
+		selectedFabrics[1] &&
+		selectedFabrics[2] &&
+		selectedFabrics[3]
+	);
+
+	// Compute overall number of fabrics selected and the corresponding text.
+	const numFabricsSelected = [
+		selectedFabrics[1],
+		selectedFabrics[2],
+		selectedFabrics[3],
+	].filter(Boolean).length;
+	const fabricsSelectedText = `${numFabricsSelected}/3 Fabric${
+		numFabricsSelected === 1 ? "" : "s"
+	} selected`;
+	// The text is red (#FF0000) until 3 are selected, then black (#000000).
+	const fabricsSelectedStyle = {
+		color: numFabricsSelected === 3 ? "#000000" : "#FFC4B1",
+	};
+
 	/********************************
 	 * Step 1: "Start" button logic (initial animation)
 	 ********************************/
@@ -171,7 +192,10 @@ function CanvasFabricLabs({
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
 			if (newProgress >= 100) {
 				setCreateProgress(100);
-				handlePurchaseClick();
+				// Only execute purchase if all three fabrics are selected
+				if (allFabricsSelected) {
+					handlePurchaseClick();
+				}
 				clearInterval(createIntervalRef.current);
 			} else {
 				setCreateProgress(newProgress);
@@ -193,8 +217,8 @@ function CanvasFabricLabs({
 	 * Step 3: Final purchase logic (only active when on section 3)
 	 ********************************/
 	function handlePurchaseClick() {
-		// Only allow purchase when on the final section
-		if (!isOnLastSection || !isFabricChosenThisSection) return;
+		// Only allow purchase when on the final section and all fabrics have been selected
+		if (!isOnLastSection || !allFabricsSelected) return;
 
 		playSound(refs.uiStartSoundRef);
 
@@ -276,9 +300,9 @@ function CanvasFabricLabs({
 		}
 	}
 
-	// For button label, we simply use "Purchase" (the button is only active on section 3)
+	// For the submit button, we only add the "active" classname when on section 3 and all three fabrics are selected.
+	const isButtonActive = currentSection === 3 && allFabricsSelected;
 	const buttonLabel = "Purchase";
-	const isButtonActive = !!selectedFabrics[currentSection];
 
 	function getIcon(iconType) {
 		switch (iconType) {
@@ -362,6 +386,16 @@ function CanvasFabricLabs({
 											currentSection === 1 ? "active" : ""
 										}`}
 										onClick={() => setCurrentSection(1)}
+										style={
+											selectedFabrics[1]
+												? {
+														backgroundColor: "#1D7B18",
+														...(currentSection === 1
+															? { border: "1px solid #85E780" }
+															: {}),
+												  }
+												: {}
+										}
 									>
 										LIGHTWEIGHT
 									</div>
@@ -371,6 +405,16 @@ function CanvasFabricLabs({
 											currentSection === 2 ? "active" : ""
 										}`}
 										onClick={() => setCurrentSection(2)}
+										style={
+											selectedFabrics[2]
+												? {
+														backgroundColor: "#1D7B18",
+														...(currentSection === 2
+															? { border: "1px solid #85E780" }
+															: {}),
+												  }
+												: {}
+										}
 									>
 										KNIT
 									</div>
@@ -380,6 +424,16 @@ function CanvasFabricLabs({
 											currentSection === 3 ? "active" : ""
 										}`}
 										onClick={() => setCurrentSection(3)}
+										style={
+											selectedFabrics[3]
+												? {
+														backgroundColor: "#1D7B18",
+														...(currentSection === 3
+															? { border: "1px solid #85E780" }
+															: {}),
+												  }
+												: {}
+										}
 									>
 										SHINY
 									</div>
@@ -437,28 +491,43 @@ function CanvasFabricLabs({
 										>
 											${totalCost}
 										</span>
-										<span
-											className={`brand-desc ${isButtonActive ? "active" : ""}`}
-										>
-											{currentSection < 3
-												? "Purchase disabled until final section"
-												: "Click/Hold Purchase to Complete"}
+										<span className="brand-desc" style={fabricsSelectedStyle}>
+											{fabricsSelectedText}
 										</span>
 									</div>
 									<div
 										className={`button-start ${
-											// Only assign hold/click events on final section
-											isButtonActive && isOnLastSection
+											isOnLastSection && allFabricsSelected
 												? isCreateBlinking
 													? "blink-start"
 													: ""
 												: "blink-none"
 										}`}
-										onClick={isOnLastSection ? handlePurchaseClick : undefined}
-										onMouseDown={isOnLastSection ? startCreateHold : undefined}
-										onMouseUp={isOnLastSection ? endCreateHold : undefined}
-										onTouchStart={isOnLastSection ? startCreateHold : undefined}
-										onTouchEnd={isOnLastSection ? endCreateHold : undefined}
+										onClick={
+											isOnLastSection && allFabricsSelected
+												? handlePurchaseClick
+												: undefined
+										}
+										onMouseDown={
+											isOnLastSection && allFabricsSelected
+												? startCreateHold
+												: undefined
+										}
+										onMouseUp={
+											isOnLastSection && allFabricsSelected
+												? endCreateHold
+												: undefined
+										}
+										onTouchStart={
+											isOnLastSection && allFabricsSelected
+												? startCreateHold
+												: undefined
+										}
+										onTouchEnd={
+											isOnLastSection && allFabricsSelected
+												? endCreateHold
+												: undefined
+										}
 									>
 										{isOnLastSection && (
 											<div
@@ -642,6 +711,8 @@ function CanvasFabricLabs({
 									</div>
 								)}
 							</div>
+
+							{/* ======== FABRIC SUMMARY SECTION (Optional) ======== */}
 						</div>
 					)}
 				</div>
