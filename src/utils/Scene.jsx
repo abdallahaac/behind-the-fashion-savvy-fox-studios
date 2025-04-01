@@ -157,7 +157,7 @@ function AllFactories({
 	onFactoryMeshMounted,
 	factoryScale = [2, 2, 2],
 }) {
-	const baseRot = [0, 1.5, 0];
+	const baseRot = [0, 0.1, 0];
 
 	return (
 		<>

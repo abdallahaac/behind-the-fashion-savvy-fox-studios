@@ -291,7 +291,7 @@ const modelsData = {
 			ethics: 2,
 		},
 		{
-			id: 4,
+			id: 3,
 			name: "NEO Y2K SHIMMER",
 			cost: 20000,
 			originalDesignPct: 30,
@@ -313,7 +313,7 @@ const modelsData = {
 			ethics: 1,
 		},
 		{
-			id: 3,
+			id: 4,
 			name: "MIDNIGHT GRUNGE EDGE",
 			cost: 48000,
 			originalDesignPct: 90,

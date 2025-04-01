@@ -9,7 +9,7 @@
 .section-number {
 	margin: 0px;
 	background-color: rgb(31, 31, 31);
-	padding: 16px 20px;
+	padding: 12px 20px;
 	border-radius: 26px;
 }
 .section-number.active {
@@ -149,7 +149,7 @@
 
 .category-description {
 	font-size: 0.9rem;
-	color: #0F0F0F;
+	color: #0f0f0f;
 	margin-top: 12px;
 }
 
