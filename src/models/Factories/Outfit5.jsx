@@ -7,6 +7,8 @@ import { useGLTF } from "@react-three/drei";
 
 export default function Model(props) {
 	const { nodes, materials } = useGLTF("models/factory5.glb");
+	materials["Material.002"].color.set(0x000000);
+
 	return (
 		<group {...props} dispose={null}>
 			<mesh
