@@ -10,6 +10,7 @@ import personaData from '../utils/PersonaData';
 import Marquee from 'react-fast-marquee';
 import LogoSVG from "../assets/images/logo.svg";
 import { toPng } from 'html-to-image';
+import { FundingContext } from "../utils/FundingContext";
 import HeartsUI from '../components/HeartsUI';
 import BudgetBar from '../components/BudgetBar';
 
@@ -68,6 +69,7 @@ const PersonaPage = () => {
             });
     };
     const handlePlayAgain = () => {
+        setFundingAmount(0);
         navigate("/room"); // Navigate to /room
     };
 
@@ -172,9 +174,9 @@ const PersonaPage = () => {
                                 <div className="download-title-container">
                       
                                     <div className="result-text">
-                                        <p className="body-text-small">
+                                        <p className="body-text-medium">
                                             <span className="text-gray">My Brand, </span>
-                                            <span className="text-white-bold">{brandName}</span>
+                                            <span className="text-white-bold">{brandName.toUpperCase()}</span>
                                             <span className="text-gray"> is a</span>
                                         </p>
                                         <h2 className="d-p-name accent-2">{personaName}</h2>

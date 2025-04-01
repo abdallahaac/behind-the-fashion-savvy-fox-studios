@@ -23,6 +23,7 @@ import BotSvg4 from "../assets/images/botsvg4.svg";
 import wealthPersona from "../assets/images/FinalPersona/CashCow.svg";
 import ecoPersona from "../assets/images/FinalPersona/GreenGuardian.svg";
 import ethicsPersona from "../assets/images/FinalPersona/MoralInnovator.svg";
+import visionaryPersona from "../assets/images/FinalPersona/VanguardVisionaryPFP.svg";
 
 import allVanguardsHappy from "../assets/images/Vanguards/allVanguards_happy.svg";
 import allVanguardsThumbsUp from "../assets/images/Vanguards/allVanguards_thumbsUp.svg";
@@ -170,7 +171,7 @@ const allVanguards = [
             {
                 assignment:"The choices you made have shaped your brand’s identity as:",
                 persona_title:"THE VANGUARD VISIONARY",
-                img_path: wealthPersona,
+                img_path: visionaryPersona,
             },
             {
                 description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
