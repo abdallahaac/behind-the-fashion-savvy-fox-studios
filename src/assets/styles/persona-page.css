@@ -303,6 +303,72 @@
 .links-container::-webkit-scrollbar-thumb:hover {
     background: #777; 
 }
+/* Email Container */
+.email-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+    flex-direction: column;
+}
+.email-top{
+    display:flex;
+    flex-direction: row;
+    gap: 10px; 
+    margin-top: 20px;
+}
+
+/* Email Input */
+.email-input {
+    width: 100%;
+    max-width: 300px; 
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 16px;
+    background-color: #f5f5f5; 
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.email-input:focus {
+    border-color: #C83C00; /* Blue border on focus */
+}
+
+/* Send Button */
+.send-email-button {
+    padding: 10px 14px; 
+    font-size: 14px; 
+    color: white; 
+    background-color: #C83C00; 
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.send-email-button:disabled {
+    background-color: #ccc; /* Gray background when disabled */
+    cursor: not-allowed;
+}
+
+.send-email-button:hover:not(:disabled) {
+    background-color: #A83200; /* Darker orange-red on hover */
+}
+
+/* Email Status Message */
+.email-status {
+    margin-top: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.email-status.success {
+    color: #E6FFE4; 
+}
+
+.email-status.error {
+    color: #D60000; 
+}
 /* Media Query HEIGHT*/
 @media (max-height: 918px) {
     .replay-container {
