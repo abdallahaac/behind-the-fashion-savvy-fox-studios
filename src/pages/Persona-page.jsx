@@ -80,18 +80,20 @@ const PersonaPage = () => {
 
     const handleSendEmail = async () => {
         if (!email) {
-            alert("Please enter a valid email address.");
+            setEmailStatus("Please enter a valid email address."); // Show error in placeholder
+            setTimeout(() => setEmailStatus(""), 3000); // Reset after 3 seconds
             return;
         }
     
         if (personaRightSideRef.current === null) {
-            alert("Failed to generate the image.");
+            setEmailStatus("Failed to generate the image."); 
+            setTimeout(() => setEmailStatus(""), 3000);
             return;
         }
     
         try {
-            setEmailStatus(""); 
             setIsSending(true); // Set sending status to true
+            setEmailStatus(""); // Clear previous status
     
             // Generate PNG with high resolution
             const dataUrl = await toPng(personaRightSideRef.current, {
@@ -101,8 +103,8 @@ const PersonaPage = () => {
     
             // Upload the image to Cloudinary
             const formData = new FormData();
-            formData.append("file", dataUrl); // Add the base64 image data
-            formData.append("upload_preset", "Persona"); // Cloudinary upload preset name
+            formData.append("file", dataUrl);
+            formData.append("upload_preset", "Persona");
     
             const uploadResponse = await fetch("https://api.cloudinary.com/v1_1/dqanojvgv/image/upload", {
                 method: "POST",
@@ -112,29 +114,35 @@ const PersonaPage = () => {
             if (!uploadResponse.ok) {
                 const errorResponse = await uploadResponse.json();
                 console.error("Cloudinary upload error:", errorResponse);
-                alert(`Failed to upload image: ${errorResponse.error.message}`);
+                setEmail(""); // Clear the input field
+                setEmailStatus(`Failed to upload image: ${errorResponse.error.message}`); // Show error in placeholder
+                setTimeout(() => setEmailStatus(""), 3000); // Reset after 3 seconds
                 return;
             }
     
             const uploadResult = await uploadResponse.json();
             const imageUrl = uploadResult.secure_url; // Get the uploaded image URL
     
-    
-            // Send the email using EmailJS
+            // EmailJS
             const result = await emailjs.send(
-                "service_935mvto", // My EmailJS Service ID
-                "template_pkz478y", // My EmailJS Template ID
+                "service_935mvto", //EmailJS Service ID
+                "template_pkz478y", //EmailJS Template ID
                 {
-                    to_email: email, // The recipient's email
+                    to_email: email, 
                     image_url: imageUrl, // Pass the Cloudinary image URL
-                    message: `Here is your persona card! You can view it here: ${imageUrl}`, // Optional message
+                    message: `Here is your persona card! You can view it here: ${imageUrl}`, 
                 },
-                "jU2daH-pQuoaSHN3l" // My EmailJS User ID
+                "jU2daH-pQuoaSHN3l" // Your EmailJS User ID
             );
     
-            setEmailStatus("EMAIL SENT SUCCESSFULLY!"); // Update status on success
+            setEmail(""); // Clear the input field
+            setEmailStatus("Email sent successfully!"); // Show success in placeholder
+            setTimeout(() => setEmailStatus(""), 3000); // Reset after 3 seconds
         } catch (error) {
-            console.error("FAILED TO SEND EMAIL:", error);
+            console.error("Something Went Wrong. Try Again", error);
+            setEmail(""); 
+            setEmailStatus("Something Went Wrong. Try Again"); 
+            setTimeout(() => setEmailStatus(""), 3000);
         } finally {
             setIsSending(false); // Reset sending status
         }
@@ -250,41 +258,37 @@ const PersonaPage = () => {
                                     <img src={brand_mark} alt="Brand Mark" className="brand-mark" />
                                 </div>
                             </div>
-                            {/* <div className="replay-container">
-                                <NormalButton
-                                    text="Save to Device"
-                                    icon={downloadIcon}
-                                    size={{ minWidth: "317px", minHeight: "56px" }}
-                                    active={true}
-                                    onClick={handleDownload}
-                                    style={{ backgroundColor: "white", color: "black" }}
-                                />
-                            </div> */}
-                            <div className="email-container">
-                                <div className="email-top">
+                            <div className="download-area">
+                                <div className="replay-container">
+                                    <NormalButton 
+                                        text="Save to Device"
+                                        icon={downloadIcon}
+                                        size={{ minWidth: "332px", minHeight: "56px" }}
+                                        active={true}
+                                        onClick={handleDownload}
+                                        style={{ backgroundColor: "white", color: "black" }}
+                                    />
+                                </div>
+                                <p id="or-block">or</p>
+                                <div className="email-container">
+                                    <div className="email-top">
                                     <input
                                         type="email"
-                                        placeholder="Enter your email"
+                                        placeholder={emailStatus || "Enter your email"} // Show success/fail message or default placeholder
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="email-input"
+                                        className={`email-input ${emailStatus.includes("Wrong") ? "error" : emailStatus ? "success" : ""}`}
                                     />
-                                    <button
-                                        onClick={handleSendEmail}
-                                        className="send-email-button"
-                                        disabled={isSending}
-                                    >
-                                        {isSending ? "SENDING..." : "SEND"}
-                                    </button>
+                                        <button
+                                            onClick={handleSendEmail}
+                                            className="send-email-button body-text-medium"
+                                            disabled={isSending}
+                                        >
+                                            Send
+                                        </button>
+                                    </div>       
                                 </div>
-                                
-                                {/* Display the email status message */}
-                                {emailStatus && (
-                                    <p className={`email-status accent-3 ${emailStatus.includes("Failed") ? "error" : "success"}`}>
-                                        {emailStatus}
-                                    </p>
-                                )}
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
