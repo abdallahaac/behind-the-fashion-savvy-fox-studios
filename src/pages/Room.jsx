@@ -331,9 +331,9 @@ function Room() {
 		);
 
 		const itemCount = itemsArray.length;
-		// const sustainabilityCount = itemsArray.filter(
-		// 	(item) => item.sustainability !== undefined
-		// ).length;
+		const sustainabilityCount = itemsArray.filter(
+			(item) => item.sustainability !== undefined
+		).length;
 
 		const averageEthics = totalEthics / itemCount;
 		console.log("selected items", selectedItems);
@@ -345,7 +345,7 @@ function Room() {
 
 		return {
 			averageEthics,
-			totalSustainability,
+			averageSustainability,
 			averageCost,
 		};
 	};

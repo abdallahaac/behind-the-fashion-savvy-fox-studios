@@ -148,11 +148,11 @@ function VanguardPopUp({ steps, onDeactivateActiveVanguard, currentStage }) {
 	}
 
 	const renderStep = (step, index) => {
-		const description = step.funding
+		const description = step.funding != null // Check if step.funding is not null or undefined
 			? step.description.replace(
-					"$100k",
-					`$${step.funding.toLocaleString()} grant`
-			  )
+				"$100k",
+				`$${step.funding.toLocaleString()} grant`
+			)
 			: step.description;
 
 		const isAllVanguardsHappy = step.img_path === allVanguardsHappy;
