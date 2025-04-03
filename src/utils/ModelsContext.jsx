@@ -254,14 +254,14 @@ const modelsData = {
 			bulletPoints: [
 				"100% Original Design",
 				"This outfit showcases a high level of creativity that is both fresh and relevant",
-				"Niche Design Appeal",
+				"Popular Design with Youth",
 				"Design Reinvention",
 				"This piece merges vintage aesthetics with modern craftsmanship while staying ethically produced",
 			],
 			iconBullets: [
 				{ index: 0, icon: "up" },
 				{ index: 1, icon: "none" },
-				{ index: 2, icon: "down" },
+				{ index: 2, icon: "up" },
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
@@ -429,15 +429,15 @@ const modelsData = {
 			originalDesignPct: 85,
 			bulletPoints: [
 				"85% Original Design",
-				"This outfit showcases a high level of creativity while drawing inspiration from  trends to ensure appeal from consumers",
-				"Niche Design Appeal",
+				"This outfit showcases a high level of creativity while drawing inspiration from trends to ensure appeal from consumers",
+				"Popular Design with Youth",
 				"Design Reinvention",
 				"This piece merges vintage aesthetics with modern craftsmanship",
 			],
 			iconBullets: [
 				{ index: 0, icon: "up" },
 				{ index: 1, icon: "none" },
-				{ index: 2, icon: "down" },
+				{ index: 2, icon: "up" },
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
@@ -737,9 +737,9 @@ const modelsData = {
 			cat2_title: "Good Working Environment",
 			cat2_descripiton:
 				"Working conditions are healthier based on the absence of harmful chemicals",
-			cat3_title: "High Cost",
+			cat3_title: "High Water Use",
 			cat3_descripiton:
-				"Due to fair and just production practices, organic cotton costs more to produce",
+				"Although it consumes less water than regular cotton, organic cotton still consumes significant water resources",
 			img_path: organicCottonJpg,
 			cat1_icon: "positive",
 			cat2_icon: "positive",

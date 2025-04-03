@@ -20,7 +20,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	transition: height 2s ease; /* Smoothly animates height changes */
+	transition: height 2s ease;
 	width: 500px;
 }
 .logo img {

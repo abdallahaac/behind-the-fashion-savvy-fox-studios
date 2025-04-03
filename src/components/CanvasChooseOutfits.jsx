@@ -418,7 +418,7 @@ function CanvasChooseOutfits({
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
-								Create a Strong Brand Identity to Build Investor Recognition
+								Select 3 outfits to add to your brand’s collection. 
 							</div>
 							<div
 								className={`button-start ${isBlinking ? "blink-start" : ""}`}

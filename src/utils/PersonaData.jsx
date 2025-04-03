@@ -95,7 +95,7 @@ const personaData = {
         bg: bg_moral,
         personaName: "Moral Innovator",
         personaDescription: "Your brand prioritized ethical decisions that ensured fair wages and proper working conditions for your workers",
-        pathTitle: "THE PATH TO GREEN FASHION CONSUMPTION",
+        pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
             width: "410px",
@@ -163,7 +163,7 @@ const personaData = {
         bg: bg_cash,
         personaName: "CA$H COW",
         personaDescription: "Your brand thrives on efficiency and maximizing value, providing the best value for customers while keeping an eye on profit margins. ",
-        pathTitle: "THE PATH TO GREEN FASHION CONSUMPTION",
+        pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
             width: "410px",
@@ -230,7 +230,7 @@ const personaData = {
         bg: bg_visionary,
         personaName: "VANGUARD VISIONARY",
         personaDescription: "Your brand strategically catered to the environment, ethics, and profits. Doing good for the world and doing well in business go hand in hand!",
-        pathTitle: "THE PATH TO GREEN FASHION CONSUMPTION",
+        pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
             width: "410px",

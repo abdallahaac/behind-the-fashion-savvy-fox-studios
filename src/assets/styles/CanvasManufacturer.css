@@ -454,18 +454,23 @@ button.cta-button.remove {
 .factory-title {
 	text-transform: uppercase;
 	font-size: 1.4rem;
-	margin-bottom: 3px;
+	margin-bottom: 8px;
 }
 
 /* Container for the two toggle buttons */
 .factory-about-products-container {
 	position: relative;
-	width: 401px; /* Adjust as desired */
+	width: 100%; /* Adjust as desired */
 	height: 48px; /* Adjust as desired */
 	border-radius: 30px;
 	overflow: hidden;
 	display: flex;
 	align-items: center;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	border: solid;
+	border-width: 0.5px;
+	border-color: #505050;
 
 	background-color: #292929; /* Dark background around the pill */
 }
@@ -521,7 +526,8 @@ button.cta-button.remove {
 
 .factory-toggle-switch {
 	display: flex;
-	justify-content: center;
+	justify-content: left;
+	width: 100%;
 }
 
 .factory-location-container {
@@ -530,9 +536,10 @@ button.cta-button.remove {
 	background-color: #222222;
 	align-items: center;
 	border-radius: 10px;
-	padding: 7px;
-	margin: 5px;
+	padding: 16px;
+	margin-bottom: 16px;
 	justify-content: space-evenly;
+	padding-left: 24px;
 }
 
 .location .location-container {
@@ -542,7 +549,7 @@ button.cta-button.remove {
 }
 
 .location-container {
-	margin: 10px;
+	margin-left: 16px;
 }
 
 #factory-img {
@@ -554,7 +561,7 @@ button.cta-button.remove {
 
 .location-title,
 .location-description {
-	margin: 10px;
+	margin: 8px;
 }
 .create-submit-container.factory {
 	margin-top: auto;

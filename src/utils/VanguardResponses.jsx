@@ -51,7 +51,7 @@ const assistantData = [
 				},
 				{
 					description:
-						"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
+						"As I guide you through each step, the Vanguards will evaluate your brand from every angle to ensure you're making the best choices for its success.",
 					img_path: BotSvg2,
 				},
 				{
@@ -82,7 +82,7 @@ const allVanguards = [
 		brand: [
 			{
 				description:
-					"Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+					"Your brand is looking interesting...how about this? We'll kickstart things with a $150k grant and you show me what your brand's style looks like!",
 				img_path: allVanguardsThumbsUp,
 				funding: 150000,
 				soundRef: "moneySoundRef",
@@ -202,7 +202,7 @@ const ecoVanguard = [
 			},
 			{
 				description:
-					"I've seen the destruction caused by greedy corporations. I’m not interested in empty promises of sustainability. Show me a brand that respects the planet and you'll have my attention.",
+					"I've seen the destruction on our Earth caused by greedy corporations. I’m not interested in empty promises of sustainability. Show me a brand that respects the planet and you'll have my attention.",
 				img_path: Eco2,
 			},
 		],
@@ -298,7 +298,7 @@ const ethicsVanguard = [
 			},
 			{
 				description:
-					"Fashion has the power to spark change, but it’s built on the backs of labour and energy. I’m looking for a brand that values their workers. Prove your commitment to fairness, and I’ll help you reach the world. ",
+					"Fashion has the power to spark change, but it’s built on the backs of workers. I’m looking for a brand that values their employees. Prove your commitment to fairness, and I’ll help you reach the world. ",
 				img_path: Ethics1,
 			},
 		],

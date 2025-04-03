@@ -125,7 +125,7 @@ const LandingPageCanvas = () => {
 								STEP INTO THE ROLE OF A FASHION BRAND CEO.
 							</h1>
 							<p className="body-text-medium">
-								Experience what it's like to build a fashion brand...
+							Experience what its like to build a fashion brand from the ground up, while managing crucial factors such as budget, audience, and sustainability. 
 							</p>
 						</div>
 
