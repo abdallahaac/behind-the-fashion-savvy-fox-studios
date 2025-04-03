@@ -211,7 +211,7 @@ const modelsData = {
 			id: 5,
 			title: "Anadolu Textile Works",
 			cost: "36000",
-			ethics: 2,
+			ethics: 1,
 			sustainability: 2,
 			factoryKey: "anadolu", // <-- NEW factoryKey
 			about: {

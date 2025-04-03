@@ -28,8 +28,18 @@ export const updateVanguardStatus = (vanguard, stage, scores, hearts, mostLikedB
                 }
                 else if(mostLikedBy === 'vanguardVisionary'){
                     return allVanguards[0].finalPersonaVanguardVisionary;
-                }
-                else{
+                }else if(mostLikedBy === 'trueArtisan'){
+                    return allVanguards[0].finalPersonaTrueArtisan;
+
+                }else if(mostLikedBy === 'consciousBuilder'){
+                    return allVanguards[0].finalPersonaConsciousBuilder;
+
+                }else if(mostLikedBy === 'ecoEconomist'){
+                    return allVanguards[0].finalPersonaEcoEconomist;
+
+                }else if(mostLikedBy === 'hiddenLabel'){
+                    return allVanguards[0].finalPersonaHiddenLabel;
+                }else{
                     console.log("didn't fit into a category");
                     return;
                 }

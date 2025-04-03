@@ -82,7 +82,7 @@ function Room() {
 	// We'll unify to this larger list of breakpoints
 	const breakpoints = [
 		44, 183, 339, 550, 675, 854, 1065, 1200, 1339, 1554, 1695, 1858, 2084, 2344,
-		2500, 2566,
+		2500, 2520,
 	];
 
 	// Scene loading progress
@@ -440,8 +440,19 @@ function Room() {
 			return "ecoWarrior";
 		} else if (mostLikedOutcome === "wealth") {
 			return "cashCow";
-		} else {
+		} else if (mostLikedOutcome === "vanguardVisionary") {
 			return "vanguardVisionary";
+		}else if(mostLikedOutcome === "trueArtisan"){
+			return "trueArtisan";
+		}else if(mostLikedOutcome === "consciousBuilder"){
+			return "consciousBuilder";
+		}else if(mostLikedOutcome === "ecoEconomist"){
+			return "ecoEconomist";
+		}
+		else if (mostLikedOutcome === "hiddenLabel") {
+			return "hiddenLabel";
+		} else {
+			return null; // Default case
 		}
 	};
 
