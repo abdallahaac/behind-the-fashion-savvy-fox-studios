@@ -43,7 +43,7 @@ const personaData = {
         whiteLogo: w_eco,
         bg: bg_eco,
         personaName: "Green Champion",
-        personaDescription: "Your brand prioritizes sustainable business decisions, seeking to minimize waste and carbon footprints. ",
+        personaDescription: "The brand prioritizes sustainable business decisions, seeking to minimize waste and carbon footprints. ",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -110,7 +110,7 @@ const personaData = {
         whiteLogo: w_moral,
         bg: bg_moral,
         personaName: "Moral Innovator",
-        personaDescription: "Your brand prioritized ethical decisions that ensured fair wages and proper working conditions for your workers",
+        personaDescription: "The brand prioritized ethical decisions that ensured fair wages and proper working conditions for your workers",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -178,7 +178,7 @@ const personaData = {
         whiteLogo: w_cash,
         bg: bg_cash,
         personaName: "CA$H COW",
-        personaDescription: "Your brand thrives on efficiency and maximizing value, providing the best value for customers while keeping an eye on profit margins. ",
+        personaDescription: "The brand thrives on efficiency and maximizing value, providing the best value for customers while keeping an eye on profit margins. ",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -245,7 +245,7 @@ const personaData = {
         whiteLogo: w_visionary,
         bg: bg_visionary,
         personaName: "VANGUARD VISIONARY",
-        personaDescription: "Your brand strategically catered to the environment, ethics, and profits. Doing good for the world and doing well in business go hand in hand!",
+        personaDescription: "The brand strategically catered to the environment, ethics, and profits. Doing good for the world and doing well in business go hand in hand!",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -312,7 +312,7 @@ const personaData = {
         whiteLogo: w_consciousBuilder,
         bg: bg_consciousBuilder,
         personaName: "CONSCIOUS BUILDER",
-        personaDescription: "Your brand strategically focuses on equitable business practices that also support your path for growth and profitability.",
+        personaDescription: "The brand strategically focuses on equitable business practices that also support your path for growth and profitability.",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -379,7 +379,7 @@ const personaData = {
         whiteLogo: w_trueArtisan,
         bg: bg_trueArtisan,
         personaName: "TRUE ARTISAN",
-        personaDescription: "Your brand strategically focuses on sustainable and equitable business practices, ensuring that your path supports long-term environmental health and social responsibility.",
+        personaDescription: "The brand strategically focuses on sustainable and equitable business practices, ensuring that your path supports long-term environmental health and social responsibility.",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -446,7 +446,7 @@ const personaData = {
         whiteLogo: w_ecoEconomist,
         bg: bg_ecoEconomist,
         personaName: "ECO ECONOMIST",
-        personaDescription: "Your brand strategically focuses on preserving sustainable fashion production with lasting profitability.",
+        personaDescription: "The brand strategically focuses on preserving sustainable fashion production with lasting profitability.",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
@@ -513,7 +513,7 @@ const personaData = {
         whiteLogo: w_hiddenLabel,
         bg: bg_hiddenLabel,
         personaName: "HIDDEN LABEL",
-        personaDescription: "Your brand prioritized its own vision rather than appealing to the values of the Vanguards and the public.",
+        personaDescription: "The brand prioritized its own vision rather than appealing to the values of the Vanguards and the public.",
         pathTitle: "THE PATH TO SUSTAINABLE FASHION CONSUMPTION",
         displayLinkProps: {
             height: "192px",
