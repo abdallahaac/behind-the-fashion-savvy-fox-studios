@@ -31,7 +31,8 @@
     align-items: flex-start;
     justify-content: center;
     width: 100%;
-    height: 80vh; 
+    max-width: 98%;
+    height: 83vh; 
     gap: 23px;
 }
 
@@ -47,6 +48,7 @@
 .left-left{
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     background-color:#0F0F0F;
     margin-right:24px;
     border-radius:16px;
@@ -72,6 +74,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 8px;
 }
 .persona-image-mini-container {
     display: flex;
@@ -84,13 +87,15 @@
 
 
 .persona-image {
-    width: 231px;
-    height: 231px;
+    width: 20vh;
+    height: 20vh;
+    padding: 8px;
     border-radius: 50%;
     background-color: white !important;
     background-repeat: no-repeat; 
     background-size: cover; 
     background-position: center;
+    object-fit: contain;
 }
 .persona-image-mini {
     width: 75px;
@@ -104,7 +109,7 @@
 
 
 .persona-info {
-    margin-top:81px;
+    margin-top:16px;
     text-align: left;
 }
 
@@ -143,6 +148,8 @@
     display: flex;
     flex-direction: column;
     padding:24px;
+    padding-bottom: 0px;
+    padding-right: 48px;
 }
 
 .brandDesc{
@@ -154,19 +161,19 @@
     grid-template-columns: repeat(2, 1fr); /* Two columns */
     gap: 16px; 
     width: 100%;
-    max-height: 500px; 
     overflow-y: auto; 
     padding-right: 12px;
 }
 .replay-container{
     margin-top:10px;
+    bottom: 0px;
+    position: relative;
 }
 #replay-exp{
-    margin-top:60px;
+    margin-top:24px;
 }
 
 .title-and-desc{
-    max-width:308px;
     margin-top:62px;
     margin-bottom: 24px;
 }
@@ -177,6 +184,8 @@
     margin-bottom: 10px;
     border:none;
     padding:21px;
+    border-radius: 16px;
+    height: 622px;
 }
 #download-img{
     background-color: transparent !important;
@@ -196,7 +205,7 @@
     flex-direction:column;
     gap: 16px; 
     width:100%;
-    margin-top:16px;
+    margin-top:40px;
 
 }
 .download-hearts-ui-row {
@@ -210,21 +219,26 @@
 }
 .download-hearts-ui-container .hearts-ui-container,
 .download-hearts-ui-container .metric-child-container {
-    height: 50px;
+    height: 64px;
     min-width: 155px;
     border-radius:16px;
+    padding-top:24px;
+    padding-bottom: 24px;
 }
 
 .download-hearts-ui-container .metric-child-container {
     width:170px;
     padding:0px;
+    padding-left: 10px;
+    padding-top: 8px;
 }
 .download-hearts-ui-container .metric-details {
     margin:0;
 }
 .download-hearts-ui-container .metric-budget-container {
-    height: 50px;
+    height: 64px;
     margin-left: 0px;
+
 
 }
 .download-hearts-ui-container .heart-icon{

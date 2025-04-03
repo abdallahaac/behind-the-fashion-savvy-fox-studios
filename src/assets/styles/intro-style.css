@@ -36,14 +36,14 @@ html {
 	padding: 35px 0px;
 	border-radius: 20px;
 	width: 100%;
-	max-width: 98.8%;
+	max-width: 98%;
 	background: #0f0f0f;
 	color: #e0e0e0;
 	font-size: 25px;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: 26px;
-	margin-top: 45px;
+	margin-top: 24px;
 	letter-spacing: 2px;
 	overflow: hidden; /* Anything outside the .banner is clipped */
 }
@@ -214,9 +214,9 @@ html {
 	flex: none;
 	flex-grow: 0;
 	font-weight: 200;
-	border-radius: 20px;
-	font-size: 12px;
-	padding: 15px 70px;
+	border-radius: 32px;
+	font-size: 14px;
+	padding: 20px 100px;
 }
 
 .audio-btn {
@@ -225,8 +225,8 @@ html {
 	justify-content: center;
 	border-radius: 50%;
 	background-color: white;
-	width: 50px;
-	height: 50px;
+	width: 60px;
+	height: 60px;
 }
 
 .wordmark {

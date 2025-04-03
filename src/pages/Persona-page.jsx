@@ -205,7 +205,7 @@ const PersonaPage = () => {
                                 <NormalButton
                                     text="Save to Device"
                                     icon={downloadIcon}
-                                    size={{ minWidth: "317px", minHeight: "56px" }}
+                                    size={{ minWidth: "317px", minHeight: "56px"}}
                                     active={true}
                                     // disabled={selectedAnswer === null} // Disable if no answer is selected
                                     onClick={handleDownload}
