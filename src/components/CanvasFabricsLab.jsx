@@ -33,32 +33,33 @@ function CanvasFabricLabs({
 	const { fundingAmount, setFundingAmount } = useContext(FundingContext);
 	const { refs, playSound } = useAudioManager();
 
-	// Which section (1=Light, 2=Knit, 3=Shiny)
+	// Sections: 1=Lightweight, 2=Knit, 3=Shiny
 	const [currentSection, setCurrentSection] = useState(1);
 
-	// Selected fabric object for each section
+	// Store the selected fabric for each section
 	const [selectedFabrics, setSelectedFabrics] = useState({
 		1: null,
 		2: null,
 		3: null,
 	});
 
-	// Index of the currently highlighted fabric within the current section’s array
+	// Currently highlighted fabric index (in the array of that section)
 	const [selectedFabricIndex, setSelectedFabricIndex] = useState(-1);
 
+	// Refs for GSAP animation
 	const containerRef = useRef(null);
 	const buttonContainerRef = useRef(null);
 	const createParentRef = useRef(null);
 	const loremContainerRef = useRef(null);
 
-	// For “Start” button hold (initial animation)
+	// "Start" button hold logic
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [isBlinking, setIsBlinking] = useState(true);
 	const intervalRef = useRef(null);
 	const holdStartRef = useRef(null);
 
-	// For final purchase hold on section 3
+	// "Purchase" final hold logic
 	const [createProgress, setCreateProgress] = useState(0);
 	const [isCreateBlinking, setIsCreateBlinking] = useState(false);
 	const createHoldStartRef = useRef(null);
@@ -72,12 +73,20 @@ function CanvasFabricLabs({
 		);
 	}, []);
 
-	// Returns an array of fabrics for the current section
+	/**
+	 * Returns an array of fabrics for the current section
+	 */
 	const getFabricsForSection = () => {
-		if (currentSection === 1) return CottonChoices;
-		if (currentSection === 2) return HeavyChoices;
-		if (currentSection === 3) return SyntheticChoices;
-		return [];
+		switch (currentSection) {
+			case 1:
+				return CottonChoices;
+			case 2:
+				return HeavyChoices;
+			case 3:
+				return SyntheticChoices;
+			default:
+				return [];
+		}
 	};
 
 	const fabricsData = getFabricsForSection();
@@ -88,38 +97,34 @@ function CanvasFabricLabs({
 			? fabricsData[selectedFabricIndex]
 			: null;
 
-	// For display: total cost of all chosen fabrics
+	// For display: total cost of all 3 chosen fabrics
 	const totalCost = Object.values(selectedFabrics).reduce(
 		(acc, fabric) => (fabric ? acc + fabric.cost : acc),
 		0
 	);
 
-	const isOnLastSection = currentSection === 3;
-	const isFabricChosenThisSection = !!selectedFabrics[currentSection];
-
-	// Boolean true if all three fabrics have been selected.
-	const allFabricsSelected = !!(
-		selectedFabrics[1] &&
-		selectedFabrics[2] &&
-		selectedFabrics[3]
-	);
-
-	// Compute overall number of fabrics selected and the corresponding text.
+	// Count how many sections currently have a fabric
 	const numFabricsSelected = [
 		selectedFabrics[1],
 		selectedFabrics[2],
 		selectedFabrics[3],
 	].filter(Boolean).length;
+
+	// If all 3 are selected => we allow the final purchase
+	const allFabricsSelected = numFabricsSelected === 3;
+
+	// Used for the "X/3 Fabrics selected" label
 	const fabricsSelectedText = `${numFabricsSelected}/3 Fabric${
 		numFabricsSelected === 1 ? "" : "s"
 	} selected`;
-	// The text is red (#FF0000) until 3 are selected, then black (#000000).
+
+	// Color for the "X/3" label: black if all chosen, else a lighter color
 	const fabricsSelectedStyle = {
-		color: numFabricsSelected === 3 ? "#000000" : "#FFC4B1",
+		color: allFabricsSelected ? "#000000" : "#FFC4B1",
 	};
 
 	/********************************
-	 * Step 1: "Start" button logic (initial animation)
+	 * Step 1: "Start" button (initial hold)
 	 ********************************/
 	function startHold(e) {
 		e.preventDefault();
@@ -178,10 +183,10 @@ function CanvasFabricLabs({
 	}, [isExpanded]);
 
 	/********************************
-	 * Step 2: "Create" final hold for purchase (only active in section 3)
+	 * Final "Purchase" hold (only works if all 3 fabrics are selected)
 	 ********************************/
 	function startCreateHold(e) {
-		if (!isOnLastSection || !isFabricChosenThisSection) return;
+		if (!allFabricsSelected) return;
 		e.preventDefault();
 		setIsCreateBlinking(false);
 		setCreateProgress(0);
@@ -192,10 +197,7 @@ function CanvasFabricLabs({
 			const newProgress = (elapsed / HOLD_DURATION) * 100;
 			if (newProgress >= 100) {
 				setCreateProgress(100);
-				// Only execute purchase if all three fabrics are selected
-				if (allFabricsSelected) {
-					handlePurchaseClick();
-				}
+				handleCreateDone();
 				clearInterval(createIntervalRef.current);
 			} else {
 				setCreateProgress(newProgress);
@@ -204,7 +206,7 @@ function CanvasFabricLabs({
 	}
 
 	function endCreateHold(e) {
-		if (!isOnLastSection || !isFabricChosenThisSection) return;
+		if (!allFabricsSelected) return;
 		e.preventDefault();
 		clearInterval(createIntervalRef.current);
 		if (createProgress < 100) {
@@ -213,25 +215,19 @@ function CanvasFabricLabs({
 		}
 	}
 
-	/********************************
-	 * Step 3: Final purchase logic (only active when on section 3)
-	 ********************************/
-	function handlePurchaseClick() {
-		// Only allow purchase when on the final section and all fabrics have been selected
-		if (!isOnLastSection || !allFabricsSelected) return;
-
-		playSound(refs.uiStartSoundRef);
-
-		// Deduct the entire accumulated total from the funding amount
+	/**
+	 * handleCreateDone subtracts the total cost of all 3 fabrics,
+	 * then calls onFabricSelection -> fade out -> onCreate
+	 */
+	function handleCreateDone() {
+		// Deduct total cost from budget
 		setFundingAmount((prev) => (prev !== null ? prev - totalCost : 0));
 
-		// Prepare final selection array
+		// Pass the selected array to callback
 		const selectedFabricsArray = Object.values(selectedFabrics);
-
-		// Trigger final selection callback
 		onFabricSelection?.(selectedFabricsArray);
 
-		// Animate container out
+		// Fade out entire container, then call onCreate
 		gsap.to(containerRef.current, {
 			duration: 1,
 			opacity: 0,
@@ -243,7 +239,7 @@ function CanvasFabricLabs({
 	}
 
 	/********************************
-	 * Navigation: When switching sections, re-highlight previous selection (if any)
+	 * When switching sections, highlight previously selected item if any
 	 ********************************/
 	useEffect(() => {
 		if (selectedFabrics[currentSection]) {
@@ -257,7 +253,7 @@ function CanvasFabricLabs({
 	}, [currentSection]);
 
 	/********************************
-	 * Step 4: Fabric selection logic
+	 * Fabric selection logic
 	 ********************************/
 	function handleClickOnFabric(fabric, idx) {
 		const alreadySelected = selectedFabrics[currentSection];
@@ -265,27 +261,41 @@ function CanvasFabricLabs({
 
 		playSound(refs.addToCollectionRef);
 
-		// Simply update selection (no cost deduction happens until final purchase)
 		if (isSameFabric) {
+			// Deselect if user clicks the same fabric again
 			setSelectedFabrics((prev) => ({
 				...prev,
 				[currentSection]: null,
 			}));
 			setSelectedFabricIndex(-1);
+
+			onFabricSelect?.(null); // pass null if deselected
 		} else {
 			setSelectedFabrics((prev) => ({
 				...prev,
 				[currentSection]: fabric,
 			}));
 			setSelectedFabricIndex(idx);
-		}
 
-		onFabricSelect?.(isSameFabric ? null : fabric.fabricKey);
+			// Trigger any 3D updates with the chosen fabric key
+			onFabricSelect?.(fabric.fabricKey);
+		}
 	}
 
-	// Only mark a fabric as active if it matches the current section's selection.
+	// Helpers
 	const isFabricActive = (fabric) =>
 		selectedFabrics[currentSection]?.id === fabric.id;
+
+	function getIcon(iconType) {
+		switch (iconType) {
+			case "positive":
+				return greenThumb;
+			case "negative":
+				return redThumb;
+			default:
+				return neutralThumb;
+		}
+	}
 
 	function getSectionTitle() {
 		switch (currentSection) {
@@ -300,21 +310,11 @@ function CanvasFabricLabs({
 		}
 	}
 
-	// For the submit button, we only add the "active" classname when on section 3 and all three fabrics are selected.
-	const isButtonActive = currentSection === 3 && allFabricsSelected;
+	/**
+	 * We only activate the .create-submit button if all 3 fabrics are chosen
+	 */
+	const isButtonActive = allFabricsSelected;
 	const buttonLabel = "Purchase";
-
-	function getIcon(iconType) {
-		switch (iconType) {
-			case "positive":
-				return greenThumb;
-			case "negative":
-				return redThumb;
-			case "neutral":
-			default:
-				return neutralThumb;
-		}
-	}
 
 	return (
 		<div className="start-button-container" ref={containerRef}>
@@ -334,22 +334,23 @@ function CanvasFabricLabs({
 									currentSection >= 1 ? "active-step" : ""
 								}`}
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 							<div
 								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
+							/>
 							<div
 								className="step-containers"
 								style={{ backgroundColor: "white" }}
-							></div>
-							<div className="step-containers"></div>
+							/>
+							<div className="step-containers" />
 						</div>
 					</div>
 					<div className="brand-create">Select Fabrics</div>
 				</div>
 
 				<div className="body-create">
+					{/* BEFORE SELECTION: The hold-to-start prompt */}
 					{!isExpanded ? (
 						<div ref={buttonContainerRef} className="button-container">
 							<div className="button-description">
@@ -374,6 +375,7 @@ function CanvasFabricLabs({
 							</div>
 						</div>
 					) : (
+						// AFTER "Start": Fabric selection UI
 						<div
 							className="new-container"
 							ref={loremContainerRef}
@@ -399,7 +401,7 @@ function CanvasFabricLabs({
 									>
 										LIGHTWEIGHT
 									</div>
-									<div className="section-number line"></div>
+									<div className="section-number line" />
 									<div
 										className={`section-number ${
 											currentSection === 2 ? "active" : ""
@@ -418,7 +420,7 @@ function CanvasFabricLabs({
 									>
 										KNIT
 									</div>
-									<div className="section-number line"></div>
+									<div className="section-number line" />
 									<div
 										className={`section-number ${
 											currentSection === 3 ? "active" : ""
@@ -454,8 +456,8 @@ function CanvasFabricLabs({
 													>
 														<img
 															className="fabric-img"
-															width={"100px"}
-															height={"100px"}
+															width="100px"
+															height="100px"
 															src={fabric.img_path}
 															alt={fabric.name}
 														/>
@@ -475,6 +477,7 @@ function CanvasFabricLabs({
 								</div>
 							</div>
 
+							{/* The "create-submit" area: only active if all 3 are chosen */}
 							<div className="create-submit-container">
 								<div
 									className={`create-submit ${isButtonActive ? "active" : ""}`}
@@ -497,45 +500,21 @@ function CanvasFabricLabs({
 									</div>
 									<div
 										className={`button-start ${
-											isOnLastSection && allFabricsSelected
+											isButtonActive
 												? isCreateBlinking
 													? "blink-start"
 													: ""
 												: "blink-none"
 										}`}
-										onClick={
-											isOnLastSection && allFabricsSelected
-												? handlePurchaseClick
-												: undefined
-										}
-										onMouseDown={
-											isOnLastSection && allFabricsSelected
-												? startCreateHold
-												: undefined
-										}
-										onMouseUp={
-											isOnLastSection && allFabricsSelected
-												? endCreateHold
-												: undefined
-										}
-										onTouchStart={
-											isOnLastSection && allFabricsSelected
-												? startCreateHold
-												: undefined
-										}
-										onTouchEnd={
-											isOnLastSection && allFabricsSelected
-												? endCreateHold
-												: undefined
-										}
+										onMouseDown={startCreateHold}
+										onMouseUp={endCreateHold}
+										onTouchStart={startCreateHold}
+										onTouchEnd={endCreateHold}
 									>
-										{isOnLastSection && (
+										{/* Show the hold-progress bar only if active */}
+										{isButtonActive && (
 											<div
-												className={
-													isFabricChosenThisSection
-														? "hold-progress-start"
-														: "not-start"
-												}
+												className="hold-progress-start"
 												style={{ width: `${createProgress}%` }}
 											/>
 										)}
@@ -553,7 +532,7 @@ function CanvasFabricLabs({
 								</div>
 							</div>
 
-							{/* Optional: Bottom fabric bar */}
+							{/* Optional bottom “carousel” of fabrics */}
 							<CanvasBarFabrics
 								items={fabricsData}
 								selectedIndex={selectedFabricIndex}
@@ -561,6 +540,7 @@ function CanvasFabricLabs({
 								onFabricSelect={(fabric) => handleClickOnFabric(fabric)}
 							/>
 
+							{/* Display info about the currently-selected fabric */}
 							<div className="left-component outfit" id="fabric-only-container">
 								{currentFabric ? (
 									<div className="left-container">
@@ -576,6 +556,7 @@ function CanvasFabricLabs({
 											className="fabric-description"
 											style={{ marginTop: "1rem", marginBottom: "1rem" }}
 										>
+											{/* Certification 1 */}
 											{currentFabric.cert_title1 && (
 												<div className="category-item">
 													<div className="icon-container">
@@ -599,6 +580,7 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
+											{/* Certification 2 */}
 											{currentFabric.cert_title2 && (
 												<div className="category-item">
 													<div className="icon-container">
@@ -622,6 +604,7 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
+											{/* Common Material Comment */}
 											{currentFabric.cat1_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -641,6 +624,7 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
+											{/* Environment Comment */}
 											{currentFabric.cat2_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -660,6 +644,7 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
+											{/* Ethics Comment */}
 											{currentFabric.cat3_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -679,6 +664,7 @@ function CanvasFabricLabs({
 													</div>
 												</div>
 											)}
+											{/* Cost Comment */}
 											{currentFabric.cat4_title && (
 												<div className="category-item">
 													<div className="icon-container icon-padding">
@@ -711,8 +697,7 @@ function CanvasFabricLabs({
 									</div>
 								)}
 							</div>
-
-							{/* ======== FABRIC SUMMARY SECTION (Optional) ======== */}
+							{/* End fabric-only-container */}
 						</div>
 					)}
 				</div>
