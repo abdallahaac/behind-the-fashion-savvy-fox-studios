@@ -26,8 +26,8 @@ const PersonaPage = () => {
 
     const {
         brandName = "MYBRANDNAME",
-        hearts = { eco: 5, ethics: 4, wealth: 3 },
-        personaType = "ecoWarrior",
+        hearts = { eco: 4, ethics: 4, wealth: 3 },
+        personaType = "ecoEconomist",
     } = location.state || {};
 
     const { eco, ethics, wealth } = hearts;

@@ -24,6 +24,10 @@ import wealthPersona from "../assets/images/FinalPersona/CashCow.svg";
 import ecoPersona from "../assets/images/FinalPersona/GreenGuardian.svg";
 import ethicsPersona from "../assets/images/FinalPersona/MoralInnovator.svg";
 import visionaryPersona from "../assets/images/FinalPersona/VanguardVisionaryPFP.svg";
+import trueArtisanPersona from "../assets/images/FinalPersona/trueArtisan.svg";
+import consciousBuilderPersona from "../assets/images/FinalPersona/consciousBuilder.svg";
+import hiddenLabelPersona from "../assets/images/FinalPersona/hiddenLabel.svg";
+import ecoEconomistPersona from "../assets/images/FinalPersona/ecoEconomist.svg";
 
 import allVanguardsHappy from "../assets/images/Vanguards/allVanguards_happy.svg";
 import allVanguardsThumbsUp from "../assets/images/Vanguards/allVanguards_thumbsUp.svg";
@@ -51,7 +55,7 @@ const assistantData = [
 				},
 				{
 					description:
-						"As I guide you through each step, the Vanguards will evaluate your brand from every angle to ensure you're making the best choices for its success.",
+						"As I guide you through each step, the Vanguards will evaluate your brand from every angle—ensure you're making the best choices for its success.",
 					img_path: BotSvg2,
 				},
 				{
@@ -82,7 +86,7 @@ const allVanguards = [
 		brand: [
 			{
 				description:
-					"Your brand is looking interesting...how about this? We'll kickstart things with a $150k grant and you show me what your brand's style looks like!",
+					"Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
 				img_path: allVanguardsThumbsUp,
 				funding: 150000,
 				soundRef: "moneySoundRef",
@@ -188,6 +192,94 @@ const allVanguards = [
             },
         ],
     ],
+	finalPersonaTrueArtisan: [
+        [
+            {
+                assignment:"The choices you made have shaped your brand’s identity as:",
+                persona_title:"THE TRUE ARTISAN",
+                img_path: trueArtisanPersona,
+            },
+            {
+                description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"As you leave The Vault, be sure to keep into consideration everything that goes into a clothing brand in order to contribute to a better, cleaner planet for all!",
+                img_path: allVanguardsThumbsUp,
+            },
+        ],
+    ],
+	finalPersonaConsciousBuilder: [
+        [
+            {
+                assignment:"The choices you made have shaped your brand’s identity as:",
+                persona_title:"THE CONSCIOUS BUILDER",
+                img_path: consciousBuilderPersona,
+            },
+            {
+                description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"As you leave The Vault, be sure to keep into consideration everything that goes into a clothing brand in order to contribute to a better, cleaner planet for all!",
+                img_path: allVanguardsThumbsUp,
+            },
+        ],
+    ],
+	finalPersonaEcoEconomist: [
+        [
+            {
+                assignment:"The choices you made have shaped your brand’s identity as:",
+                persona_title:"THE RCO-ECONOMIST",
+                img_path: ecoEconomistPersona,
+            },
+            {
+                description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"As you leave The Vault, be sure to keep into consideration everything that goes into a clothing brand in order to contribute to a better, cleaner planet for all!",
+                img_path: allVanguardsThumbsUp,
+            },
+        ],
+    ],
+	finalPersonaHiddenLabel: [
+        [
+            {
+                assignment:"The choices you made have shaped your brand’s identity as:",
+                persona_title:"THE HIDDEN LABEL",
+                img_path: hiddenLabelPersona,
+            },
+            {
+                description:"As we’re sure you’ve figured out, running a business that is profitable, ethical, and good for the planet is a tough balancing act.\n\n You may be wondering...how does any clothing brand navigate these factors successfully?",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
+                img_path: allVanguardsHappy,
+            },
+            {
+                description:"As you leave The Vault, be sure to keep into consideration everything that goes into a clothing brand in order to contribute to a better, cleaner planet for all!",
+                img_path: allVanguardsThumbsUp,
+            },
+        ],
+    ],
 	},
 ];
 
@@ -202,7 +294,7 @@ const ecoVanguard = [
 			},
 			{
 				description:
-					"I've seen the destruction on our Earth caused by greedy corporations. I’m not interested in empty promises of sustainability. Show me a brand that respects the planet and you'll have my attention.",
+					"I've seen the destruction caused by greedy corporations. I’m not interested in empty promises of sustainability. Show me a brand that respects the planet and you'll have my attention.",
 				img_path: Eco2,
 			},
 		],
@@ -298,7 +390,7 @@ const ethicsVanguard = [
 			},
 			{
 				description:
-					"Fashion has the power to spark change, but it’s built on the backs of workers. I’m looking for a brand that values their employees. Prove your commitment to fairness, and I’ll help you reach the world. ",
+					"Fashion has the power to spark change, but it’s built on the backs of labour and energy. I’m looking for a brand that values their workers. Prove your commitment to fairness, and I’ll help you reach the world. ",
 				img_path: Ethics1,
 			},
 		],
