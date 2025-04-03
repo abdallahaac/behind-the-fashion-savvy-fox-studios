@@ -48,6 +48,7 @@ const CanvasFactoryBarSelection = ({
 		setSelectedIndex(idx);
 		if (onFactorySelect) {
 			onFactorySelect(items[idx]);
+			console.log (items[idx])
 		}
 	};
 

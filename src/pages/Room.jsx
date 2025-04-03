@@ -336,8 +336,11 @@ function Room() {
 		// ).length;
 
 		const averageEthics = totalEthics / itemCount;
-		// const averageSustainability =
-		// 	sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
+		console.log("selected items", selectedItems);
+		console.log("total sustainability of item or items", totalSustainability);
+		console.log("sustainability count", sustainabilityCount);
+		const averageSustainability =
+			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost; // keep the total cost
 
 		return {
@@ -495,18 +498,62 @@ function Room() {
 			eco: ecoHearts,
 			wealth: wealthHearts,
 		};
-
+	
 		const maxHearts = Math.max(hearts.ethics, hearts.eco, hearts.wealth);
 		const mostLikedCategories = Object.keys(hearts).filter(
 			(key) => hearts[key] === maxHearts
 		);
-
-		// If there's a tie, return "vanguard visionary"
-		if (mostLikedCategories.length > 1) {
+	
+		// Rule 1: If all categories have less than 3 hearts, return "hiddenLabel"
+		if (hearts.ethics < 3 && hearts.eco < 3 && hearts.wealth < 3) {
+			return "hiddenLabel";
+		}
+	
+		// Rule 2: If all categories have more than 3 hearts and the same number of hearts, return "vanguardVisionary"
+		if (
+			hearts.ethics > 3 &&
+			hearts.eco > 3 &&
+			hearts.wealth > 3 &&
+			hearts.ethics === hearts.eco &&
+			hearts.eco === hearts.wealth
+		) {
 			return "vanguardVisionary";
 		}
-
-		// Otherwise, return the single most liked category
+	
+		// Rule 3: If the two highest values are eco and ethics, return "trueArtisan"
+		if (
+			(hearts.eco === maxHearts && hearts.ethics === maxHearts) ||
+			(mostLikedCategories.includes("eco") && mostLikedCategories.includes("ethics"))
+		) {
+			return "trueArtisan";
+		}
+	
+		// Rule 4: If the two highest values are eco and wealth, return "ecoEconomist"
+		if (
+			(hearts.eco === maxHearts && hearts.wealth === maxHearts) ||
+			(mostLikedCategories.includes("eco") && mostLikedCategories.includes("wealth"))
+		) {
+			return "ecoEconomist";
+		}
+	
+		// Rule 5: If the two highest values are wealth and ethics, return "consciousBuilder"
+		if (
+			(hearts.wealth === maxHearts && hearts.ethics === maxHearts) ||
+			(mostLikedCategories.includes("wealth") && mostLikedCategories.includes("ethics"))
+		) {
+			return "consciousBuilder";
+		}
+	
+		// Rule 6: If there’s a tie, prioritize the category with the most hearts
+		if (mostLikedCategories.length > 1) {
+			// Sort categories by their heart values in descending order
+			const sortedCategories = mostLikedCategories.sort(
+				(a, b) => hearts[b] - hearts[a]
+			);
+			return sortedCategories[0];
+		}
+	
+		// Rule 7: Otherwise, return the single most liked category
 		return mostLikedCategories[0];
 	};
 
@@ -737,6 +784,8 @@ function Room() {
 		}
 		animateFactoryTo(newFactoryKey, -75);
 		setSelectedFactory(newFactoryKey);
+		
+
 		console.log("[FACTORY SELECT] from", selectedFactory, "to", newFactoryKey);
 	}
 
