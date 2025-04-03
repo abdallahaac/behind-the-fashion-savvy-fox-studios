@@ -23,7 +23,7 @@ root.render(
                 <Router>
                     <Routes>
                         <Route path="/choose-selection" element={<ChooseSelection />} />
-                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/" element={<LandingPageCanvas />} />
                         <Route path="/landing-page" element={<PersonaPage />} />
                         <Route path="/build-a-brand" element={<BuildBrandCanvas />} />
                         <Route path="/fabric-lab" element={<FabricLab />} />
