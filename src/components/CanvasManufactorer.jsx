@@ -208,17 +208,17 @@ function CanvasManufactorer({
 			? CanvasManufacturer[selectedFactoryIndex]
 			: null;
 	// Called whenever user picks a new factory from the bar
-	function handleFactorySelectionInUI(factory) {
-		if (!factory) return;
-		playSound(refs.addToCollectionRef);
-		setSelectedFactoryIndex(() =>
-			CanvasManufacturer.findIndex((f) => f.id === factory.id)
-		);
-		// For real-time 3D toggling:
-		if (onFactorySelect && factory.factoryKey) {
-			onFactorySelect(factory.factoryKey);
-		}
-	}
+	// function handleFactorySelectionInUI(factory) {
+	// 	if (!factory) return;
+	// 	playSound(refs.addToCollectionRef);
+	// 	setSelectedFactoryIndex(() =>
+	// 		CanvasManufacturer.findIndex((f) => f.id === factory.id)
+	// 	);
+	// 	// For real-time 3D toggling:
+	// 	if (onFactorySelect && factory.factoryKey) {
+	// 		onFactorySelect(factory.factoryKey);
+	// 	}
+	// }
 
 	return (
 		<div className="start-button-container" ref={containerRef}>

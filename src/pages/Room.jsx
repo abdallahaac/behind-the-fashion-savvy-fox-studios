@@ -336,6 +336,9 @@ function Room() {
 		).length;
 
 		const averageEthics = totalEthics / itemCount;
+		console.log("selected items", selectedItems);
+		console.log("total sustainability of item or items", totalSustainability);
+		console.log("sustainability count", sustainabilityCount);
 		const averageSustainability =
 			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost; // keep the total cost
@@ -781,6 +784,8 @@ function Room() {
 		}
 		animateFactoryTo(newFactoryKey, -75);
 		setSelectedFactory(newFactoryKey);
+		
+
 		console.log("[FACTORY SELECT] from", selectedFactory, "to", newFactoryKey);
 	}
 
