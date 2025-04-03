@@ -59,9 +59,9 @@
 }
 /*  */
 
-/* Flash Animations (3 repeats, ~3s total) */
+/* Flash Animations (7 repeats, ~3s total) */
 .flash-green {
-	animation: flashGreen 1s ease-in-out 3;
+	animation: flashGreen 1s ease-in-out 7;
 }
 @keyframes flashGreen {
 	0%,
@@ -74,7 +74,7 @@
 }
 
 .flash-red {
-	animation: flashRed 1s ease-in-out 3;
+	animation: flashRed 1s ease-in-out 7;
 }
 @keyframes flashRed {
 	0%,
