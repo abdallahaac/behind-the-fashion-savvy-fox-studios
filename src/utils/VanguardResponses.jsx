@@ -18,6 +18,7 @@ import BotSvg from "../assets/images/tutorial-bot.svg";
 import BotSvg2 from "../assets/images/BOTVG2.svg";
 import BotSvg3 from "../assets/images/BOTSVG3.svg";
 import BotSvg4 from "../assets/images/botsvg4.svg";
+import BotSvg5 from "../assets/images/botsvg5.svg";
 
 //Import images for finalPersonas
 import wealthPersona from "../assets/images/FinalPersona/CashCow.svg";
@@ -67,6 +68,11 @@ const assistantData = [
 					description:
 						"Hint! Keep track of the Vanguard's sentiments about your brand and the total funds you've raised by checking the widgets at the top.",
 					img_path: BotSvg4,
+				},
+				{
+					description:
+						"Remember, the Vanguards will test your knowledge throughout the process to ensure you're well-versed in the industry.",
+					img_path: BotSvg5,
 				},
 			],
 		],

@@ -53,6 +53,7 @@ const PersonaPage = () => {
     const [email, setEmail] = useState(""); // State to store the user's email
     const [isSending, setIsSending] = useState(false); // State to track sending status
     const [emailStatus, setEmailStatus] = useState("");
+    const { setFundingAmount } = useContext(FundingContext);
 
     const handleDownload = () => {
         if (personaRightSideRef.current === null) {
