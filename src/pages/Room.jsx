@@ -331,18 +331,18 @@ function Room() {
 		);
 
 		const itemCount = itemsArray.length;
-		const sustainabilityCount = itemsArray.filter(
-			(item) => item.sustainability !== undefined
-		).length;
+		// const sustainabilityCount = itemsArray.filter(
+		// 	(item) => item.sustainability !== undefined
+		// ).length;
 
 		const averageEthics = totalEthics / itemCount;
-		const averageSustainability =
-			sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
+		// const averageSustainability =
+		// 	sustainabilityCount > 0 ? totalSustainability / sustainabilityCount : 0;
 		const averageCost = totalCost; // keep the total cost
 
 		return {
 			averageEthics,
-			averageSustainability,
+			totalSustainability,
 			averageCost,
 		};
 	};
