@@ -513,7 +513,7 @@ const wealthVanguard = [
 		introduction: [
 			{
 				description:
-					"Howdy! I see we have a new applicant to our pitch office. Let me tell you a bit about myself...",
+					"Howdy! I see we have a new applicant in The Vault. Let me tell you a bit about myself...",
 				img_path: Cap1,
 			},
 			{

@@ -881,7 +881,7 @@ const modelsData = {
 			cert_icon2: etiSvg,
 			cert_title2: "Ethical Trading Initiative (ETI)",
 			cert_description2:
-				"Certifies ethical labor practices, including fair wages...",
+				"Certifies ethical labor practices, including fair wages, safe working conditions, and respect towards human rights",
 			cat1_title: "Environmentally Friendly",
 			cat1_descripiton:
 				"Production requires small amounts of water and does not need pesticides to grow",
@@ -891,14 +891,10 @@ const modelsData = {
 			cat3_title: "Environmental Benefits",
 			cat3_descripiton:
 				"Hemp absorbs carbon dioxide at a larger magnitude per hectare compared to other crops",
-			cat4_title: "Emerging Material",
-			cat4_descripiton:
-				"This material is becoming more popular thanks to its sustainability",
 			img_path: hempJpg,
 			cat3_icon: "positive",
 			cat2_icon: "positive",
 			cat1_icon: "positive",
-			cat4_icon: "positive",
 			ethics: 3,
 			sustainability: 3,
 			fabricKey: "hemp",
