@@ -522,9 +522,9 @@ function Room() {
 	
 		// Rule 2: If all categories have more than 3 hearts and the same number of hearts, return "vanguardVisionary"
 		if (
-			hearts.ethics > 3 &&
-			hearts.eco > 3 &&
-			hearts.wealth > 3 &&
+			hearts.ethics >= 3 &&
+			hearts.eco >= 3 &&
+			hearts.wealth >= 3 &&
 			hearts.ethics === hearts.eco &&
 			hearts.eco === hearts.wealth
 		) {
