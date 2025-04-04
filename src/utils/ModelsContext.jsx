@@ -309,9 +309,10 @@ const modelsData = {
 				{ index: 3, icon: "up" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: fit4,
+			img_path: fit3,
 			ethics: 2.75,
 		},
+		
 		{
 			id: 4,
 			name: "NEO Y2K SHIMMER",
@@ -331,7 +332,7 @@ const modelsData = {
 				{ index: 3, icon: "down" },
 				{ index: 4, icon: "none" },
 			],
-			img_path: fit3,
+			img_path: fit4,
 			ethics: 1,
 		},
 		

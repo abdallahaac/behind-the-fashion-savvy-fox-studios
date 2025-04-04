@@ -7,6 +7,7 @@ import redoIcon from "../assets/images/redo_icon.svg";
 import downloadIcon from "../assets/images/download.svg";
 import { useLocation } from "react-router-dom";
 import personaData from "../utils/PersonaData";
+import LogoThree from "../../public/images/Logo1.png";
 import Marquee from "react-fast-marquee";
 import LogoSVG from "../assets/images/logo.svg";
 import { toPng } from "html-to-image";
@@ -175,7 +176,7 @@ const PersonaPage = () => {
                         BEHIND THE FASHION // BEHIND THE FASHION // BEHIND THE FASHION //
                     </Marquee>
                     <img
-                        src={LogoSVG}
+                        src={LogoThree}
                         alt="Logo"
                         className="superimposed-logo super-landing"
                     />
