@@ -88,15 +88,15 @@ const modelsData = {
 			factoryAudit: {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
-					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
+					"The factory provides fair wages, safe working conditions, and respect for worker's rights",
 				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Energy Efficient ",
 				energyEfficiencyDescription:
-					"Factory uses renewable energy sources and has low carbon footprints",
+					"The factory uses renewable energy sources and has a low carbon footprint",
 				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Waste Reduction ",
 				wasteEfficiencyDescription:
-					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices",
+					"The manufacturer prioritizes waste reduction through recycling, reusing materials, and implementing zero-waste practices",
 				wasteImage: greenThumbSvg,
 			},
 		},
@@ -124,22 +124,22 @@ const modelsData = {
 			factoryAudit: {
 				fairWageTitle: "Fast Lead Time",
 				fairWageDescription:
-					"Garments can be made in large quantities with quick turn-around time, allowing you to capitalize quickly on trends",
+					"Garments can be made in small or large quantities with quick turn-around time, allowing you to capitalize on trends",
 				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "High Waste Production",
 				energyEfficiencyDescription:
-					"An inefficient use of resources leads to a large amount of waste being produced as a byproduct of production.",
+					"An inefficient use of resources result in a large amount of waste being produced as a byproduct of production.",
 				energyImage: redThumbSvg,
 				wasteEfficiencyTitle: "Risk of Sweatshops",
 				wasteEfficiencyDescription:
-					"Factories with low transparency risk the use of outsourcing their labor to sweatshops to ensure low costs ",
+					"Factories with low transparency risk the use of outsourcing their labor to sweatshops to keep costs low",
 				wasteImage: manufacturingWarningSvg,
 			},
 		},
 		{
 			id: 3,
 			title: "Sundar Apparel Works",
-			cost: "78000",
+			cost: "36000",
 			ethics: 2,
 			sustainability: 2,
 			factoryKey: "sundar", // <-- NEW factoryKey
@@ -159,11 +159,11 @@ const modelsData = {
 			factoryAudit: {
 				fairWageTitle: "Fair Wage & Conditions to Workers",
 				fairWageDescription:
-					"The factory provides fair wages, safe working conditions, and respect for workers' rights",
+					"The factory provides fair wages, safe working conditions, and respect for worker's rights",
 				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Waste Reduction",
 				energyEfficiencyDescription:
-					"The manufacturer should prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices.",
+					"The manufacturer prioritizes reducing waste through recycling, reusing materials, and implementing zero-waste practices.",
 				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Use of Coal as Energy Source",
 				wasteEfficiencyDescription:
@@ -175,8 +175,8 @@ const modelsData = {
 			id: 4,
 			title: "Silver oak manufacturing",
 			cost: "40000",
-			ethics: 2,
-			sustainability: 3,
+			ethics: 3,
+			sustainability: 2,
 			factoryKey: "silveroak", // <-- NEW factoryKey
 			about: {
 				locationImage: manufacturingNorthAmericaSvg,
@@ -197,9 +197,9 @@ const modelsData = {
 				fairWageDescription:
 					"The factory maintains strict quality control measures throughout the production process.",
 				fairWageImage: greenThumbSvg,
-				energyEfficiencyTitle: "Environmentally Responsible",
+				energyEfficiencyTitle: "Responsible Employer",
 				energyEfficiencyDescription:
-					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
+					"The factory ensures that workers are treated fairly through the implementation of fair wages, clean working conditions, and safety measures.",
 				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Limited Production Scale",
 				wasteEfficiencyDescription:
@@ -210,7 +210,7 @@ const modelsData = {
 		{
 			id: 5,
 			title: "Anadolu Textile Works",
-			cost: "36000",
+			cost: "25000",
 			ethics: 1,
 			sustainability: 2,
 			factoryKey: "anadolu", // <-- NEW factoryKey
@@ -234,7 +234,7 @@ const modelsData = {
 				fairWageImage: greenThumbSvg,
 				energyEfficiencyTitle: "Environmentally Responsible",
 				energyEfficiencyDescription:
-					"Actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
+					"The factory actively reduces its environmental footprint through waste reduction, energy efficiency, and sustainable resource management.",
 				energyImage: greenThumbSvg,
 				wasteEfficiencyTitle: "Low Transparency into Practices",
 				wasteEfficiencyDescription:

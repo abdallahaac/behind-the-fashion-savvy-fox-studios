@@ -86,7 +86,7 @@ const allVanguards = [
 		brand: [
 			{
 				description:
-					"Your brand is looking interesting...how about this? We'll kickstart things with a $100k grant and you show me what your brand's style looks like!",
+					"Your brand is looking interesting...how about this? We'll kickstart things with a $150k grant and you show us what your brand's style looks like!",
 				img_path: allVanguardsThumbsUp,
 				funding: 150000,
 				soundRef: "moneySoundRef",
@@ -240,7 +240,7 @@ const allVanguards = [
         [
             {
                 assignment:"The choices you made have shaped your brand’s identity as:",
-                persona_title:"THE RCO-ECONOMIST",
+                persona_title:"THE ECO-ECONOMIST",
                 img_path: ecoEconomistPersona,
             },
             {
@@ -270,7 +270,7 @@ const allVanguards = [
                 img_path: allVanguardsHappy,
             },
             {
-                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency.",
+                description:"B-Corp certified brands are businesses that have met rigorous standards for social and environmental performance, accountability, and transparency. Purchasing from these brands when you are shopping ensures you are taking a small step towards a better future.",
                 link:"https://bcorporation.com.au/blog/how-b-corps-are-making-the-future-of-fashion-traceable-and-transparent/",
                 img_path: allVanguardsHappy,
             },
