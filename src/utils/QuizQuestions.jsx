@@ -1,27 +1,26 @@
 const QuizQuestions = [
     {
-        question: "What does the Cradle to Cradle Label certify?",
+        question: "Is Nylon a good material for the environment?",
         answers: [
-            "A material has been farmed sustainably",
-            "A material has been recycled or upcycled",
-            "A material is produced with animal welfare",
+            "Yes, it is made of fibers that are sustainable to produce",
+            "No, it is made of chemicals that are not biodegradable",
         ],
-        correctAnswer: "A material has been recycled or upcycled",
+        correctAnswer: "No, it is made of chemicals that are not biodegradable",
         reasoning:
-            "Cradle to Cradle Certified materials are recycled or upcycled with a circular economy in mind.",
+            "Nylon products will last in landfills for hundreds of years as it is not biodegradable",
         winAmount: 10000,
         loseAmount: -10000,
     },
     {
-        question: "What is a disadvantage of using cotton as a fabric material?",
+        question: "What is a disadvantage of using cotton as a fabric?",
         answers: [
             "It is a cheap material",
             "It releases microplastics",
-            "It releases pesticides into the environment",
+            "It comsumes high amounts of water",
         ],
-        correctAnswer: "It releases pesticides into the environment",
+        correctAnswer: "It comsumes high amounts of water",
         reasoning:
-            "Conventional cotton uses up to 25% of all the pesticides used in farming.",
+            "Cotton can use 1,320 gallons of water to produce one pound of fabric",
         winAmount: 10000,
         loseAmount: -10000,
     },
@@ -29,7 +28,7 @@ const QuizQuestions = [
         question:
             "What is the SA8000 Standard Certification that factories can obtain?",
         answers: [
-            "It shows the factory’s commitment to use clean energy and reduce waste",
+            "Factories have conducted audits at least 8000 times",
             "It reflects the factory's standards for treating workers fairly",
         ],
         correctAnswer:
@@ -40,14 +39,16 @@ const QuizQuestions = [
         loseAmount: -30000,
     },
     {
-        question: "What is the ETI Base Code?",
+        question: "What are ways factories can become more sustainable?",
         answers: [
-            "A set of labour standards organizations follow to improve working conditions",
-            "A set of codes ensuring textiles produced are free from harmful chemicals",
+            "Use renewable energy sources",
+            "Reduce waste produced during manufacturing",
+            "Implement sustainable resource management",
+            "All of the above",
         ],
-        correctAnswer: "A set of labour standards organizations follow to improve working conditions",
+        correctAnswer: "All of the above",
         reasoning:
-            "The ETI Base Code is a set of labour standards organizations follow to improve working conditions.",
+            "Factories that are environmentally responsible take steps to reduce their carbon footprint",
         winAmount: 30000,
         loseAmount: -30000,
     },
