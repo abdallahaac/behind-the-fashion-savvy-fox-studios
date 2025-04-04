@@ -281,8 +281,6 @@ function Room() {
 	//AUDIO//
 	const handleEnterExperience = () => {
 		setHasEnteredExperience(true);
-		refs.bgMusicRef.current.volume = 0.2;
-		playSound(refs.bgMusicRef); // background music starts playing
 	};
 
 	useEffect(() => {
