@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Kode+Mono:wght@400..700&display=swap");
+
+.logo-button {
+	flex: 1; 
+	background-color: rgba(0, 0, 0, 0.9);
+	border: none;
+	color: #fff;
+	font-size: 20px;
+	border-radius: 19px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	width: 100%;
+
+	font-family: "Kode Mono", monospace;
+	height: 92px;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	margin-right: -10px;
+
+	/* Remove overflow: hidden if you want the SVG to spill out of the button */
+	overflow: visible;
+
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+}
+
+.logo-button:hover {
+	background-color: #000000d9;
+}
+
+.logo-container {
+	display: flex;
+	flex-wrap: wrap; /* allow children to wrap on smaller screens */
+	align-items: center;
+	justify-content: space-around; /* or space-around / flex-start, depending on design */
+	gap: 1rem; /* space between each child */
+	width: 100%;
+	box-sizing: border-box;
+	padding: 16px; 
+}
+
+/* The superimposed SVG */
+.superimposed-logo {
+	position: absolute;
+	top: 50%;
+	left: 200px;
+	transform: translate(-140px, -50%);
+	z-index: 10; /* Ensure it appears above the marquee text */
+	width: 100px; /* Add a unit (px) to width */
+	height: auto;
+	pointer-events: none; /* Clicks pass through */
+}
+
+.superimposed-logo.super-landing {
+	left: 120px;
+	z-index: -5;
+}
+
+/* The clipped logo */
+.superimposed-logo.super-landing {
+	position: absolute;
+	z-index: 1; /* Below the marquee text but above the banner background */
+
+	/* Adjust for desired clipping effect */
+	top: 50%;
+	left: 3%;
+	transform: translate(-50%, -50%);
+
+	/* Example sizing: tweak as needed */
+	width: 140px;
+	height: auto;
+}

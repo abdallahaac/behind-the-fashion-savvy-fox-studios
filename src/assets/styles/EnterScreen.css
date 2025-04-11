@@ -1,0 +1,51 @@
+.enter-screen {
+	/* Full overlay again */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+
+	/* Center the circular button */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	/* Fade in/out transition */
+	opacity: 1;
+	transition: opacity 0.5s ease;
+	z-index: 9999; /* ensure it's above everything */
+}
+
+.enter-screen-fade-out {
+	opacity: 0;
+}
+
+.enter-button {
+	width: 150px;
+	height: 150px;
+	border-radius: 75px;
+	background-color: black;
+	color: white;
+	font-size: 1.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+
+	/* Scale from 1 to 1.1 for a subtle pulse */
+	animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}

@@ -1,0 +1,368 @@
+.start-button-container {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	justify-content: end;
+	align-items: end;
+	font-family: "Kode Mono", serif;
+	zoom: 0.9;
+}
+.brand-create {
+	text-transform: uppercase;
+}
+
+.create-container {
+	background-color: #2e2e2e;
+	width: 440px;
+	height: 260px; /* initial height */
+	border-radius: 20px;
+	margin: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	transition: height 2s ease;
+	width: 500px;
+}
+.logo img {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	border-radius: 16px;
+	background-color: white;
+}
+
+/* Expands up to 81vh upon hold completion */
+.expanded-container.create {
+	height: 90vh;
+	display: flex;
+	width: 500px;
+}
+
+/* Steps row */
+.create-step-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-bottom: 8px;
+	gap: 10px;
+	color: white;
+}
+
+/* "Step 1 / 4" text styling */
+.steps {
+	text-transform: uppercase;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0px;
+}
+
+/* The step bars */
+.step-parent-container {
+	display: flex;
+	align-items: center;
+}
+
+.step-containers {
+	display: flex;
+	background-color: grey;
+	width: 15px;
+	height: 5px;
+	border-radius: 20px;
+	margin: 3px;
+}
+.step-containers:nth-of-type(1) {
+	background-color: white;
+}
+
+/* Title */
+.brand-create {
+	color: white;
+	font-size: 1.7rem;
+	padding: 0px;
+}
+
+/* Button container */
+.button-container {
+	display: flex;
+	border: 1px solid #ffc4b1;
+	background-color: #ffeeeb;
+	padding: 20px;
+	border-radius: 20px;
+	justify-content: space-between;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+	gap: 24px; 
+}
+
+.button-description {
+	font-size: 16px;
+	flex: 1; 
+}
+
+/* Start button */
+.button-start {
+	background-color: #c83c00;
+	color: white;
+	padding: 24px 40px;
+	border-radius: 40px;
+	display: flex;
+	align-items: center;
+	position: relative; /* for hold-progress overlay */
+	overflow: hidden; /* so the overlay doesn’t spill out */
+	cursor: pointer;
+}
+
+/* The hold-to-complete fill bar */
+.hold-progress-start {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0%;
+	background-color: #a53505;
+	z-index: 0;
+	transition: width 0.1s linear;
+}
+
+/* Optional blinking effect until user holds it */
+.blink-start {
+	animation: blinkStartButton 1s infinite ease-in-out;
+}
+@keyframes blinkStartButton {
+	0% {
+		background-color: #c83c00;
+	}
+	50% {
+		background-color: #e74c3c;
+	}
+	100% {
+		background-color: #c83c00;
+	}
+}
+
+/* Icon spacing */
+.icon-right {
+	margin-left: 8px;
+}
+
+.create-parent-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.create-parent {
+	padding: 20px;
+	padding-top: 32px;
+	padding-bottom: 20px; 
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
+}
+
+.body-create {
+	padding: 20px;
+	height: 100%;
+}
+
+.new-container {
+	display: flex;
+	flex-direction: column;
+	/* justify-content: space-between; */
+	height: 100%;
+	/* padding-bottom: 20px; */
+	color: white;
+}
+
+.new-container.brand {
+	justify-content: space-between;
+}
+
+.font-style,
+.logo-style {
+	margin: 10px 0;
+	text-transform: uppercase;
+}
+
+.logo-container {
+	display: flex;
+}
+
+.logo {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 5px;
+	background-color: #3d3d3d;
+	height: 70px;
+	width: 70px;
+	border-radius: 20px;
+	transition: all 300ms ease-in-out;
+}
+
+.logo.clicked {
+	background-color: #c83c00;
+	border: 0.5px solid white;
+	transition: all 300ms ease-in-out;
+}
+
+/* Submit container positioned at the bottom */
+.create-submit-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	background-color: #3d3d3d;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 20px;
+	margin-top: none; /* This pushes the container to the bottom */
+}
+.create-submit-container.ready-container {
+	border: 1px solid #ffc4b1;
+	background-color: #ffeeeb;
+	transition: all 300ms ease-in-out;
+}
+
+.create-description {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	text-transform: uppercase;
+	gap: 4px;
+}
+
+.create-submit {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 16px;
+	height: 110px;
+	align-items: center;
+	color: #9b9b9b;
+}
+
+.create-btn {
+	display: flex;
+	padding: 20px 30px;
+	background-color: #505050;
+	color: #9b9b9b;
+	border-radius: 30px;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+}
+
+.ready-btn {
+	background-color: #e74c3c !important;
+	color: white !important;
+}
+
+.brand-title {
+	font-size: 26px;
+	color: #9b9b9b;
+}
+
+.brand-ready {
+	color: black;
+}
+
+.brand-desc {
+	font-size: 14px;
+	font-family: "DM Sans", sans-serif;
+	letter-spacing: 1px;
+	color: #9b9b9b;
+}
+
+.brand-desc-ready {
+	color: black;
+}
+
+.section-one {
+	display: flex;
+	flex-direction: column;
+}
+/* ========================= */
+/* For the "Create" button   */
+/* ========================= */
+.button-create {
+	position: relative; /* So the overlay doesn't spill out */
+	overflow: hidden; /* Hide the fill bar */
+}
+
+/* The hold-to-complete fill bar on the Create button */
+.hold-progress-create {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0%;
+	background-color: #a53505; /* or any color you prefer */
+	z-index: 0;
+	transition: width 0.1s linear;
+}
+
+/* Optional blinking effect until user holds Create (only if form is ready) */
+.blink-create {
+	animation: blinkCreateButton 1s infinite ease-in-out;
+}
+@keyframes blinkCreateButton {
+	0% {
+		background-color: #e74c3c;
+	}
+	50% {
+		background-color: #ff5e4e;
+	}
+	100% {
+		background-color: #e74c3c;
+	}
+}
+.create-btn {
+	position: relative; /* Establishes a containing block for absolute children */
+	overflow: hidden; /* Prevents the progress bar from spilling outside */
+	display: flex;
+	padding: 20px 30px;
+	background-color: #505050;
+	color: #9b9b9b;
+	border-radius: 30px;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+}
+.create-btn {
+	position: relative; /* Establishes a containing block for absolute children */
+	overflow: hidden; /* Prevents the progress bar from spilling outside */
+	display: flex;
+	padding: 20px 30px;
+	background-color: #505050;
+	color: #9b9b9b;
+	border-radius: 30px;
+	align-items: center;
+	font-family: "DM Sans", sans-serif;
+}
+.button-create {
+	position: relative; /* Makes this element the positioning context */
+	overflow: hidden; /* Confines the absolute children */
+}
+
+/* If you want the Create button to look a bit different from Start, 
+	 you can override "ready-btn" or add more styling here. */
+
+.create-btn {
+	cursor: pointer;
+}
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.logo-container.logos {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 12px; 
+	justify-content: flex-start; 
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+}

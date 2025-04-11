@@ -1,0 +1,77 @@
+.card-selection-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin:16px;
+}
+
+.card-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.card {
+
+    background-color: #505050;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.card.selected {
+    border: 2px solid #FFF;
+    background-color: #C83C00;
+}
+
+.checkbox {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.card-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.card-info {
+    text-align: left;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    align-self: flex-start;
+}
+
+.fabric-name {
+    color: #FFFFFF;
+    margin: 0;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.fabric-cost {
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.img_container {
+    width: 148px;
+    height: 113px;
+    margin: 8px;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

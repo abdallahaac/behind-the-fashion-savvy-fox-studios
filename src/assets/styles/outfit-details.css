@@ -1,0 +1,112 @@
+@import "font-vars.css";
+
+.design-card {
+	width: 350px;
+	padding: 20px 30px;
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 16px;
+	/* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+	display: flex;
+	flex-direction: column;
+	margin: 20px;
+}
+
+.look-number {
+	display: inline-block;
+	background-color: rgba(254, 231, 226, 0.8);
+	color: #d35f3d;
+	padding: 6px 10px;
+	margin-bottom: 15px;
+	border-radius: 32px;
+}
+
+.title {
+	margin: 0 0 30px;
+	color: black;
+	font-size: 1.5em;
+	
+}
+
+.feature {
+	display: flex;
+	align-items: center;
+	margin: 10px 0;
+}
+
+.icon {
+	font-size: 24px;
+	margin-right: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+}
+
+.progress-bar-2 {
+	width: 100%;
+	height: 12px;
+	background-color: rgba(245, 245, 245, 0.3);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.progress-fill {
+	height: 100%;
+	background: linear-gradient(to right, #e74c3c, #f1c40f, #2ecc71);
+}
+
+.description {
+	margin-bottom: 20px;
+	color: black;
+}
+
+.p_bar-description {
+	margin-left: 2.5em !important;
+	color: #ddd;
+	text-align:left;
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.cost-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+}
+
+.cost h2 {
+	margin: 0;
+	color: black;
+}
+
+.cost span {
+	color: #ccc;
+}
+
+.add-button {
+	display: block;
+	width: auto !important ;
+	background-color: #C83C00;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 12px 20px;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background-color 0.2s ease;
+}
+
+.add-button:hover {
+	background-color: #E45F26;
+}
+
+.add-button:active {
+    background-color: #A43100; 
+	transition: background-color 0.2s ease;
+}

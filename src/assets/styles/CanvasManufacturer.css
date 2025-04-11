@@ -1,0 +1,568 @@
+/* Global box-sizing */
+/* *,
+*::before,
+*::after {
+	box-sizing: border-box;
+} */
+
+/* Collection and Layout */
+.collection-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 16px;
+	transition: all 300ms ease-in-out;
+}
+
+.selection-choice {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 3px dashed rgba(255, 255, 255, 0.391);
+	border-spacing: 100px;
+	background-color: #222222;
+	width: 138px;
+	height: 182px;
+	border-radius: 8px;
+	transition: all 300ms ease-in-out;
+}
+
+.plus {
+	font-size: 4rem;
+	color: rgba(255, 255, 255, 0.391);
+	transition: all 300ms ease-in-out;
+}
+
+.breakdown {
+	background-color: #3d3d3d;
+	height: 100px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* margin-bottom: 50px; */
+	transition: all 300ms ease-in-out;
+}
+
+.breakdown-desc {
+	max-width: 200px;
+	text-align: center;
+	font-family: "DM Sans", sans-serif;
+	transition: all 300ms ease-in-out;
+}
+
+/* Parent Flex Containers */
+.expanded-parent {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 20px; /* Adjust spacing as needed */
+	transition: all 300ms ease-in-out;
+}
+
+.additional-column {
+	width: 300px; /* Adjust width as necessary */
+	background-color: #f0f0f0; /* Example background */
+	padding: 20px;
+	border-radius: 8px;
+	transition: all 300ms ease-in-out;
+}
+
+/* Left Component */
+.left-component {
+	position: absolute;
+	transform: translate(-480px);
+	width: 460px;
+	min-height: 500px;
+	max-height: fit-content;
+	margin-top: -20px;
+	/* Rounded corners on the left side */
+	border-radius: 16px 0 0 16px;
+	/* Semi-transparent gradient & backdrop blur */
+	background: linear-gradient(
+		90.39deg,
+		rgba(241, 242, 242, 0.648) -0.63%,
+		rgba(229, 240, 243, 0.4) 100%
+	);
+	backdrop-filter: blur(20px);
+	/* Optional left border line */
+	border-left: 1px solid white;
+	padding: 24px;
+	transition: all 300ms ease-in-out;
+}
+
+/* Left Container & Header */
+.left-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	justify-content: center;
+	transition: all 300ms ease-in-out;
+}
+
+.header-info {
+	display: flex;
+	flex-direction: row;
+	width: 90%;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px;
+	transition: all 300ms ease-in-out;
+}
+
+.span-price {
+	background-color: #ffeeeb;
+	color: #c83c00;
+	padding: 10px;
+	border-radius: 35px;
+	font-size: 20px;
+	letter-spacing: 1px;
+	transition: all 300ms ease-in-out;
+}
+
+.model-title {
+	display: flex;
+	font-size: 1.7rem;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+/* Duplicate Left Component Styling (if needed) */
+.left-component {
+	/* Shift the component left by 480px (adjust as needed) */
+	position: absolute;
+	transform: translate(-480px);
+	width: 460px;
+	min-height: 500px;
+	margin-top: -20px;
+	/* Rounded corners on the left side */
+	border-radius: 16px 0 0 16px;
+	/* Semi-transparent gradient & backdrop blur */
+	background: linear-gradient(
+		90.39deg,
+		rgba(241, 242, 242, 0.648) -0.63%,
+		rgba(229, 240, 243, 0.4) 100%
+	);
+	backdrop-filter: blur(20px);
+	/* Optional left border line */
+	border-left: 1px solid white;
+	/* Padding for inner content */
+	padding: 24px;
+	transition: all 300ms ease-in-out;
+}
+
+.left-container {
+	/* Stack children vertically */
+	display: flex;
+	flex-direction: column;
+	/* gap: 20px; spacing between sections */
+	transition: all 300ms ease-in-out;
+}
+
+.header-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	transition: all 300ms ease-in-out;
+	gap: 16px;
+}
+
+.model-title {
+	font-size: 1.7rem;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+.span-price {
+	background-color: #ffeeeb;
+	color: #c83c00;
+	padding: 10px 16px;
+	border-radius: 35px;
+	font-size: 1.2rem;
+	font-weight: 500;
+	letter-spacing: 1px;
+	transition: all 300ms ease-in-out;
+}
+
+/* Info Items */
+.info-item {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-family: "DM Sans", sans-serif !important;
+	transition: all 300ms ease-in-out;
+}
+
+.info-title {
+	margin-bottom: 10px;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+.info-description {
+	font-size: 0.9rem;
+	color: #333;
+	line-height: 1.4;
+	transition: all 300ms ease-in-out;
+}
+
+/* Progress Bar */
+.progress-bar {
+	position: relative;
+	width: 100%;
+	height: 10px;
+	background-color: #e0e0e0;
+	border-radius: 4px;
+	overflow: hidden;
+	transition: all 300ms ease-in-out;
+}
+
+.progress-fill {
+	height: 100%;
+	background-color: #5cb85c;
+	border-radius: 4px 0 0 4px;
+	transition: all 300ms ease-in-out;
+}
+
+/* CTA (Add to Collection) */
+.cta-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+	margin-left: 20px; 
+	margin-right: 20px; 
+	margin-bottom: 16px;
+	transition: all 300ms ease-in-out;
+}
+
+.cta-button {
+	background-color: #c83c00;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 300ms ease-in-out;
+}
+
+.cta-price {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+.cta-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px 40px;
+	width: 100%;
+	transition: all 300ms ease-in-out;
+}
+
+.cta-button-price {
+	font-family: "Kode Mono", serif;
+	font-weight: light !important;
+	transition: all 300ms ease-in-out;
+}
+
+/* Info Flex & Icons */
+.info-flex {
+	display: flex;
+	align-items: center;
+	transition: all 300ms ease-in-out;
+}
+
+.info-icon {
+	flex: 0 0 30px;
+	text-align: center;
+	margin-right: 30px;
+	font-size: 2rem;
+	transition: all 300ms ease-in-out;
+}
+
+.info-content {
+	flex: 1;
+	transition: all 300ms ease-in-out;
+}
+
+.progress-bar {
+	margin-bottom: 10px;
+	transition: all 300ms ease-in-out;
+}
+
+/* Selection Choice Active State */
+.selection-choice.active {
+	position: relative;
+	border: 1px solid white;
+	background-color: white;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+/* Plus/Image Styling */
+.plus.imgae {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	transition: all 300ms ease-in-out;
+}
+
+.plus.image > img {
+	max-width: 80%;
+	max-height: 80%;
+	object-fit: contain;
+	display: block;
+	margin: auto;
+	transition: all 300ms ease-in-out;
+}
+
+/* Remove Button */
+.remove-button {
+	position: absolute;
+	height: 48px;
+	width: 120px;
+	bottom: 10%;
+	transform: translateY(30%);
+	left: 7%;
+	background: #222222;
+	color: white;
+	border: none;
+	border-radius: 24px;
+	padding: 6px 14px;
+	z-index: 2;
+	cursor: pointer;
+	font-size: 0.9rem;
+	text-align: center;
+	transition: all 300ms ease-in-out;
+}
+
+/* Disabled & Remove States for CTA Button */
+.cta-button.disabled-button {
+	background-color: #fff;
+	color: #000;
+	cursor: pointer;
+	transition: all 300ms ease-in-out;
+}
+
+button.cta-button.remove {
+	justify-content: center;
+	background-color: white;
+	color: black;
+	transition: all 300ms ease-in-out;
+}
+
+/* Breakdown Padding */
+.breakdown {
+	opacity: 1 !important;
+	padding: 24px !important;
+	transition: all 300ms ease-in-out;
+}
+
+/* Purchase Section Transitions */
+/* Limit transition properties to background-color and border-color
+   so border-radius is applied immediately when active */
+.create-submit {
+	box-sizing: border-box;
+	transition: background-color 300ms ease-in-out, border-color 300ms ease-in-out;
+}
+
+.create-submit.active {
+	background-color: #ffeeeb;
+	border: 1px solid #c83c00;
+	border-radius: 20px; /* This applies instantly without transition */
+}
+
+.create-description > * {
+	transition: all 300ms ease-in-out;
+}
+
+.create-description.active > * {
+	color: black !important;
+	opacity: 1;
+	transition: all 300ms ease-in-out;
+}
+
+.create-btn {
+	box-sizing: border-box;
+	transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+.create-btn.h.active {
+	background-color: #c83c00;
+	color: white;
+	transition: all 300ms ease-in-out;
+}
+
+/* Button Start for Hold-to-Complete */
+.button-start.blink-none {
+	background-color: #505050 !important;
+	cursor: auto;
+	display: flex;
+	text-align: center !important;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.not-start {
+	display: flex;
+	color: rgba(255, 255, 255, 0.078) !important;
+	box-sizing: border-box;
+	z-index: 0;
+	cursor: none;
+}
+
+.not-start > * {
+	opacity: 0.2 !important;
+}
+
+.purchase-btn {
+	display: flex;
+	align-items: center;
+}
+
+/* Ensure proper box-sizing for key elements */
+.button-start,
+.create-submit,
+.create-btn {
+	box-sizing: border-box;
+}
+.expanded-container {
+	max-height: fit-content;
+}
+
+/* factory */
+/* Make the expanded container taller so we see the factory section */
+.expanded-container.factory {
+	height: 90vh;
+}
+/* factory */
+/* Make the expanded container taller so we see the factory section */
+.expanded-container.factory {
+	height: 90vh;
+}
+
+/* The main factory container layout */
+.factory-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.factory-title {
+	text-transform: uppercase;
+	font-size: 1.4rem;
+	margin-bottom: 8px;
+}
+
+/* Container for the two toggle buttons */
+.factory-about-products-container {
+	position: relative;
+	width: 100%; /* Adjust as desired */
+	height: 48px; /* Adjust as desired */
+	border-radius: 30px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	border: solid;
+	border-width: 0.5px;
+	border-color: #505050;
+
+	background-color: #292929; /* Dark background around the pill */
+}
+
+/* The sliding "pill" behind the active button */
+.toggle-slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%; /* Because we have two toggles, each half of the container */
+	height: 100%;
+	background-color: #c83c00; /* The red color for the active portion */
+	border-radius: 30px;
+	transition: left 0.3s ease; /* Smooth slide */
+	z-index: 1; /* Behind text, above the container background */
+}
+
+/* Each toggle button is on top of the slider, fully transparent background */
+.factory-toggle {
+	position: relative;
+	z-index: 2; /* Appear above .toggle-slider */
+	flex: 1;
+	text-align: center;
+	color: #fff;
+	border: none;
+	outline: none;
+	background: none;
+	cursor: pointer;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	padding: 0; /* We can control vertical space with line-height or container height */
+}
+
+.factory-toggle.left {
+	/* No special rules needed unless you want */
+}
+.factory-toggle.right {
+	/* No special rules needed unless you want */
+}
+
+/* Example content sections for the selected tab */
+.about-container {
+	display: flex;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.factory-audit-container {
+	font-size: 1rem;
+	margin: 1rem 0;
+}
+
+.factory-toggle-switch {
+	display: flex;
+	justify-content: left;
+	width: 100%;
+}
+
+.factory-location-container {
+	display: flex;
+	flex-direction: row;
+	background-color: #222222;
+	align-items: center;
+	border-radius: 10px;
+	padding: 16px;
+	margin-bottom: 16px;
+	justify-content: space-evenly;
+	padding-left: 24px;
+}
+
+.location .location-container {
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.location-container {
+	margin-left: 16px;
+}
+
+#factory-img {
+	width: 50px !important;
+	height: 50px !important;
+	border-radius: 50%;
+	background-color: white;
+}
+
+.location-title,
+.location-description {
+	margin: 8px;
+}
+.create-submit-container.factory {
+	margin-top: auto;
+}
